@@ -285,10 +285,11 @@ input.space-button {
 	/*padding:42px 64px 42px 64px;*/
 	padding:12px;
 	margin-top:15px;
-	margin-left:-15px;
+	margin-left:0px;
 	margin-bottom:5px;
-	margin-right:-15px;
+	margin-right:0px;
 	display:block;
+	box-sizing:border-box;
 }
 .clear {
 	clear:both;	
