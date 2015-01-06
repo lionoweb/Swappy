@@ -1,0 +1,89 @@
+html, body {
+	margin:0;
+	padding:0;	
+	height:100%;
+}
+
+
+.greyback{
+	background-color:#e5e4e4;
+	padding:42px 64px 42px 64px;
+}
+.greyback .form-group:last-child {
+	margin-bottom:0px;	
+}
+.greyback label {
+	color:#323232;
+}
+
+input, select, textarea {
+	margin-bottom: 15px;
+}
+
+input[type=submit]{
+	background-color: white;
+	color:#323232;
+	text-transform: uppercase;
+	border:none;
+	padding:8px 14px 8px 14px;
+	float: right;
+	margin-right: 15px;
+	margin-top: 15px;
+}
+
+#spec_propose {
+	margin-bottom:45px;	
+}
+#spec_propose label {
+	padding-right:10px;
+}
+
+.teamtitle{
+	width:470px;
+	height:40px;
+	background-color: #54c1de;
+	margin-top:38px;
+	margin-bottom: 38px;
+}
+
+.teamtitle p {
+	color:white;
+	height:40px;
+	line-height: 40px;
+	text-transform: uppercase;
+	margin-left: 46%;
+	font-size: 1.5em;
+}
+
+.projet p{
+	text-align: justify;
+}
+
+.row{
+	box-sizing:border-box;
+	width:100%;
+	margin: 0;
+	padding: 0;
+	margin-bottom: 24px;
+}
+
+.cgutitle{
+	width:560px;
+	height:40px;
+	background-color: #54c1de;
+	margin-top:38px;
+	margin-bottom: 38px;
+}
+
+.cgutitle p {
+	color:white;
+	height:40px;
+	line-height: 40px;
+	text-transform: uppercase;
+	margin-left: 16%;
+	font-size: 1.5em;
+}
+
+.cgintitle{
+	text-transform: uppercase;
+}
