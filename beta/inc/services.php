@@ -4,6 +4,34 @@
 		function __construct($mysql) {
 			$this->mysql = $mysql;
 		}
+		function my_services($user) {
+			$html = "";
+			$select = mysqli_query($this->mysql, "SELECT *, COUNT(*) AS `nb` FROM `services` WHERE `By` = '".$user->ID."' ORDER BY `Created` DESC");
+			while($data = mysqli_fetch_array($select)) {
+				$name = $data['Title'];
+				if($data['Title'] == "") {
+					$name = $this->type_name($data['Type']);	
+				}
+				$html .= '<tr class="bloc_services">
+            			<td class="picto picto-'.$data['Type'].'">
+                        	
+                        </td>
+                		<td class="desc_services">
+                            <h1>'.$name.'</h1>
+                            <p>
+                                '.$data['Description'].'
+                            </p>
+                            <div class="location">
+                                Champigny sur Marne
+                            </div>
+                         </td>
+                     </tr>';
+			}
+			if($html == "") {
+				$html = "rien";
+			}
+			return $html;
+		}
 		function add_services($POST) {
 			//DISPONIBILITE		
 			$dispo = $this->dispo_crypt($POST['dispoday'], $POST['dispostart'], $POST['dispoend']);
@@ -35,8 +63,35 @@
 			$data = mysqli_fetch_array($select);
 			return $data['Name'];
 		}
+		function preg_accent($w) {
+			if(preg_match("/E|É|È|Ê|Ë/", $w)) {
+				$w = preg_replace("/E|É|È|Ê|Ë/","(E|É|È|Ê|Ë)", $w);	
+			}
+			if(preg_match("/A|À|Á|Â|Ä/", $w)) {
+				$w = preg_replace("/A|À|Á|Â|Ä/","(A|À|Á|Â|Ä)", $w);	
+			}
+			if(preg_match("/C|Ç/", $w)) {
+				$w = preg_replace("/C|Ç/","(C|Ç)", $w);	
+			}
+			return $w;
+		}
 		function search($GET, $user) {
-			
+			$searchbar = $type = $where = $day = $input = "";
+			if($GET['searchbar'] != "") {
+				$where = '';
+				$order = '';
+				$input = preg_replace("/ |\-|\'/", "{}" , $GET['searchbar']);
+				$l = explode("{}", $input);
+				for($i=0;$i<count($l);$i++) {
+					$w = $this->preg_accent($l[$i]);
+					if(strlen($w) > 1) {
+						$where_ .= ' OR (UPPER(`type`.`Name`) REGEXP "'.$w.'") OR (UPPER(`categories`.`Name`) REGEXP "'.$w.'") OR (UPPER(`services`.`Name`) REGEXP "'.$w.'") OR (UPPER(`services`.`Description`) REGEXP "'.$w.'")';
+						$order .= ' + (UPPER(`type`.`Name`) REGEXP "'.$w.'") + (UPPER(`categories`.`Name`) REGEXP "'.$w.'")';
+					}
+				}
+				if(!empty($where)) { $where = substr($where, 4, (strlen($where)-1)); }
+				if(!empty($order)) { $order = substr($order, 3, (strlen($order))); }
+			}
 		}
 		function list_categories($required=false) {
 			$req = "";

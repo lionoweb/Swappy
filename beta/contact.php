@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Swappy.fr - Contact</title>
+    <title>Contact</title>
     <link rel="stylesheet" href="css/jquery-ui.css">
     <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
     <link rel="stylesheet" href="css/template.css" type="text/css"/>
@@ -80,7 +80,7 @@
 
     <form class="col-md-6 col-md-offset-3 col-sm-12 container" id="spec_contact" action="contact.php" method="get">
 
-        <div colspan="2" class="header_propose blueback">Une envie de nous contacter ?</div>
+        <div colspan="2" class="header_propose">Une envie de nous contacter ?</div>
 
         <div class="greyback">
 

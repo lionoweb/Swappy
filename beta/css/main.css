@@ -282,9 +282,8 @@ input.space-button {
 }
 .greyback{
 	background-color:#e5e4e4;
-	/*padding:42px 64px 42px 64px;*/
+	padding:42px 64px 42px 64px;
 	padding:12px;
-	margin-top:15px;
 	margin-left:0px;
 	margin-bottom:5px;
 	margin-right:0px;
@@ -299,19 +298,6 @@ input.space-button {
 }
 #spec_propose .greyback label {
 	color:#323232;
-}
-input, select, textarea {
-	margin-bottom: 15px;
-}
-.greyback input[type=submit] {
-	background-color: white;
-	color:#323232;
-	text-transform: uppercase;
-	border:none;
-	padding:8px 14px 8px 14px;
-	float: right;
-	margin-right: 15px;
-	margin-top: 15px;
 }
 
 	/* ### A PROPOS ### */
@@ -343,24 +329,87 @@ input, select, textarea {
 }
 
 	/* ### CGU/Mentions légales ### */
-
-.cgutitle{
-	width:560px;
-	height:40px;
-	background-color: #54c1de;
-	margin-top:38px;
-	margin-bottom: 38px;
+#spec_cgu p{
+	margin-top: 20px;
 }
-.cgutitle p {
+
+#spec_cgu .cgutitle{
+	background-image: url(../img/cgu/ruban1.png);
+	background-repeat: no-repeat;
+	height: 34px;
+	margin-bottom: 2%;
+}
+
+#spec_cgu .pictocgu {
+	float: left;
+	position: relative;
+	left:6%;
+}
+
+#spec_cgu .cgutitle p {
+	color:white;
+	line-height: 34px;
+	text-transform: uppercase;
+	margin-left: 6%;
+	font-size: 1.25em;
+}
+
+#spec_cgu .mentiontitle{
+	background-image: url(../img/cgu/ruban2.png);
+	background-repeat: no-repeat;
+	height: 34px;
+	margin-bottom: 2%;
+}
+#spec_cgu .mentiontitle p {
+	color:white;
+	line-height: 34px;
+	text-transform: uppercase;
+	margin-left: 6%;
+	font-size: 1.25em;
+}
+
+/* ### CONTACT ### */
+
+#spec_contact .header_propose{
+	width:100%;
+	text-align:center;
+	background-color:#53c1dd;
+	text-transform: uppercase;
 	color:white;
 	height:40px;
-	line-height: 40px;
-	text-transform: uppercase;
-	margin-left: 16%;
-	font-size: 1.5em;
+	line-height:40px;
+	margin-top:40px;	
 }
-.cgintitle{
+
+#spec_contact .form-group:first-child {
+	margin-top:30px;	
+}
+
+#spec_contact .form-group {
+	padding-left: 48px;
+	padding-right: 48px;
+}
+#spec_contact .greyback input[type=submit] {
+	background-color: white;
+	color:#323232;
 	text-transform: uppercase;
+	border:none;
+	padding:8px 14px 8px 14px;
+	float: right;
+	margin-right: 15px;
+	margin-top: 15px;
+}
+
+
+@media(max-width: 992px){
+	#spec_cgu .pictocgu{
+		position: relative;
+		left:2%;
+	}
+	#spec_cgu .cgintitle {
+		position: relative;
+		left:6%;
+	}
 }
 
 @media (max-width:767px){
@@ -389,6 +438,9 @@ input, select, textarea {
 		display:inline-block;	
 		margin-top:-2px;
 	}
+
+	#spec_contact .form-group {
+	padding:0px;
 
 }
 

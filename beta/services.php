@@ -201,7 +201,20 @@ if(isset($_GET['logout'])) {
 			</table>
         </div>
             <?php
-		} ?>
+		} else if($user->logged == true) { //MES SERVIVES?>
+        	<div class="col-md-10 col-md-offset-1 col-sm-12 container">
+            <table class="fulltable">
+            	<thead>
+                	<tr>
+                		<td colspan="2" class="header_search">Tous mes services</td>
+                    </tr>
+                </thead>
+                <tbody>
+			<?php echo $services->my_services($user); ?>
+            	</tbody>
+          	</table>
+            </div>
+		<?php } ?>
 	</div>
 </div>
 <footer id="footer">
