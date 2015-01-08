@@ -77,6 +77,14 @@ $(document).ready(function(e) {
 		onBeforeAjaxFormValidation: load_ajax_d,
 		showOneMessage: true
 	});
+	$("#spec_contact").validationEngine({
+		ajaxFormValidation: true,
+		ajaxFormValidationMethod: 'post',
+		onAjaxFormComplete: send_mail_contact,
+		onBeforeAjaxFormValidation: load_ajax_d,
+		showOneMessage: true,
+		promptPosition : "topRight:-120"
+	});
 	$("#login_form").validationEngine({
 		ajaxFormValidation: true,
 		ajaxFormValidationMethod: 'post',
@@ -140,6 +148,15 @@ function load_ajax_d(form, options) {
 		$form_b.append('<div id="loader_ajax">Chargement en cours...</div>');
 	}
 	return true;
+}
+function send_mail_contact(status, form, json, options) {
+	if(json[0] == true) {
+		$form_b = $(form);
+		$form_b.html('<center><br><b>Message envoyé</b><br><br></center>');
+		return true;
+	} else{
+		return false;	
+	}
 }
 function add_user_function(status, form, json, options) {
 	$form_b = $(form);

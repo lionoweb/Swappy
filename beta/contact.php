@@ -78,7 +78,7 @@
   		</div><!-- /.container-fluid -->
 	</nav>
 
-    <form class="col-md-6 col-md-offset-3 col-sm-12 container" id="spec_contact" action="contact.php" method="get">
+    <form class="col-md-6 col-md-offset-3 col-sm-12 container" id="spec_contact" action="mail.php" method="post">
 
         <div colspan="2" class="header_propose">Une envie de nous contacter ?</div>
 
