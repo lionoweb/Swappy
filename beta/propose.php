@@ -60,6 +60,8 @@ if(isset($_GET['logout'])) {
                     <li><a href="apropos.html">A propos</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <?php if(!$user->logged) {?>
+                        <li><a href="inscription.php">Inscription</a></li>
                     <li class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Connexion <span class="caret"></span></a>
                         <div class="dropdown-menu login-menu">
@@ -100,6 +102,7 @@ if(isset($_GET['logout'])) {
                     <input id="sujet" name="title" type="text" class="form-control" placeholder="Exemple : Construire une étagère">
                 </div>
             </div>
+
             <div class="form-group">
                 <label for="type" class="control-label col-xs-12 col-sm-2">Catégorie</label>
                 <div class="col-xs-12 col-sm-10">
@@ -108,17 +111,36 @@ if(isset($_GET['logout'])) {
                         ?>
                 </div>
             </div>
+
             <div class="form-group">
                 <label for="description" class="control-label col-xs-12 col-sm-2">Description</label>
                 <div class="col-xs-12 col-sm-10">
                     <textarea id="description" class="form-control" rows="8" cols="22" name="info"></textarea>
                 </div>
             </div>
+
             <div class="form-group">
-                <label for="day" class="control-label col-xs-12 col-sm-2">Date</label>
+                <label for="zipbar" class="control-label col-xs-12 col-sm-2">Lieu</label>
                 <div class="col-xs-12 col-sm-10">
-                    <select id="day" name="day" class="form-control">
+                    <input id="zipbar" name="where" type="text" class="form-control" placeholder="Ville, code postal">
+                    <input type="hidden" name="zip" value="">
+                 </div>
+            </div>
+
+            <div class="form-group">
+                <label for="km" class="control-label col-xs-12 col-sm-2">
+                Rayon de déplacement</label>
+                <div class="col-xs-12 col-sm-10">
+                    <input id="km" name="deplacement" type="number" class="form-control kilometre" placeholder="1">km
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="day" class="control-label col-xs-12 col-sm-2">Disponibilités</label>
+                <div class="col-xs-12 col-sm-10">
+                    <select id="day" name="day" class="form-control days">
                             <?php $list_days = '<option val=""></option>'.
+                            '<option value="lun">Tous les jours</option>'.
                             '<option value="lun">Lundi</option>'.
                             '<option value="mar">Mardi</option>'.
                             '<option value="mer">Mercredi</option>'.
@@ -129,18 +151,18 @@ if(isset($_GET['logout'])) {
                             echo preg_replace('/value\=\"'.$day_s.'\"/', 'value="'.$day_s.'" selected', $list_days);
                             ?>
                     </select>
+                    entre
+                            <input type="time" name="from" class="time">
+                            et
+                            <input type="time" name="to" class="time">
                 </div>
+                <div class="dispo col-md-3 col-md-offset-2"><button>+ Ajouter une disponibilité</button></div>
             </div>
-            <div class="form-group">
-                <label for="zipbar" class="control-label col-xs-12 col-sm-2">Lieu ?</label>
-                <div class="col-xs-12 col-sm-10">
-                    <input id="zipbar" name="where" type="text" class="form-control" placeholder="Ville, code postal">
-                    <input type="hidden" name="zip" value="">
-                 </div>
-            </div>
+
             <div class="form-group">
                 <input type="submit" value="Valider">
             </div>
+
         </div>
         <!-- END DIV GREYBLACK -->
     </form>

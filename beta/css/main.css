@@ -27,13 +27,17 @@ html, body {
 }
 form#user_add {
 	display:block; 
-	width:500px; 
-	margin:40px auto;
-	border:1px solid black;
-	border-radius:8px;
-	padding:6px;
-	position:relative;
+/*	width:500px; 
+	margin:40px auto;*/
+	/*position:relative;*/
 }
+.header_inscription{
+	color:white;
+	text-transform: uppercase;
+	text-align: center;
+	background-color:#53c1dd; 
+}
+
 form#add_services {
 	display:block; 
 	width:480px; 
@@ -299,6 +303,54 @@ input.space-button {
 #spec_propose .greyback label {
 	color:#323232;
 }
+#spec_propose .greyback .days {
+	display: inline;
+	width:16%;
+}
+#spec_propose .greyback .time {
+	display: inline;
+	width:10%;
+	height:32px;
+}
+#spec_propose .greyback button{
+	margin-top: 6px;
+	background-color: white;
+	border: 1px solid #ccc;
+  	border-radius: 4px;
+ 	 -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  	-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+#spec_propose .greyback button:hover{
+	background-color: #53c1dd;
+	color:white;
+}
+#spec_propose .greyback .kilometre{
+	display: inline;
+	width:48px;
+}
+#spec_propose .greyback input[type=submit]{
+	background-color: white;
+	color:#323232;
+	text-transform: uppercase;
+	padding:8px 14px 8px 14px;
+	float: right;
+	margin-right: 15px;
+	margin-top: 15px;
+	border: 1px solid #ccc;
+  	border-radius: 4px;
+ 	 -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  	-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+#spec_propose .greyback input[type=submit]:hover{
+	background-color: #53c1dd;
+	color:white;
+}
 
 	/* ### A PROPOS ### */
 
@@ -393,11 +445,17 @@ input.space-button {
 	background-color: white;
 	color:#323232;
 	text-transform: uppercase;
-	border:none;
 	padding:8px 14px 8px 14px;
 	float: right;
 	margin-right: 15px;
 	margin-top: 15px;
+	border: 1px solid #ccc;
+  	border-radius: 4px;
+ 	 -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  	-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 
 
