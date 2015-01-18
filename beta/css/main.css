@@ -227,12 +227,13 @@ input.space-button {
 .bloc_services {
 	width:100%;	
 	color:#FFF;
-	height:100%;
+	height:100px;
 	padding-bottom:-20px;
 }
 .fulltable {
 	width:100%;
 	border-collapse: collapse;
+	table-layout:auto;
 }	
 .desc_services {
 	clear:both;
@@ -257,11 +258,10 @@ input.space-button {
 	background:#53c1dd;	
 }
 .picto {
-	max-width:43px !important;
-	width:43px !important;
-	min-width:43px !important;
-	height:100px;
-	overflow:hidden;
+	max-width:20px !important;
+	width:20px !important;
+	min-width:20px !important;
+	overflow:auto;
 }
 .picto-2 {
 	background:url(../img/services/bricolage.png) center no-repeat;

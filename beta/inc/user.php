@@ -32,6 +32,37 @@
 			}
 			return $result;
 		}
+		function getLocationByName($name) {
+			$city = preg_replace("/\|/", "-", $name);
+			$result = array("name" => false, "ID" => false, "lat" => false, "lon" => false, "zipcode" => false);
+			$where = $order = "";
+			$l = explode("|", $name);
+				for($i=0;$i<count($l);$i++) {
+					$w = $this->wd_remove_accents($l[$i]);
+					if(strlen($w)  > 2 && !is_numeric($w)) {
+						$where .= ' OR (UPPER(`Name`) REGEXP "'.$w.'")';
+						$order .= ' + (CASE WHEN UPPER(`Name`) REGEXP "'.$w.'" THEN 1.8 ELSE 0 END) + (CASE WHEN UPPER(`Name`) REGEXP "^'.$w.'" THEN 1.2 ELSE 0 END) + (CASE WHEN UPPER(`Name`) REGEXP "^'.$w.'$" THEN 1.3 ELSE 0 END)';
+					} else if(is_numeric($w)) { //DEPARTEMENT FIX
+						$where .= ' OR (UPPER(`ZipCode`) REGEXP "'.$w.'")';
+						$order .= ' + (CASE WHEN UPPER(`ZipCode`) REGEXP "'.$w.'" THEN 1.3 ELSE 0 END) + (CASE WHEN UPPER(`ZipCode`) REGEXP "'.$w.'$" THEN 0.5 ELSE 0 END)';
+					}
+				}
+				$where .= '';
+				if(!empty($where)) { $where = substr($where, 4, (strlen($where)-1)); }
+				if(!empty($order)) { $order = substr($order, 3, (strlen($order))); }
+				$query = "SELECT `Real_Name`, COUNT(*) AS `total`, `Name`, `ID`, `Lat`, `Lon`, `ZipCode` FROM `french_city` WHERE ".$where." GROUP BY `ID` ORDER BY ".$order." DESC, `ZipCode` ASC LIMIT 0, 1";
+				$select = mysqli_query($this->mysql, $query);
+				$data = mysqli_fetch_array($select);
+				if($data['total'] > 0) {
+					similar_text(strtoupper($this->wd_remove_accents(preg_replace("/\|/", "-", $city))), strtoupper($this->wd_remove_accents($data['Name'])), $percent);	
+					$length = strlen($data['Name']);
+					//MATCH VERIFICATION + WITH NUMBERS LETTERS
+					if($percent > 65 && strlen($city) <= ($length + 4) && strlen($city) >= ($length - 4)) {
+						$result = array("Name" => $data['Real_Name'], "ID" => $data['ID'], "Lat" => $data['Lat'], "Lon" => $data['Lon'], "ZipCode" => $data['ZipCode']);
+					}
+				}
+			return $result;	
+		}
 		function getPosition($adresse, $zip, $city="") {
 			//Initiation des variables de sortie
 			$coords['lat'] = $coords['lon'] = '';

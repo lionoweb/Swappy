@@ -60,10 +60,12 @@ if(isset($_GET['logout'])) {
                     <li><a href="apropos.html">A propos</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <?php if(!$user->logged) {?>
-                        <li><a href="inscription.php">Inscription</a></li>
+                <?php if(!$user->logged) {?>
+                	<li><a href="inscription.php">Inscription</a></li>
+                <?php } ?>
                     <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Connexion <span class="caret"></span></a>
+                    <?php if(!$user->logged) {?>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Connexion <span class="caret"></span></a>
                         <div class="dropdown-menu login-menu">
                             <div id="login_section">
                                 <form action="inc/login.php" method="post" id="login_form">
@@ -74,7 +76,7 @@ if(isset($_GET['logout'])) {
                                     </label>
                                     <input class="btn btn-primary" type="submit" name="commit" value="Se connecter">
                                     <div class="remind"><a class="remind_link">Mot de passe perdu ?</a></div>
-                                </form>     
+                                </form>		
                             </div>
                             <div id="remind_section">
                                 <form action="[YOUR ACTION]" method="post" accept-charset="UTF-8">
@@ -84,8 +86,14 @@ if(isset($_GET['logout'])) {
                                 </form>
                             </div>
                         </div>
-                                            </li>
-                </ul>
+                        <?php } else { ?>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Bonjour <?php echo $user->firstname; ?><span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="?logout">Se deconnecter</a></li>
+                            </ul>
+                        <?php } ?>
+                    </li>
+      			</ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
@@ -149,7 +157,7 @@ if(isset($_GET['logout'])) {
                             '<option value="sam">Samedi</option>'.
                             '<option value="dim">Dimanche</option>';
                             echo preg_replace('/value\=\"'.$day_s.'\"/', 'value="'.$day_s.'" selected', $list_days);
-                            ?>
+                            ?></select>
                     </select>
                     entre
                             <input type="time" name="from" class="time">

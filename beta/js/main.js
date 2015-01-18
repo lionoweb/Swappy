@@ -51,7 +51,6 @@ $(document).ready(function(e) {
 		},
 		minLength: 3,
 		select: function( event, ui ) {
-			
 		},
 		open: function() {
 			$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );

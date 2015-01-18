@@ -3,8 +3,10 @@ session_start();
 require_once("inc/user.php");
 require_once("inc/mysql.php");
 require("inc/services.php");
+require("inc/searches.php");
 $user = new user($mysql);
 $services = new services($mysql);
+$search = new search($mysql);
 if(isset($_GET['logout'])) {
 	$user->logout();
 }	?>
@@ -103,6 +105,7 @@ if(isset($_GET['logout'])) {
 		$title = "";
 		$type_s = "";
 		$day_s = "";
+		$where_s = "";
 		if(isset($_GET['searchbar'])) {
 			$title = $_GET['searchbar'];
 		}
@@ -111,6 +114,12 @@ if(isset($_GET['logout'])) {
 		}
 		if(isset($_GET['day'])) {
 			$day_s = $_GET['day'];
+		}
+		if(isset($_GET['where'])) {
+			$where_s = $_GET['where'];
+		} else if(isset($_GET['searchbar']) && $user->logged && !empty($user->zipcode)) {
+			$where_s = $services->format_city($user->zipcode);
+			$_GET['where'] = $where_s;
 		}
 	?>
 		<form class="col-md-6 col-md-offset-3 form-horizontal" id="spec_search" action="services.php" method="get">
@@ -135,8 +144,7 @@ if(isset($_GET['logout'])) {
                 <div class="form-group">
                     <label for="zipbar" class="control-label col-xs-12 col-sm-2">Où ?</label>
                     <div class="col-xs-12 col-sm-10">
-                        <input id="zipbar" name="where" type="text" class="form-control" placeholder="Exemple : 75001 (Paris)">
-                        <input type="hidden" name="zip" value="">
+                        <input id="zipbar" name="where" type="text" value="<?php echo $where_s; ?>" class="form-control" placeholder="Exemple : 75001 (Paris)">
                     </div>
               	</div>
                 <div class="form-group">
@@ -159,8 +167,7 @@ if(isset($_GET['logout'])) {
         	</div>
     	</form>
         <?php if(isset($_GET['searchbar'])) {
-			echo $services->search($_GET, $user);
-			?>
+		?>
 		<div class="col-md-10 col-md-offset-1 col-sm-12 container">
             <table class="fulltable">
             	<thead>
@@ -169,48 +176,22 @@ if(isset($_GET['logout'])) {
                     </tr>
                 </thead>
                 <tbody>
-                	<tr class="bloc_services">
-            			<td class="picto picto-2">
-                        	
-                        </td>
-                		<td class="desc_services">
-                            <h1>Réparation d'étagère</h1>
-                            <p>
-                                Je repare vos meubles (étagères) avec serieux et...
-                            </p>
-                            <div class="location">
-                                Champigny sur Marne
-                            </div>
-                         </td>
-                     </tr>
-                     <tr class="bloc_services">
-            			<td class="picto picto-2">
-                        	
-                        </td>
-                		<td class="desc_services">
-                            <h1>Réparation d'étagère</h1>
-                            <p>
-                                Je repare vos meubles (étagères) avec serieux et...
-                            </p>
-                            <div class="location">
-                                Champigny sur Marne
-                            </div>
-                         </td>
-                     </tr>
+                	<?php echo $search->search($_GET, $user); ?>
                 </tbody>
 			</table>
         </div>
             <?php
-		} else if($user->logged == true) { //MES SERVIVES?>
+		} else { //SERVICES RECENTS?>
+        	<?php $result = $search->recent_services($user); ?>
         	<div class="col-md-10 col-md-offset-1 col-sm-12 container">
             <table class="fulltable">
             	<thead>
                 	<tr>
-                		<td colspan="2" class="header_search">Tous mes services</td>
+                		<td colspan="2" class="header_search"><?php echo $result[0]; ?></td>
                     </tr>
                 </thead>
                 <tbody>
-			<?php echo $services->my_services($user); ?>
+					<?php echo $result[1]; ?>
             	</tbody>
           	</table>
             </div>
