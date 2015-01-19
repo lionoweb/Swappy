@@ -38,7 +38,6 @@
                     <span class="input-group-btn">
                         <button title="Rechercher" type="submit" class="btn btn-default"></button>
                     </span>
-<<<<<<< Updated upstream
             	</div>
             	
           	</form>
@@ -51,20 +50,9 @@
             		<li><a href="apropos.php">A propos</a></li>
             	</ul>
              	<ul class="nav navbar-nav navbar-right">
-=======
-                </div>
-                
-            </form>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="navbar">
-                <ul class="nav navbar-nav">
-                    <li><a  href="services.html">Services</span></a></li>
-                    <li><a href="propose.php">Je propose</a></li>
-                    <li><a href="#">Comment ça marche ?</a></li>
-                    <li><a href="#">A propos</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
->>>>>>> Stashed changes
+               <?php if(!$user->logged) {?>
+                	<li><a href="inscription.php">Inscription</a></li>
+                <?php } ?>
                     <li class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Connexion <span class="caret"></span></a>
                         <div class="dropdown-menu login-menu">
@@ -93,7 +81,7 @@
         </div><!-- /.container-fluid -->
     </nav>
 
-    <div id="contact" action="mail.php" method="get">
+    <div id="contact" >
         <div class="header_contact">
             <p class="top col-md-6 col-md-offset-3">Besoin de nous contacter ?</p>
             <p class="bot col-md-8 col-md-offset-2">Une équipe professionnelle et réactive : si vous rencontrez un problème nous saurons vous guider.</p>
@@ -108,7 +96,7 @@
             </div>
         </div>
 
-        <form id="formulaire" action="" method="">
+        <form id="formulaire" action="mail.php" method="get">
             <div class="row">
                 <div class="left col-md-4 col-md-offset-2">
                     <div class="form-group">
@@ -161,13 +149,10 @@
 <footer id="footer">
     <img src="img/footer.png">
     <div class="container-fluid">
-<<<<<<< Updated upstream
         <a href="mentions-legales.php">Mentions légales</a> | <a href="cgu.php">CGU</a> | <a href="contact.php" class="active">Contact</a>
-=======
         <a href="#">Mentions légales</a> | <a href="#">CGU</a><a href="contact.php" class="active">Contact</a>
         <hr>
         <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
->>>>>>> Stashed changes
     </div>
 </footer>
 
