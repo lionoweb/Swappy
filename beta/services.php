@@ -164,6 +164,9 @@ if(isset($_GET['logout'])) {
 							?>
                         </select>
                     </div>
+                    <div class="send col-xs-12 col-sm-3 col-sm-offset-9">
+                        <input type="submit" value="envoyer" class="form-control">
+                    </div>
               	</div>
         	</div>
     	</form>
