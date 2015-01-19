@@ -55,9 +55,9 @@ if(isset($_GET['logout'])) {
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav">
                     <li><a  href="services.php">Services <span class="sr-only">(current)</span></a></li>
-                    <li class="active"><a href="#">Je propose</a></li>
-                    <li><a href="#">Comment ça marche ?</a></li>
-                    <li><a href="apropos.html">A propos</a></li>
+                    <li class="active"><a href="propose.php">Je propose</a></li>
+                    <li><a href="ccm.php">Comment ça marche ?</a></li>
+                    <li><a href="apropos.php">A propos</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                 <?php if(!$user->logged) {?>
@@ -178,7 +178,7 @@ if(isset($_GET['logout'])) {
 <!-- END DIV ID WRAP-->
 <footer id="footer">
     <div class="container-fluid">
-        <a href="#">Mentions légales</a> | <a href="#">CGU</a> | <a href="contact.php">Contact</a>
+        <a href="mentions-legales.php">Mentions légales</a> | <a href="cgu.php">CGU</a> | <a href="contact.php">Contact</a>
     </div>
 </footer>
 </body>

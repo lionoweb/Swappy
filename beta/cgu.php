@@ -44,10 +44,10 @@
         	<!-- Collect the nav links, forms, and other content for toggling -->
         	<div class="collapse navbar-collapse" id="navbar">
           		<ul class="nav navbar-nav">
-            		<li><a  href="services.html">Services</a></li>
+            		<li><a  href="services.php">Services</a></li>
             		<li><a href="propose.php">Je propose</a></li>
-            		<li><a href="#">Comment ça marche ?</a></li>
-            		<li><a href="apropos.html">A propos</a></li>
+            		<li><a href="ccm.php">Comment ça marche ?</a></li>
+            		<li><a href="apropos.php">A propos</a></li>
             	</ul>
              	<ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
@@ -107,7 +107,7 @@ Nam non blandit quam. Donec aliquet nisl et nisi consequat, fringilla condimentu
 
 <footer id="footer">
     <div class="container-fluid">
-        <a href="cgu.html">Mentions légales <span class="sr-only">(current)</span></a> | <a href="cgu.html">CGU</a> | <a href="contact.php">Contact</a>
+        <a href="mentions-legales.php">Mentions légales <span class="sr-only">(current)</span></a> | <a href="cgu.php">CGU</a> | <a href="contact.php">Contact</a>
     </div>
 </footer>
 </body>

@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="css/template.css" type="text/css"/>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/ajout_line_22:12.css" type="text/css"/>
     <script src="js/jquery.js"></script>
     <script src="js/jquery-ui.js"></script>
     <script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js"></script>
@@ -45,10 +44,10 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">Je propose</a></li>
-                    <li><a href="#">Comment ça marche ?</a></li>
-                    <li><a href="#">A propos</a></li>
+                    <li><a href="services.php">Services</a></li>
+                    <li><a href="propose.php">Je propose</a></li>
+                    <li><a href="ccm.php">Comment ça marche ?</a></li>
+                    <li><a href="apropos.php">A propos</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
