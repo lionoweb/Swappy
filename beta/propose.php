@@ -4,6 +4,7 @@ require_once("inc/user.php");
 require_once("inc/mysql.php");
 require("inc/services.php");
 $user = new user($mysql);
+//$user->onlyUsers();
 $services = new services($mysql);
 if(isset($_GET['logout'])) {
 	$user->logout();
@@ -16,12 +17,14 @@ if(isset($_GET['logout'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Je propose</title>
     <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/jquery.datetimepicker.css">
     <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
     <link rel="stylesheet" href="css/template.css" type="text/css"/>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery.js"></script>
     <script src="js/jquery-ui.js"></script>
+    <script src="js/jquery.datetimepicker.js"></script>
     <script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js"></script>
     <script src="js/ValidationEngine/jquery.validationEngine.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -98,8 +101,8 @@ if(isset($_GET['logout'])) {
         </div><!-- /.container-fluid -->
     </nav>
 
-    <form class="col-md-8 col-md-offset-2 col-sm-12 container" id="spec_propose" action="propose.php" method="post">
-
+    <form autocomplete="off" class="col-md-8 col-md-offset-2 col-sm-12 container" id="spec_propose" action="inc/add_services.php" method="post">
+		<input type="hidden" name="ID" value="<?php echo $user->cryptID; ?>">
         <div colspan="2" class="header_propose">Service proposé</div>
 
         <div class="greyback">
@@ -123,15 +126,15 @@ if(isset($_GET['logout'])) {
             <div class="form-group">
                 <label for="description" class="control-label col-xs-12 col-sm-2">Description</label>
                 <div class="col-xs-12 col-sm-10">
-                    <textarea id="description" class="form-control" rows="8" cols="22" name="info"></textarea>
+                    <textarea id="description" name="description" class="form-control" rows="8" cols="22" name="info"></textarea>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="zipbar" class="control-label col-xs-12 col-sm-2">Lieu</label>
                 <div class="col-xs-12 col-sm-10">
-                    <input id="zipbar" name="where" type="text" class="form-control" placeholder="Ville, code postal">
-                    <input type="hidden" name="zip" value="">
+                    <input id="zipcode" value="<?php echo $user->zipcode; ?>" name="zipcode" type="text" size="6" class="form-control validate[required,custom[onlyNumberSp],minSize[5],maxSize[5],ajax[ajaxZipCodeCallPHP]] zipcode" placeholder="code postal">
+                    <input type="text" class="liketext" disabled readonly name="cityname" value="<?php echo $user->city; ?>">
                  </div>
             </div>
 
@@ -139,16 +142,17 @@ if(isset($_GET['logout'])) {
                 <label for="km" class="control-label col-xs-12 col-sm-2">
                 Rayon de déplacement</label>
                 <div class="col-xs-12 col-sm-10">
-                    <input id="km" name="deplacement" type="number" class="form-control kilometre" placeholder="1">km
+                    <input id="km" name="distance" type="text" size="1" value="1" class="form-control kilometre validate[required,custom[onlyNumberSp]]" > km
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="day" class="control-label col-xs-12 col-sm-2">Disponibilités</label>
                 <div class="col-xs-12 col-sm-10">
-                    <select id="day" name="day" class="form-control days">
-                            <?php $list_days = '<option val=""></option>'.
-                            '<option value="lun">Tous les jours</option>'.
+                <span data-IDF="1" class="dispo_field">
+                    <select id="dispoday[1]" name="dispoday[1]" class="form-control days">
+                            <?php $list_days = '<option value="all">Tous les jours</option>'.
+							'<option value="weekend">Le week-end</option>'.
                             '<option value="lun">Lundi</option>'.
                             '<option value="mar">Mardi</option>'.
                             '<option value="mer">Mercredi</option>'.
@@ -156,15 +160,18 @@ if(isset($_GET['logout'])) {
                             '<option value="ven">Vendredi</option>'.
                             '<option value="sam">Samedi</option>'.
                             '<option value="dim">Dimanche</option>';
-                            echo preg_replace('/value\=\"'.$day_s.'\"/', 'value="'.$day_s.'" selected', $list_days);
+                           echo $list_days;
                             ?></select>
                     </select>
                     entre
-                            <input type="time" name="from" class="time">
+                            <input size="5" maxlength="5" name="dispostart[1]" value="19:00" class="time form-control validate[required] timepicker" id="dispostart[1]" type="text">
                             et
-                            <input type="time" name="to" class="time">
+                            <input maxlength="5" name="dispoend[1]" name="dispoend[1]" class="validate[required,timeCheck[dispostart{1}]] form-control timepicker time" value="21:00" size="5" type="text">
+                            </span>
+                <button class="add_dispo">+ Ajouter une disponibilité</button>
                 </div>
-                <div class="dispo col-md-3 col-md-offset-2"><button>+ Ajouter une disponibilité</button></div>
+                
+                
             </div>
 
             <div class="form-group">

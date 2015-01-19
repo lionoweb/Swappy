@@ -39,12 +39,41 @@
 			}
 			return $html;
 		}
-		function add_services($POST) {
+		function get_coord($zip) {
+			$array = array("lon" => false, "lat" => false);
+			$select = mysqli_query($this->mysql, "SELECT `Lat`, `Lon`, COUNT(*) AS `total` FROM `french_city` WHERE `ZipCode` = '".$zip."'");
+			$data = mysqli_fetch_array($select);
+			if($data['total'] > 0) {
+				$array['lon'] = $data['Lon'];	
+				$array['lat'] = $data['Lat'];
+			}
+			return $array;
+		}
+		function get_cityID($zip) {
+			$ID = false;
+			$select = mysqli_query($this->mysql, "SELECT `ID`, COUNT(*) AS `total` FROM `french_city` WHERE `ZipCode` = '".$zip."'");
+			$data = mysqli_fetch_array($select);
+			if($data['total'] > 0) {
+				$ID = $data['ID'];	
+			}
+			return $ID;
+		}
+		function add_services($POST, $user) {
 			//DISPONIBILITE		
 			$dispo = $this->dispo_crypt($POST['dispoday'], $POST['dispostart'], $POST['dispoend']);
 			$user = new user($this->mysql);
 			$ID = $user->uncrypt_sess($POST['ID']);
-			mysqli_query($this->mysql, "INSERT INTO `services` (`ID`, `Title`, `Type`, `By`, `Description`, `Image`, `Distance`, `Disponibility`, `Created`) VALUES (NULL, '".$POST['title']."', '".$POST['type']."', '".$ID."', '".$POST['desc']."', NULL, '".$POST['distance']."', '".$dispo."', CURRENT_TIMESTAMP);");
+			if($user->zipcode == $POST['zipcode']) {
+				$city = $this->get_cityID($user->zipcode);
+				$lat = $user->lat;
+				$lon = $user->lon;	
+			} else {
+				$city = $this->get_cityID($POST['zipcode']);
+				$ar = $this->get_coord($POST['zipcode']);
+				$lat = $ar['lat'];
+				$lon = $ar['lon'];
+			}
+			mysqli_query($this->mysql, "INSERT INTO `services` (`ID`, `Title`, `Type`, `By`, `Description`, `Image`, `Distance`, `Disponibility`, `Created`, `City`, `Lat`, `Lon`) VALUES (NULL, '".$POST['title']."', '".$POST['type']."', '".$ID."', '".$POST['description']."', NULL, '".$POST['distance']."', '".$dispo."', CURRENT_TIMESTAMP, '".$city."', '".$lat."', '".$lon."');");
 			return array(true);
 		}
 		function dispo_crypt($day, $start, $end) {

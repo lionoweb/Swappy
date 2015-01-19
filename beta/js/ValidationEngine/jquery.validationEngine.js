@@ -390,7 +390,7 @@
 						var overflowDIV = $(options.overflownDIV);
 						if(!overflowDIV.length) return false;
 						var scrollContainerScroll = overflowDIV.scrollTop();
-						var scrollContainerPos = -parseInt(overflowDIV.offset().top);
+						var scrollContainerPos = -parseInt(overflowDIV.offset().top) - ($("nav").height() + 40);
 
 						destination += scrollContainerScroll + scrollContainerPos - 5;
 						var scrollContainer = $(options.overflownDIV + ":not(:animated)");
@@ -401,7 +401,7 @@
 
 					} else {
 						$("html, body").animate({
-							scrollTop: destination
+							scrollTop: destination-($("nav").height() + 40)
 						}, 1100, function(){
 							if(options.focusFirstField) first_err.focus();
 						});
@@ -1644,6 +1644,7 @@
 		* @param {Map} options user options
 		*/
 		 _showPrompt: function(field, promptText, type, ajaxed, options, ajaxform) {
+			 field = field.parents(".col-xs-12");
 			 var prompt = methods._getPrompt(field);
 			 // The ajax submit errors are not see has an error in the form,
 			 // When the form errors are returned, the engine see 2 bubbles, but those are ebing closed by the engine at the same time
@@ -1667,7 +1668,6 @@
 		* @param {Map} options user options
 		*/
 		_buildPrompt: function(field, promptText, type, ajaxed, options) {
-
 			// create the prompt
 			var prompt = $('<div>');
 			prompt.addClass(methods._getClassName(field.attr("id")) + "formError");

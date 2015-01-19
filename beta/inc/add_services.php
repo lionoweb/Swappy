@@ -5,7 +5,7 @@ require_once("services.php");
 $arr = array();
 if(isset($_POST['type'])) {
 	$services = new services($mysql);
-	$arr = $services->add_services($_POST);
+	$arr = $services->add_services($_POST, $user);
 }
 echo json_encode($arr);
 ?>

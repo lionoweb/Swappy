@@ -36,13 +36,14 @@ $(document).ready(function(e) {
 		}
 	});
 	$( "#zipbar" ).autocomplete({
-		 delay:280, 
+		 delay:280,
 		source: function( request, response ) {
 			$.ajax({
 				url: "inc/search.php",
 				dataType: "jsonp",
 				data: {
-				zipquery: request.term
+				zipquery: request.term,
+				extra: $("#zipbar").attr("data-s")
 				},
 				success: function( data ) {
 					response(data);
@@ -51,6 +52,7 @@ $(document).ready(function(e) {
 		},
 		minLength: 3,
 		select: function( event, ui ) {
+			
 		},
 		open: function() {
 			$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
@@ -82,7 +84,7 @@ $(document).ready(function(e) {
 		onAjaxFormComplete: send_mail_contact,
 		onBeforeAjaxFormValidation: load_ajax_d,
 		showOneMessage: true,
-		promptPosition : "topRight:-120"
+		promptPosition : "topLeft"
 	});
 	$("#login_form").validationEngine({
 		ajaxFormValidation: true,
@@ -90,9 +92,9 @@ $(document).ready(function(e) {
 		onAjaxFormComplete: login_user_function,
 		onBeforeAjaxFormValidation: load_ajax_d,
 		showOneMessage: true,
-		promptPosition : "topRight:-120"
+		promptPosition : "topLeft"
 	});
-	$("#add_services").validationEngine({
+	$("#spec_propose").validationEngine({
 		ajaxFormValidation: true,
 		ajaxFormValidationMethod: 'post',
 		onAjaxFormComplete: add_service_function,
@@ -111,11 +113,12 @@ $(document).ready(function(e) {
 			var i = $(this).attr("data-IDF");
 			$(".dispo_field[data-IDF='"+i+"']").remove();
 		});
-	$(".add_dispo").on("click", function() {
+	$(".add_dispo").on("click", function(e) {
+		e.preventDefault();
 		var lastID = $(".dispo_field:last").attr("data-IDF");
 		lastID++;
 		var html = '<span data-IDF="'+lastID+'" class="dispo_field">' +
-            	'Le <select id="dispoday['+lastID+']" name="dispoday['+lastID+']">' +
+            	'<select id="dispoday['+lastID+']" class="form-control days" name="dispoday['+lastID+']">' +
                 	'<option value="all">Tous les jours</option>' +
                     '<option value="weekend">Le week-end</option>' +
                 	'<option value="lun">Lundi</option>' +
@@ -126,7 +129,7 @@ $(document).ready(function(e) {
                     '<option value="sam">Samedi</option>' +
                     '<option value="dim">Dimanche</option>' +
                 '</select>' +
-                ' entre <input autocomplete="off" size="5" maxlength="5" name="dispostart['+lastID+']" value="19:00" class="validate[required] timepicker" id="dispostart['+lastID+']" type="text"> et <input autocomplete="off" maxlength="5" name="dispoend['+lastID+']" name="dispoend['+lastID+']" class="validate[required,timeCheck[dispostart{'+lastID+'}]] timepicker" value="21:00" size="5" type="text"> <a class="remove_dispo" data-idf="'+lastID+'">Effacer</a>' +
+                ' entre <input autocomplete="off" size="5" maxlength="5" name="dispostart['+lastID+']" value="19:00" class="validate[required] time timepicker form-control" id="dispostart['+lastID+']" type="text"> et <input autocomplete="off" maxlength="5" name="dispoend['+lastID+']" name="dispoend['+lastID+']" class="time form-control validate[required,timeCheck[dispostart{'+lastID+'}]] timepicker" value="21:00" size="5" type="text"> <a class="remove_dispo" data-idf="'+lastID+'">Effacer</a>' +
             '</span>';
 		$(html).insertAfter(".dispo_field:last");
 		$('.timepicker').datetimepicker({
@@ -179,7 +182,10 @@ function login_user_function(status, form, json, options) {
 	return true;
 }
 function ZipFill(json) {
-	$("input[name='cityname']").val(json[2]);	
+		$("input[name='cityname']").val(json[2]);	
+		if(json[1] == true) {
+			$("#spec_propose").validationEngine('closePrompt', $("input[name='cityname']"));
+		}
 }
 function navbar_padding() {
 	var h = $("nav").height() + parseInt($("nav").css("margin-bottom").replace("px", ""));

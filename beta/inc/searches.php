@@ -138,8 +138,12 @@ class search {
 				$where .= ' AND (`services`.`Disponibility` REGEXP "'.$day.'"';
 				if(preg_match("/lun|mar|mer|jeu|ven/", $day)) {
 					$where .= ' OR `services`.`Disponibility` REGEXP "all"';
-				} else {
+				} else if(preg_match("/sam|dim/", $day)) {
 					$where .= ' OR `services`.`Disponibilityy` REGEXP "weekend"';
+				} else if($day == "all") {
+					$where .= ' OR `services`.`Disponibility` REGEXP "lun"  OR `services`.`Disponibility` REGEXP "mar"  OR `services`.`Disponibility` REGEXP "mer"  OR `services`.`Disponibility` REGEXP "jeu"  OR `services`.`Disponibility` REGEXP "ven"  OR `services`.`Disponibility` REGEXP "sam"  OR `services`.`Disponibility` REGEXP "dim"';
+				} else if($day == "weekend") {
+					$where .= ' OR `services`.`Disponibility` REGEXP "sam" OR `services`.`Disponibility` REGEXP "dim"';
 				}
 				$where .= ')';
 			}
@@ -217,7 +221,7 @@ class search {
 			 + SIN(RADIANS(latpoint))
 			 * SIN(RADIANS(services.Lat)))) AS `distance_in_km` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` JOIN (
  SELECT  ".$position['lat']."  AS latpoint,  ".$position['lon']." AS longpoint
-) AS p ON 1=1 WHERE ".$where." GROUP BY `ID` HAVING `distance_in_km` <= `services`.`Distance` ORDER BY distance_in_km ASC ,".$order." `services`.`Created` DESC LIMIT 0, 15";
+) AS p ON 1=1 WHERE ".$where." GROUP BY `ID` HAVING `distance_in_km` <= ( `services`.`Distance` + 2) ORDER BY distance_in_km ASC ,".$order." `services`.`Created` DESC LIMIT 0, 15";
 			}
 			$select = mysqli_query($this->mysql, $finalquery);
 			while($data = mysqli_fetch_array($select)) {
@@ -227,11 +231,11 @@ class search {
 					$final .= '	<tr class="bloc_services">
 									<td class="picto picto-'.$data['Type'].'"></td>
 									<td class="desc_services"><a href="#">
-										<h1>'.addslashes($sername).'</h1>
+										<h1>'.$sername.'</h1>
 										<p>
-											'.addslashes($data['Description']).'
+											'.$data['Description'].'
 										</p>
-										<div class="location">'.addslashes($data['CityName']).'</div>
+										<div class="location">'.$data['CityName'].'</div>
 									</a></td>
 								</tr>';
 				}
@@ -273,7 +277,7 @@ class search {
 		$end_clause = $this->clause_searchcity($input);
 		$select = mysqli_query($this->mysql, "SELECT `Real_Name`, `ZipCode`, `Lon`, `Lat` FROM `french_city` ".$end_clause);
 		while($data = mysqli_fetch_array($select)) {
-			$arr[] = array("label" => "".$data['ZipCode']." (".$data['Real_Name'].")", "zipCode" => $data['ZipCode'], "lon" => $data['Lon'], "lat" => $data['Lat']);	
+				$arr[] = array("label" => "".$data['ZipCode']." (".$data['Real_Name'].")", "zipCode" => $data['ZipCode'], "lon" => $data['Lon'], "lat" => $data['Lat']);
 		}
 		return $arr;
 	}
@@ -288,7 +292,7 @@ class search {
 			 + SIN(RADIANS(latpoint))
 			 * SIN(RADIANS(services.Lat)))) AS `distance_in_km` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` JOIN (
  SELECT  ".$user->lat."  AS latpoint,  ".$user->lon." AS longpoint
-) AS p ON 1=1 GROUP BY `ID` HAVING `distance_in_km` <= `services`.`Distance` ORDER BY `services`.`Created` DESC, distance_in_km ASC LIMIT 0, 15");
+) AS p ON 1=1 GROUP BY `ID` HAVING `distance_in_km` <= (`services`.`Distance` + 2) ORDER BY `services`.`Created` DESC, distance_in_km ASC LIMIT 0, 15");
 			$i = 0;
 			while($data = mysqli_fetch_array($select)) {
 				if(!empty($data['ID'])) {
@@ -297,11 +301,11 @@ class search {
 					$final[1] .= '	<tr class="bloc_services">
 									<td class="picto picto-'.$data['Type'].'"></td>
 									<td class="desc_services"><a href="#">
-										<h1>'.addslashes($sername).'</h1>
+										<h1>'.$sername.'</h1>
 										<p>
-											'.addslashes($data['Description']).'
+											'.$data['Description'].'
 										</p>
-										<div class="location">'.addslashes($data['CityName']).'</div>
+										<div class="location">'.$data['CityName'].'</div>
 									</a></td>
 								</tr>';
 						$i++;
@@ -325,11 +329,11 @@ class search {
 						$final[1] .= '	<tr class="bloc_services">
 										<td class="picto picto-'.$data['Type'].'"></td>
 										<td class="desc_services"><a href="#">
-											<h1>'.addslashes($sername).'</h1>
+											<h1>'.$sername.'</h1>
 											<p>
-												'.addslashes($data['Description']).'
+												'.$data['Description'].'
 											</p>
-											<div class="location">'.addslashes($data['CityName']).'</div>
+											<div class="location">'.$data['CityName'].'</div>
 										</a></td>
 									</tr>';
 						$i++;

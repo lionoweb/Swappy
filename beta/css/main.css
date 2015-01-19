@@ -305,12 +305,21 @@ input.space-button {
 }
 #spec_propose .greyback .days {
 	display: inline;
-	width:16%;
+	width:140px;
 }
 #spec_propose .greyback .time {
 	display: inline;
-	width:10%;
+	width:70px;
 	height:32px;
+}
+.zipcode {
+	display: inline;
+	width:100px;
+	height:32px;
+}
+.liketext {
+	border:none;
+	background:transparent;	
 }
 #spec_propose .greyback button{
 	margin-top: 6px;
