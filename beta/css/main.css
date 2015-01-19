@@ -261,6 +261,16 @@ select, input {
 #spec_search label {
 	padding-right:10px;
 }
+#spec_search input[type="submit"]{
+	text-transform: uppercase;
+}
+#spec_search input[type="submit"]:hover{
+	background-color: #e5e4e4;
+	color:black;
+}
+#spec_search .send input[type="submit"]{
+	margin-top: 14px;
+}
 input.space-button {
 	display:inline-block;
 	width:84%;
@@ -273,13 +283,12 @@ input.space-button {
 .bloc_services {
 	width:100%;	
 	color:#FFF;
-	height:100px;
+	height:100%;
 	padding-bottom:-20px;
 }
 .fulltable {
 	width:100%;
 	border-collapse: collapse;
-	table-layout:auto;
 }	
 .desc_services {
 	clear:both;
@@ -304,10 +313,11 @@ input.space-button {
 	background:#53c1dd;	
 }
 .picto {
-	max-width:20px !important;
-	width:20px !important;
-	min-width:20px !important;
-	overflow:auto;
+	max-width:43px !important;
+	width:43px !important;
+	min-width:43px !important;
+	height:100px;
+	overflow:hidden;
 }
 .picto-2 {
 	background:url(../img/services/bricolage.png) center no-repeat;
@@ -353,21 +363,12 @@ input.space-button {
 }
 #spec_propose .greyback .days {
 	display: inline;
-	width:140px;
+	width:16%;
 }
 #spec_propose .greyback .time {
 	display: inline;
-	width:70px;
+	width:10%;
 	height:32px;
-}
-.zipcode {
-	display: inline;
-	width:100px;
-	height:32px;
-}
-.liketext {
-	border:none;
-	background:transparent;	
 }
 #spec_propose .greyback button{
 	margin-top: 6px;
@@ -524,48 +525,6 @@ input.space-button {
 	color:white;
 }
 
-/*ANCIEN CONTACT*/
-
-/*#spec_contact{
-	margin-bottom: 40px;
-}
-
-#spec_contact .header_propose{
-	width:100%;
-	text-align:center;
-	background-color:#53c1dd;
-	text-transform: uppercase;
-	color:white;
-	height:40px;
-	line-height:40px;
-	margin-top:40px;	
-}
-
-#spec_contact .form-group:first-child {
-	margin-top:30px;	
-}
-
-#spec_contact .form-group {
-	padding-left: 48px;
-	padding-right: 48px;
-}
-#spec_contact .greyback input[type=submit] {
-	background-color: white;
-	color:#323232;
-	text-transform: uppercase;
-	padding:8px 14px 8px 14px;
-	float: right;
-	margin-right: 15px;
-	margin-top: 15px;
-	border: 1px solid #ccc;
-  	border-radius: 4px;
- 	 -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-          	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  	-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-}*/
-
 
 @media(max-width: 992px){
 	#spec_cgu .pictocgu{
@@ -613,8 +572,7 @@ input.space-button {
 	.greyback{
 		padding: 8px;
 	}
-	#spec_contact .form-group {
-	padding:0px;
-
-}
+	#contact .header_contact .top{
+		font-size: 28px;
+	}
 
