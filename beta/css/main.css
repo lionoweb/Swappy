@@ -504,14 +504,14 @@ input.space-button {
 #contact .header_contact .row p{
 	text-align: center;
 }
-#contact #formulaire {
+#contact #spec_contact {
 	background-color: #e5e4e4;
 	padding: 70px 0px 70px 0px;
 } 
-#contact #formulaire label{
+#contact #spec_contact label{
 	/*margin-right: 10px;*/
 }
-#contact #formulaire input[type="submit"]{
+#contact #spec_contact input[type="submit"]{
 	float: right;
 	background-color: white;
 	border:none;
@@ -519,7 +519,7 @@ input.space-button {
 	padding: 5px 8px 5px 8px;
 	margin-right: 16px;
 }
-#contact #formulaire input[type="submit"]:hover{
+#contact #spec_contact input[type="submit"]:hover{
 	background-color: #53c1dd;
 	color:white;
 }

@@ -96,7 +96,7 @@
             </div>
         </div>
 
-        <form id="formulaire" action="mail.php" method="get">
+        <form id="spec_contact" action="mail.php" method="post">
             <div class="row">
                 <div class="left col-md-4 col-md-offset-2">
                     <div class="form-group">
