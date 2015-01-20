@@ -453,7 +453,7 @@
 
 							var errorFieldId = value[0];
 							var errorField = $($("#" + errorFieldId)[0]);
-
+												
 							// make sure we found the element
 							if (errorField.length == 1) {
 
@@ -1536,7 +1536,9 @@
 						 var errorFieldId = json[0];
 						 //var errorField = $($("#" + errorFieldId)[0]);
 						 var errorField = $("#"+ errorFieldId).eq(0);
-
+						if(errorField.parents(".col-xs-12").length > 0) {
+			 					errorField = errorField.parents(".col-xs-12");
+			 				}
 						 // make sure we found the element
 						 if (errorField.length == 1) {
 							 var status = json[1];
@@ -1562,9 +1564,9 @@
 								 if (options.showPrompts) methods._showPrompt(errorField, msg, "", true, options);
 							 } else {
 								 options.ajaxValidCache[errorFieldId] = true;
-
 								 // resolves the msg prompt
 								 if(msg && !rule.force_alert) {
+									
 									 if (options.allrules[msg]) {
 										 var txt = options.allrules[msg].alertTextOk;
 										 if (txt) {
@@ -1576,11 +1578,13 @@
 								 msg = rule.alertTextOk;
 
 								 if (options.showPrompts) {
+									 
 									 // see if we should display a green prompt
-									 if (msg)
+									 if (msg) {
 										methods._showPrompt(errorField, msg, "pass", true, options);
-									 else
+									 } else {
 										methods._closePrompt(errorField);
+									 }
 								}
 								
 								 // If a submit form triggered this, we want to re-submit the form
@@ -1644,7 +1648,9 @@
 		* @param {Map} options user options
 		*/
 		 _showPrompt: function(field, promptText, type, ajaxed, options, ajaxform) {
-			 field = field.parents(".col-xs-12");
+			 if(field.parents(".col-xs-12").length > 0) {
+			 	field = field.parents(".col-xs-12");
+			 }
 			 var prompt = methods._getPrompt(field);
 			 // The ajax submit errors are not see has an error in the form,
 			 // When the form errors are returned, the engine see 2 bubbles, but those are ebing closed by the engine at the same time

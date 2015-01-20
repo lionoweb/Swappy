@@ -76,7 +76,8 @@ $(document).ready(function(e) {
 		ajaxFormValidationMethod: 'post',
 		onAjaxFormComplete: add_user_function,
 		onBeforeAjaxFormValidation: load_ajax_d,
-		showOneMessage: true
+		showOneMessage: true,
+		promptPosition : "topLeft"
 	});
 	$("#spec_contact").validationEngine({
 		ajaxFormValidation: true,
@@ -99,7 +100,8 @@ $(document).ready(function(e) {
 		ajaxFormValidationMethod: 'post',
 		onAjaxFormComplete: add_service_function,
 		onBeforeAjaxFormValidation: load_ajax_d,
-		showOneMessage: true
+		showOneMessage: true,
+		promptPosition : "topLeft"
 	});
 	if($('.timepicker').length > 0) {
 		$('.timepicker').datetimepicker({
@@ -182,10 +184,7 @@ function login_user_function(status, form, json, options) {
 	return true;
 }
 function ZipFill(json) {
-		$("input[name='cityname']").val(json[2]);	
-		if(json[1] == true) {
-			$("#spec_propose").validationEngine('closePrompt', $("input[name='cityname']"));
-		}
+	$("input[name='cityname']").val(json[2]);	
 }
 function navbar_padding() {
 	var h = $("nav").height() + parseInt($("nav").css("margin-bottom").replace("px", ""));

@@ -294,7 +294,9 @@
 				}
 				return $arr;
 			}
+			} 
 			function issetLogin($login, $id) {
+				$arr = array (false, false);
 				$select = mysqli_query($this->mysql, "SELECT COUNT(*) AS `total` FROM `users` WHERE `Login` = '".mysqli_escape_string($this->mysql, $login)."'");
 				$data = mysqli_fetch_array($select);
 				if($data['total'] > 0) {
@@ -302,8 +304,7 @@
 				} else {
 					$arr = array($id, true);	
 				}
-			}
-			return $arr;
+				return $arr;
 		}
 		function issetEmail($email, $id) {
 			$select = mysqli_query($this->mysql, "SELECT COUNT(*) AS `total` FROM `users` WHERE `Email` = '".mysqli_escape_string($this->mysql, $email)."'");
@@ -325,4 +326,4 @@
 			}
 			return $arr;
 		}
-	} ?>
+	}  ?>

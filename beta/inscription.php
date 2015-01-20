@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="css/template.css" type="text/css"/>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/ajout_line_22:12.css" type="text/css"/>
     <script src="js/jquery.js"></script>
     <script src="js/jquery-ui.js"></script>
     <script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js"></script>
@@ -92,49 +91,49 @@
 
         	<div class="form-group">
         		<label for="login" class="control-label col-xs-12 col-sm-2 col-md-4">Identifiant*</label>
-                <div class="col-xs-12 col-sm-10 col-md-6">
+                <div class="col-xs-12 col-sm-10 col-md-8">
                     <input required autocomplete="off" class="validate[required,minSize[5],ajax[ajaxLoginCallPHP]] form-control" autofocus data-key="true" type="text" id="login" name="login">
                 </div>
             </div>
 
             <div class="form-group">
         		<label for="password" class="control-label col-xs-12 col-sm-2 col-md-4">Mot de passe*</label>
-                <div class="col-xs-12 col-sm-10 col-md-6">
+                <div class="col-xs-12 col-sm-10 col-md-8">
                     <input required autocomplete="off" class="validate[required,minSize[6]] form-control" id="password" type="password" name="password">
                 </div>
             </div>
 
             <div class="form-group">
             	<label for="password_r" class="control-label col-xs-12 col-sm-2 col-md-4">Retaper mot de passe*</label>
-                <div class="col-xs-12 col-sm-10 col-md-6">
+                <div class="col-xs-12 col-sm-10 col-md-8">
                     <input required autocomplete="off" class="validate[required,minSize[6],equalsPASS[password]] form-control" type="password" id="password_r" name="password_r">
                 </div>
             </div>
 
             <div class="form-group">
             	<label for="email" class="control-label col-xs-12 col-sm-2 col-md-4">Adresse e-mail*</label>
-                <div class="col-xs-12 col-sm-10 col-md-6">
+                <div class="col-xs-12 col-sm-10 col-md-8">
                     <input required autocomplete="off" class="validate[required,custom[email],ajax[ajaxEmailCallPHP]] form-control" data-key="true" id="email" type="text" name="email"> 
                 </div>
             </div>
 
             <div class="form-group">
             	<label for="lastname" class="control-label col-xs-12 col-sm-2 col-md-4">Nom*</label>
-                <div class="col-xs-12 col-sm-10 col-md-6">
+                <div class="col-xs-12 col-sm-10 col-md-8">
                     <input required autocomplete="off" class="validate[required] form-control" type="text" id="lastname" name="lastname">
                 </div>
             </div>
 
             <div class="form-group">
             	<label for="firstname" class="control-label col-xs-12 col-sm-2 col-md-4">Prénom*</label>
-                <div class="col-xs-12 col-sm-10 col-md-6">
+                <div class="col-xs-12 col-sm-10 col-md-8">
                     <input required  autocomplete="off" class="validate[required form-control" type="text" id="firstname" name="firstname">
                 </div>
             </div>
 
             <div class="form-group">
             	<label for="gender" class="control-label col-xs-12 col-sm-2 col-md-4">Sexe*</label>
-                <div class="col-xs-12 col-sm-10 col-md-3">
+                <div class="col-xs-12 col-sm-10 col-md-8">
                     <select required name="gender" class="form-control">
             		  <option value="M">Homme</option>
             		  <option value="F">Femme</option>
@@ -144,29 +143,29 @@
 
             <div class="form-group">
             	<label for="phone" class="control-label col-xs-12 col-sm-2 col-md-4">Numéro de téléphone</label>
-                <div class="col-xs-12 col-sm-10 col-md-4">
+                <div class="col-xs-12 col-sm-10 col-md-8">
                     <input maxlength="10" class="validate[custom[phone],custom[onlyNumberSp],maxSize[10],minSize[10]] form-control" id="phone" autocomplete="off" type="text" name="phone">
                 </div>
             </div>
 
             <div class="form-group">
             	<label for="day" class="control-label col-xs-12 col-sm-2 col-md-4">Date de naissance* :</label>
-                <div class="col-xs-12 col-sm-10 col-md-4">
-                    <select id="day" name="day">
+                <div class="col-xs-12 col-sm-10 col-md-8">
+                    <select id="day" name="day" class="form-control birthday">
         			 <?php for($i=1;$i<32;$i++) { 
         					$o = $i; 
         					if($o < 10) $o = "0".$o;
         					echo '<option value="'.$o.'">'.$o.'</option>'; 
         				} ?>
                     </select> 
-            	<select name="month">
+            	<select name="month" class="form-control birthmonth">
         			<?php for($i=1;$i<13;$i++) { 
         					$o = $i; 
         					if($o < 10) $o = "0".$o; 
         					echo '<option value="'.$o.'">'.$o.'</option>'; 
         				} ?></select> 
-            	<select name="year">
-        			<?php for($i=(date("Y")-17);$i>1940;$i--) { 
+            	<select name="year" class="form-control birthyear">
+        			<?php for($i=(date("Y")-18);$i>1940;$i--) { 
         					echo '<option value="'.$i.'">'.$i.'</option>'; 
         				} ?>
                	</select>
@@ -174,27 +173,27 @@
             </div>
 
             <div class="form-group">
-            	<label for="street" class="control-label col-xs-12 col-sm-2 col-md-4">Adresse</label>
-                <div class="col-xs-12 col-sm-10 col-md-6">
+            	<label for="street" class="control-label col-xs-12 col-sm-2 col-md-4">Adresse :</label>
+                <div class="col-xs-12 col-sm-10 col-md-8">
                     <input autocomplete="off" type="text" id="street" name="street" class="form-control">
                     <input autocomplete="off" type="text" id="street" name="street2" class="form-control">
                 </div>
             </div>
 
             <div class="form-group">
-            	<label for="zipcode" class="control-label col-xs-12 col-sm-2 col-md-4">Code Postal*</label>
-                <div class="col-xs-12 col-sm-10 col-md-6">
-                    <input required class="validate[required,custom[onlyNumberSp],minSize[5],maxSize[5],ajax[ajaxZipCodeCallPHP]] form-control" autocomplete="off" maxlength="5" type="text" id="zipcode" name="zipcode" placeholder="Ex : 94500 (Champigny-Sur-Marne)">
+            	<label for="zipcode" class="control-label col-xs-12 col-sm-2 col-md-4">Code Postal* :</label>
+                <div class="col-xs-12 col-sm-10 col-md-8">
+                    <input required class="zipcode validate[required,custom[onlyNumberSp],minSize[5],maxSize[5],ajax[ajaxZipCodeCallPHP]] form-control" autocomplete="off" maxlength="5" type="text" id="zipcode" name="zipcode" placeholder="Ex : 94500"> <input autocomplete="off" type="text" disabled readonly class="form-control liketext" name="cityname">
                 </div>
             </div>
 
             <div class="form-group">
-                <input id="accept" type="checkbox" name="ok" value="">
-                <label for="accept" class="lu col-md-10">J'ai lu et j'accepte les <a href="cgu.php">conditions générales d'utilisation</a> et les <a href="cgu.php">mentions légales</a> du site Swappy</label>
+                <input id="accept" class="validate[required]" type="checkbox" name="ok">
+                <label for="accept" class="lu">J'ai lu et j'accepte les <a target="_blank" href="cgu.php">conditions générales d'utilisation</a> et les <a target="_blank" href="mentions-legales.php">mentions légales</a> du site Swappy</label>
             </div>
 
             <div class="form-group">
-                <input type="submit" value="S'enregistrer">
+                <input type="submit" class="form-control" value="S'enregistrer">
             </div>
         </div>
         <!-- END GREYBACK -->
