@@ -53,6 +53,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <?php if(!$user->logged) {?>
                         <li class="active"><a href="inscription.php">Inscription  <span class="sr-only">(current)</span></a></li>
+                        <?php } ?>
                     <li class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Connexion <span class="caret"></span></a>
                         <div class="dropdown-menu login-menu">

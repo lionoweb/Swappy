@@ -289,6 +289,7 @@ input.space-button {
 .fulltable {
 	width:100%;
 	border-collapse: collapse;
+	table-layout:auto;
 }	
 .desc_services {
 	clear:both;
@@ -313,11 +314,10 @@ input.space-button {
 	background:#53c1dd;	
 }
 .picto {
-	max-width:43px !important;
-	width:43px !important;
-	min-width:43px !important;
-	height:100px;
-	overflow:hidden;
+	max-width:20px !important;
+	width:20px !important;
+	min-width:20px !important;
+	overflow:auto;
 }
 .picto-2 {
 	background:url(../img/services/bricolage.png) center no-repeat;
@@ -363,12 +363,20 @@ input.space-button {
 }
 #spec_propose .greyback .days {
 	display: inline;
-	width:16%;
+	width:140px;
 }
 #spec_propose .greyback .time {
 	display: inline;
-	width:10%;
+	width:70px;
 	height:32px;
+}
+#spec_propose .greyback .zipcode {
+	display: inline;
+	width:100px;	
+}
+#spec_propose .greyback .liketext {
+	border:none;
+	background:transparent;	
 }
 #spec_propose .greyback button{
 	margin-top: 6px;
@@ -572,7 +580,12 @@ input.space-button {
 	.greyback{
 		padding: 8px;
 	}
+	#spec_contact .form-group {
+	padding:0px;
+
+	}
 	#contact .header_contact .top{
 		font-size: 28px;
 	}
+}
 
