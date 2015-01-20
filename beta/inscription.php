@@ -188,7 +188,7 @@
             </div>
 
             <div class="form-group">
-                <input id="accept" class="validate[required]" type="checkbox" name="ok">
+                <input id="accept" class="validate[required]" type="checkbox" name="accept">
                 <label for="accept" class="lu">J'ai lu et j'accepte les <a target="_blank" href="cgu.php">conditions générales d'utilisation</a> et les <a target="_blank" href="mentions-legales.php">mentions légales</a> du site Swappy</label>
             </div>
 
