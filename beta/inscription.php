@@ -189,7 +189,7 @@
 
             <div class="form-group">
                 <input id="accept" type="checkbox" name="ok" value="">
-                <label for="accept" class="lu col-md-10">J'ai lu et j'accepte les <a href="#">conditions générales d'utilisation</a> et les <a href="cgu.php">mentions légales</a> du site Swappy</label>
+                <label for="accept" class="lu col-md-10">J'ai lu et j'accepte les <a href="cgu.php">conditions générales d'utilisation</a> et les <a href="cgu.php">mentions légales</a> du site Swappy</label>
             </div>
 
             <div class="form-group">
