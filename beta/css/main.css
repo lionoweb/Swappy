@@ -293,6 +293,9 @@ input.space-button {
 	padding-right:15px;
 	overflow: hidden;
     white-space: nowrap;
+	height:90px;
+	min-height:90px;
+	position:relative;
 }
 .desc_services h1 {
 	font-size:1.3em;
@@ -302,6 +305,9 @@ input.space-button {
 	padding-left:20px;
 	float:right;
 	background:url(../img/location.png) left no-repeat;
+	position:absolute;
+	right:10px;
+	bottom:10px;
 }
 .bloc_services:nth-child(odd) {
 	background:#74cce2;	
@@ -310,10 +316,12 @@ input.space-button {
 	background:#53c1dd;	
 }
 .picto {
-	max-width:20px !important;
-	width:20px !important;
-	min-width:20px !important;
+	max-width:43px !important;
+	width:43px !important;
+	min-width:43px !important;
 	overflow:auto;
+	min-height:43px;
+	height:43px;
 }
 .picto-2 {
 	background:url(../img/services/bricolage.png) center no-repeat;

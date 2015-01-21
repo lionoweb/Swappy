@@ -1,3 +1,11 @@
+<?php
+session_start();
+require_once("inc/user.php");
+require_once("inc/mysql.php");
+$user = new user($mysql);
+if(isset($_GET['logout'])) {
+	$user->logout();
+}	?>
 <!doctype html>
 <html>
 <head>
@@ -50,32 +58,7 @@
             		<li><a href="apropos.php">A propos</a></li>
             	</ul>
              	<ul class="nav navbar-nav navbar-right">
-               <?php if(!$user->logged) {?>
-                	<li><a href="inscription.php">Inscription</a></li>
-                <?php } ?>
-                    <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Connexion <span class="caret"></span></a>
-                        <div class="dropdown-menu login-menu">
-                            <div id="login_section">
-                                <form action="inc/login.php" method="post" id="login_form">
-                                    <input id="login_form" name="login_form" class="validate[required,minSize[5]]" placeholder="Identifiant" type="text" size="30">
-                                    <input type="password" id="password_form" name="password_form" placeholder="Mot de passe" class="validate[required,minSize[6]]" size="30">
-                                    <label class="string optional" for="user_remember_me">
-                                        <input id="remember_me" type="checkbox" name="remember_me" checked> Se souvenir de moi
-                                    </label>
-                                    <input class="btn btn-primary" type="submit" name="commit" value="Se connecter">
-                                    <div class="remind"><a class="remind_link">Mot de passe perdu ?</a></div>
-                                </form>     
-                            </div>
-                            <div id="remind_section">
-                                <form action="[YOUR ACTION]" method="post" accept-charset="UTF-8">
-                                    <input id="user_username" placeholder="Email" type="text" name="remind[email]" size="30">
-                                    <input class="btn btn-primary" type="submit" name="commit" value="Recuperer">
-                                    <div class="remind"><a class="remind_link">Je m'en souviens !</a></div>
-                                </form>
-                            </div>
-                        </div>
-                                            </li>
+               <?php echo $user->navbar(); ?>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -102,21 +85,21 @@
                     <div class="form-group">
                         <label for="prenom" class="control-label col-xs-12 col-sm-2">Prénom</label><br>
                         <div class="col-xs-12 col-sm-10 col-md-12">
-                            <input id="prenom" name="name" type="text" class="form-control" required>
+                            <input id="prenom" name="name" value="<?php echo $user->firstname; ?>" type="text" class="form-control" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="nom" class="control-label col-xs-12 col-sm-2">Nom</label><br>
                         <div class="col-xs-12 col-sm-10 col-md-12">
-                            <input id="nom" name="lastname" class="form-control" required>
+                            <input id="nom" name="lastname" value="<?php echo $user->lastname; ?>" class="form-control" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="mail" class="control-label col-xs-12 col-sm-2">Email</label><br>
                         <div class="col-xs-12 col-sm-10 col-md-12">
-                            <input id="mail" name="email" class="form-control" required>
+                            <input id="mail" name="email" value="<?php echo $user->email; ?>" class="form-control" required>
                         </div>
                     </div>
                 </div>

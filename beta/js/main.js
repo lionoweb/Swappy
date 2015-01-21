@@ -156,6 +156,7 @@ function load_ajax_d(form, options) {
 function send_mail_contact(status, form, json, options) {
 	if(json[0] == true) {
 		$form_b = $(form);
+		$(window).scrollTop(0);
 		$form_b.html('<center><br><b>Message envoyé</b><br><br></center>');
 		return true;
 	} else{
@@ -164,11 +165,13 @@ function send_mail_contact(status, form, json, options) {
 }
 function add_user_function(status, form, json, options) {
 	$form_b = $(form);
+	$(window).scrollTop(0);
 	$form_b.html('<center><br><b>Vous êtes maintenant enregistrer !</b><br><br></center>');
 	return true;
 }
 function add_service_function(status, form, json, options) {
 	$form_b = $(form);
+	$(window).scrollTop(0);
 	$form_b.html('<center><br><b>Service ajouté !</b><br><br></center>');
 	return true;
 }
