@@ -2,6 +2,9 @@
 var wait;
 var requestajax = null;
 $(document).ready(function(e) {
+	$(window).on("orientationchange", function() {
+		navbar_padding();
+	});
 	$(window).on("resize", function() {
 		navbar_padding();
 	});
@@ -149,7 +152,7 @@ $(document).ready(function(e) {
 function load_ajax_d(form, options) {
 	$form_b = $(form);
 	if($form_b.find("#loader_ajax").length < 1) {
-		$form_b.append('<div id="loader_ajax">Chargement en cours...</div>');
+		$form_b.append('<div id="loader_ajax"><p>Envoie en cours...</p></div>');
 	}
 	return true;
 }
@@ -157,7 +160,7 @@ function send_mail_contact(status, form, json, options) {
 	if(json[0] == true) {
 		$form_b = $(form);
 		$(window).scrollTop(0);
-		$form_b.html('<center><br><b>Message envoyé</b><br><br></center>');
+		$form_b.html('<div id="message_ajax"><p>Message envoyé</p></div>');
 		return true;
 	} else{
 		return false;	
@@ -166,13 +169,13 @@ function send_mail_contact(status, form, json, options) {
 function add_user_function(status, form, json, options) {
 	$form_b = $(form);
 	$(window).scrollTop(0);
-	$form_b.html('<center><br><b>Vous êtes maintenant enregistrer !</b><br><br></center>');
+	$form_b.html('<div id="message_ajax"><p>Vous êtes maintenant enregistrer !</p></div>');
 	return true;
 }
 function add_service_function(status, form, json, options) {
 	$form_b = $(form);
 	$(window).scrollTop(0);
-	$form_b.html('<center><br><b>Service ajouté !</b><br><br></center>');
+	$form_b.html('<div id="message_ajax"><p>Service ajouté !</p></div>');
 	return true;
 }
 function login_user_function(status, form, json, options) {
@@ -192,4 +195,9 @@ function ZipFill(json) {
 function navbar_padding() {
 	var h = $("nav").height() + parseInt($("nav").css("margin-bottom").replace("px", ""));
 	$("body").css("padding-top", h+"px");
+	if($(window).height() > ($(document).height()-$("nav").height()-$("footer").height()-10)) {
+		$("#wrap").css("height", "100%");
+	} else {
+		$("#wrap").removeAttr("style");
+	}
 }

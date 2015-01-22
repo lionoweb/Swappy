@@ -3,20 +3,25 @@ html, body {
 	margin:0;
 	padding:0;	
 	height:100%;
+	overflow:inherit;
 }
 #wrap {
-	min-height: 100%;
-	height: auto !important;
+	min-height: 100%; /* min. height for modern browser */
+    height:auto; /* important rule for modern Browser */
 	/* Negative indent footer by it's height */
-	margin: 0 auto -30px;
+	margin: 0 auto -40px;
 	padding-bottom:40px;
+	position:relative;
 }
+
 #footer {
 	clear:both;
 	background-color: #323232;
 	text-align:center;
 	color: white;
 	padding: 10px 0px 10px 0px;
+	position:relative;
+	z-index:4;
 }
 #footer img {
 	margin-top: -60px;
@@ -35,7 +40,7 @@ html, body {
 }
 form#user_add {
 	display:block; 
-	margin-bottom: 40px;
+	margin-bottom: 10px;
 }
 form#user_add .header_inscription{
 	width:100%;
@@ -234,7 +239,30 @@ select, input {
 	height:100%; 
 	color:#000;
 }
-
+#loader_ajax p, #message_ajax p {
+	width:100%;
+  margin:0 10px; /* espacement horizontal des blocs */
+  display:inline;
+  display:inline-block;
+  vertical-align:middle;
+  text-align:center; /* on rétablit l'alignement du texte */
+}
+#message_ajax {
+	display:block; 
+	position:absolute; 
+	top:0; 
+	left:0; 
+	z-index:999999; 
+	background-color:#21D076; 
+	opacity:0.8; 
+	text-align:center; 
+	box-sizing:border-box; 
+	border:1px solid #09931D;
+	padding:8px; 
+	width:100%; 
+	height:auto !important; 
+	color:#000;	
+}
 	/* ### SERVICES ### */
 
 .left-text {
@@ -509,6 +537,11 @@ input#accept {
 	font-size: 1.25em;
 }
 
+#spec_apropos {
+	width:100% !important;
+	padding:0px;
+}
+
 /* ### CONTACT ### */
 
 #contact .header_contact{
@@ -537,11 +570,17 @@ input#accept {
 	text-align: center;
 }
 #contact #spec_contact {
-	background-color: #e5e4e4;
-	padding: 70px 0px 70px 0px;
+	padding: 70px 0px 0px 0px;
 } 
-#contact #spec_contact label{
-	/*margin-right: 10px;*/
+#contact {
+	width:100%;
+	padding:0px;
+	background-color: #e5e4e4;
+}
+.container.main, .container-fluid.main {
+	padding-bottom:30px !important;
+	min-height:100%;
+	height:100%;
 }
 #contact #spec_contact input[type="submit"]{
 	float: right;
@@ -573,6 +612,7 @@ input#accept {
 	margin-top: 25px;
 	}
 }
+
 
 @media (max-width:767px){
 	.picto {

@@ -27,7 +27,7 @@ if(isset($_GET['logout'])) {
 </head>
 
 <body role="document">
-<!-- <div id="wrap"> -->
+<div id="wrap">
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -64,7 +64,7 @@ if(isset($_GET['logout'])) {
         </div><!-- /.container-fluid -->
     </nav>
 
-    <div id="contact" >
+    <div class="container-fluid main" id="contact" role="main">
         <div class="header_contact">
             <p class="top col-md-6 col-md-offset-3">Besoin de nous contacter ?</p>
             <p class="bot col-md-8 col-md-offset-2">Une équipe professionnelle et réactive : si vous rencontrez un problème nous saurons vous guider.</p>
@@ -127,7 +127,7 @@ if(isset($_GET['logout'])) {
         </form>
     </div>
 
-<!-- </div> -->
+</div>
 
 <footer id="footer">
     <img src="img/footer.png">

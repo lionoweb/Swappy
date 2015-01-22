@@ -64,7 +64,7 @@ if(isset($_GET['logout'])) {
         </div><!-- /.container-fluid -->
     </nav>
 
-
+	<div class="container main" role="main">
     <form id="user_add" class="col-md-6 col-md-offset-3" action="inc/add_user.php" method="post">
 
     <div colspan="2" class="header_inscription">Inscription</div>
@@ -182,6 +182,7 @@ if(isset($_GET['logout'])) {
         <!-- END GREYBACK -->
     </form>
 
+    </div>
     </div>
     <!-- END WRAP -->
 <footer id="footer">

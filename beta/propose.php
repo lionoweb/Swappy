@@ -68,7 +68,7 @@ if(isset($_GET['logout'])) {
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
-
+	<div class="container main" role="main">
     <form autocomplete="off" class="col-md-8 col-md-offset-2 col-sm-12 container" id="spec_propose" action="inc/add_services.php" method="post">
 		<input type="hidden" name="ID" value="<?php echo $user->cryptID; ?>">
         <div colspan="2" class="header_propose">Service proposé</div>
@@ -149,7 +149,7 @@ if(isset($_GET['logout'])) {
         </div>
         <!-- END DIV GREYBLACK -->
     </form>
-</div>
+</div></div>
 <!-- END DIV ID WRAP-->
 <footer id="footer">
     <img src="img/footer.png">

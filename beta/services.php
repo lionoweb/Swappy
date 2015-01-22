@@ -67,7 +67,7 @@ if(isset($_GET['logout'])) {
     		</div><!-- /.navbar-collapse -->
   		</div><!-- /.container-fluid -->
 	</nav>
-	<div class="container" role="main">
+	<div class="container main" role="main">
     <?php
 		//INIT SEARCH FIELD VALUE
 		$title = "";
@@ -171,8 +171,11 @@ if(isset($_GET['logout'])) {
 	</div>
 </div>
 <footer id="footer">
-	<div class="container-fluid">
-    	<a href="mentions-legales.php">Mentions légales</a> | <a href="cgu.php">CGU</a> | <a href="contact.php">Contact</a>
+    <img src="img/footer.png">
+    <div class="container-fluid">
+        <a href="mentions-legales.php">Mentions légales</a> | <a href="cgu.php">CGU</a> | <a href="contact.php" class="active">Contact</a>
+        <hr>
+        <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
     </div>
 </footer>
 </body>

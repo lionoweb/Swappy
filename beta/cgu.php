@@ -64,7 +64,7 @@ if(isset($_GET['logout'])) {
   		</div><!-- /.container-fluid -->
 	</nav>
 
-    <div id="spec_cgu" role="main">
+    <div id="spec_cgu" class="container main" role="main">
 
     <div class="cgutitle"><p>Conditions générales d'utilisation</p></div>
         
@@ -75,7 +75,7 @@ if(isset($_GET['logout'])) {
             </div>
                 <p class="col-md-10 col-md-offset-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget libero mauris. Praesent eget tortor rhoncus, malesuada justo eget, tempus nunc. Nullam non volutpat ligula. Nulla eget lorem ac dolor auctor cursus. Curabitur non nisi dictum, sodales turpis id, tincidunt leo. Ut finibus dolor a faucibus malesuada. Duis eget massa nulla. Integer diam erat, sagittis ac ornare eget, gravida id ex. Suspendisse egestas justo eu porta tempus. Praesent vel pulvinar nisi. Duis tellus massa, viverra vitae luctus sit amet, vulputate ac tellus. Suspendisse potenti.</p>
             </div>
-        </div>
+        
 
     <div class="cgutitle"><p>Mentions légales</p></div>
         <div class="col-md-10 col-md-offset-1">
@@ -90,10 +90,13 @@ Nam non blandit quam. Donec aliquet nisl et nisi consequat, fringilla condimentu
 
 
 </div>
-
+</div>
 <footer id="footer">
+    <img src="img/footer.png">
     <div class="container-fluid">
-        <a href="mentions-legales.php">Mentions légales <span class="sr-only">(current)</span></a> | <a href="cgu.php">CGU</a> | <a href="contact.php">Contact</a>
+        <a href="mentions-legales.php">Mentions légales</a> | <a href="cgu.php">CGU</a> | <a href="contact.php" class="active">Contact</a>
+        <hr>
+        <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
     </div>
 </footer>
 </body>

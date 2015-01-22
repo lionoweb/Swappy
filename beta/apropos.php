@@ -64,7 +64,7 @@ if(isset($_GET['logout'])) {
   		</div><!-- /.container-fluid -->
 	</nav>
 
-    <div id="spec_apropos" role="main">
+    <div id="spec_apropos" class="container-fluid main" role="main">
 
     <div class="teamtitle"><p>L'équipe</p></div>
 
@@ -117,8 +117,11 @@ if(isset($_GET['logout'])) {
 </div>
 
 <footer id="footer">
+    <img src="img/footer.png">
     <div class="container-fluid">
-        <a href="mentions-legales.php">Mentions légales</a> | <a href="cgu.php">CGU</a> | <a href="contact.php">Contact</a>
+        <a href="mentions-legales.php">Mentions légales</a> | <a href="cgu.php">CGU</a> | <a href="contact.php" class="active">Contact</a>
+        <hr>
+        <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
     </div>
 </footer>
 </body>
