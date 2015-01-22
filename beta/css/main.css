@@ -9,8 +9,8 @@ html, body {
 	min-height: 100%; /* min. height for modern browser */
     height:auto; /* important rule for modern Browser */
 	/* Negative indent footer by it's height */
-	margin: 0 auto -40px;
-	padding-bottom:40px;
+	margin: 0 auto -131px;
+	padding-bottom:131px;
 	position:relative;
 }
 
@@ -229,7 +229,7 @@ select, input {
 	position:absolute; 
 	top:0; 
 	left:0; 
-	z-index:999999; 
+	z-index:1000; 
 	background-color:#FFF; 
 	opacity:0.8; 
 	text-align:center; 
@@ -246,13 +246,19 @@ select, input {
   display:inline-block;
   vertical-align:middle;
   text-align:center; /* on rétablit l'alignement du texte */
+  position:absolute;
+  height:50px;
+  font-size:20px;
+  margin-top:-25px;
+  left:0px;
+  top:50%;
 }
 #message_ajax {
 	display:block; 
 	position:absolute; 
 	top:0; 
 	left:0; 
-	z-index:999999; 
+	z-index:1000; 
 	background-color:#21D076; 
 	opacity:0.8; 
 	text-align:center; 

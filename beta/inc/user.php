@@ -139,17 +139,17 @@
 		}
 		function onlyUsers() {
 			if(!$this->logged) {
-				header("Location: services.php");	
+				header("Location: services.php?unlogged");	
 			}
 		}
 		function onlyVisitors() {
 			if($this->logged) {
-				header("Location: services.php");	
+				header("Location: services.php?needlogged");	
 			}
 		}
 		function onlyAdmin() {
 			if($this->admin == 0) {
-				header("Location: services.php");	
+				header("Location: services.php?noadmin");	
 			}
 		}
 		function crypt_sess($ID) {

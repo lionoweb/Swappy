@@ -4,11 +4,11 @@ require_once("inc/user.php");
 require_once("inc/mysql.php");
 require("inc/services.php");
 $user = new user($mysql);
-$user->onlyUsers();
 $services = new services($mysql);
 if(isset($_GET['logout'])) {
 	$user->logout();
-}	?>
+}
+$user->onlyUsers();	?>
 <!doctype html>
 <html>
 <head>
