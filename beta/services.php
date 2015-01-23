@@ -90,6 +90,7 @@ if(isset($_GET['logout'])) {
 			$_GET['where'] = $where_s;
 		}
 	?>
+
 		<form class="col-md-6 col-md-offset-3 form-horizontal" id="spec_search" action="services.php" method="get">
     		<div class="form-group">
         		<label for="searchbar_" class="control-label col-xs-12 col-sm-2 left-text grey_text">Rechercher</label>

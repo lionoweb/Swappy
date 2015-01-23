@@ -12,6 +12,8 @@ html, body {
 	margin: 0 auto -131px;
 	padding-bottom:131px;
 	position:relative;
+	/*margin: 0 auto -30px;
+	padding-bottom:40px;*/
 }
 
 #footer {
@@ -283,10 +285,10 @@ select, input {
 	color:#797878;
 	height:40px;
 	line-height:40px;
-	margin-top:40px;	
+	margin-top:40px;
 }
 #spec_search {
-	margin-bottom:45px;	
+	margin-bottom:45px;
 }
 #spec_search label {
 	padding-right:10px;
@@ -477,31 +479,50 @@ input#accept {
 
 	/* ### A PROPOS ### */
 
-.teamtitle{
-	width:470px;
-	height:40px;
+#spec_apropos .teamtitle{
+	width:100%;
+	height:70px;
 	background-color: #54c1de;
-	margin-top:38px;
-	margin-bottom: 38px;
+	margin-top: -20px;
 }
-.teamtitle p {
+#spec_apropos .down{
+	margin-top: -4px;
+}
+#spec_apropos .pictodown{
+	text-align: center;
+}
+#spec_apropos .teamtitle p {
 	color:white;
-	height:40px;
-	line-height: 40px;
+	line-height: 70px;
 	text-transform: uppercase;
-	margin-left: 46%;
+	text-align: center;
 	font-size: 1.5em;
 }
-.projet p{
-	text-align: justify;
+#spec_apropos #spec_team{
+	background-color: #323232;
+	margin-top: -20px;
+	padding-top: 60px;
+	padding-bottom: 40px;
 }
-.row{
+#spec_apropos #spec_team .row{
 	box-sizing:border-box;
 	width:100%;
 	margin: 0;
 	padding: 0;
-	margin-bottom: 24px;
+	z-index: -9000;
+	padding: 40px 0px 14px 0px;
 }
+#spec_apropos #spec_team img{
+	margin-bottom: 46px;
+}
+#spec_apropos .projet{
+	margin-top: -20px;
+	padding: 40px 0px 40px 0px;
+}
+#spec_apropos .projet p{
+	text-align: justify;
+}
+
 
 	/* ### CGU/Mentions légales ### */
 #spec_cgu p{
@@ -514,19 +535,15 @@ input#accept {
 	height: 34px;
 	margin-bottom: 2%;
 }
-
-#spec_cgu .pictocgu {
-	float: left;
-	position: relative;
-	left:6%;
-}
-
 #spec_cgu .cgutitle p {
 	color:white;
 	line-height: 34px;
 	text-transform: uppercase;
 	margin-left: 6%;
 	font-size: 1.25em;
+}
+#spec_cgu .box img{
+	margin-top: 39px;
 }
 
 #spec_cgu .mentiontitle{
@@ -557,7 +574,6 @@ input#accept {
 	padding:50px 0px 50px 0px;
 }
 #contact .header_contact .top{
-	/*text-transform: uppercase;*/
 	text-align: center;
 	font-size: 38px;
 
@@ -612,10 +628,10 @@ input#accept {
 		left:6%;
 	}
 	#contact .header_contact img{
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 25px;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 25px;
 	}
 }
 
@@ -649,6 +665,17 @@ input#accept {
 	.greyback{
 		padding: 8px;
 	}
+	#spec_apropos #spec_team img{
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	/*#spec_apropos .row{
+		box-sizing:border-box;
+		width:100%;
+		margin: 0;
+		padding: 0;
+	}*/
 	#spec_contact .form-group {
 		padding:0px;
 	}

@@ -67,46 +67,45 @@ if(isset($_GET['logout'])) {
     <div id="spec_apropos" class="container-fluid main" role="main">
 
     <div class="teamtitle"><p>L'équipe</p></div>
-
+        <div class="pictodown"><img src="img/apropos/down.png" alt="" class="down"></div>
         <div id="spec_team" class="team">
+
             <div class="row">
-                <div class="col-md-3 col-md-offset-2">
-                <a href="#"><img src="img/apropos/brice.png" width="225" height="225"></a>
+                <div class="col-md-3 col-md-offset-2 col-sm-3 col-sm-offset-0">
+                <a href="#"><img src="img/apropos/lionel-300.png" width="225" height="225"></a>
                 </div>
 
-                <div class="col-md-3">
-                <a href="#"><img src="img/apropos/calypso.png" width="225" height="225"></a>
+                <div class="col-md-3 col-md-offset-0 col-sm-3 col-sm-offset-1">
+                <a href="#"><img src="img/apropos/calypso-300.png" width="225" height="225"></a>
                 </div>
 
-                <div class="col-md-3">
-                <a href="#"><img src="img/apropos/line.png" width="225" height="225"></a>
-                </div>
-            </div>
-
-        <div class="row">
-                <div class="col-md-3 col-md-offset-2">
-                <a href="#"><img src="img/apropos/margot.png" width="225" height="225"></a>
+                <div class="col-md-3 col-md-offset-0 col-sm-3 col-sm-offset-1">
+                <a href="#"><img src="img/apropos/oceane-300.png" width="225" height="225"></a>
                 </div>
 
-                <div class="col-md-3">
-                <a href="#"><img src="img/apropos/oceane.png" width="225" height="225"></a>
+                <div class="col-md-3 col-md-offset-2 col-sm-3 col-sm-offset-0">
+                <a href="#"><img src="img/apropos/line-300.png" width="225" height="225"></a>
                 </div>
 
-                <div class="col-md-3">
-                <a href="#"><img src="img/apropos/lionel.png" width="225" height="225"></a>
+                <div class="col-md-3 col-md-offset-0 col-sm-3 col-sm-offset-1">
+                <a href="#"><img src="img/apropos/margot-300.png" width="225" height="225"></a>
+                </div>
+
+                <div class="col-md-3 col-md-offset-0 col-sm-3 col-sm-offset-1">
+                <a href="#"><img src="img/apropos/brice-300.png" width="225" height="225"></a>
                 </div>
             </div>
         </div>
 
     <div class="teamtitle"><p>Notre projet</p></div>
+    <div class="pictodown"><img src="img/apropos/down.png" alt="" class="down"></div>
+        <div class="row projet greyback">
 
-        <div class="projet greyback col-md-8 col-md-offset-2">
-
-            <div class="col-md-6">
+            <div class="col-md-4 col-md-offset-2 col-xs-10 col-xs-offset-1">
                 <p>Swappy est une plate-forme d’échanges de services entre particuliers à titre gratuit. Nous voulons ainsi promouvoir l’entraide et le sentiment de communauté.Les échanges ne concerne que des services. Cette prestation permet de mettre à disposition les capacités techniques et intellectuelles de chacun. Pour être plus précis, voici un exemple : une personne A pourra proposer son aide pour jardiner à une personne B. En contrepartie, la personne B pourra cuisiner pour la personne A.</p>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4 col-md-offset-0 col-xs-10 col-xs-offset-1">
                 <p>Cependant les échanges pourront également être réalisés dans un sens unique. Nous voulons mettre en avant l’aspect de la générosité et de l’altruisme des personnes. Il y aura plusieurs catégories (filtres) afin que tout le monde puisse trouver le service qui lui convient. Chaque personne inscrite sur la plate-forme pourra de même poster des annonces.Durant l'année de préparation du projet, nous avons pu nous construire un site vitrine, détaillant les membres de l'agence et le projet envisagé. Vous pouvez trouver ce travail sur le site suivant : <a href="https://perso-etudiant.univ-mlv.fr/~ljeronim/2DSide/">2DSide</a></p>
             </div>
 
@@ -119,7 +118,7 @@ if(isset($_GET['logout'])) {
 <footer id="footer">
     <img src="img/footer.png">
     <div class="container-fluid">
-        <a href="mentions-legales.php">Mentions légales</a> | <a href="cgu.php">CGU</a> | <a href="contact.php" class="active">Contact</a>
+        <a href="mentions-legales.php">Mentions légales</a> | <a href="cgu.php">CGU</a> | <a href="contact.php">Contact</a>
         <hr>
         <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
     </div>
