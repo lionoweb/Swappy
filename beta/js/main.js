@@ -190,7 +190,24 @@ function login_user_function(status, form, json, options) {
 	return true;
 }
 function ZipFill(json) {
-	$("input[name='cityname']").val(json[2]);	
+	var $parent;
+	if(isArray(json[2])) {
+		if($("input[name='cityname']").length > 0) {
+			$parent = $("input[name='cityname']").parent();
+			$("input[name='cityname']").remove();
+			$parent.append("<select name='cityname' class='form-control auto_width'></select>");
+		}
+		for(i=0;i<json[2].length;i++) {
+			$("select[name='cityname']").append('<option value="'+json[2][i]+'">'+json[2][i]+'</option>');
+		}
+	} else {
+		if($("select[name='cityname']").length > 0) {
+			$parent = $("select[name='cityname']").parent();
+			$("select[name='cityname']").remove();
+			$parent.append("<input class='liketext' type='text' readonly disabled name='cityname'>");
+		}
+		$("input[name='cityname']").val(json[2]);
+	}
 }
 function navbar_padding() {
 	var h = $("nav").height() + parseInt($("nav").css("margin-bottom").replace("px", ""));
@@ -200,4 +217,7 @@ function navbar_padding() {
 	} else {
 		$("#wrap").removeAttr("style");
 	}
+}
+function isArray(obj) {
+    return (obj.constructor.toString().indexOf("Array") != -1);
 }

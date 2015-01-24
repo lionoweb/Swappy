@@ -67,9 +67,9 @@ class search {
 			if(is_numeric($w)) {
 				$where .= ' OR (`ZipCode` REGEXP "'.$w.'")';
 				$order .= ' + (CASE WHEN `ZipCode` REGEXP "'.$w.'" THEN 1 ELSE 0 END) + (CASE WHEN `ZipCode` REGEXP "^'.$w.'" THEN 1.5 ELSE 0 END) + (CASE WHEN `ZipCode` REGEXP "^'.$w.'$" THEN 1.7 ELSE 0 END)';
-			} else {
+			} else if(strlen($w) > 1) {
 				$where .= ' OR (`Real_Name` REGEXP "'.$w.'")';
-				$order .= ' + (CASE WHEN `Real_Name` REGEXP "'.$w.'" THEN 1 ELSE 0 END) + (CASE WHEN `Real_Name` REGEXP "^'.$w.'" THEN 1.5 ELSE 0 END) + (CASE WHEN `Real_Name` REGEXP "^'.$w.'$" THEN 1.7 ELSE 0 END)';
+				$order .= ' + (CASE WHEN `Real_Name` REGEXP "'.$w.'" THEN 1 ELSE 0 END) + (CASE WHEN `Real_Name` REGEXP "^'.$w.'" THEN 1.5 ELSE 0 END) + (CASE WHEN `Real_Name` REGEXP "^'.$w.'$" THEN 1.5 ELSE 0 END)';
 			}
 		}
 		if(!empty($where)) { $where = substr($where, 4, (strlen($where)-1)); }
@@ -210,12 +210,12 @@ class search {
 			$final = "<tr><td>Aucun résultat trouvé</td></tr>";
 		} else {
 			//MATCH WITHOUT LOCATION/DISTANCE
-			$finalquery = "SELECT `services`.`ID`, `categories`.`Name` AS `CatName`, `services`.`Title` AS `SerName`, `french_city`.`Real_Name` AS `CityName`, `services`.`City`, `services`.`Distance`, `services`.`By`, `services`.`Type`, `type`.`Name` AS `TypName`, `services`.`Description`, `services`.`Image`, `services`.`Disponibility`, COUNT(*) AS `total` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` WHERE ".$where." GROUP BY `services`.`ID` ORDER BY ".$order." `services`.`Created` DESC LIMIT 0, 15";
+			$finalquery = "SELECT `services`.`ID`, `categories`.`Name` AS `CatName`, `services`.`Title` AS `SerName`, `french_city`.`Real_Name` AS `CityName`, `services`.`City`, `services`.`Distance`, `services`.`By`, `services`.`Type`, `type`.`Name` AS `TypName`, `services`.`Description`, `services`.`Image`, `services`.`Disponibility` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` WHERE ".$where." GROUP BY `services`.`ID` ORDER BY ".$order." `services`.`Created` DESC LIMIT 0, 15";
 
 			//MATCH WITH LOCATION/DISTANCE --> ZipCode
 			if($position['lat'] != false && $position['lon'] != false) {
 				//Location Finded
-				$finalquery = "SELECT `services`.`ID`, `categories`.`Name` AS `CatName`, `services`.`Title` AS `SerName`, `french_city`.`Real_Name` AS `CityName`, `services`.`City`, `services`.`Distance`, `services`.`By`, `services`.`Type`, `type`.`Name` AS `TypName`, `services`.`Description`,  `services`.`Lat`, `services`.`Lon` , `services`.`Image`, `services`.`Disponibility`, COUNT(*) AS `total`, 111.045* DEGREES(ACOS(COS(RADIANS(latpoint))
+				$finalquery = "SELECT `services`.`ID`, `categories`.`Name` AS `CatName`, `services`.`Title` AS `SerName`, `french_city`.`Real_Name` AS `CityName`, `services`.`City`, `services`.`Distance`, `services`.`By`, `services`.`Type`, `type`.`Name` AS `TypName`, `services`.`Description`,  `services`.`Lat`, `services`.`Lon` , `services`.`Image`, `services`.`Disponibility`,  111.045* DEGREES(ACOS(COS(RADIANS(latpoint))
 			 * COS(RADIANS(services.Lat))
 			 * COS(RADIANS(longpoint) - RADIANS(services.Lon))
 			 + SIN(RADIANS(latpoint))
@@ -286,7 +286,7 @@ class search {
 		$nocity = false;
 		if(!empty($user->zipcode)) {
 			$final[0] = "Tous les services récents près de : ".$user->city;
-			$select = mysqli_query($this->mysql, "SELECT `services`.`ID`, `categories`.`Name` AS `CatName`, `services`.`Title` AS `SerName`, `french_city`.`Real_Name` AS `CityName`, `services`.`City`, `services`.`Distance`, `services`.`By`, `services`.`Type`, `type`.`Name` AS `TypName`, `services`.`Description`,  `services`.`Lat`, `services`.`Lon` , `services`.`Image`, `services`.`Disponibility`, COUNT(*) AS `total`, 111.045* DEGREES(ACOS(COS(RADIANS(latpoint))
+			$select = mysqli_query($this->mysql, "SELECT `services`.`ID`, `categories`.`Name` AS `CatName`, `services`.`Title` AS `SerName`, `french_city`.`Real_Name` AS `CityName`, `services`.`City`, `services`.`Distance`, `services`.`By`, `services`.`Type`, `type`.`Name` AS `TypName`, `services`.`Description`,  `services`.`Lat`, `services`.`Lon` , `services`.`Image`, `services`.`Disponibility`, 111.045* DEGREES(ACOS(COS(RADIANS(latpoint))
 			 * COS(RADIANS(services.Lat))
 			 * COS(RADIANS(longpoint) - RADIANS(services.Lon))
 			 + SIN(RADIANS(latpoint))
@@ -320,7 +320,7 @@ class search {
 				$final[0] = "Tous les services récents en France";
 			}
 			if($nocity == true) {
-				$select = mysqli_query($this->mysql, "SELECT `services`.`ID`, `categories`.`Name` AS `CatName`, `services`.`Title` AS `SerName`, `french_city`.`Real_Name` AS `CityName`, `services`.`City`, `services`.`Distance`, `services`.`By`, `services`.`Type`, `type`.`Name` AS `TypName`, `services`.`Description`,  `services`.`Lat`, `services`.`Lon` , `services`.`Image`, `services`.`Disponibility`, COUNT(*) AS `total` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` GROUP BY `ID` ORDER BY `services`.`Created` DESC LIMIT 0, 15");
+				$select = mysqli_query($this->mysql, "SELECT `services`.`ID`, `categories`.`Name` AS `CatName`, `services`.`Title` AS `SerName`, `french_city`.`Real_Name` AS `CityName`, `services`.`City`, `services`.`Distance`, `services`.`By`, `services`.`Type`, `type`.`Name` AS `TypName`, `services`.`Description`,  `services`.`Lat`, `services`.`Lon` , `services`.`Image`, `services`.`Disponibility` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` GROUP BY `ID` ORDER BY `services`.`Created` DESC LIMIT 0, 15");
 				$i = 0;
 				while($data = mysqli_fetch_array($select)) {
 					if(!empty($data['ID'])) {

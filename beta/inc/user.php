@@ -15,16 +15,20 @@
 		}
 		function getCity($zip) {
 			$result = "";
-			$select = mysqli_query($this->mysql, "SELECT `Real_Name` FROM `french_city` WHERE `ZipCode` = '".$zip."'");	
+			$select = mysqli_query($this->mysql, "SELECT `Real_Name` FROM `french_city` WHERE `ZipCode` = '".$zip."' LIMIT 0, 1");	
 			$data = mysqli_fetch_array($select);
-			if(isset($data['Real_Name'])) {
+			if(isset($data['Real_Name']) && !empty($data['Real_Name'])) {
 				$result = $data['Real_Name'];
 			}
 			return $result;
 		}
-		function getPositionDB($zip) {
+		function getPositionDB($zip, $name="") {
+			$name_s = "";
+			if(!empty($name)) {
+				$name_s = " AND `Real_Name` = '".$name."'";	
+			}
 			$result = array("lat" => false, "lon" => false);
-			$select = mysqli_query($this->mysql, "SELECT `Lon`, `Lat` FROM `french_city` WHERE `ZipCode` = '".$zip."'");	
+			$select = mysqli_query($this->mysql, "SELECT `Lon`, `Lat` FROM `french_city` WHERE `ZipCode` = '".$zip."'".$name_s." LIMIT 0, 1");	
 			$data = mysqli_fetch_array($select);
 			if(isset($data['Lon'])) {
 				$result['lat'] = $data['Lat'];
@@ -50,10 +54,11 @@
 				$where .= '';
 				if(!empty($where)) { $where = substr($where, 4, (strlen($where)-1)); }
 				if(!empty($order)) { $order = substr($order, 3, (strlen($order))); }
-				$query = "SELECT `Real_Name`, COUNT(*) AS `total`, `Name`, `ID`, `Lat`, `Lon`, `ZipCode` FROM `french_city` WHERE ".$where." GROUP BY `ID` ORDER BY ".$order." DESC, `ZipCode` ASC LIMIT 0, 1";
+				$query = "SELECT `Real_Name`, `Name`, `ID`, `Lat`, `Lon`, `ZipCode` FROM `french_city` WHERE ".$where." GROUP BY `ID` ORDER BY ".$order." DESC, `ZipCode` ASC LIMIT 0, 1";
 				$select = mysqli_query($this->mysql, $query);
 				$data = mysqli_fetch_array($select);
-				if($data['total'] > 0) {
+				$total = mysqli_num_rows($select);
+				if($total > 0) {
 					similar_text(strtoupper($this->wd_remove_accents(preg_replace("/\|/", "-", $city))), strtoupper($this->wd_remove_accents($data['Name'])), $percent);	
 					$length = strlen($data['Name']);
 					//MATCH VERIFICATION + WITH NUMBERS LETTERS
@@ -97,15 +102,15 @@
 						}
 					} else {
 						//Si le resultat ne signale pas avoir trouver une rue, on va utiliser la BDD
-						$coords = $this->getPositionDB($zip);
+						$coords = $this->getPositionDB($zip, $city);
 					}
 				} else {
 					// Si GOOGLE n'a rien trouvé, on va utiliser la BDD
-					$coords = $this->getPositionDB($zip);
+					$coords = $this->getPositionDB($zip, $city);
 				}
 			} else {
 				//Si on a pas une adresse complete on va utiliser la BDD
-				$coords = $this->getPositionDB($zip);
+				$coords = $this->getPositionDB($zip, $city);
 			}
 			//On renvoie
 			return $coords;
@@ -197,9 +202,10 @@
 		}
 		function flogin($POST) {
 			$arr = array();
-			$select = mysqli_query($this->mysql, "SELECT `ID`,`Password`, COUNT(*) AS `total` FROM `users` WHERE `Login` = '".mysqli_escape_string($this->mysql, $POST['login_form'])."'");
+			$select = mysqli_query($this->mysql, "SELECT `ID`,`Password` FROM `users` WHERE `Login` = '".mysqli_escape_string($this->mysql, $POST['login_form'])."'");
 			$data = mysqli_fetch_array($select);
-			if($data['total'] > 0) {
+			$total = mysqli_num_rows($select);
+			if($total > 0) {
 				if($data['Password'] != md5($POST['password_form'])) {
 					$arr = array(false, "Mauvais mot de passe");
 				} else {
@@ -317,11 +323,17 @@
 			return $arr;
 		}
 		function issetZipCode($zipcode, $id) {
-			$select = mysqli_query($this->mysql, "SELECT `Real_Name`, COUNT(*) AS `match` FROM `french_city` WHERE `ZipCode` = '".mysqli_escape_string($this->mysql, $zipcode)."'");
-			$data = mysqli_fetch_array($select);
-			if($data['match'] > 0) {
-				$arr = array($id, true, $data['Real_Name']);
-			} else {
+			$arr = array($id, true, array());
+			$select = mysqli_query($this->mysql, "SELECT `ID`,`Real_Name` FROM `french_city` WHERE `ZipCode` = '".mysqli_escape_string($this->mysql, $zipcode)."'");
+			$total = mysqli_num_rows($select);
+			while($data = mysqli_fetch_array($select)) {
+				if($total == 1) {
+					$arr = array($id, true, $data['Real_Name']);
+				} else if($total > 1) {
+					array_push($arr[2], $data['Real_Name']);
+				}
+			}
+			if($total == 0) {
 				$arr = array($id, false, "Ville inconnu");
 			}
 			return $arr;

@@ -523,7 +523,10 @@ input#accept {
 	text-align: justify;
 }
 
-
+.auto_width {
+	width:auto !important;
+	display:inline;
+}
 	/* ### CGU/Mentions légales ### */
 #spec_cgu p{
 	margin-top: 20px;
