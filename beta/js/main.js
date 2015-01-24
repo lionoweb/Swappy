@@ -168,7 +168,7 @@ function send_mail_contact(status, form, json, options) {
 }
 function add_user_function(status, form, json, options) {
 	$form_b = $(form);
-	$form_b.html('<div id="message_ajax"><p>Vous êtes maintenant enregistrer !</p></div>');
+	$form_b.html('<div id="message_ajax"><p>Vous êtes maintenant inscrit !<br><br><i>Vous allez recevoir d\'ici quelques instant un mail de confirmation pour activer votre compte.</i></p></div>');
 	$(document).scrollTop(0);
 	return true;
 }
@@ -204,7 +204,7 @@ function ZipFill(json) {
 		if($("select[name='cityname']").length > 0) {
 			$parent = $("select[name='cityname']").parent();
 			$("select[name='cityname']").remove();
-			$parent.append("<input class='liketext' type='text' readonly disabled name='cityname'>");
+			$parent.append("<input class='liketext' type='text' readonly name='cityname'>");
 		}
 		$("input[name='cityname']").val(json[2]);
 	}

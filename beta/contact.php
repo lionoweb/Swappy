@@ -79,7 +79,7 @@ if(isset($_GET['logout'])) {
             </div>
         </div>
 
-        <form id="spec_contact" action="mail.php" method="post">
+        <form id="spec_contact" action="inc/send_mail.php" method="post">
             <div class="row">
                 <div class="left col-md-4 col-md-offset-2">
                     <div class="form-group">

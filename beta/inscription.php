@@ -65,13 +65,23 @@ if(isset($_GET['logout'])) {
     </nav>
 
 	<div class="container main" role="main">
-    <form id="user_add" class="col-md-6 col-md-offset-3" action="inc/add_user.php" method="post">
+ 
 
-    <div colspan="2" class="header_inscription">Inscription</div>
-
-
+    
+		<?php if(isset($_GET['validation'])) { ?>
+        <div id="user_add" class="col-md-6 col-md-offset-3">
+            <div colspan="2" class="header_inscription">Validation d'inscription</div>
+    
+            <div class="greyback">
+            
+            </div>
+        </div></div>
+        <?php } else { ?>
+         <form id="user_add" class="col-md-6 col-md-offset-3" action="inc/add_user.php" method="post">
+        <div colspan="2" class="header_inscription">Inscription</div>
+        
         <div class="greyback">
-
+        
         	<div class="form-group">
         		<label for="login" class="control-label col-xs-12 col-sm-2 col-md-4">Identifiant*</label>
                 <div class="col-xs-12 col-sm-10 col-md-8">
@@ -166,7 +176,7 @@ if(isset($_GET['logout'])) {
             <div class="form-group">
             	<label for="zipcode" class="control-label col-xs-12 col-sm-2 col-md-4">Code Postal* :</label>
                 <div class="col-xs-12 col-sm-10 col-md-8">
-                    <input required class="zipcode validate[required,custom[onlyNumberSp],minSize[5],maxSize[5],ajax[ajaxZipCodeCallPHP]] form-control" autocomplete="off" maxlength="5" type="text" id="zipcode" name="zipcode" placeholder="Ex : 94500"> <input autocomplete="off" type="text" disabled readonly class="form-control liketext" name="cityname">
+                    <input required class="zipcode validate[required,custom[onlyNumberSp],minSize[5],maxSize[5],ajax[ajaxZipCodeCallPHP]] form-control" autocomplete="off" maxlength="5" type="text" id="zipcode" name="zipcode" placeholder="Ex : 94500"> <input autocomplete="off" type="text" readonly class="form-control liketext" name="cityname">
                 </div>
             </div>
 
@@ -178,9 +188,13 @@ if(isset($_GET['logout'])) {
             <div class="form-group">
                 <input type="submit" class="form-control" value="S'enregistrer">
             </div>
-        </div>
+            
+            </div>
+            </form>
+            <?php } ?>
+        
         <!-- END GREYBACK -->
-    </form>
+    
 
     </div>
     </div>

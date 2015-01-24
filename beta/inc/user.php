@@ -200,14 +200,20 @@
 			unset($_SESSION['user_swappy']);
 			$this->unload_user_data();
 		}
+		function validate_account($hash) {
+			
+		}
 		function flogin($POST) {
 			$arr = array();
-			$select = mysqli_query($this->mysql, "SELECT `ID`,`Password` FROM `users` WHERE `Login` = '".mysqli_escape_string($this->mysql, $POST['login_form'])."'");
+			$select = mysqli_query($this->mysql, "SELECT `ID`,`Password` FROM `users` WHERE `Login` = '".mysqli_escape_string($this->mysql, strtolower($POST['login_form']))."'");
 			$data = mysqli_fetch_array($select);
 			$total = mysqli_num_rows($select);
 			if($total > 0) {
 				if($data['Password'] != md5($POST['password_form'])) {
 					$arr = array(false, "Mauvais mot de passe");
+				} else if($data['Validation'] == 0)  {
+					//NOT VALIDATED
+					$arr = array(false, "Ce compte n'a pas été validé via votre boite mail.");
 				} else {
 					//CONNECTED
 					if(isset($POST['remember_me'])) {
@@ -272,16 +278,16 @@
 		}
 		function add_user($POST) {
 			//prevenir le bug de Validation engine
-			if(empty($POST['city']) || empty($POST['zipcode'])) {
+			if(empty($POST['cityname']) || empty($POST['zipcode'])) {
 				$arr = array(false);
 			} else {
 				$birthdate = $POST['year']."-".$POST['month']."-".$POST['day'];
 				//Creation de la position Lat/Lon
 				$city = new city($this->mysql);
 				$c = $city->getPosition($POST['street'], $POST['zipcode'], $POST['cityname']);
-				$replace = array(mysqli_escape_string($this->mysql, $POST['login']),
+				$replace = array(mysqli_escape_string($this->mysql, strtolower($POST['login'])),
 					mysqli_escape_string($this->mysql, md5($POST['password'])), 
-					mysqli_escape_string($this->mysql, $POST['email']), 
+					mysqli_escape_string($this->mysql, strtolower($POST['email'])), 
 					mysqli_escape_string($this->mysql, $POST['lastname']), 
 					mysqli_escape_string($this->mysql, $POST['firstname']), 
 					mysqli_escape_string($this->mysql, $POST['gender']),
@@ -296,11 +302,23 @@
 				if(!mysqli_query($this->mysql, vsprintf("INSERT INTO `users` (`ID`, `Login`, `Password`, `Email`, `Created`, `Avatar`, `LastName`, `FirstName`, `Gender`, `Birthdate`, `Street`, `ZipCode`, `City`, `Lat`, `Lon`, `Phone`, `Admin`, `MailOption`, `Validation`) VALUES (NULL, '%s', '%s', '%s', CURRENT_TIMESTAMP, NULL, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '0', '0', '0');", $replace))) {
 					$arr = array(false);
 				} else {
+					//SEND MAIL VALIDATION
+					$mail = new mail();
+					$hash = $this->make_link_validation($POST['email'], $POST['login']);
+					$mail->send_validation(strtolower($POST['email']), strtolower($POST['firstname']), $hash);
 					$arr = array(true);
 				}
 				return $arr;
 			}
 			} 
+			function make_link_validation($email, $login) {
+				$email = strtolower($email);
+				$login = strtolower($login);
+				$c_login = md5($login);
+				$c_email = base64_encode($email);
+				$hash = base64_encode($c_login."-==-".$c_email);
+				return $hash;
+			}
 			function issetLogin($login, $id) {
 				$arr = array (false, false);
 				$select = mysqli_query($this->mysql, "SELECT COUNT(*) AS `total` FROM `users` WHERE `Login` = '".mysqli_escape_string($this->mysql, $login)."'");

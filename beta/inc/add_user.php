@@ -1,6 +1,7 @@
 <?php
 require_once("mysql.php");
 $arr = array();
+require_once("mail.php");
 require_once("user.php");
 $user = new user($mysql);
 if(isset($_POST['login'])) {

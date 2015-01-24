@@ -40,11 +40,11 @@ html, body {
 #footer p{
 	text-transform: uppercase;
 }
-form#user_add {
+#user_add {
 	display:block; 
 	margin-bottom: 10px;
 }
-form#user_add .header_inscription{
+#user_add .header_inscription{
 	width:100%;
 	text-align:center;
 	background-color:#53c1dd;
@@ -243,30 +243,24 @@ select, input {
 }
 #loader_ajax p, #message_ajax p {
 	width:100%;
-  margin:0 10px; /* espacement horizontal des blocs */
+  margin:0px !important; /* espacement horizontal des blocs */
   display:inline;
   display:inline-block;
   vertical-align:middle;
   text-align:center; /* on rétablit l'alignement du texte */
-  position:absolute;
-  height:50px;
-  font-size:20px;
-  margin-top:-25px;
-  left:0px;
-  top:50%;
+  height:auto;
+  font-size:16px;
+
 }
 #message_ajax {
-	display:block; 
-	position:absolute; 
-	top:0; 
-	left:0; 
+	display:block;  
 	z-index:1000; 
 	background-color:#21D076; 
 	opacity:0.8; 
 	text-align:center; 
 	box-sizing:border-box; 
 	border:1px solid #09931D;
-	padding:8px; 
+	padding:10px; 
 	width:100%; 
 	height:auto !important; 
 	color:#000;	
