@@ -39,63 +39,90 @@ class search {
 		return preg_replace("/\(|\)/", "", $input);	
 	}
 	function clause_searchbar($input) {
+		$replace = array();
 		$out = '';
 		$where = '';
 		$order = '';
 		$input = preg_replace("/ |\-|\'/", "{}" , $input);
 		$l = explode("{}", $input);
 		for($i=0;$i<count($l);$i++) {
+			$prpn = ":value".$i;
 			$w = $this->preg_accent($l[$i]);
 			if(strlen($w) > 1) {
-				$w = mysqli_escape_string($this->mysql, $w);
-				$where .= ' OR (UPPER(`type`.`Name`) REGEXP "'.$w.'") OR (UPPER(`categories`.`Name`) REGEXP "'.$w.'")';
-				$order .= ' + (CASE WHEN UPPER(`type`.`Name`) REGEXP "'.$w.'" THEN 1.3 ELSE 0 END) + (CASE WHEN UPPER(`categories`.`Name`) REGEXP "'.$w.'" THEN 1 ELSE 0 END)';
+				$replace[$prpn] = $w;
+				$where .= ' OR (UPPER(`type`.`Name`) REGEXP '.$prpn.') OR (UPPER(`categories`.`Name`) REGEXP '.$prpn.')';
+				$order .= ' + (CASE WHEN UPPER(`type`.`Name`) REGEXP '.$prpn.' THEN 1.3 ELSE 0 END) + (CASE WHEN UPPER(`categories`.`Name`) REGEXP '.$prpn.' THEN 1 ELSE 0 END)';
 			}
 		}
 		if(!empty($where)) { $where = substr($where, 4, (strlen($where)-1)); }
 		if(!empty($order)) { $order = substr($order, 3, (strlen($order))); }
 		$out = 'WHERE '.$where.' GROUP BY `type`.`ID`  ORDER BY '.$order. ' DESC, `type`.`Name` DESC LIMIT 0, 5';
-		return $out;
+		return array($out, $replace);
 	}
 	function clause_searchcity($input) {
+		$replace = array();
 		$out = '';
 		$where = '';
 		$order = '';
 		$input = preg_replace("/ |\-|\'/", "{}" , $input);
 		$l = explode("{}", $input);
 		for($i=0;$i<count($l);$i++) {
+			$prpn = ":value".$i;
 			$w = $this->preg_accent($l[$i]);
 			if(is_numeric($w)) {
-				$w = mysqli_escape_string($this->mysql, $w);
-				$where .= ' OR (`ZipCode` REGEXP "'.$w.'")';
-				$order .= ' + (CASE WHEN `ZipCode` REGEXP "'.$w.'" THEN 1 ELSE 0 END) + (CASE WHEN `ZipCode` REGEXP "^'.$w.'" THEN 1.5 ELSE 0 END) + (CASE WHEN `ZipCode` REGEXP "^'.$w.'$" THEN 1.7 ELSE 0 END)';
+				//NORMAL
+				$replace[$prpn] = $w;
+				//FIRST CASE
+				$replace[$prpn."f"] = "^".$w;
+				//ENTIER
+				$replace[$prpn."l"] = "^".$w."$";
+				$where .= ' OR (`ZipCode` REGEXP '.$prpn.')';
+				$order .= ' + (CASE WHEN `ZipCode` REGEXP '.$prpn.' THEN 1 ELSE 0 END) + (CASE WHEN `ZipCode` REGEXP '.$prpn.'f THEN 1.5 ELSE 0 END) + (CASE WHEN `ZipCode` REGEXP '.$prpn.'l THEN 1.7 ELSE 0 END)';
 			} else if(strlen($w) > 1) {
-				$w = mysqli_escape_string($this->mysql, $w);
-				$where .= ' OR (`Real_Name` REGEXP "'.$w.'")';
-				$order .= ' + (CASE WHEN `Real_Name` REGEXP "'.$w.'" THEN 1 ELSE 0 END) + (CASE WHEN `Real_Name` REGEXP "^'.$w.'" THEN 1.5 ELSE 0 END) + (CASE WHEN `Real_Name` REGEXP "^'.$w.'$" THEN 1.5 ELSE 0 END)';
+				//NORMAL
+				$replace[$prpn] = $w;
+				//FIRST CASE
+				$replace[$prpn."f"] = "^".$w;
+				//ENTIER
+				$replace[$prpn."l"] = "^".$w."$";
+				$where .= ' OR (`Real_Name` REGEXP '.$prpn.')';
+				$order .= ' + (CASE WHEN `Real_Name` REGEXP '.$prpn.' THEN 1 ELSE 0 END) + (CASE WHEN `Real_Name` REGEXP '.$prpn.'f THEN 1.5 ELSE 0 END) + (CASE WHEN `Real_Name` REGEXP '.$prpn.'l THEN 1.5 ELSE 0 END)';
 			}
 		}
 		if(!empty($where)) { $where = substr($where, 4, (strlen($where)-1)); }
 		if(!empty($order)) { $order = substr($order, 3, (strlen($order))); }
 		$out = 'WHERE '.$where.' GROUP BY `ID` ORDER BY '.$order.' DESC LIMIT 0, 5';
-		return $out;
+		return array($out, $replace);
 	}
 	function searchbar($input) {
+		$replace = array();
 		$arr = array();
-		$input = mysqli_escape_string($this->mysql, $this->clean_w(strtoupper(trim($input))));
+		$input = $this->clean_w(strtoupper(trim($input)));
 		$end_clause = $this->clause_searchbar($input);
-		$select = mysqli_query($this->mysql, "SELECT `type`.`Name` AS `Name_t`, `type`.`ID` AS `ID`, `categories`.`Name` AS `CatName` FROM `type` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` ".$end_clause);
-		while($data = mysqli_fetch_array($select)) {
-			$arr[] = array("label" => "Service : ".$data['Name_t']." (".$data['CatName'].")", "val" => $data['ID']);	
+		$select = $this->mysql->prepare("SELECT `type`.`Name` AS `Name_t`, `type`.`ID` AS `ID`, `categories`.`Name` AS `CatName` FROM `type` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` ".$end_clause[0]);
+		$select->execute($end_clause[1]);
+		while($data = $select->fetch(PDO::FETCH_OBJ)) {
+			$arr[] = array("label" => "Service : ".$data->Name_t." (".$data->CatName.")", "val" => $data->ID);	
 		}
-		$selecte = mysqli_query($this->mysql, "SELECT `Login`, `ID` FROM `users` WHERE UPPER(`Login`) LIKE '".$input."%' LIMIT 0, 1");
-		while($datae = mysqli_fetch_array($selecte)) {
-			$arr[] = array("label" => "Utilisateur : ".$datae['Login'], "userID" => $datae['ID']);	
+		$selecte = $this->mysql->prepare("SELECT `Login`, `ID` FROM `users` WHERE UPPER(`Login`) LIKE :input LIMIT 0, 1");
+		$selecte->execute(array(":input" => $input."%"));
+		while($datae = $selecte->fetch(PDO::FETCH_OBJ)) {
+			$arr[] = array("label" => "Utilisateur : ".$datae->Login, "userID" => $datae->ID);	
 		}
 		return $arr;
 	}
 	function search($GET, $user) {
+		$replace = array();
 		$searchbar = $type = $locat = $day = $zip = $input = $where = $order = $final = "";
+		$page = @$GET['p'];
+		if(empty($page)) {
+			$page = 1;	
+		}
+		$query_s = $_SERVER['QUERY_STRING'];
+		$limit = 15;
+		$start = ($page * $limit) - $limit;
+		$end = $start + $limit;
+		$pagination = "";
 		$position = array("lat" => false, "lon" => false);
 		$searchbar = @$GET['searchbar'];
 		$type = @$GET['type'];
@@ -106,43 +133,55 @@ class search {
 		$l = explode("{}", $input);
 		if(!empty($searchbar) && empty($type) && empty($locat) && empty($day) && empty($zip)) {
 			for($i=0;$i<count($l);$i++) {
+				$prpn = ":value".$i;
 				$w = $this->preg_accent($l[$i]);
 				if(strlen($w) > 2) {
-					$w_ = $w;
-					$w = mysqli_escape_string($this->mysql, $w);
+					//NORMAL
+					$replace[$prpn] = $w;
+					//FIRST CASE
+					$replace[$prpn."f"] = "^".$w;
+					//ENTIER
+					$replace[$prpn."l"] = "^".$w."$";
 					//TABLE MIXED : French_city / Categorie / Type / Services
 					//ADDED : Type.Nom // Categorie.Nom // Services.Nom // Services.Description // Ville.Nom
-					$where .= ' OR (UPPER(`type`.`Name`) REGEXP "'.$w.'") OR (UPPER(`categories`.`Name`) REGEXP "'.$w.'") OR (UPPER(`services`.`Title`) REGEXP "'.$w.'") OR (UPPER(`services`.`Description`) REGEXP "'.$w.'") OR (UPPER(`french_city`.`Name`) REGEXP "'.$w.'")';
-					$order .= ' + (CASE WHEN UPPER(`type`.`Name`) REGEXP "'.$w.'" THEN 1.5 ELSE 0 END) + (CASE WHEN UPPER(`categories`.`Name`) REGEXP "'.$w.'" THEN 1 ELSE 0 END) + (CASE WHEN UPPER(`services`.`Title`) REGEXP "'.$w.'" THEN 2 ELSE 0 END) + (CASE WHEN UPPER(`services`.`Description`) REGEXP "'.$w.'" THEN 1.2 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`Name`) REGEXP "'.$w.'" THEN 1.8 ELSE 0 END)';
+					$where .= ' OR (UPPER(`type`.`Name`) REGEXP '.$prpn.') OR (UPPER(`categories`.`Name`) REGEXP '.$prpn.') OR (UPPER(`services`.`Title`) REGEXP '.$prpn.') OR (UPPER(`services`.`Description`) REGEXP '.$prpn.') OR (UPPER(`french_city`.`Name`) REGEXP '.$prpn.')';
+					$order .= ' + (CASE WHEN UPPER(`type`.`Name`) REGEXP '.$prpn.' THEN 1.5 ELSE 0 END) + (CASE WHEN UPPER(`categories`.`Name`) REGEXP '.$prpn.' THEN 1 ELSE 0 END) + (CASE WHEN UPPER(`services`.`Title`) REGEXP '.$prpn.' THEN 2 ELSE 0 END) + (CASE WHEN UPPER(`services`.`Description`) REGEXP '.$prpn.' THEN 1.2 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`Name`) REGEXP '.$prpn.' THEN 1.8 ELSE 0 END)';
 					//EXTRA MATCH (FIRST CASE) : Ville.Nom  // Type.Nom // Categorie.Nom // Services.Nom
-					$order .= ' + (CASE WHEN UPPER(`type`.`Name`) REGEXP "^'.$w.'" THEN 1.1 ELSE 0 END) + (CASE WHEN UPPER(`categories`.`Name`) REGEXP "^'.$w.'" THEN 0.5 ELSE 0 END) + (CASE WHEN UPPER(`services`.`Title`) REGEXP "^'.$w.'" THEN 1.4 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`Name`) REGEXP "^'.$w.'" THEN 1.2 ELSE 0 END)';
+					$order .= ' + (CASE WHEN UPPER(`type`.`Name`) REGEXP '.$prpn.'f THEN 1.1 ELSE 0 END) + (CASE WHEN UPPER(`categories`.`Name`) REGEXP '.$prpn.'f THEN 0.5 ELSE 0 END) + (CASE WHEN UPPER(`services`.`Title`) REGEXP '.$prpn.'f THEN 1.4 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`Name`) REGEXP '.$prpn.'f THEN 1.2 ELSE 0 END)';
 					//EXTRA MATCH (MOT ENTIER) : Ville.Nom  // Type.Nom // Categorie.Nom // Services.Nom
-					$order .= ' + (CASE WHEN UPPER(`type`.`Name`) REGEXP "^'.$w.'$" THEN 1.3 ELSE 0 END) + (CASE WHEN UPPER(`categories`.`Name`) REGEXP "^'.$w.'$" THEN 0.7 ELSE 0 END) + (CASE WHEN UPPER(`services`.`Title`) REGEXP "^'.$w.'$" THEN 1.7 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`Name`) REGEXP "^'.$w.'$" THEN 1.4 ELSE 0 END)';
+					$order .= ' + (CASE WHEN UPPER(`type`.`Name`) REGEXP '.$prpn.'l THEN 1.3 ELSE 0 END) + (CASE WHEN UPPER(`categories`.`Name`) REGEXP '.$prpn.'l THEN 0.7 ELSE 0 END) + (CASE WHEN UPPER(`services`.`Title`) REGEXP '.$prpn.'l THEN 1.7 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`Name`) REGEXP '.$prpn.'l THEN 1.4 ELSE 0 END)';
 					//IF NUMERIC : ADD ZIPCODE SEARCH
-					if(is_numeric($w_)) {
-						$w_ = mysqli_escape_string($this->mysql, $w_);
-						$where .= ' OR (UPPER(`french_city`.`ZipCode`) REGEXP "'.$w_.'")';
-						$order .= ' + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP "'.$w_.'" THEN 1.3 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP "^'.$w_.'" THEN 0.5 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP "^'.$w_.'$" THEN 1.1 ELSE 0 END)';
+					if(is_numeric($w)) {
+						$where .= ' OR (UPPER(`french_city`.`ZipCode`) REGEXP '.$prpn.')';
+						$order .= ' + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP '.$prpn.' THEN 1.3 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP '.$prpn.'f THEN 0.5 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP '.$prpn.'l THEN 1.1 ELSE 0 END)';
 					}
 				}
 			}
 		} else {
 			if(!empty($type)) {
-				$where .= ' AND (`services`.`Type` = "'.$type.'")';	
+				$where .= ' AND (`services`.`Type` = :type0)';	
+				$replace[":type0"] = $type;
 			} else if(!empty($searchbar)) {
 				$where .= ' AND (';
 				for($i=0;$i<count($l);$i++) {
+					$prpn = ":valuea".$i;
 					$w = $this->preg_accent($l[$i]);
 					if(strlen($w) > 2) {
-						$w = mysqli_escape_string($this->mysql, $w);
-						$where .= ' OR (UPPER(`type`.`Name`) REGEXP "'.$w.'") OR (UPPER(`categories`.`Name`) REGEXP "'.$w.'")';
-						$order .= ' + (CASE WHEN UPPER(`type`.`Name`) REGEXP "'.$w.'" THEN 1.5 ELSE 0 END) + (CASE WHEN UPPER(`categories`.`Name`) REGEXP "'.$w.'" THEN 1 ELSE 0 END) + (CASE WHEN UPPER(`type`.`Name`) REGEXP "^'.$w.'" THEN 1.1 ELSE 0 END) + (CASE WHEN UPPER(`categories`.`Name`) REGEXP "^'.$w.'" THEN 0.5 ELSE 0 END) + (CASE WHEN UPPER(`type`.`Name`) REGEXP "^'.$w.'$" THEN 1.2 ELSE 0 END) + (CASE WHEN UPPER(`categories`.`Name`) REGEXP "^'.$w.'$" THEN 0.6 ELSE 0 END)';
+						//NORMAL
+						$replace[$prpn] = $w;
+						//FIRST CASE
+						$replace[$prpn."f"] = "^".$w;
+						//ENTIER
+						$replace[$prpn."l"] = "^".$w."$";
+						$where .= ' OR (UPPER(`type`.`Name`) REGEXP '.$prpn.') OR (UPPER(`categories`.`Name`) REGEXP '.$prpn.')';
+						$order .= ' + (CASE WHEN UPPER(`type`.`Name`) REGEXP '.$prpn.' THEN 1.5 ELSE 0 END) + (CASE WHEN UPPER(`categories`.`Name`) REGEXP '.$prpn.' THEN 1 ELSE 0 END) + (CASE WHEN UPPER(`type`.`Name`) REGEXP '.$prpn.'f THEN 1.1 ELSE 0 END) + (CASE WHEN UPPER(`categories`.`Name`) REGEXP '.$prpn.'f THEN 0.5 ELSE 0 END) + (CASE WHEN UPPER(`type`.`Name`) REGEXP '.$prpn.'l THEN 1.2 ELSE 0 END) + (CASE WHEN UPPER(`categories`.`Name`) REGEXP '.$prpn.'l THEN 0.6 ELSE 0 END)';
 					}
 				}
 				$where .= ' OR 0)';
 			}
 			if(!empty($day)) {
-				$where .= ' AND (`services`.`Disponibility` REGEXP "'.$day.'"';
+				$where .= ' AND (`services`.`Disponibility` REGEXP :day0';
+				$replace[":day0"] = $day;
 				if(preg_match("/lun|mar|mer|jeu|ven/", $day)) {
 					$where .= ' OR `services`.`Disponibility` REGEXP "all"';
 				} else if(preg_match("/sam|dim/", $day)) {
@@ -182,16 +221,26 @@ class search {
 					$input_w = preg_replace("/ |\-|\'/", "{}" , $this->clean_w(strtoupper($locat)));
 					$l_w = explode("{}", $input_w);
 					for($i=0;$i<count($l_w);$i++) {
+						$prpn = ":valuee".$i;
 						$w = $this->preg_accent($l_w[$i]);
 						if(strlen($w) > 2) {
-							$w_ = $w;
-							$w = mysqli_escape_string($this->mysql, $w);
-							$where .= ' OR (UPPER(`french_city`.`Name`) REGEXP "'.$w.'")';
-							$order .= ' + (CASE WHEN UPPER(`french_city`.`Name`) REGEXP "'.$w.'" THEN 1.8 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`Name`) REGEXP "^'.$w.'" THEN 1.2 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`Name`) REGEXP "^'.$w.'$" THEN 1.3 ELSE 0 END)';
-							if(is_numeric($w_)) {
-								$w_ = mysqli_escape_string($this->mysql, $w_);
-								$where .= ' OR (UPPER(`french_city`.`ZipCode`) REGEXP "'.$w_.'")';
-								$order .= ' + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP "'.$w_.'" THEN 1.3 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP "^'.$w_.'" THEN 0.5 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP "^'.$w_.'$" THEN 0.8 ELSE 0 END)';
+							//NORMAL
+							$replace[$prpn] = $w;
+							//FIRST CASE
+							$replace[$prpn."f"] = "^".$w;
+							//ENTIER
+							$replace[$prpn."l"] = "^".$w."$";
+							$where .= ' OR (UPPER(`french_city`.`Name`) REGEXP '.$prpn.')';
+							$order .= ' + (CASE WHEN UPPER(`french_city`.`Name`) REGEXP '.$prpn.' THEN 1.8 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`Name`) REGEXP '.$prpn.'f THEN 1.2 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`Name`) REGEXP '.$prpn.'l THEN 1.3 ELSE 0 END)';
+							if(is_numeric($w)) {
+								//NORMAL
+								$replace[$prpn] = $w;
+								//FIRST CASE
+								$replace[$prpn."f"] = "^".$w;
+								//ENTIER
+								$replace[$prpn."l"] = "^".$w."$";
+								$where .= ' OR (UPPER(`french_city`.`ZipCode`) REGEXP '.$prpn.')';
+								$order .= ' + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP '.$prpn.' THEN 1.3 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP '.$prpn.'f THEN 0.5 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP '.$prpn.'l THEN 0.8 ELSE 0 END)';
 							}
 						}
 					}
@@ -201,11 +250,17 @@ class search {
 			if(!empty($searchbar)) {
 				$where .= ' OR (';
 				for($i=0;$i<count($l);$i++) {
+					$prpn = ":valuei".$i;
 					$w = $this->preg_accent($l[$i]);
 					if(strlen($w) > 2) {
-						$w = mysqli_escape_string($this->mysql, $w);
-						$where .= ' OR (UPPER(`services`.`Title`) REGEXP "'.$w.'") OR (UPPER(`services`.`Description`) REGEXP "'.$w.'")';
-						$order .= ' + (CASE WHEN UPPER(`services`.`Title`) REGEXP "'.$w.'" THEN 2 ELSE 0 END) + (CASE WHEN UPPER(`services`.`Description`) REGEXP "'.$w.'" THEN 1.2 ELSE 0 END) + (CASE WHEN UPPER(`services`.`Title`) REGEXP "^'.$w.'" THEN 1.4 ELSE 0 END) + (CASE WHEN UPPER(`services`.`Title`) REGEXP "^'.$w.'$" THEN 1.6 ELSE 0 END)';
+						//NORMAL
+						$replace[$prpn] = $w;
+						//FIRST CASE
+						$replace[$prpn."f"] = "^".$w;
+						//ENTIER
+						$replace[$prpn."l"] = "^".$w."$";
+						$where .= ' OR (UPPER(`services`.`Title`) REGEXP '.$prpn.') OR (UPPER(`services`.`Description`) REGEXP '.$prpn.')';
+						$order .= ' + (CASE WHEN UPPER(`services`.`Title`) REGEXP '.$prpn.' THEN 2 ELSE 0 END) + (CASE WHEN UPPER(`services`.`Description`) REGEXP '.$prpn.' THEN 1.2 ELSE 0 END) + (CASE WHEN UPPER(`services`.`Title`) REGEXP '.$prpn.'f THEN 1.4 ELSE 0 END) + (CASE WHEN UPPER(`services`.`Title`) REGEXP '.$prpn.'l THEN 1.6 ELSE 0 END)';
 					}
 				}
 			}
@@ -221,34 +276,85 @@ class search {
 			$final = "<tr><td>Aucun résultat trouvé</td></tr>";
 		} else {
 			//MATCH WITHOUT LOCATION/DISTANCE
-			$finalquery = "SELECT `services`.`ID`, `categories`.`Name` AS `CatName`, `services`.`Title` AS `SerName`, `french_city`.`Real_Name` AS `CityName`, `services`.`City`, `services`.`Distance`, `services`.`By`, `services`.`Type`, `type`.`Name` AS `TypName`, `services`.`Description`, `services`.`Image`, `services`.`Disponibility` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` WHERE ".$where." GROUP BY `services`.`ID` ORDER BY ".$order." `services`.`Created` DESC LIMIT 0, 15";
+			$finalquery = "SELECT `services`.`ID`, `categories`.`Name` AS `CatName`, `categories`.`ID` AS `CatID`, `services`.`Title` AS `SerName`, `french_city`.`Real_Name` AS `CityName`, `services`.`City`, `services`.`Distance`, `services`.`By`, `services`.`Type`, `type`.`Name` AS `TypName`, `services`.`Description`, `services`.`Image`, `services`.`Disponibility` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` WHERE ".$where." GROUP BY `services`.`ID` ORDER BY ".$order." `services`.`Created` DESC";
 
 			//MATCH WITH LOCATION/DISTANCE --> ZipCode
 			if($position['lat'] != false && $position['lon'] != false) {
 				//Location Finded
-				$finalquery = "SELECT `services`.`ID`, `categories`.`Name` AS `CatName`, `services`.`Title` AS `SerName`, `french_city`.`Real_Name` AS `CityName`, `services`.`City`, `services`.`Distance`, `services`.`By`, `services`.`Type`, `type`.`Name` AS `TypName`, `services`.`Description`,  `services`.`Lat`, `services`.`Lon` , `services`.`Image`, `services`.`Disponibility`,  111.045* DEGREES(ACOS(COS(RADIANS(latpoint))
+				$finalquery = "SELECT `services`.`ID`, `categories`.`Name` AS `CatName`, `categories`.`ID` AS `CatID`, `services`.`Title` AS `SerName`, `french_city`.`Real_Name` AS `CityName`, `services`.`City`, `services`.`Distance`, `services`.`By`, `services`.`Type`, `type`.`Name` AS `TypName`, `services`.`Description`,  `services`.`Lat`, `services`.`Lon` , `services`.`Image`, `services`.`Disponibility`,  111.045* DEGREES(ACOS(COS(RADIANS(latpoint))
 			 * COS(RADIANS(services.Lat))
 			 * COS(RADIANS(longpoint) - RADIANS(services.Lon))
 			 + SIN(RADIANS(latpoint))
 			 * SIN(RADIANS(services.Lat)))) AS `distance_in_km` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` JOIN (
- SELECT  ".$position['lat']."  AS latpoint,  ".$position['lon']." AS longpoint
-) AS p ON 1=1 WHERE ".$where." GROUP BY `ID` HAVING `distance_in_km` <= ( `services`.`Distance` + 2) ORDER BY distance_in_km ASC ,".$order." `services`.`Created` DESC LIMIT 0, 15";
+ SELECT  :lat0  AS latpoint, :lon0 AS longpoint
+) AS p ON 1=1 WHERE ".$where." GROUP BY `ID` HAVING `distance_in_km` <= (`services`.`Distance` + 1) ORDER BY distance_in_km ASC ,".$order." `services`.`Created` DESC";
+				$replace[":lat0"] = $position['lat'];
+				$replace[":lon0"] = $position['lon'];
 			}
-			$select = mysqli_query($this->mysql, $finalquery);
-			while($data = mysqli_fetch_array($select)) {
-				if(!empty($data['ID'])) {
-					$sername = $data['SerName'];
-					if(empty($sername)) { $sername = $data['TypName']; }
+			$select = $this->mysql->prepare($finalquery);
+			$select->execute($replace);
+			$total = $select->rowCount();
+			$restant = $total - $end;
+			$count_line = 0;
+			$data = $select->fetchAll(PDO::FETCH_CLASS);
+			$ist = $start;
+			while($ist < $end) {
+				if(!empty($data[$ist]->ID)) {
+					$sername = $data[$ist]->SerName;
+					if(empty($sername)) { $sername = $data[$ist]->TypName; }
 					$final .= '	<tr class="bloc_services">
-									<td class="picto picto-'.$data['Type'].'"></td>
+									<td class="picto picto-'.$data[$ist]->CatID.'"></td>
 									<td class="desc_services"><a href="#">
-										<h1>'.$sername.'</h1>
+										<h1>'.ucfirst($sername).'</h1>
 										<p>
-											'.$data['Description'].'
+											'.ucfirst($data[$ist]->Description).'
 										</p>
-										<div class="location">'.$data['CityName'].'</div>
+										<div class="location">'.$data[$ist]->CityName.'</div>
 									</a></td>
 								</tr>';
+					$count_line++;
+				}
+				$ist++;
+			}
+			if($total > $limit) {
+				$prev = $next = $l_next = $l_prev = "";
+				$pages_list = '';
+				$nb_page = $total / $limit;
+				if($nb_page > 1) {
+					$query_sp = preg_replace("/\&$/", "", preg_replace("/p\=(.*?)\&|p\=(.*?)$/", "", $query_s));
+					if($page == 1) {
+						$prev = ' class="disabled"';	
+					} else {
+						$l_prev = ' href="?'.$query_sp.'&p='.($page-1).'"';
+					}
+					if($page >= $nb_page) {
+						$next = ' class="disabled"';	
+					} else {
+						$l_next = ' href="?'.$query_sp.'&p='.($page+1).'"';
+					}
+					for($o=0;$o<$nb_page;$o++) {
+						$pp = $o + 1;
+						if($pp == $page) {
+							$pages_list .= '<li class="active"><a href="?'.$query_sp.'&p='.$pp.'">'.$pp.' <span class="sr-only">(current)</span></a></li>';
+						} else {
+							$pages_list .= '<li><a href="?'.$query_sp.'&p='.$pp.'">'.$pp.'</a></li>';
+						}
+					}
+					$pagination = '<nav id="pagination">
+  <ul class="pagination">
+    <li'.$prev.'>
+      <a'.$l_prev.' aria-label="Precedent">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    '.$pages_list.'
+    <li'.$next.'>
+      <a'.$l_next.' aria-label="Suivant">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>';	
 				}
 			}
 			if(empty($final)) {
@@ -259,7 +365,7 @@ class search {
 				}
 			}
 		}
-		return $final;
+		return array($final, $pagination);
 	}
 	function get_locatZip($zipcode, $user) {
 		$return = array("lat" => false, "lon" => false);
@@ -274,14 +380,12 @@ class search {
 	function get_locatCity($cityn, $user) {
 		$return = array("lat" => false, "lon" => false);
 		$city = new city($this->mysql);
-		$locat = $city->getLocationByName(strtoupper($cityn));
-		echo $locat['name'];
-		if($locat['lon'] != false) {
-			echo "ok";
-			if($locat['zipcode'] == $user->zipcode) {
+		$locat = $city->getLocationByName(preg_replace("/ |\-|\'/", "|" , strtoupper($cityn)));
+		if($locat['Lon'] != false) {
+			if($locat['ZipCode'] == $user->zipcode) {
 				$return = array("lat" => $user->lat, "lon" => $user->lon);	
 			} else {
-				$return = array("lat" => $data['lat'], "lon" => $data['lon']);	
+				$return = array("lat" => $locat['Lat'], "lon" => $locat['Lon']);	
 			}
 		}
 		return $return;
@@ -290,9 +394,10 @@ class search {
 		$arr = array();
 		$input = strtoupper($this->clean_w(trim($input)));
 		$end_clause = $this->clause_searchcity($input);
-		$select = mysqli_query($this->mysql, "SELECT `Real_Name`, `ZipCode`, `Lon`, `Lat` FROM `french_city` ".$end_clause);
-		while($data = mysqli_fetch_array($select)) {
-				$arr[] = array("label" => "".$data['ZipCode']." (".$data['Real_Name'].")", "zipCode" => $data['ZipCode'], "lon" => $data['Lon'], "lat" => $data['Lat']);
+		$select = $this->mysql->prepare("SELECT `Real_Name`, `ZipCode`, `Lon`, `Lat` FROM `french_city` ".$end_clause[0]);
+		$select->execute($end_clause[1]);
+		while($data = $select->fetch(PDO::FETCH_OBJ)) {
+				$arr[] = array("label" => "".$data->ZipCode." (".$data->Real_Name.")", "zipCode" => $data->ZipCode, "lon" => $data->Lon, "lat" => $data->Lat);
 		}
 		return $arr;
 	}
@@ -301,26 +406,27 @@ class search {
 		$nocity = false;
 		if(!empty($user->zipcode)) {
 			$final[0] = "Tous les services récents près de : ".$user->city;
-			$select = mysqli_query($this->mysql, "SELECT `services`.`ID`, `categories`.`Name` AS `CatName`, `services`.`Title` AS `SerName`, `french_city`.`Real_Name` AS `CityName`, `services`.`City`, `services`.`Distance`, `services`.`By`, `services`.`Type`, `type`.`Name` AS `TypName`, `services`.`Description`,  `services`.`Lat`, `services`.`Lon` , `services`.`Image`, `services`.`Disponibility`, 111.045* DEGREES(ACOS(COS(RADIANS(latpoint))
+			$select = $this->mysql->prepare("SELECT `services`.`ID`, `categories`.`Name` AS `CatName`, `categories`.`ID` AS `CatID`, `services`.`Title` AS `SerName`, `french_city`.`Real_Name` AS `CityName`, `services`.`City`, `services`.`Distance`, `services`.`By`, `services`.`Type`, `type`.`Name` AS `TypName`, `services`.`Description`,  `services`.`Lat`, `services`.`Lon` , `services`.`Image`, `services`.`Disponibility`, 111.045* DEGREES(ACOS(COS(RADIANS(latpoint))
 			 * COS(RADIANS(services.Lat))
 			 * COS(RADIANS(longpoint) - RADIANS(services.Lon))
 			 + SIN(RADIANS(latpoint))
 			 * SIN(RADIANS(services.Lat)))) AS `distance_in_km` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` JOIN (
- SELECT  ".$user->lat."  AS latpoint,  ".$user->lon." AS longpoint
-) AS p ON 1=1 GROUP BY `ID` HAVING `distance_in_km` <= (`services`.`Distance` + 2) ORDER BY `services`.`Created` DESC, distance_in_km ASC LIMIT 0, 15");
+ SELECT  :lat  AS latpoint,  :lon AS longpoint
+) AS p ON 1=1 GROUP BY `ID` HAVING `distance_in_km` <= (`services`.`Distance` + 1) ORDER BY `services`.`Created` DESC, distance_in_km ASC LIMIT 0, 15");
+			$select->execute(array(":lat" => $user->lat, ":lon" => $user->lon));
 			$i = 0;
-			while($data = mysqli_fetch_array($select)) {
-				if(!empty($data['ID'])) {
-					$sername = $data['SerName'];
-					if(empty($sername)) { $sername = $data['TypName']; }
+			while($data = $select->fetch(PDO::FETCH_OBJ)) {
+				if(!empty($data->ID)) {
+					$sername = $data->SerName;
+					if(empty($sername)) { $sername = $data->TypName; }
 					$final[1] .= '	<tr class="bloc_services">
-									<td class="picto picto-'.$data['Type'].'"></td>
+									<td class="picto picto-'.$data->CatID.'"></td>
 									<td class="desc_services"><a href="#">
-										<h1>'.$sername.'</h1>
+										<h1>'.ucfirst($sername).'</h1>
 										<p>
-											'.$data['Description'].'
+											'.ucfirst($data->Description).'
 										</p>
-										<div class="location">'.$data['CityName'].'</div>
+										<div class="location">'.$data->CityName.'</div>
 									</a></td>
 								</tr>';
 						$i++;
@@ -335,20 +441,20 @@ class search {
 				$final[0] = "Tous les services récents en France";
 			}
 			if($nocity == true) {
-				$select = mysqli_query($this->mysql, "SELECT `services`.`ID`, `categories`.`Name` AS `CatName`, `services`.`Title` AS `SerName`, `french_city`.`Real_Name` AS `CityName`, `services`.`City`, `services`.`Distance`, `services`.`By`, `services`.`Type`, `type`.`Name` AS `TypName`, `services`.`Description`,  `services`.`Lat`, `services`.`Lon` , `services`.`Image`, `services`.`Disponibility` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` GROUP BY `ID` ORDER BY `services`.`Created` DESC LIMIT 0, 15");
+				$select = $this->mysql->query("SELECT `services`.`ID`, `categories`.`Name` AS `CatName`,  `categories`.`ID` AS `CatID`,`services`.`Title` AS `SerName`, `french_city`.`Real_Name` AS `CityName`, `services`.`City`, `services`.`Distance`, `services`.`By`, `services`.`Type`, `type`.`Name` AS `TypName`, `services`.`Description`,  `services`.`Lat`, `services`.`Lon` , `services`.`Image`, `services`.`Disponibility` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` GROUP BY `ID` ORDER BY `services`.`Created` DESC LIMIT 0, 15");
 				$i = 0;
-				while($data = mysqli_fetch_array($select)) {
-					if(!empty($data['ID'])) {
-						$sername = $data['SerName'];
-						if(empty($sername)) { $sername = $data['TypName']; }
+				while($data = $select->fetch(PDO::FETCH_OBJ)) {
+					if(!empty($data->ID)) {
+						$sername = $data->SerName;
+						if(empty($sername)) { $sername = $data->TypName; }
 						$final[1] .= '	<tr class="bloc_services">
-										<td class="picto picto-'.$data['Type'].'"></td>
+										<td class="picto picto-'.$data->CatID.'"></td>
 										<td class="desc_services"><a href="#">
-											<h1>'.$sername.'</h1>
+											<h1>'.ucfirst($sername).'</h1>
 											<p>
-												'.$data['Description'].'
+												'.ucfirst($data->Description).'
 											</p>
-											<div class="location">'.$data['CityName'].'</div>
+											<div class="location">'.$data->CityName.'</div>
 										</a></td>
 									</tr>';
 						$i++;

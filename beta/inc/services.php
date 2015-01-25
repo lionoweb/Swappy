@@ -6,55 +6,30 @@
 		}
 		function format_city($zipcode) {
 			$return = "";
-			$select = mysqli_query($this->mysql, "SELECT `Real_Name` FROM `french_city` WHERE `ZipCode` = '".mysqli_real_escape_string($this->mysql, $zipcode)."'");
-			$data = mysqli_fetch_array($select);
-			$return = $zipcode." (".$data['Real_Name'].")";
+			$select = $this->mysql->prepare("SELECT `Real_Name` FROM `french_city` WHERE `ZipCode` = :zipcode");
+			$select->execute(array(":zipcode" => $zipcode));
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			$return = $zipcode." (".$data->Real_Name.")";
 			return $return;	
-		}
-		function my_services($user) {
-			$html = "";
-			$select = mysqli_query($this->mysql, "SELECT *, COUNT(*) AS `nb` FROM `services` WHERE `By` = '".$user->ID."' ORDER BY `Created` DESC");
-			while($data = mysqli_fetch_array($select)) {
-				$name = $data['Title'];
-				if($data['Title'] == "") {
-					$name = $this->type_name($data['Type']);	
-				}
-				$html .= '<tr class="bloc_services">
-            			<td class="picto picto-'.$data['Type'].'">
-                        	
-                        </td>
-                		<td class="desc_services">
-                            <h1>'.$name.'</h1>
-                            <p>
-                                '.$data['Description'].'
-                            </p>
-                            <div class="location">
-                                Champigny sur Marne
-                            </div>
-                         </td>
-                     </tr>';
-			}
-			if($html == "") {
-				$html = "rien";
-			}
-			return $html;
 		}
 		function get_coord($zip) {
 			$array = array("lon" => false, "lat" => false);
-			$select = mysqli_query($this->mysql, "SELECT `Lat`, `Lon`, COUNT(*) AS `total` FROM `french_city` WHERE `ZipCode` = '".mysqli_real_escape_string($this->mysql, $zip)."'");
-			$data = mysqli_fetch_array($select);
-			if($data['total'] > 0) {
-				$array['lon'] = $data['Lon'];	
-				$array['lat'] = $data['Lat'];
+			$select = $this->mysql->prepare("SELECT `Lat`, `Lon`, COUNT(*) AS `total` FROM `french_city` WHERE `ZipCode` = :zipcode");
+			$select->execute(array(":zipcode" => $zip));
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			if($data->total > 0) {
+				$array['lon'] = $data->Lon;	
+				$array['lat'] = $data->Lat;
 			}
 			return $array;
 		}
 		function get_cityID($zip) {
 			$ID = false;
-			$select = mysqli_query($this->mysql, "SELECT `ID`, COUNT(*) AS `total` FROM `french_city` WHERE `ZipCode` = '".mysqli_real_escape_string($this->mysql, $zip)."'");
-			$data = mysqli_fetch_array($select);
-			if($data['total'] > 0) {
-				$ID = $data['ID'];	
+			$select = $this->mysql->prepare("SELECT `ID`, COUNT(*) AS `total` FROM `french_city` WHERE `ZipCode` = :zipcode");
+			$select->execute(array(":zipcode" => $zip));
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			if($data->total > 0) {
+				$ID = $data->ID;	
 			}
 			return $ID;
 		}
@@ -73,17 +48,18 @@
 				$lat = $ar['lat'];
 				$lon = $ar['lon'];
 			}
-			$replace = array(mysqli_escape_string($this->mysql, $POST['title']),
-					mysqli_escape_string($this->mysql, $POST['type']), 
-					mysqli_escape_string($this->mysql, $ID), 
-					mysqli_escape_string($this->mysql, $POST['description']), 
-					mysqli_escape_string($this->mysql, $POST['distance']), 
-					mysqli_escape_string($this->mysql, $dispo),
-					mysqli_escape_string($this->mysql, $city),
-					mysqli_escape_string($this->mysql, $lat),
-					mysqli_escape_string($this->mysql, $lon)
+			$replace = array(":title" => $POST['title'],
+					":type" => $POST['type'], 
+					":ID" => $ID, 
+					":description" => $POST['description'], 
+					":distance" => $POST['distance'], 
+					":dispo" => $dispo,
+					":city" => $city,
+					":lat" => $lat,
+					":lon" => $lon
 				);
-			mysqli_query($this->mysql, vsprintf("INSERT INTO `services` (`ID`, `Title`, `Type`, `By`, `Description`, `Image`, `Distance`, `Disponibility`, `Created`, `City`, `Lat`, `Lon`) VALUES (NULL, '%s', '%s', '%s', '%s', NULL, '%s', '%s', CURRENT_TIMESTAMP, '%s', '%s', '%s');", $replace));
+			$select = $this->mysql->prepare("INSERT INTO `services` (`ID`, `Title`, `Type`, `By`, `Description`, `Image`, `Distance`, `Disponibility`, `Created`, `City`, `Lat`, `Lon`) VALUES (NULL, :title, :type, :ID, :description, NULL, :distance, :dispo, CURRENT_TIMESTAMP, :city, :lat, :lat);");
+			$select->execute($replace);
 			return array(true);
 		}
 		function dispo_crypt($day, $start, $end) {
@@ -105,9 +81,10 @@
 			return $out;
 		}
 		function type_name($id) {
-			$select = mysqli_query($this->mysql, "SELECT `Name` FROM `type` WHERE `ID` = '".$id."'");
-			$data = mysqli_fetch_array($select);
-			return $data['Name'];
+			$select = $this->mysql->prepare("SELECT `Name` FROM `type` WHERE `ID` = :ID");
+			$select->execute(array(":ID" => $id));
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			return $data->Name;
 		}
 		function list_categories($required=false) {
 			$req = "";
@@ -116,18 +93,19 @@
 			}
 			$html = '<select class="'.$req.'form-control" id="type" name="type">';
 			$html .= '<option value=""></option>';
-			$select = mysqli_query($this->mysql, "SELECT * FROM `categories` ORDER BY `Name` ASC");
-			while($data = mysqli_fetch_array($select)) {
-				$select_ = mysqli_query($this->mysql, "SELECT `ID`,`Name` FROM `type` WHERE `Categorie` = '".$data['ID']."' ORDER BY `Name` ASC");
-				$html .= '<option disabled="disabled">'.$data['Name'].'</option>';
-				while($data_ = mysqli_fetch_array($select_)) {
-					if($data['Name'] == "Autres") {
-						$other = $data_['ID'];
+			$select = $this->mysql->query("SELECT * FROM `categories` ORDER BY `Name` ASC");
+			while($data = $select->fetch(PDO::FETCH_OBJ)) {
+				$select_ = $this->mysql->prepare("SELECT `ID`,`Name` FROM `type` WHERE `Categorie` = :ID ORDER BY `Name` ASC");
+				$select_->execute(array(":ID" => $data->ID));
+				$html .= '<option disabled="disabled">'.$data->Name.'</option>';
+				while($data_ = $select_->fetch(PDO::FETCH_OBJ)) {
+					if($data->Name == "Autres") {
+						$other = $data_->ID;
 					} else {
-						if($data_['Name'] == "Autres") {
-							$other_ = $data_['ID'];
+						if($data_->Name == "Autres") {
+							$other_ = $data_->ID;
 						} else {
-							$html .= '<option value="'.$data_['ID'].'">&emsp;&emsp;'.$data_['Name'].'</option>';
+							$html .= '<option value="'.$data_->ID.'">&emsp;&emsp;'.$data_->Name.'</option>';
 						}
 					}
 				}

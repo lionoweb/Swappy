@@ -1,8 +1,8 @@
 <?php 
 if(preg_match("/localhost|127\.0\.0\.1/", $_SERVER['HTTP_HOST'])) {
 	//FOR MAMP
-	$mysql = mysqli_connect("localhost","root","root","swappyfraa0") or die("Error MySQL Connect..."); 
+	$mysql = new PDO("mysql:host=localhost; dbname=swappyfraa0", "root", "root");
 } else {
-	$mysql = mysqli_connect("swappyfraa0.mysql.db","swappyfraa0","2Dside77","swappyfraa0") or die("Error " . mysqli_error($mysql)); 
+	$mysql = new PDO("mysql:host=swappyfraa0.mysql.db; dbname=swappyfraa0", "swappyfraa0", "2Dside77");
 }
-mysqli_query($mysql, "SET NAMES 'utf8'");  ?>
+$mysql->query("SET NAMES 'utf8'");  ?>

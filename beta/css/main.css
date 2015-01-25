@@ -333,6 +333,8 @@ input.space-button {
 	height:90px;
 	min-height:90px;
 	position:relative;
+	width:100%;
+	vertical-align:top;
 }
 .desc_services h1 {
 	font-size:1.3em;
@@ -353,12 +355,11 @@ input.space-button {
 	background:#53c1dd;	
 }
 .picto {
-	max-width:43px !important;
-	width:43px !important;
-	min-width:43px !important;
-	overflow:auto;
-	min-height:43px;
-	height:43px;
+	margin: 0px; 
+	padding: 0px; 
+	display: inline-block; 
+	width: 100px;
+	min-width:100px;
 }
 .picto-2 {
 	background:url(../img/services/bricolage.png) center no-repeat;
@@ -619,7 +620,9 @@ input#accept {
 	background-color: #53c1dd;
 	color:white;
 }
-
+#pagination {
+	text-align:center;	
+}
 
 @media(max-width: 992px){
 	#spec_cgu .pictocgu{
@@ -681,6 +684,7 @@ input#accept {
 		font-size: 28px;
 	}
 }
+/*FIX BOOTSTRAP*/
 .row{
     margin-left: 0;
     margin-right: 0;
@@ -690,5 +694,5 @@ input#accept {
         margin-left: -15px;
         margin-right: -15px;
     }
-}
+
 

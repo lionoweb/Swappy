@@ -1,10 +1,13 @@
 <?php
 class mail {
+	public $noreply = "noreply@swappy.fr";
+	public $contact = "contact@swappy.fr";
+	
 	function send_validation($email, $name, $hash) {
 		$to = $email;
 		$subject = 'Inscription sur Swappy.fr';
 		
-		$headers = "From : noreply@swappy.fr\r\n";// supp balises HTML et PHP d'une chaîne
+		$headers = "From : ".$this->noreply."\r\n";// supp balises HTML et PHP d'une chaîne
 		$headers .= "MIME-Version: 1.0\r\n"; // ??
 		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 		
@@ -20,7 +23,7 @@ class mail {
 		}
 	}
 	function send_contact_form($POST) {
-		$to = 'contact@swappy.fr';
+		$to = $this->contact;
 		$subject = 'Message de Swappy';
 		
 		$headers = "From : ".strip_tags($POST['email']) . "\r\n";// supp balises HTML et PHP d'une chaîne

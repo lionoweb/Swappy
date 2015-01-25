@@ -120,7 +120,7 @@ if(isset($_GET['logout'])) {
                     <label for="day" class="control-label col-xs-12 col-sm-2">Quand ?</label>
                     <div class="col-xs-12 col-sm-10">
                         <select id="day" name="day" class="form-control">
-                        	<?php $list_days = '<option selected value="all">Tous les jours</option>'.
+                        	<?php $list_days = '<option value="all">Tous les jours</option>'.
 							'<option value="weekend">Week-end</option>'.
                         	'<option value="lun">Lundi</option>'.
                             '<option value="mar">Mardi</option>'.
@@ -141,6 +141,7 @@ if(isset($_GET['logout'])) {
     	</form>
         <?php if(isset($_GET['searchbar'])) {
 		?>
+        <?php $result = $search->search($_GET, $user); ?>
 		<div class="col-md-10 col-md-offset-1 col-sm-12 container">
             <table class="fulltable">
             	<thead>
@@ -149,9 +150,10 @@ if(isset($_GET['logout'])) {
                     </tr>
                 </thead>
                 <tbody>
-                	<?php echo $search->search($_GET, $user); ?>
+                	<?php echo $result[0]; ?>
                 </tbody>
 			</table>
+            <?php echo $result[1]; ?>
         </div>
             <?php
 		} else { //SERVICES RECENTS?>

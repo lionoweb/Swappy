@@ -213,7 +213,9 @@ function ZipFill(json) {
 function navbar_padding() {
 	var h = $("nav").height() + parseInt($("nav").css("margin-bottom").replace("px", ""));
 	$("body").css("padding-top", h+"px");
-	if($(window).height() > ($(document).height()-$("nav").height()-$("footer").height()-10)) {
+	var wh = $(window).height();
+	var wwh = ($(document).height()-($("nav").height()-$("footer").height()-40));
+	if(wh > wwh && ((wh - wwh) < -131)) {
 		$("#wrap").css("height", "100%");
 	} else {
 		$("#wrap").removeAttr("style");
