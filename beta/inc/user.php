@@ -15,7 +15,7 @@
 		}
 		function getCity($zip) {
 			$result = "";
-			$select = mysqli_query($this->mysql, "SELECT `Real_Name` FROM `french_city` WHERE `ZipCode` = '".$zip."' LIMIT 0, 1");	
+			$select = mysqli_query($this->mysql, "SELECT `Real_Name` FROM `french_city` WHERE `ZipCode` = '".mysqli_escape_string($this->mysql, $zip)."' LIMIT 0, 1");	
 			$data = mysqli_fetch_array($select);
 			if(isset($data['Real_Name']) && !empty($data['Real_Name'])) {
 				$result = $data['Real_Name'];
@@ -25,10 +25,10 @@
 		function getPositionDB($zip, $name="") {
 			$name_s = "";
 			if(!empty($name)) {
-				$name_s = " AND `Real_Name` = '".$name."'";	
+				$name_s = " AND `Real_Name` = '".mysqli_escape_string($this->mysql, $name)."'";	
 			}
 			$result = array("lat" => false, "lon" => false);
-			$select = mysqli_query($this->mysql, "SELECT `Lon`, `Lat` FROM `french_city` WHERE `ZipCode` = '".$zip."'".$name_s." LIMIT 0, 1");	
+			$select = mysqli_query($this->mysql, "SELECT `Lon`, `Lat` FROM `french_city` WHERE `ZipCode` = '".mysqli_escape_string($this->mysql, $zip)."'".$name_s." LIMIT 0, 1");	
 			$data = mysqli_fetch_array($select);
 			if(isset($data['Lon'])) {
 				$result['lat'] = $data['Lat'];
@@ -44,9 +44,11 @@
 				for($i=0;$i<count($l);$i++) {
 					$w = $this->wd_remove_accents($l[$i]);
 					if(strlen($w)  > 2 && !is_numeric($w)) {
+						$w = mysqli_escape_string($this->mysql, $w);
 						$where .= ' OR (UPPER(`Name`) REGEXP "'.$w.'")';
 						$order .= ' + (CASE WHEN UPPER(`Name`) REGEXP "'.$w.'" THEN 1.8 ELSE 0 END) + (CASE WHEN UPPER(`Name`) REGEXP "^'.$w.'" THEN 1.2 ELSE 0 END) + (CASE WHEN UPPER(`Name`) REGEXP "^'.$w.'$" THEN 1.3 ELSE 0 END)';
 					} else if(is_numeric($w)) { //DEPARTEMENT FIX
+						$w = mysqli_escape_string($this->mysql, $w);
 						$where .= ' OR (UPPER(`ZipCode`) REGEXP "'.$w.'")';
 						$order .= ' + (CASE WHEN UPPER(`ZipCode`) REGEXP "'.$w.'" THEN 1.3 ELSE 0 END) + (CASE WHEN UPPER(`ZipCode`) REGEXP "'.$w.'$" THEN 0.5 ELSE 0 END)';
 					}
@@ -149,12 +151,42 @@
 		}
 		function onlyVisitors() {
 			if($this->logged) {
-				header("Location: services.php?needlogged");	
+				header("Location: services.php?needunlogged");	
 			}
 		}
 		function onlyAdmin() {
 			if($this->admin == 0) {
 				header("Location: services.php?noadmin");	
+			}
+		}
+		function modal_location_c($GET) {
+			$text = "";
+			if(isset($_GET['needunlogged'])) {
+				$text = "Désolé, mais la page à laquelle vous souhaitiez afficher n'est pas accessible en tant qu'utilisateur connecté.<br><br>Veuillez vous déconnecté pour l'afficher.";
+			}
+			if(isset($_GET['unlogged'])) {
+				$text = "Désolé, mais la page à laquelle vous souhaitiez afficher n'est pas accessible en tant que visiteur.<br><br>Veuillez vous inscrire/connecter pour l'afficher.";
+			}
+			if(isset($_GET['noadmin'])) {
+				$text = "Désolé, mais la page à laquelle vous souhaitiez afficher est accessible uniquement pour les administrateurs du site.";
+			}
+			$html = '<div id="modal_alert" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+	<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">Page inaccessible</h4>
+      </div>
+      <div class="modal-body">
+      '.$text.'
+	  </div>
+    </div>
+  </div>
+</div> <script>$(\'#modal_alert\').modal(\'show\'); $("#modal_alert").on("hidden.bs.modal", function(e) {
+				$(this).remove();
+			});</script>';
+			if(!empty($text)) {
+				echo $html;
 			}
 		}
 		function crypt_sess($ID) {
@@ -201,11 +233,34 @@
 			$this->unload_user_data();
 		}
 		function validate_account($hash) {
+			$html = "";
+			$hash = base64_decode(trim($hash));
+			$split = explode("-==-", $hash);
+			$select = mysqli_query($this->mysql, "SELECT `Validation`, `Login`, COUNT(*) AS `total` FROM `users` WHERE `Email` = '".mysqli_escape_string($this->mysql, base64_decode($split[1]))."'");
+			$data = mysqli_fetch_array($select);
+			if($data['total'] > 0) {
+				if(md5($data['Login']) == $split[0]) {
+				 	if($data['Validation'] == 0) {
+						if(!mysqli_query($this->mysql, "UPDATE `users` SET `Validation` = '1' WHERE `Email` = '".mysqli_escape_string($this->mysql, base64_decode($split[1]))."'")) {
+							$html = 'Désolé, une erreurà eu lieu au moment de l\'activation.<br> Veuillez réessayer plus tard...';
+						} else {
+							$html = 'Félicitation !<br>Votre compte est activé !<br><br>Vous pouvez dès à présent vous connecter.';
+						}
+					} else {
+						$html = 'Votre compte à déjà été activé !';	
+					}
+				} else {
+					$html = 'Désolé, il semblerait que le lien soit incorrecte.<br> Veuillez vous inscrire à nouveau.';	
+				}
+			} else {
+				$html = 'Désolé, il semblerait que le lien soit incorrecte.<br> Veuillez vous inscrire à nouveau.';	
+			}
+			return $html;
 			
 		}
 		function flogin($POST) {
 			$arr = array();
-			$select = mysqli_query($this->mysql, "SELECT `ID`,`Password` FROM `users` WHERE `Login` = '".mysqli_escape_string($this->mysql, strtolower($POST['login_form']))."'");
+			$select = mysqli_query($this->mysql, "SELECT `ID`,`Password`,`Validation` FROM `users` WHERE `Login` = '".mysqli_escape_string($this->mysql, strtolower($POST['login_form']))."'");
 			$data = mysqli_fetch_array($select);
 			$total = mysqli_num_rows($select);
 			if($total > 0) {
@@ -281,6 +336,14 @@
 			if(empty($POST['cityname']) || empty($POST['zipcode'])) {
 				$arr = array(false);
 			} else {
+				$street = $POST['street'];
+				if(!empty($_POST['street2'])) {
+					if(empty($street)) {
+						$street = $POST['street2'];
+					} else {
+						$street .= " ".$POST['street'];
+					}
+				}
 				$birthdate = $POST['year']."-".$POST['month']."-".$POST['day'];
 				//Creation de la position Lat/Lon
 				$city = new city($this->mysql);
@@ -292,7 +355,7 @@
 					mysqli_escape_string($this->mysql, $POST['firstname']), 
 					mysqli_escape_string($this->mysql, $POST['gender']),
 					mysqli_escape_string($this->mysql, $birthdate),
-					mysqli_escape_string($this->mysql, $POST['street']),
+					mysqli_escape_string($this->mysql, $street),
 					mysqli_escape_string($this->mysql, $POST['zipcode']),
 					mysqli_escape_string($this->mysql, $POST['cityname']),
 					mysqli_escape_string($this->mysql, $c['lat']),

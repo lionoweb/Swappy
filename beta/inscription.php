@@ -5,7 +5,8 @@ require_once("inc/mysql.php");
 $user = new user($mysql);
 if(isset($_GET['logout'])) {
 	$user->logout();
-}	?>
+}
+$user->onlyVisitors();	?>
 <!doctype html>
 <html>
 <head>
@@ -54,8 +55,8 @@ if(isset($_GET['logout'])) {
                 <ul class="nav navbar-nav">
                     <li><a  href="services.php">Services</a></li>
                     <li><a href="propose.php">Je propose</a></li>
-                    <li><a href="#">Comment ça marche ?</a></li>
-                    <li><a href="apropos.html">A propos</a></li>
+                    <li><a href="ccm.php">Comment ça marche ?</a></li>
+                    <li><a href="apropos.php">A propos</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <?php echo $user->navbar(); ?>
@@ -73,9 +74,9 @@ if(isset($_GET['logout'])) {
             <div colspan="2" class="header_inscription">Validation d'inscription</div>
     
             <div class="greyback">
-            
+            	<?php echo $user->validate_account($_GET['validation']); ?>
             </div>
-        </div></div>
+        </div>
         <?php } else { ?>
          <form id="user_add" class="col-md-6 col-md-offset-3" action="inc/add_user.php" method="post">
         <div colspan="2" class="header_inscription">Inscription</div>

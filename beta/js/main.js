@@ -148,6 +148,7 @@ $(document).ready(function(e) {
 			$(".dispo_field[data-IDF='"+i+"']").remove();
 		});
 	});
+	modal_prevent();
 });
 function load_ajax_d(form, options) {
 	$form_b = $(form);
@@ -220,4 +221,21 @@ function navbar_padding() {
 }
 function isArray(obj) {
     return (obj.constructor.toString().indexOf("Array") != -1);
+}
+function modal_prevent() {
+	if($("#login_form").length > 0) {
+		//NOT LOGGED
+		$('nav li a[href$="propose.php"]').off();
+		$('nav li a[href$="propose.php"]').on("click", function(e) {
+			e.preventDefault();
+			$("#modal_alert").remove();
+			$("body").append('<div id="modal_alert" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-md"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="exampleModalLabel">Page inaccessible</h4></div><div class="modal-body">Désolé, mais la page à laquelle vous souhaitiez afficher n\'est pas accessible en tant que visiteur.<br><br>Veuillez vous inscrire/connecter pour l\'afficher.</div></div></div></div>');
+			$('#modal_alert').modal('show');
+			$("#modal_alert").on("hidden.bs.modal", function(e) {
+				$(this).remove();
+			});
+		});
+	} else {
+		$('nav li a[href$="propose.php"]').off();
+	}
 }

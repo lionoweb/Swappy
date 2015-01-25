@@ -6,7 +6,7 @@
 		}
 		function format_city($zipcode) {
 			$return = "";
-			$select = mysqli_query($this->mysql, "SELECT `Real_Name` FROM `french_city` WHERE `ZipCode` = '".$zipcode."'");
+			$select = mysqli_query($this->mysql, "SELECT `Real_Name` FROM `french_city` WHERE `ZipCode` = '".mysqli_real_escape_string($this->mysql, $zipcode)."'");
 			$data = mysqli_fetch_array($select);
 			$return = $zipcode." (".$data['Real_Name'].")";
 			return $return;	
@@ -41,7 +41,7 @@
 		}
 		function get_coord($zip) {
 			$array = array("lon" => false, "lat" => false);
-			$select = mysqli_query($this->mysql, "SELECT `Lat`, `Lon`, COUNT(*) AS `total` FROM `french_city` WHERE `ZipCode` = '".$zip."'");
+			$select = mysqli_query($this->mysql, "SELECT `Lat`, `Lon`, COUNT(*) AS `total` FROM `french_city` WHERE `ZipCode` = '".mysqli_real_escape_string($this->mysql, $zip)."'");
 			$data = mysqli_fetch_array($select);
 			if($data['total'] > 0) {
 				$array['lon'] = $data['Lon'];	
@@ -51,7 +51,7 @@
 		}
 		function get_cityID($zip) {
 			$ID = false;
-			$select = mysqli_query($this->mysql, "SELECT `ID`, COUNT(*) AS `total` FROM `french_city` WHERE `ZipCode` = '".$zip."'");
+			$select = mysqli_query($this->mysql, "SELECT `ID`, COUNT(*) AS `total` FROM `french_city` WHERE `ZipCode` = '".mysqli_real_escape_string($this->mysql, $zip)."'");
 			$data = mysqli_fetch_array($select);
 			if($data['total'] > 0) {
 				$ID = $data['ID'];	
@@ -73,7 +73,17 @@
 				$lat = $ar['lat'];
 				$lon = $ar['lon'];
 			}
-			mysqli_query($this->mysql, "INSERT INTO `services` (`ID`, `Title`, `Type`, `By`, `Description`, `Image`, `Distance`, `Disponibility`, `Created`, `City`, `Lat`, `Lon`) VALUES (NULL, '".$POST['title']."', '".$POST['type']."', '".$ID."', '".$POST['description']."', NULL, '".$POST['distance']."', '".$dispo."', CURRENT_TIMESTAMP, '".$city."', '".$lat."', '".$lon."');");
+			$replace = array(mysqli_escape_string($this->mysql, $POST['title']),
+					mysqli_escape_string($this->mysql, $POST['type']), 
+					mysqli_escape_string($this->mysql, $ID), 
+					mysqli_escape_string($this->mysql, $POST['description']), 
+					mysqli_escape_string($this->mysql, $POST['distance']), 
+					mysqli_escape_string($this->mysql, $dispo),
+					mysqli_escape_string($this->mysql, $city),
+					mysqli_escape_string($this->mysql, $lat),
+					mysqli_escape_string($this->mysql, $lon)
+				);
+			mysqli_query($this->mysql, vsprintf("INSERT INTO `services` (`ID`, `Title`, `Type`, `By`, `Description`, `Image`, `Distance`, `Disponibility`, `Created`, `City`, `Lat`, `Lon`) VALUES (NULL, '%s', '%s', '%s', '%s', NULL, '%s', '%s', CURRENT_TIMESTAMP, '%s', '%s', '%s');", $replace));
 			return array(true);
 		}
 		function dispo_crypt($day, $start, $end) {

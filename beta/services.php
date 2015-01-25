@@ -179,5 +179,6 @@ if(isset($_GET['logout'])) {
         <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
     </div>
 </footer>
+<?php $user->modal_location_c($_GET); ?>
 </body>
 </html>

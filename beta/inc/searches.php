@@ -47,6 +47,7 @@ class search {
 		for($i=0;$i<count($l);$i++) {
 			$w = $this->preg_accent($l[$i]);
 			if(strlen($w) > 1) {
+				$w = mysqli_escape_string($this->mysql, $w);
 				$where .= ' OR (UPPER(`type`.`Name`) REGEXP "'.$w.'") OR (UPPER(`categories`.`Name`) REGEXP "'.$w.'")';
 				$order .= ' + (CASE WHEN UPPER(`type`.`Name`) REGEXP "'.$w.'" THEN 1.3 ELSE 0 END) + (CASE WHEN UPPER(`categories`.`Name`) REGEXP "'.$w.'" THEN 1 ELSE 0 END)';
 			}
@@ -65,9 +66,11 @@ class search {
 		for($i=0;$i<count($l);$i++) {
 			$w = $this->preg_accent($l[$i]);
 			if(is_numeric($w)) {
+				$w = mysqli_escape_string($this->mysql, $w);
 				$where .= ' OR (`ZipCode` REGEXP "'.$w.'")';
 				$order .= ' + (CASE WHEN `ZipCode` REGEXP "'.$w.'" THEN 1 ELSE 0 END) + (CASE WHEN `ZipCode` REGEXP "^'.$w.'" THEN 1.5 ELSE 0 END) + (CASE WHEN `ZipCode` REGEXP "^'.$w.'$" THEN 1.7 ELSE 0 END)';
 			} else if(strlen($w) > 1) {
+				$w = mysqli_escape_string($this->mysql, $w);
 				$where .= ' OR (`Real_Name` REGEXP "'.$w.'")';
 				$order .= ' + (CASE WHEN `Real_Name` REGEXP "'.$w.'" THEN 1 ELSE 0 END) + (CASE WHEN `Real_Name` REGEXP "^'.$w.'" THEN 1.5 ELSE 0 END) + (CASE WHEN `Real_Name` REGEXP "^'.$w.'$" THEN 1.5 ELSE 0 END)';
 			}
@@ -79,7 +82,7 @@ class search {
 	}
 	function searchbar($input) {
 		$arr = array();
-		$input = $this->clean_w(strtoupper(trim($input)));
+		$input = mysqli_escape_string($this->mysql, $this->clean_w(strtoupper(trim($input))));
 		$end_clause = $this->clause_searchbar($input);
 		$select = mysqli_query($this->mysql, "SELECT `type`.`Name` AS `Name_t`, `type`.`ID` AS `ID`, `categories`.`Name` AS `CatName` FROM `type` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` ".$end_clause);
 		while($data = mysqli_fetch_array($select)) {
@@ -105,6 +108,8 @@ class search {
 			for($i=0;$i<count($l);$i++) {
 				$w = $this->preg_accent($l[$i]);
 				if(strlen($w) > 2) {
+					$w_ = $w;
+					$w = mysqli_escape_string($this->mysql, $w);
 					//TABLE MIXED : French_city / Categorie / Type / Services
 					//ADDED : Type.Nom // Categorie.Nom // Services.Nom // Services.Description // Ville.Nom
 					$where .= ' OR (UPPER(`type`.`Name`) REGEXP "'.$w.'") OR (UPPER(`categories`.`Name`) REGEXP "'.$w.'") OR (UPPER(`services`.`Title`) REGEXP "'.$w.'") OR (UPPER(`services`.`Description`) REGEXP "'.$w.'") OR (UPPER(`french_city`.`Name`) REGEXP "'.$w.'")';
@@ -114,9 +119,10 @@ class search {
 					//EXTRA MATCH (MOT ENTIER) : Ville.Nom  // Type.Nom // Categorie.Nom // Services.Nom
 					$order .= ' + (CASE WHEN UPPER(`type`.`Name`) REGEXP "^'.$w.'$" THEN 1.3 ELSE 0 END) + (CASE WHEN UPPER(`categories`.`Name`) REGEXP "^'.$w.'$" THEN 0.7 ELSE 0 END) + (CASE WHEN UPPER(`services`.`Title`) REGEXP "^'.$w.'$" THEN 1.7 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`Name`) REGEXP "^'.$w.'$" THEN 1.4 ELSE 0 END)';
 					//IF NUMERIC : ADD ZIPCODE SEARCH
-					if(is_numeric($w)) {
-						$where .= ' OR (UPPER(`french_city`.`ZipCode`) REGEXP "'.$w.'")';
-						$order .= ' + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP "'.$w.'" THEN 1.3 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP "^'.$w.'" THEN 0.5 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP "^'.$w.'$" THEN 1.1 ELSE 0 END)';
+					if(is_numeric($w_)) {
+						$w_ = mysqli_escape_string($this->mysql, $w_);
+						$where .= ' OR (UPPER(`french_city`.`ZipCode`) REGEXP "'.$w_.'")';
+						$order .= ' + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP "'.$w_.'" THEN 1.3 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP "^'.$w_.'" THEN 0.5 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP "^'.$w_.'$" THEN 1.1 ELSE 0 END)';
 					}
 				}
 			}
@@ -128,6 +134,7 @@ class search {
 				for($i=0;$i<count($l);$i++) {
 					$w = $this->preg_accent($l[$i]);
 					if(strlen($w) > 2) {
+						$w = mysqli_escape_string($this->mysql, $w);
 						$where .= ' OR (UPPER(`type`.`Name`) REGEXP "'.$w.'") OR (UPPER(`categories`.`Name`) REGEXP "'.$w.'")';
 						$order .= ' + (CASE WHEN UPPER(`type`.`Name`) REGEXP "'.$w.'" THEN 1.5 ELSE 0 END) + (CASE WHEN UPPER(`categories`.`Name`) REGEXP "'.$w.'" THEN 1 ELSE 0 END) + (CASE WHEN UPPER(`type`.`Name`) REGEXP "^'.$w.'" THEN 1.1 ELSE 0 END) + (CASE WHEN UPPER(`categories`.`Name`) REGEXP "^'.$w.'" THEN 0.5 ELSE 0 END) + (CASE WHEN UPPER(`type`.`Name`) REGEXP "^'.$w.'$" THEN 1.2 ELSE 0 END) + (CASE WHEN UPPER(`categories`.`Name`) REGEXP "^'.$w.'$" THEN 0.6 ELSE 0 END)';
 					}
@@ -177,11 +184,14 @@ class search {
 					for($i=0;$i<count($l_w);$i++) {
 						$w = $this->preg_accent($l_w[$i]);
 						if(strlen($w) > 2) {
+							$w_ = $w;
+							$w = mysqli_escape_string($this->mysql, $w);
 							$where .= ' OR (UPPER(`french_city`.`Name`) REGEXP "'.$w.'")';
 							$order .= ' + (CASE WHEN UPPER(`french_city`.`Name`) REGEXP "'.$w.'" THEN 1.8 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`Name`) REGEXP "^'.$w.'" THEN 1.2 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`Name`) REGEXP "^'.$w.'$" THEN 1.3 ELSE 0 END)';
-							if(is_numeric($w)) {
-								$where .= ' OR (UPPER(`french_city`.`ZipCode`) REGEXP "'.$w.'")';
-								$order .= ' + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP "'.$w.'" THEN 1.3 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP "^'.$w.'" THEN 0.5 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP "^'.$w.'$" THEN 0.8 ELSE 0 END)';
+							if(is_numeric($w_)) {
+								$w_ = mysqli_escape_string($this->mysql, $w_);
+								$where .= ' OR (UPPER(`french_city`.`ZipCode`) REGEXP "'.$w_.'")';
+								$order .= ' + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP "'.$w_.'" THEN 1.3 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP "^'.$w_.'" THEN 0.5 ELSE 0 END) + (CASE WHEN UPPER(`french_city`.`ZipCode`) REGEXP "^'.$w_.'$" THEN 0.8 ELSE 0 END)';
 							}
 						}
 					}
@@ -193,6 +203,7 @@ class search {
 				for($i=0;$i<count($l);$i++) {
 					$w = $this->preg_accent($l[$i]);
 					if(strlen($w) > 2) {
+						$w = mysqli_escape_string($this->mysql, $w);
 						$where .= ' OR (UPPER(`services`.`Title`) REGEXP "'.$w.'") OR (UPPER(`services`.`Description`) REGEXP "'.$w.'")';
 						$order .= ' + (CASE WHEN UPPER(`services`.`Title`) REGEXP "'.$w.'" THEN 2 ELSE 0 END) + (CASE WHEN UPPER(`services`.`Description`) REGEXP "'.$w.'" THEN 1.2 ELSE 0 END) + (CASE WHEN UPPER(`services`.`Title`) REGEXP "^'.$w.'" THEN 1.4 ELSE 0 END) + (CASE WHEN UPPER(`services`.`Title`) REGEXP "^'.$w.'$" THEN 1.6 ELSE 0 END)';
 					}
@@ -241,7 +252,11 @@ class search {
 				}
 			}
 			if(empty($final)) {
-				$final = "<tr><td class='center'>Aucun résultat trouvé</td></tr>";
+				if(empty($searchbar) && empty($locat) && empty($day) && empty($type) && empty($zip)) {
+					$final = "<tr><td class='center'>Veuillez remplir au moins un champ.</td></tr>";
+				} else {
+					$final = "<tr><td class='center'>Aucun résultat trouvé</td></tr>";
+				}
 			}
 		}
 		return $final;

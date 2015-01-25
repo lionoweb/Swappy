@@ -12,6 +12,7 @@ html, body {
 	margin: 0 auto -131px;
 	padding-bottom:131px;
 	position:relative;
+	width:100%;
 	/*margin: 0 auto -30px;
 	padding-bottom:40px;*/
 }
@@ -54,7 +55,13 @@ html, body {
 	line-height:40px;
 	margin-top:40px; 
 }
-
+.center {
+	text-align:center;	
+}
+td.center {
+	padding-top:10px;
+	padding-bottom:10px;
+}
 form#user_add .greyback label{
 	line-height: 28px;
 	text-align: right
@@ -401,11 +408,11 @@ input.space-button {
 }
  .greyback .birthday {
 	display: inline;
-	width:60px;
+	width:66px;
 }
 .greyback .birthmonth {
 	display: inline;
-	width:60px;
+	width:66px;
 }
  .greyback .birthyear {
 	display: inline;
@@ -503,7 +510,6 @@ input#accept {
 	width:100%;
 	margin: 0;
 	padding: 0;
-	z-index: -9000;
 	padding: 40px 0px 14px 0px;
 }
 #spec_apropos #spec_team img{
@@ -667,17 +673,22 @@ input#accept {
 		margin-left: auto;
 		margin-right: auto;
 	}
-	/*#spec_apropos .row{
-		box-sizing:border-box;
-		width:100%;
-		margin: 0;
-		padding: 0;
-	}*/
+
 	#spec_contact .form-group {
 		padding:0px;
 	}
 	#contact .header_contact .top{
 		font-size: 28px;
 	}
+}
+.row{
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.container .row{
+        margin-left: -15px;
+        margin-right: -15px;
+    }
 }
 
