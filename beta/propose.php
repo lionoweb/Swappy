@@ -15,7 +15,7 @@ $user->onlyUsers();	?>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Je propose</title>
+    <title>Swappy.fr - Je propose</title>
     <link rel="stylesheet" href="css/jquery-ui.css">
     <link rel="stylesheet" href="css/jquery.datetimepicker.css">
     <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
