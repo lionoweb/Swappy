@@ -74,6 +74,9 @@ if(isset($_GET['logout'])) {
 		$type_s = "";
 		$day_s = "";
 		$where_s = "";
+		if($user->logged && !empty($user->zipcode)) {
+			$where_s = $services->format_city($user->zipcode);
+		}
 		if(isset($_GET['searchbar'])) {
 			$title = $_GET['searchbar'];
 		}
@@ -91,7 +94,7 @@ if(isset($_GET['logout'])) {
 		}
 	?>
 
-		<form class="col-md-6 col-md-offset-3 form-horizontal" id="spec_search" action="services.php" method="get">
+		<form class="col-md-6 col-md-offset-3 form-horizontal nonullpad" id="spec_search" action="services.php" method="get">
     		<div class="form-group">
         		<label for="searchbar_" class="control-label col-xs-12 col-sm-2 left-text grey_text">Rechercher</label>
         		<div class="col-xs-12 col-sm-10 input-group">
@@ -142,8 +145,8 @@ if(isset($_GET['logout'])) {
         <?php if(isset($_GET['searchbar'])) {
 		?>
         <?php $result = $search->search($_GET, $user); ?>
-		<div class="col-md-10 col-md-offset-1 col-sm-12 container">
-            <table class="fulltable">
+		<div class="col-md-10 col-md-offset-1 col-sm-12 table-responsive noborder">
+            <table class="fulltable table">
             	<thead>
                 	<tr>
                 		<td colspan="2" class="header_search">Tous les services</td>
@@ -158,8 +161,8 @@ if(isset($_GET['logout'])) {
             <?php
 		} else { //SERVICES RECENTS?>
         	<?php $result = $search->recent_services($user); ?>
-        	<div class="col-md-10 col-md-offset-1 col-sm-12 container">
-            <table class="fulltable">
+        	<div class="col-md-10 col-md-offset-1 col-sm-12  table-responsive noborder">
+            <table class="fulltable table">
             	<thead>
                 	<tr>
                 		<td colspan="2" class="header_search"><?php echo $result[0]; ?></td>

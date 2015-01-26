@@ -86,49 +86,49 @@ $user->onlyVisitors();	?>
         	<div class="form-group">
         		<label for="login" class="control-label col-xs-12 col-sm-2 col-md-4">Identifiant*</label>
                 <div class="col-xs-12 col-sm-10 col-md-8">
-                    <input required autocomplete="off" class="validate[required,minSize[5],ajax[ajaxLoginCallPHP]] form-control" autofocus data-key="true" type="text" id="login" name="login">
+                    <input autocomplete="off" class="validate[required,minSize[5],ajax[ajaxLoginCallPHP]] form-control" autofocus data-key="true" type="text" id="login" name="login">
                 </div>
             </div>
 
             <div class="form-group">
         		<label for="password" class="control-label col-xs-12 col-sm-2 col-md-4">Mot de passe*</label>
                 <div class="col-xs-12 col-sm-10 col-md-8">
-                    <input required autocomplete="off" class="validate[required,minSize[6]] form-control" id="password" type="password" name="password">
+                    <input autocomplete="off" class="validate[required,minSize[6]] form-control" id="password" type="password" name="password">
                 </div>
             </div>
 
             <div class="form-group">
             	<label for="password_r" class="control-label col-xs-12 col-sm-2 col-md-4">Retaper mot de passe*</label>
                 <div class="col-xs-12 col-sm-10 col-md-8">
-                    <input required autocomplete="off" class="validate[required,minSize[6],equalsPASS[password]] form-control" type="password" id="password_r" name="password_r">
+                    <input autocomplete="off" class="validate[required,minSize[6],equalsPASS[password]] form-control" type="password" id="password_r" name="password_r">
                 </div>
             </div>
 
             <div class="form-group">
             	<label for="email" class="control-label col-xs-12 col-sm-2 col-md-4">Adresse e-mail*</label>
                 <div class="col-xs-12 col-sm-10 col-md-8">
-                    <input required autocomplete="off" class="validate[required,custom[email],ajax[ajaxEmailCallPHP]] form-control" data-key="true" id="email" type="text" name="email"> 
+                    <input autocomplete="off" class="validate[required,custom[email],ajax[ajaxEmailCallPHP]] form-control" data-key="true" id="email" type="text" name="email"> 
                 </div>
             </div>
 
             <div class="form-group">
             	<label for="lastname" class="control-label col-xs-12 col-sm-2 col-md-4">Nom*</label>
                 <div class="col-xs-12 col-sm-10 col-md-8">
-                    <input required autocomplete="off" class="validate[required] form-control" type="text" id="lastname" name="lastname">
+                    <input autocomplete="off" class="validate[required] form-control" type="text" id="lastname" name="lastname">
                 </div>
             </div>
 
             <div class="form-group">
             	<label for="firstname" class="control-label col-xs-12 col-sm-2 col-md-4">Prénom*</label>
                 <div class="col-xs-12 col-sm-10 col-md-8">
-                    <input required  autocomplete="off" class="validate[required form-control" type="text" id="firstname" name="firstname">
+                    <input autocomplete="off" class="validate[required form-control" type="text" id="firstname" name="firstname">
                 </div>
             </div>
 
             <div class="form-group">
             	<label for="gender" class="control-label col-xs-12 col-sm-2 col-md-4">Sexe*</label>
                 <div class="col-xs-12 col-sm-10 col-md-8">
-                    <select required name="gender" class="form-control">
+                    <select name="gender" class="form-control">
             		  <option value="M">Homme</option>
             		  <option value="F">Femme</option>
             	   </select>
@@ -177,7 +177,7 @@ $user->onlyVisitors();	?>
             <div class="form-group">
             	<label for="zipcode" class="control-label col-xs-12 col-sm-2 col-md-4">Code Postal* :</label>
                 <div class="col-xs-12 col-sm-10 col-md-8">
-                    <input required class="zipcode validate[required,custom[onlyNumberSp],minSize[5],maxSize[5],ajax[ajaxZipCodeCallPHP]] form-control" autocomplete="off" maxlength="5" type="text" id="zipcode" name="zipcode" placeholder="Ex : 94500"> <input autocomplete="off" type="text" readonly class="form-control liketext" name="cityname">
+                    <input class="zipcode validate[required,custom[onlyNumberSp],minSize[5],maxSize[5],ajax[ajaxZipCodeCallPHP]] form-control" autocomplete="off" maxlength="5" type="text" id="zipcode" name="zipcode" placeholder="Ex : 94500"> <input autocomplete="off" type="text" readonly class="form-control liketext" name="cityname">
                 </div>
             </div>
 

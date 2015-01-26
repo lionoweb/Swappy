@@ -461,9 +461,9 @@
                         <div class="dropdown-menu login-menu">
                             <div id="login_section">
                                 <form action="inc/login.php" method="post" id="login_form">
-                                    <input id="login_form" name="login_form" class="validate[required,minSize[5]]" placeholder="Identifiant" type="text" size="30">
-                                    <input type="password" id="password_form" name="password_form" placeholder="Mot de passe" class="validate[required,minSize[6]]" size="30">
-                                    <label class="string optional" for="user_remember_me">
+                                    <input id="login_form" name="login_form" class="validate[required,minSize[5]] form-control" placeholder="Identifiant" type="text" size="30">
+                                    <input type="password" id="password_form" name="password_form" placeholder="Mot de passe" class="validate[required,minSize[6]] form-control" size="30">
+                                    <label class="string optional" for="remember_me">
                                         <input id="remember_me" type="checkbox" name="remember_me" checked> Se souvenir de moi
                                     </label>
                                     <input class="btn btn-primary" type="submit" name="commit" value="Se connecter">
@@ -471,8 +471,8 @@
                                 </form>		
                             </div>
                             <div id="remind_section">
-                                <form action="[YOUR ACTION]" method="post" accept-charset="UTF-8">
-                                    <input id="user_username" placeholder="Email" type="text" name="remind[email]" size="30">
+                                <form id="remind_form" action="inc/login.php" method="post" accept-charset="UTF-8">
+                                    <input id="user_username" placeholder="Email" class="form-control validate[required,email]" type="text" name="remind[email]" size="30">
                                     <input class="btn btn-primary" type="submit" name="commit" value="Recuperer">
                                     <div class="remind"><a class="remind_link">Je m\'en souviens !</a></div>
                                 </form>

@@ -68,12 +68,12 @@ if(isset($_GET['logout'])) {
 
     <div class="cgutitle"><p>Conditions générales d'utilisation</p></div>
         
-            <div class="row">
+            <div class="col-md-10 col-md-offset-1">
                 <div class="col-md-2 col-md-offset-1">
                 <img src="img/cgu/objet.png">
                 <span class="cgintitle">Objet</span>
             </div>
-                <p class="col-md-10 col-md-offset-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget libero mauris. Praesent eget tortor rhoncus, malesuada justo eget, tempus nunc. Nullam non volutpat ligula. Nulla eget lorem ac dolor auctor cursus. Curabitur non nisi dictum, sodales turpis id, tincidunt leo. Ut finibus dolor a faucibus malesuada. Duis eget massa nulla. Integer diam erat, sagittis ac ornare eget, gravida id ex. Suspendisse egestas justo eu porta tempus. Praesent vel pulvinar nisi. Duis tellus massa, viverra vitae luctus sit amet, vulputate ac tellus. Suspendisse potenti.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget libero mauris. Praesent eget tortor rhoncus, malesuada justo eget, tempus nunc. Nullam non volutpat ligula. Nulla eget lorem ac dolor auctor cursus. Curabitur non nisi dictum, sodales turpis id, tincidunt leo. Ut finibus dolor a faucibus malesuada. Duis eget massa nulla. Integer diam erat, sagittis ac ornare eget, gravida id ex. Suspendisse egestas justo eu porta tempus. Praesent vel pulvinar nisi. Duis tellus massa, viverra vitae luctus sit amet, vulputate ac tellus. Suspendisse potenti.</p>
             </div>
         
 

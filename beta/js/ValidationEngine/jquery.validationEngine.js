@@ -383,15 +383,13 @@
 					if (options.scrollOffset) {
 						destination -= options.scrollOffset;
 					}
-
 					// get the position of the first error, there should be at least one, no need to check this
 					//var destination = form.find(".formError:not('.greenPopup'):first").offset().top;
 					if (options.isOverflown) {
 						var overflowDIV = $(options.overflownDIV);
 						if(!overflowDIV.length) return false;
 						var scrollContainerScroll = overflowDIV.scrollTop();
-						var scrollContainerPos = -parseInt(overflowDIV.offset().top) - ($("nav").height() + 40);
-
+						var scrollContainerPos = -parseInt(overflowDIV.offset().top) - ($("nav").height() + 50);
 						destination += scrollContainerScroll + scrollContainerPos - 5;
 						var scrollContainer = $(options.overflownDIV + ":not(:animated)");
 
@@ -401,7 +399,7 @@
 
 					} else {
 						$("html, body").animate({
-							scrollTop: destination-($("nav").height() + 40)
+							scrollTop: destination-($("nav").height() + 50)
 						}, 1100, function(){
 							if(options.focusFirstField) first_err.focus();
 						});
@@ -1759,7 +1757,6 @@
 			} else {
 				field.before(prompt);				
 			}
-			
 			var pos = methods._calculatePosition(field, prompt, options);
 			prompt.css({
 				'position': positionType === 'inline' ? 'relative' : 'absolute',
@@ -1894,12 +1891,18 @@
 		* @return positions
 		*/
 		_calculatePosition: function (field, promptElmt, options) {
-
+			var fixed_pos = true;
 			var promptTopPosition, promptleftPosition, marginTopSize;
 			var fieldWidth 	= field.width();
 			var fieldLeft 	= field.position().left; 
 			var fieldTop 	=  field.position().top;
-			var fieldHeight 	=  field.height();	
+			var fieldHeight =  field.height();
+			if(promptElmt.css("position") == "absolute" && promptElmt.css("opacity") > 0) {
+				fixed_pos = false;
+			}
+			if(fixed_pos == true) {
+				promptElmt.css("position", "absolute").css("left", "0").css("top", "0");
+			}
 			var promptHeight = promptElmt.height();
 
 
@@ -1907,7 +1910,9 @@
 			promptTopPosition = promptleftPosition = 0;
 			// compensation for the arrow
 			marginTopSize = -promptHeight;
-		
+			if(fixed_pos == true) {
+				promptElmt.css("position", "").css("left", "").css("top", "");
+			}
 
 			//prompt positioning adjustment support
 			//now you can adjust prompt position
@@ -1994,7 +1999,6 @@
 			//apply adjusments if any
 			promptleftPosition += shiftX;
 			promptTopPosition  += shiftY;
-
 			return {
 				"callerTopPosition": promptTopPosition + "px",
 				"callerleftPosition": promptleftPosition + "px",
@@ -2120,7 +2124,7 @@
 		// Automatically scroll viewport to the first error
 		scroll: true,
 		// Focus on the first input
-		focusFirstField:true,
+		focusFirstField:false,
 		// Show prompts, set to false to disable prompts
 		showPrompts: true,
        // Should we attempt to validate non-visible input fields contained in the form? (Useful in cases of tabbed containers, e.g. jQuery-UI tabs)
@@ -2147,7 +2151,7 @@
 		onValidationComplete: false,
 
 		// Used when you have a form fields too close and the errors messages are on top of other disturbing viewing messages
-		doNotShowAllErrosOnSubmit: false,
+		doNotShowAllErrosOnSubmit: true,
 		// Object where you store custom messages to override the default error messages
 		custom_error_messages:{},
 		// true if you want to vind the input fields
@@ -2163,7 +2167,7 @@
 		// the array is used during ajax form validation to detect issues early and prevent an expensive submit
 		ajaxValidCache: {},
 		// Auto update prompt position after window resize
-		autoPositionUpdate: false,
+		autoPositionUpdate: true,
 
 		InvalidFields: [],
 		onFieldSuccess: false,
@@ -2175,13 +2179,13 @@
 		addFailureCssClassToField: "",
 		
 		// Auto-hide prompt
-		autoHidePrompt: false,
+		autoHidePrompt: true,
 		// Delay before auto-hide
 		autoHideDelay: 10000,
 		// Fade out duration while hiding the validations
 		fadeDuration: 0.3,
 	 // Use Prettify select library
-	 prettySelect: false,
+	 prettySelect: true,
 	 // Add css class on prompt
 	 addPromptClass : "",
 	 // Custom ID uses prefix

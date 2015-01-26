@@ -69,11 +69,11 @@ if(isset($_GET['logout'])) {
             <p class="top col-md-6 col-md-offset-3">Besoin de nous contacter ?</p>
             <p class="bot col-md-8 col-md-offset-2">Une équipe professionnelle et réactive : si vous rencontrez un problème nous saurons vous guider.</p>
             <div class="row small">
-                <div class="getintouch col-md-2 col-md-offset-4 col-xs-2 col-xs-offset-3"><img src="img/contact/phone.png">
+                <div class="getintouch col-md-2 col-md-offset-4 col-xs-4 col-xs-offset-1"><img src="img/contact/phone.png">
                     <p>01.02.03.04.05</p>
                 </div>
 
-                <div class="getintouch col-md-2 col-md-offset-0 col-xs-2 col-xs-offset-1"><img src="img/contact/mail.png">
+                <div class="getintouch col-md-2 col-md-offset-0 col-xs-5 col-xs-offset-1"><img src="img/contact/mail.png">
                     <p>swappy@contact.fr</p>
                 </div>
             </div>
@@ -85,21 +85,21 @@ if(isset($_GET['logout'])) {
                     <div class="form-group">
                         <label for="prenom" class="control-label col-xs-12 col-sm-2">Prénom</label><br>
                         <div class="col-xs-12 col-sm-10 col-md-12">
-                            <input id="prenom" name="name" value="<?php echo $user->firstname; ?>" type="text" class="form-control" required>
+                            <input id="prenom" name="name" value="<?php echo $user->firstname; ?>" type="text" class="form-control validate[required]">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="nom" class="control-label col-xs-12 col-sm-2">Nom</label><br>
                         <div class="col-xs-12 col-sm-10 col-md-12">
-                            <input id="nom" name="lastname" value="<?php echo $user->lastname; ?>" class="form-control" required>
+                            <input id="nom" name="lastname" value="<?php echo $user->lastname; ?>" class="form-control validate[required]">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="mail" class="control-label col-xs-12 col-sm-2">Email</label><br>
                         <div class="col-xs-12 col-sm-10 col-md-12">
-                            <input id="mail" name="email" value="<?php echo $user->email; ?>" class="form-control" required>
+                            <input id="mail" name="email" value="<?php echo $user->email; ?>" class="form-control validate[required,email]">
                         </div>
                     </div>
                 </div>
@@ -115,7 +115,7 @@ if(isset($_GET['logout'])) {
                     <div class="form-group">
                         <label for="message" class="control-label col-xs-12 col-sm-2">Message</label><br>
                         <div class="col-xs-12 col-sm-10 col-md-12">
-                            <textarea id="message" class="form-control" name="msg" rows="8" cols="44" required></textarea>
+                            <textarea id="message" class="form-control validate[required]" name="msg" rows="8" cols="44"></textarea>
                         </div>
                     </div>  
 
