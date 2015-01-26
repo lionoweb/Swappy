@@ -6,15 +6,12 @@ html, body {
 	overflow:inherit;
 }
 #wrap {
-	min-height: 100%; /* min. height for modern browser */
-    height:auto; /* important rule for modern Browser */
-	/* Negative indent footer by it's height */
+	min-height: 100%;
+    height:auto; 
 	margin: 0 auto -131px;
 	padding-bottom:131px;
 	position:relative;
 	width:100%;
-	/*margin: 0 auto -30px;
-	padding-bottom:40px;*/
 }
 
 #footer {
@@ -44,11 +41,11 @@ html, body {
 #login_form label {
 	margin-bottom:12px;
 }
-#user_add {
+#user_add, #user_remind {
 	display:block; 
 	margin-bottom: 10px;
 }
-#user_add .header_inscription{
+#user_add .header_inscription, #user_remind .header_inscription {
 	width:100%;
 	text-align:center;
 	background-color:#53c1dd;
@@ -58,6 +55,7 @@ html, body {
 	line-height:40px;
 	margin-top:40px; 
 }
+
 .center {
 	text-align:center;	
 }
@@ -65,7 +63,7 @@ td.center {
 	padding-top:10px;
 	padding-bottom:10px;
 }
-form#user_add .greyback label{
+form#user_add .greyback label, form#user_remind .greyback label{
 	line-height: 28px;
 	text-align: right;
 }
@@ -75,7 +73,7 @@ form#user_add .greyback .lu{
 	text-align:left;
 	width:auto !important;
 }
-form#user_add .greyback input[type=submit]{
+form#user_add .greyback input[type=submit], form#user_remind .greyback input[type=submit]{
 	background-color: white;
 	color:#323232;
 	text-transform: uppercase;
@@ -90,7 +88,7 @@ form#user_add .greyback input[type=submit]{
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-form#user_add .greyback input[type=submit]:hover{
+form#user_add .greyback input[type=submit]:hover, form#user_remind .greyback input[type=submit]:hover {
 	background-color: #53c1dd;
 	color:white;
 }
@@ -355,6 +353,9 @@ input.space-button {
 	right:10px;
 	bottom:10px;
 }
+.bloc_services td {
+	border:none !important;	
+}
 .bloc_services:nth-child(odd) {
 	background:#74cce2;	
 }
@@ -364,9 +365,10 @@ input.space-button {
 .picto {
 	margin: 0px; 
 	padding: 0px; 
-	display: inline-block; 
 	width: 100px;
 	min-width:100px;
+	height:100%;
+	min-height:100%;
 }
 .picto-2 {
 	background:url(../img/services/bricolage.png) center no-repeat;
@@ -439,11 +441,18 @@ input#accept {
 	display:inline;	
 	width:auto !important;
 } 
-.greyback .liketext {
+.greyback .liketext:not(.fullwidth) {
 	border:none;
 	background:transparent;	
 	display:inline;
 	width:auto !important;
+	box-shadow:none;
+}
+.greyback .liketext.fullwidth {
+	border:none;
+	background:transparent;	
+	display:inline;
+	width:100% !important;
 	box-shadow:none;
 }
 #spec_propose .greyback button{
@@ -644,6 +653,9 @@ td {
 	padding-left:15px !important;
 	padding-right:15px !important;
 }
+.fullwidth {
+	width:100% !important;	
+}
 @media(max-width: 992px){
 	#spec_cgu .pictocgu{
 		position: relative;
@@ -669,7 +681,7 @@ td {
 	.toline-xs {
 		display:block;	
 	}
-	form#user_add .greyback label{
+	form#user_add .greyback label, form#user_remind .greyback label {
 		text-align: left;
 	}
 	.picto {
@@ -716,6 +728,9 @@ td {
 	}
 	#contact .header_contact .top{
 		font-size: 28px;
+	}
+	.desc_services h1 {
+		font-size:1.25em;
 	}
 }
 /*FIX BOOTSTRAP*/

@@ -7,6 +7,9 @@ $user = new user($mysql);
 if(isset($_POST['login'])) {
 	$arr = $user->add_user($_POST);
 }
+if(isset($_POST['hash'])) {
+	$arr = $user->remind_account($_POST);
+}
 if(isset($_POST['fieldId'])) {
 	if($_POST['fieldId'] == "login") {
 		$arr = $user->issetLogin($_POST['fieldValue'], $_POST['fieldId']);

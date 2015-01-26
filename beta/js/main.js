@@ -82,6 +82,14 @@ $(document).ready(function(e) {
 		showOneMessage: true,
 		promptPosition : "topLeft"
 	});
+	$("#user_remind").validationEngine({
+		ajaxFormValidation: true,
+		ajaxFormValidationMethod: 'post',
+		onAjaxFormComplete: remind_change_function,
+		onBeforeAjaxFormValidation: load_ajax_d,
+		showOneMessage: true,
+		promptPosition : "topLeft"
+	});
 	$("#spec_contact").validationEngine({
 		ajaxFormValidation: true,
 		ajaxFormValidationMethod: 'post',
@@ -181,6 +189,16 @@ function add_user_function(status, form, json, options) {
 	$(document).scrollTop(0);
 	return true;
 }
+function remind_change_function(status, form, json, options) {
+	$form_b = $(form);
+	if(json[0] == true) {
+		$form_b.html('<div id="message_ajax"><p>Votre mot de passe a été changé !<br><br><i>Vous pouvez dès à présent vous connecter avec ce nouveau mot de passe.</i></p></div>');
+	} else {
+		$form_b.find("#loader_ajax").remove();
+		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false)
+	}
+	return true;
+}
 function add_service_function(status, form, json, options) {
 	$form_b = $(form);
 	$form_b.html('<div id="message_ajax"><p>Service ajouté !</p></div>');
@@ -194,12 +212,24 @@ function login_user_function(status, form, json, options) {
 		document.location.replace(page.replace("?logout", "").replace("#", ""));
 	} else {
 		$form_b.find("#loader_ajax").remove();
-		$form_b.validationEngine('showPrompt', json[1], 'error', "center", false)
+		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false)
 	}
 	return true;
 }
 function remind_user_function(status, form, json, options) {
 	$form_b = $(form);
+	if(json[0] == true) {
+		$form_b.find("#loader_ajax").remove();
+		$("#modal_alert").remove();
+		$("body").append('<div id="modal_alert" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-md"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="exampleModalLabel">Mot de passe perdu</h4></div><div class="modal-body">Un mail vous a été envoyer contenant un lien afin de changer le mot de passe de votre compte.<br><br><i>N\'oubliez pas de vérifier dans vos indisérable en cas de non-reception</i></div></div></div></div>');
+		$('#modal_alert').modal('show');
+		$("#modal_alert").on("hidden.bs.modal", function(e) {
+			$(this).remove();
+		});
+	} else {
+		$form_b.find("#loader_ajax").remove();
+		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false)
+	}
 	return true;
 }
 function ZipFill(json) {

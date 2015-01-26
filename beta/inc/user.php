@@ -235,6 +235,33 @@
 			$output = preg_replace("/\_\_SWAP/", "", $output);
 			return $output;
 		}
+		function crypt_remind($mail, $ID, $pass) {
+			$step = base64_encode($ID."__SWAP".$mail."__SWAP".$pass);
+			$total = strlen($step);
+			$hs = round($total/4);
+			$firstpart = substr($step, 0, $hs);
+			$secondpart = substr($step, $hs, $hs);
+			$thirdpart = substr($step, $hs*2, $hs);
+			$fourthpart = substr($step, $hs*3, $hs);
+			$mixed = $thirdpart.$secondpart.$fourthpart.$firstpart;
+			$mixed = preg_replace("/\=/", "_", $mixed);
+			$output = base64_encode($mixed);
+			return $output;
+		}
+		function uncrypt_remind($sess) {
+			$step = base64_decode($sess);
+			$step = preg_replace("/\_/", "=", $step);
+			$total = strlen($step);
+			$hs = round($total/4);
+			$firstpart = substr($step, 0, $hs);
+			$secondpart = substr($step, $hs, $hs);
+			$thirdpart = substr($step, $hs*2, $hs);
+			$fourthpart = substr($step, $hs*3, $hs);
+			$mixed = $fourthpart.$secondpart.$firstpart.$thirdpart;
+			$output = base64_decode($mixed);
+			$output = explode("__SWAP", $output);
+			return $output;
+		}
 		function find_sess() {
 			if(isset($_COOKIE['user_swappy']) && !empty($_COOKIE['user_swappy'])) {
 				$this->load_user_data($this->uncrypt_sess($_COOKIE['user_swappy']), $_COOKIE['user_swappy']);
@@ -390,7 +417,7 @@
 					$arr = array(false);
 				} else {
 					//SEND MAIL VALIDATION
-					$mail = new mail();
+					$mail = new mailer();
 					$hash = $this->make_link_validation($POST['email'], $POST['login']);
 					$mail->send_validation(strtolower($POST['email']), strtolower($POST['firstname']), $hash);
 					$arr = array(true);
@@ -486,5 +513,44 @@
                 } 
 			$html .= "</li>";
 			return $html;
+		}
+		function remind_mail($POST) {
+			$arr = array();
+			$mail = strtolower(trim($POST['email']));
+			$select = $this->mysql->prepare("SELECT `Validation`, `Login`, `Password`, `Email`, `ID`, COUNT(*) AS `total` FROM `users` WHERE `Email` = :email");
+			$select->execute(array(":email" => $mail));
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			if($data->total == 1) {
+				if($data->Validation == 1) {
+					$mail_ = new mailer();
+					$hash = $this->crypt_remind($mail, $data->ID, $data->Password);
+					$arr = $mail_->send_remind($hash, $mail, $data->Login);
+				} else {
+					$arr = array(false, "Ce compte n'a pas été validé via votre boite mail.");
+				}
+			} else {
+				$arr = array(false, "Cette adresse email n'est pas relié à un compte.");
+			}
+			return $arr;
+		}
+		function remind_account($POST) {
+			$arr = array();
+			$info = $this->uncrypt_remind(trim($POST['hash']));
+			$select = $this->mysql->prepare("UPDATE `users` SET `Password` = :password WHERE `ID` = :ID AND `Email` = :email");
+			if($select->execute(array(":password" => md5(trim($POST['password'])), ":ID" => $info[0], ":email" => $info[1]))) {
+				$arr = array(true);
+			} else {
+				$arr = array(false, "Une erreur à eu lieu au moment tu changement du mot de passe... Veuillez réessayer.");
+			}
+			return $arr;	
+		}
+		function prevent_ex_remind($id, $pass) {
+			$select = $this->mysql->query("SELECT `Password` FROM `users` WHERE `ID` = '".$id."'");	
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			if($data->Password == $pass) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}  ?>
