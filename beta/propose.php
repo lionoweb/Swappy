@@ -117,7 +117,7 @@ $user->onlyUsers();	?>
             <div class="form-group">
                 <label for="day" class="control-label col-xs-12 col-sm-2">Disponibilités</label>
                 <div class="col-xs-12 col-sm-10">
-                <span data-IDF="1" class="dispo_field">
+                <span data-IDF="1" class="dispo_field">&bull; 
                     <select id="dispoday[1]" name="dispoday[1]" class="form-control days">
                             <?php $list_days = '<option value="all">Tous les jours</option>'.
 							'<option value="weekend">Le week-end</option>'.
@@ -131,10 +131,10 @@ $user->onlyUsers();	?>
                            echo $list_days;
                             ?>
                     </select>
-                    entre
+                    <span class="toline-xs">entre
                             <input size="5" maxlength="5" name="dispostart[1]" value="19:00" class="time form-control validate[required] timepicker" id="dispostart[1]" type="text">
                             et
-                            <input maxlength="5" name="dispoend[1]" class="validate[required,timeCheck[dispostart{1}]] form-control timepicker time" value="21:00" size="5" type="text">
+                            <input maxlength="5" name="dispoend[1]" class="validate[required,timeCheck[dispostart{1}]] form-control timepicker time" value="21:00" size="5" type="text"></span>
                             </span>
                 <button class="add_dispo">+ Ajouter une disponibilité</button>
                 </div>

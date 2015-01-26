@@ -98,6 +98,14 @@ $(document).ready(function(e) {
 		showOneMessage: true,
 		promptPosition : "topLeft"
 	});
+	$("#remind_form").validationEngine({
+		ajaxFormValidation: true,
+		ajaxFormValidationMethod: 'post',
+		onAjaxFormComplete: remind_user_function,
+		onBeforeAjaxFormValidation: load_ajax_d,
+		showOneMessage: true,
+		promptPosition : "topLeft"
+	});
 	$("#spec_propose").validationEngine({
 		ajaxFormValidation: true,
 		ajaxFormValidationMethod: 'post',
@@ -123,7 +131,7 @@ $(document).ready(function(e) {
 		var lastID = $(".dispo_field:last").attr("data-IDF");
 		lastID++;
 		var html = '<span data-IDF="'+lastID+'" class="dispo_field">' +
-            	'<select id="dispoday['+lastID+']" class="form-control days" name="dispoday['+lastID+']">' +
+            	'&bull; <select id="dispoday['+lastID+']" class="form-control days" name="dispoday['+lastID+']">' +
                 	'<option value="all">Tous les jours</option>' +
                     '<option value="weekend">Le week-end</option>' +
                 	'<option value="lun">Lundi</option>' +
@@ -134,7 +142,7 @@ $(document).ready(function(e) {
                     '<option value="sam">Samedi</option>' +
                     '<option value="dim">Dimanche</option>' +
                 '</select>' +
-                ' entre <input autocomplete="off" size="5" maxlength="5" name="dispostart['+lastID+']" value="19:00" class="validate[required] time timepicker form-control" id="dispostart['+lastID+']" type="text"> et <input autocomplete="off" maxlength="5" name="dispoend['+lastID+']" name="dispoend['+lastID+']" class="time form-control validate[required,timeCheck[dispostart{'+lastID+'}]] timepicker" value="21:00" size="5" type="text"> <a class="remove_dispo" data-idf="'+lastID+'">Effacer</a>' +
+                ' <span class="toline-xs">entre <input autocomplete="off" size="5" maxlength="5" name="dispostart['+lastID+']" value="19:00" class="validate[required] time timepicker form-control" id="dispostart['+lastID+']" type="text"> et <input autocomplete="off" maxlength="5" name="dispoend['+lastID+']" name="dispoend['+lastID+']" class="time form-control validate[required,timeCheck[dispostart{'+lastID+'}]] timepicker" value="21:00" size="5" type="text"> <a class="remove_dispo" data-idf="'+lastID+'">Effacer</a></span>' +
             '</span>';
 		$(html).insertAfter(".dispo_field:last");
 		$('.timepicker').datetimepicker({
@@ -188,6 +196,10 @@ function login_user_function(status, form, json, options) {
 		$form_b.find("#loader_ajax").remove();
 		$form_b.validationEngine('showPrompt', json[1], 'error', "center", false)
 	}
+	return true;
+}
+function remind_user_function(status, form, json, options) {
+	$form_b = $(form);
 	return true;
 }
 function ZipFill(json) {
