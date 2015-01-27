@@ -4,12 +4,16 @@
 		function __construct($mysql) {
 			$this->mysql = $mysql;
 		}
-		function format_city($zipcode) {
+		function format_city($zipcode, $city="") {
 			$return = "";
-			$select = $this->mysql->prepare("SELECT `Real_Name` FROM `french_city` WHERE `ZipCode` = :zipcode");
-			$select->execute(array(":zipcode" => $zipcode));
-			$data = $select->fetch(PDO::FETCH_OBJ);
-			$return = $zipcode." (".$data->Real_Name.")";
+			$cityn = $city;
+			if(empty($city)) {
+				$select = $this->mysql->prepare("SELECT `Real_Name` FROM `french_city` WHERE `ZipCode` = :zipcode");
+				$select->execute(array(":zipcode" => $zipcode));
+				$data = $select->fetch(PDO::FETCH_OBJ);
+				$cityn = $data->Real_Name;
+			}
+			$return = $zipcode." (".$cityn.")";
 			return $return;	
 		}
 		function get_coord($zip) {

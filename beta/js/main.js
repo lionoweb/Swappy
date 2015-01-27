@@ -240,6 +240,7 @@ function ZipFill(json) {
 			$("input[name='cityname']").remove();
 			$parent.append("<select name='cityname' class='form-control auto_width'></select>");
 		}
+		$("select[name='cityname']").html("");
 		for(i=0;i<json[2].length;i++) {
 			$("select[name='cityname']").append('<option value="'+json[2][i]+'">'+json[2][i]+'</option>');
 		}

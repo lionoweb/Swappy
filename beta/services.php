@@ -75,7 +75,7 @@ if(isset($_GET['logout'])) {
 		$day_s = "";
 		$where_s = "";
 		if($user->logged && !empty($user->zipcode)) {
-			$where_s = $services->format_city($user->zipcode);
+			$where_s = $services->format_city($user->zipcode, $user->city);
 		}
 		if(isset($_GET['searchbar'])) {
 			$title = $_GET['searchbar'];
@@ -89,7 +89,7 @@ if(isset($_GET['logout'])) {
 		if(isset($_GET['where'])) {
 			$where_s = $_GET['where'];
 		} else if(isset($_GET['searchbar']) && $user->logged && !empty($user->zipcode)) {
-			$where_s = $services->format_city($user->zipcode);
+			$where_s = $services->format_city($user->zipcode, $user->city);
 			$_GET['where'] = $where_s;
 		}
 	?>

@@ -113,7 +113,7 @@ class search {
 	}
 	function search($GET, $user) {
 		$replace = array();
-		$searchbar = $type = $locat = $day = $zip = $input = $where = $order = $final = "";
+		$searchbar = $type = $locat = $day = $zip = $input = $where = $order = $final = $type_c = "";
 		$page = @$GET['p'];
 		if(empty($page)) {
 			$page = 1;	
@@ -159,7 +159,7 @@ class search {
 			}
 		} else {
 			if(!empty($type)) {
-				$where .= ' AND (`services`.`Type` = :type0)';	
+				$type_c = ' AND (`services`.`Type` = :type0)';	
 				$replace[":type0"] = $type;
 			} else if(!empty($searchbar)) {
 				$where .= ' AND (';
@@ -275,6 +275,9 @@ class search {
 		if(empty($where) && empty($order)) {
 			$final = "<tr><td>Aucun résultat trouvé</td></tr>";
 		} else {
+			if(!empty($type_c)) {
+				$where = "(".$where.") ".$type_c;
+			}
 			//MATCH WITHOUT LOCATION/DISTANCE
 			$finalquery = "SELECT `services`.`ID`, `categories`.`Name` AS `CatName`, `categories`.`ID` AS `CatID`, `services`.`Title` AS `SerName`, `french_city`.`Real_Name` AS `CityName`, `services`.`City`, `services`.`Distance`, `services`.`By`, `services`.`Type`, `type`.`Name` AS `TypName`, `services`.`Description`, `services`.`Image`, `services`.`Disponibility` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` WHERE ".$where." GROUP BY `services`.`ID` ORDER BY ".$order." `services`.`Created` DESC";
 
