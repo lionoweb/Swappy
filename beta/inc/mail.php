@@ -83,7 +83,7 @@ class mailer {
 		}
 		
 	}
-	function send_remind($hash, $mail, $name) {
+	function send_remind($hash, $mail, $name, $cname) {
 		
 		$to = $mail;
 		$subject = 'Changement du mot de passe sur Swappy.fr';
@@ -99,13 +99,13 @@ class mailer {
 			return array(false, "Une erreur à eu lieu lors de l'envoie du mail... Veuillez réessayer plus tard.");
 		}
 	}
-	function send_validation($email, $name, $hash) {
+	function send_validation($email, $name, $cname, $hash) {
 		$to = $email;
 		$subject = 'Inscription sur Swappy.fr';
 		
 		$message = '<html><body>';
 		$message .= '<h2>Bienvenue dans la communauté swappy !</h2>';
-		$message .= '<p>Merci '.$name.' pour votre inscription sur notre site.<br><br>Merci de bien vouloir activer votre compte en cliquant sur ce lien :<br><a href="http://swappy.fr/beta/inscription.php?validation='.$hash.'" target="_blank">http://swappy.fr/beta/inscription.php?validation='.$hash.'</a><br><br><i>Si vous ne pouvez pas cliquer sur ce lien, copiez le et collez-le lien dans votre navigateur.</i></p><br><br><br>Ce mail à été envoyer automatiquement, veuillez ne pas y répondre.<br><br>Swappy.fr';
+		$message .= '<p>Merci '.$cname.' pour votre inscription sur notre site.<br><br>Merci de bien vouloir activer votre compte en cliquant sur ce lien :<br><a href="http://swappy.fr/beta/inscription.php?validation='.$hash.'" target="_blank">http://swappy.fr/beta/inscription.php?validation='.$hash.'</a><br><br>Une fois votre compte activé vous pourrez vous connecter sur notre site !<br><br>Identifiant : '.$name.'<br>Mot de passe : *******<br><br><i>Si vous ne pouvez pas cliquer sur ce lien, copiez le et collez-le lien dans votre navigateur.</i></p><br><br><br>Ce mail à été envoyer automatiquement, veuillez ne pas y répondre.<br><br>Swappy.fr';
 		$message .= "</body></html>";
 		
 		if($this->sendmail($to, $this->noreply, "Swappy.fr", $subject, $message)) {

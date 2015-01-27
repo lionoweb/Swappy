@@ -402,8 +402,8 @@
 				$replace = array(":login" => strtolower($POST['login']),
 					":password" => md5($POST['password']), 
 					":email" => strtolower($POST['email']), 
-					":lastname" => $POST['lastname'], 
-					":firstname" => $POST['firstname'], 
+					":lastname" => ucfirst(strtolower($POST['lastname'])), 
+					":firstname" => ucfirst(strtolower($POST['firstname'])), 
 					":gender" => $POST['gender'],
 					":birthdate" => $birthdate,
 					":street" => $street,
@@ -418,8 +418,8 @@
 				} else {
 					//SEND MAIL VALIDATION
 					$mail = new mailer();
-					$hash = $this->make_link_validation($POST['email'], $POST['login']);
-					$mail->send_validation(strtolower($POST['email']), strtolower($POST['firstname']), $hash);
+					$hash = $this->make_link_validation($replace[':email'], $replace[':login']);
+					$mail->send_validation($replace[':email'], $replace[':login'], $replace[':firstname']." ".$replace[':lastname'], $hash);
 					$arr = array(true);
 				}
 				return $arr;
@@ -517,14 +517,14 @@
 		function remind_mail($POST) {
 			$arr = array();
 			$mail = strtolower(trim($POST['email']));
-			$select = $this->mysql->prepare("SELECT `Validation`, `Login`, `Password`, `Email`, `ID`, COUNT(*) AS `total` FROM `users` WHERE `Email` = :email");
+			$select = $this->mysql->prepare("SELECT `Validation`, `Login`, `FirstName`, `LastName`, `Password`, `Email`, `ID`, COUNT(*) AS `total` FROM `users` WHERE `Email` = :email");
 			$select->execute(array(":email" => $mail));
 			$data = $select->fetch(PDO::FETCH_OBJ);
 			if($data->total == 1) {
 				if($data->Validation == 1) {
 					$mail_ = new mailer();
 					$hash = $this->crypt_remind($mail, $data->ID, $data->Password);
-					$arr = $mail_->send_remind($hash, $mail, $data->Login);
+					$arr = $mail_->send_remind($hash, $mail, $data->Login, $data->FirstName." ".$data->LastName);
 				} else {
 					$arr = array(false, "Ce compte n'a pas été validé via votre boite mail.");
 				}
