@@ -290,7 +290,7 @@ class search {
 			 + SIN(RADIANS(latpoint))
 			 * SIN(RADIANS(services.Lat)))) AS `distance_in_km` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` JOIN (
  SELECT  :lat0  AS latpoint, :lon0 AS longpoint
-) AS p ON 1=1 WHERE ".$where." GROUP BY `ID` HAVING `distance_in_km` <= (`services`.`Distance` + 1) ORDER BY distance_in_km ASC ,".$order." `services`.`Created` DESC";
+) AS p ON 1=1 WHERE ".$where." GROUP BY `ID` HAVING `distance_in_km` <= (`services`.`Distance` + 1) ORDER BY ".$order." distance_in_km ASC , `services`.`Created` DESC";
 				$replace[":lat0"] = $position['lat'];
 				$replace[":lon0"] = $position['lon'];
 			}

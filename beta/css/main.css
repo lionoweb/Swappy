@@ -238,10 +238,11 @@ select, input {
 	font-size:1.1em;
 }
 #loader_ajax {
+	 
+	position:absolute;
 	display:block; 
-	position:absolute; 
-	top:0; 
-	left:0; 
+	top:0px; 
+	left:0px; 
 	z-index:1000; 
 	background-color:#FFF; 
 	opacity:0.8; 
@@ -258,10 +259,20 @@ select, input {
   display:inline;
   display:inline-block;
   vertical-align:middle;
+  position:absolute;
+  top:50%;
+  margin-top:-25%;
+  background:#A7A4A4;
+  left:0px;
+  padding:5px;
+  font-weight:bold;
   text-align:center; /* on rétablit l'alignement du texte */
   height:auto;
   font-size:16px;
 
+}
+#message_ajax p img {
+	vertical-align:bottom !important;	
 }
 #message_ajax {
 	display:block;  

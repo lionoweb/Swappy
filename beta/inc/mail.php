@@ -42,7 +42,6 @@ class mailer {
 			
 			return mail($to, $subject, $message, $headers);
 		} else {
-			//$to = "autorespond+dkim@dk.elandsys.com";
 			//$to = "check-auth2@verifier.port25.com";
 			$mail = new PHPMailer;
 
