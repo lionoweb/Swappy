@@ -138,6 +138,9 @@ a.add_dispo, a.remove_dispo {
 	margin-top:4px;	
 	margin-bottom:4px;
 }
+.navbar {
+  margin-bottom: 0px !important; 
+}
 .navbar-default {
 	background:#eb957f !important;	
 	border:none;
@@ -234,7 +237,7 @@ select, input {
 	cursor:pointer;	
 }
 .grey_text {
-	color:#9f9f9f;
+	color:#e5e4e4;
 	font-size:1.1em;
 }
 #loader_ajax {
@@ -303,9 +306,6 @@ select, input {
 	line-height:40px;
 	margin-top:20px;
 }
-#spec_search {
-	margin-bottom:45px;
-}
 #spec_search label {
 	padding-right:10px;
 }
@@ -318,6 +318,17 @@ select, input {
 }
 #spec_search .send input[type="submit"]{
 	margin-top: 14px;
+}
+#spec_services{
+	display: inline-block;
+	width:100%;
+	background-color: #3d3d3d;
+	height: 100%;
+	padding: 40px 0px 56px 0px;
+}
+
+.container.main #spec_services {
+	width: 100%;
 }
 input.space-button {
 	display:inline-block;
@@ -388,6 +399,81 @@ input.space-button {
 .form-group {
 	overflow:auto;	
 }
+
+	/* ### SERVICE/ANNONCE DÉTAILLÉ ### */
+
+.row{
+	margin-left: 0px;
+	margin-right: 0px;
+	}
+#spec_annonce .profil{
+	display: inline-block;
+	background-color: #3d3d3d;
+	color: white;
+	width: 100%;
+	line-height: auto;
+	padding: 60px 0px 60px 0px;
+}
+#spec_annonce .dispo{
+	margin-left: 68px;
+}
+#spec_annonce .profil .name{
+	font-size: 2em;
+	margin-bottom: 30px;
+}
+#spec_annonce .profil .info{
+	margin-top: 6px;
+}
+#spec_annonce .profil .loc img{
+	margin-left: 1px;
+}
+#spec_annonce .profil .info img{
+	margin-right: 14px;
+	height: 20px;
+	line-height:20px;
+}
+#spec_annonce .profil button{
+	margin-top:50px;
+	font-weight: 500;
+	background-color: white;
+	color: black;
+	border: none;
+	padding: 10px 16px 10px 16px ;
+	text-transform: uppercase;
+}
+#spec_annonce .profil button:hover{
+	background-color: #74cce2;
+	color: white;
+	border: none;
+}
+#spec_annonce .servicepropose{
+	margin-top: -5px;
+	background-color: #74cce2;
+}
+#spec_annonce .header_annonce{
+	position: relative;
+	top: 6px;
+	left: 80px;
+	color: white;
+	font-weight: 300;
+	letter-spacing: 1px;
+	font-size: 1.8em;
+	display: inline-block;
+}
+#spec_annonce .greyback p{
+	padding: 40px 0px 40px 0px;
+}
+#spec_annonce .greyback img{
+	margin-right: 6px;
+}
+#spec_annonce .greyback a{
+	color: black;
+	margin-bottom: 40px;
+}
+#spec_annonce .greyback a:hover{
+	color:#74cce2;	
+}
+
 
 	/* ### PROPOSE ### */
 
@@ -515,7 +601,7 @@ input#accept {
 	margin-top: -20px;
 }
 #spec_apropos .down{
-	margin-top: -4px;
+	margin-top: -6px;
 }
 #spec_apropos .pictodown{
 	text-align: center;
@@ -606,7 +692,6 @@ input#accept {
 #contact .header_contact .top{
 	text-align: center;
 	font-size: 38px;
-
 	font-family: "Pacifico";
 }
 #contact .header_contact .bot{
@@ -656,6 +741,7 @@ input#accept {
 .table-responsive, .container.main > div:first-child:not(.nonullpad), .container.main > form:first-child:not(.nonullpad){
 	padding-left:0px;
 	padding-right:0px;
+	padding-top: 30px;
 }
 td {
 	white-space:normal !important;	
@@ -682,6 +768,10 @@ td {
 		margin-right: auto;
 		margin-top: 25px;
 	}
+	.row{
+	margin-left: 0px;
+	margin-right: 0px;
+	}
 }
 
 
@@ -698,7 +788,11 @@ td {
 	.picto {
 		display:none;
 	}
-	.container {
+	.container #spec_services{
+		padding-left:0px;
+		padding-right:0px;
+	}
+	.container .table-responsive{
 		padding-left:8px;
 		padding-right:8px;
 	}
@@ -733,7 +827,6 @@ td {
 		margin-left: auto;
 		margin-right: auto;
 	}
-
 	#spec_contact .form-group {
 		padding:0px;
 	}
@@ -743,11 +836,31 @@ td {
 	.desc_services h1 {
 		font-size:1.25em;
 	}
-}
+	.main #spec_services{
+	padding-left: 0px;
+	padding-right: 0px;
+	}
+	#spec_annonce .dispo{
+	margin-left: 150px;
+	}
+	#spec_annonce .dispo .name{
+	font-size: 1.6em
+	}
+	#spec_annonce .interesse button{
+	margin-left: -18px;
+	}
+	#spec_annonce .header_annonce{
+	position: relative;
+	top: 6px;
+	left: 24px;
+	font-size: 1.4em;
+	}
 /*FIX BOOTSTRAP*/
 .row{
-    margin-left: 0;
-    margin-right: 0;
+	box-sizing:border-box;
+	width:100%;
+	margin: 0;
+	padding: 0;
 }
 
 .container .row{

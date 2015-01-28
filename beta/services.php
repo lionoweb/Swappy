@@ -94,16 +94,14 @@ if(isset($_GET['logout'])) {
 		}
 	?>
 
+    <div id="spec_services">
 		<form class="col-md-6 col-md-offset-3 form-horizontal nonullpad" id="spec_search" action="services.php" method="get">
     		<div class="form-group">
         		<label for="searchbar_" class="control-label col-xs-12 col-sm-2 left-text grey_text">Rechercher</label>
         		<div class="col-xs-12 col-sm-10 input-group">
             		<input id="searchbar_" name="searchbar" value="<?php echo $title; ?>" class="form-control" type="text">
-                    <span class="input-group-btn">
-            			<input type="submit" value="" class="bluesearch btn btn-default">
-                    </span>
 				</div>
-        	</div>
+            </div>
             <div class="blueback">
             	<div class="form-group">
                     <label for="type" class="control-label col-xs-12 col-sm-2">Catégorie</label>
@@ -142,6 +140,7 @@ if(isset($_GET['logout'])) {
               	</div>
         	</div>
     	</form>
+    </div>
         <?php if(isset($_GET['searchbar'])) {
 		?>
         <?php $result = $search->search($_GET, $user); ?>
