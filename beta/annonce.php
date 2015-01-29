@@ -1,18 +1,22 @@
 <?php
 session_start();
-require_once("inc/user.php");
 require_once("inc/mysql.php");
+require_once("inc/user.php");
+require_once("inc/services.php");
 $user = new user($mysql);
 if(isset($_GET['logout'])) {
 	$user->logout();
-}	?>
+}
+$ID_service = @$_GET['id'];
+$services = new	services($mysql, $ID_service);
+$user_ = new user($mysql, $services->by); ?>
 <!doctype html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Swappy.fr - Annonce</title>
+    <title>Swappy.fr - Annonce : <?php echo $services->title; ?></title>
     <link rel="stylesheet" href="css/jquery-ui.css">
     <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
     <link rel="stylesheet" href="css/template.css" type="text/css"/>
@@ -27,7 +31,7 @@ if(isset($_GET['logout'])) {
 </head>
 
 <body role="document">
-<div id="wrap">
+<div id="wrap" class="color-grey">
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
    		<div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -65,15 +69,15 @@ if(isset($_GET['logout'])) {
 	</nav>
 
     
-    <div id="spec_annonce">
+    <div id="spec_annonce" class="container main" role="main">
         <div class="profil row">
             <div class="col-md-1 col-md-offset-2 col-sm-1 col-sm-offset-1 col-xs-1 col-xs-offset-0">
-                <img src="img/annonce/johndoe.png" width="130" height="130">
+                <img src="<?php echo $user_->avatar; ?>" width="130" height="130">
             </div>
             <div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-1 dispo">
-                <div class="name">John Doe propose</div>
-                <div class="info"><img src="img/annonce/clock.png">Lundi, week-end</div>
-                <div class="info loc"><img src="img/annonce/location.png" width="18" height="28">Perpignan, jusqu'à 5 km</div>
+                <div class="name"><?php echo $user_->firstname." ".$user_->lastname; ?> (<?php echo $user_->login; ?>) propose</div>
+                <div class="info"><img src="img/annonce/clock.png"><?php echo $services->disponibility; ?></div>
+                <div class="info loc"><img src="img/annonce/location.png" width="18" height="28"><?php echo $services->city; ?>, jusqu'à <?php echo $services->distance; ?> km de déplacement</div>
             </div>
             <div class="interesse">
                 <a href=""><button>Je suis interessé(e)</button></a>
@@ -82,15 +86,20 @@ if(isset($_GET['logout'])) {
 
         <div class="servicepropose">      
             <div class="row">
-                <img src="img/annonce/pic.png">
-                <div class="header_annonce">Réparation de voiture</div>
+                <img width="85" height="85" src="img/services/<?php echo $services->cattype; ?>.jpg">
+                <div class="header_annonce"><?php echo ucfirst($services->title); ?></div>
             </div>
         </div>
 
 
-        <div class="greyback">
-            <p class="col-md-8 col-md-offset-2 description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec erat velit, eleifend vel lorem maximus, vestibulum ultrices mi. Donec non mi eros. Sed massa purus, facilisis vel tortor at, fermentum posuere lacus. Nullam a libero ut Donec erat velit, eleifend vel lorem maximus, vestibulum ultrices mi. Donec non mi eripsum dolor sit amet, consectetur adipiscing elit. Donec erat velit, eleifend vel lorem maximus, vestibulum ultrices mi. Donec non mi eros. Sed massa purus, facilisis vel tortor at, fermentum posuere lacus. Nullam a libero ut Donec erat velit, eleifend vel lorem maximus, vestibulum ultrices mi. Donec non mi er ut Donec erat velit, eleifend vel lorem maximus, vestibulum ultrices mi. Donec non mi eripsum dolor sit amet, consectetur adipiscing elit. Donec erat velit, eleifend vel lorem maximus, vestibulum ultrices mi. Donec non mi eros. Sed massa purus, facilisis vel tortor at, fermentum posuere lacus. Nullam a libero ut Donec erat velit, eleifend vel lorem maximus, vestibulum ultrices m</p>
-            <a href="" class="col-md-3"><img src="img/annonce/back.png">Retours aux résultats précédents</a>
+        <div class="greyback row">
+        <?php if(isset($_GET['r']) && !empty($_GET['r'])) {
+			$r = '<a href="services.php?'.base64_decode($_GET['r']).'" class="col-md-3"><img src="img/annonce/back.png">Retours aux résultats précédents</a>';
+		} else {
+			$r = '<a href="services.php" class="col-md-3"><img src="img/annonce/back.png">Retour à la page des services</a>';
+		} ?>
+            <p class="col-md-8 col-md-offset-2 description"><?php echo ucfirst($services->description); ?></p>
+            <?php echo $r; ?>
         </div>
     </div>
 

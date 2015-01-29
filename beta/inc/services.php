@@ -1,8 +1,59 @@
 <?php
 	class services {
 		private $mysql;
-		function __construct($mysql) {
+		public $ID = "";
+		public $title = "";
+		public $type = "";
+		public $typename = "";
+		public $cattype = "";
+		public $by = "";
+		public $description = "";
+		public $image = "";
+		public $distance = "";
+		public $disponibility = "";
+		public $created = "";
+		public $city = "";
+		public $lat = "";
+		public $lon = "";
+		function __construct($mysql, $ids="") {
 			$this->mysql = $mysql;
+			if(!empty($ids)) {
+				$this->load_service($ids);
+			} else if(preg_match("/annonce\.php/", $_SERVER['PHP_SELF'])) {
+				header("Location: services.php");	
+			}
+		}
+		function load_service($ids) {
+			$select = $this->mysql->prepare("SELECT `services`.`ID`, `categories`.`ID` AS `CatType`, `services`.`Title`, `services`.`Type`, `type`.`Name` AS `TypeName`, `services`.`By`, `services`.`Description`, `services`.`Distance`, `services`.`Disponibility`, `services`.`Created`, `services`.`City`, `services`.`Lat`, `services`.`Lon`, `french_city`.`Real_Name` AS `CityName` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` WHERE `services`.`ID` = :ID");
+			$select->execute(array(":ID" => $ids));
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			$total = $select->rowCount();
+			if($total < 1) {
+				header("Location: 404.php");
+			} else {
+				$this->ID = $data->ID;
+				if(empty($data->Title)) {
+					$this->title = $data->TypeName;
+				} else {
+					$this->title = $data->Title;
+				}
+				$this->type = $data->Type;
+				$this->typename = $data->TypeName;
+				$this->cattype = $data->CatType;
+				$this->by = $data->By;
+				if(empty($data->Description)) {
+					$this->description = "L'utilisateur n'a pas fourni de description...";
+				} else {
+					$this->description = $data->Description;
+				}
+				$this->image = $data->Image;
+				$this->distance = $data->Distance;
+				$this->disponibility = $this->dispo_uncrypt_an($data->Disponibility);
+				$this->created = $data->Created;
+				$this->city = $data->CityName;
+				$this->lat = $data->Lat;
+				$this->lon = $data->Lon;
+			}
 		}
 		function format_city($zipcode, $city="") {
 			$return = "";
@@ -81,6 +132,17 @@
 				$d = explode("@", $sp[$i]);
 				$h = explode("-", $d[1]);
 				$out .= $trad[$d[0]]." de ".$h[0]." à ".$h[1]."<br>";
+			}
+			return $out;
+		}
+		function dispo_uncrypt_an($txt) {
+			$out = "";
+			$sp = explode("||", $txt);
+			$trad = array("lun" => "lundi", "mar" => "mardi", "mer" => "mercredi", "jeu" => "jeudi", "ven" => "vendredi", "sam" => "samedi", "dim" => "dimanche", "all" => "tous les jours", "weekend" => "weekend");
+			for($i=0;$i<count($sp);$i++) {
+				$d = explode("@", $sp[$i]);
+				$h = explode("-", $d[1]);
+				$out .= "<span class='disponi'>".ucfirst($trad[$d[0]])." de ".$h[0]." à ".$h[1]."</span><br>";
 			}
 			return $out;
 		}

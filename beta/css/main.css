@@ -12,6 +12,7 @@ html, body {
 	padding-bottom:131px;
 	position:relative;
 	width:100%;
+	overflow-y:hidden;
 }
 
 #footer {
@@ -386,14 +387,14 @@ input.space-button {
 }
 .picto {
 	margin: 0px; 
-	padding: 0px; 
+	padding: 0px !important; 
 	width: 100px;
 	min-width:100px;
 	height:100%;
 	min-height:100%;
 }
 .picto-2 {
-	background:url(../img/services/bricolage.png) center no-repeat;
+	background:url(../img/services/2.jpg) center no-repeat;
 	background-size:cover;	
 }
 .form-group {
@@ -406,6 +407,9 @@ input.space-button {
 	margin-left: 0px;
 	margin-right: 0px;
 	}
+.color-grey {
+	background-color:#e5e4e4;
+}
 #spec_annonce .profil{
 	display: inline-block;
 	background-color: #3d3d3d;
@@ -428,9 +432,18 @@ input.space-button {
 	margin-left: 1px;
 }
 #spec_annonce .profil .info img{
-	margin-right: 14px;
+	margin-right: 0px;
 	height: 20px;
 	line-height:20px;
+}
+#spec_annonce .profil .info.loc img {
+	margin-right: 14px;
+}
+#spec_annonce .profil .info .disponi {
+	padding-left:32px;	
+}
+#spec_annonce .profil .info .disponi:nth-of-type(1) {
+	padding-left:9px !important;	
 }
 #spec_annonce .profil button{
 	margin-top:50px;
@@ -447,7 +460,6 @@ input.space-button {
 	border: none;
 }
 #spec_annonce .servicepropose{
-	margin-top: -5px;
 	background-color: #74cce2;
 }
 #spec_annonce .header_annonce{
@@ -468,13 +480,18 @@ input.space-button {
 }
 #spec_annonce .greyback a{
 	color: black;
-	margin-bottom: 40px;
 }
 #spec_annonce .greyback a:hover{
 	color:#74cce2;	
 }
 
-
+.fullfit {
+	display:block;
+	width:100%;
+	min-width:100%;
+	height:100%;
+	min-height:100%;	
+}
 	/* ### PROPOSE ### */
 
 #spec_propose label {

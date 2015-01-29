@@ -155,9 +155,13 @@
 		$lon;
 		private $mysql, 
 			$cookies;
-		function __construct($mysql) {
+		function __construct($mysql, $id="") {
 			$this->mysql = $mysql;
-			$this->find_sess();
+			if(empty($id)) {
+				$this->find_sess();
+			} else {
+				$this->load_user_data($id, "", false);
+			}
 		}
 		function onlyUsers() {
 			if(!$this->logged) {
@@ -332,13 +336,17 @@
 			}
 			return $arr;
 		}
-		function load_user_data($ID, $crypt) {			
+		function load_user_data($ID, $crypt, $me=true) {			
 			$select = $this->mysql->prepare("SELECT *, COUNT(*) AS `exist` FROM `users` WHERE `ID` = :ID");
 			$select->execute(array(":ID" => $ID));
 			$data = $select->fetch(PDO::FETCH_OBJ);
 			if($data->exist < 1) {
 				//WRONG
-				$this->logout();
+				if($me == true) {
+					$this->logout();
+				} else {
+					header("Location: 404.php");
+				}
 			} else {
 				//OK	
 				$this->ID = $ID;
@@ -358,7 +366,11 @@
 				$this->birthdate = $data->Birthdate;
 				$this->lon = $data->Lon;
 				$this->lat = $data->Lat;
-				$this->logged = true;
+				if($me == true) {
+					$this->logged = true;
+				} else {
+					$this->logged = false;
+				}
 			}
 		}
 		function unload_user_data() {
@@ -398,7 +410,7 @@
 				//Creation de la position Lat/Lon
 				$city = new city($this->mysql);
 				$c = $city->getPosition($POST['street'], $POST['zipcode'], $POST['cityname']);
-				$select = $this->mysql->prepare("INSERT INTO `users` (`ID`, `Login`, `Password`, `Email`, `Created`, `Avatar`, `LastName`, `FirstName`, `Gender`, `Birthdate`, `Street`, `ZipCode`, `City`, `Lat`, `Lon`, `Phone`, `Admin`, `MailOption`, `Validation`) VALUES (NULL, :login, :password, :email, CURRENT_TIMESTAMP, NULL, :lastname, :firstname, :gender, :birthdate, :street, :zipcode, :city, :lat, :lon, :phone, '0', '0', '0');");
+				$select = $this->mysql->prepare("INSERT INTO `users` (`ID`, `Login`, `Password`, `Email`, `Created`, `Avatar`, `LastName`, `FirstName`, `Gender`, `Birthdate`, `Street`, `ZipCode`, `City`, `Lat`, `Lon`, `Phone`, `Admin`, `MailOption`, `Validation`) VALUES (NULL, :login, :password, :email, CURRENT_TIMESTAMP, :avatar, :lastname, :firstname, :gender, :birthdate, :street, :zipcode, :city, :lat, :lon, :phone, '0', '0', '0');");
 				$replace = array(":login" => strtolower($POST['login']),
 					":password" => md5($POST['password']), 
 					":email" => strtolower($POST['email']), 
@@ -411,7 +423,8 @@
 					":city" => $POST['cityname'],
 					":lat" => $c['lat'],
 					":lon" => $c['lon'],
-					":phone" => $POST['phone']
+					":phone" => $POST['phone'],
+					":avatar" => "img/user/".strtoupper($POST['gender']).".jpg"
 				);
 				if(!$select->execute($replace)) {
 					$arr = array(false);
