@@ -39,6 +39,24 @@ html, body {
 #footer p{
 	text-transform: uppercase;
 }
+#error{
+	background-image:url('../img/404.png');
+	background-position: top;
+	background-repeat: no-repeat;
+	background-color: #323232;
+	width: 100%;
+	height: 100%;
+	margin-top: -20px;
+	color: white;
+	text-align: center;
+}
+#error img{
+	display: block;
+	margin: 0 auto;
+	padding-top: 40px;
+	padding-bottom: 12%;
+	opacity: 0.5;
+}
 #login_form label {
 	margin-bottom:12px;
 }
@@ -329,7 +347,13 @@ select, input {
 	height: 100%;
 	padding: 40px 0px 56px 0px;
 }
-
+#spec_services .grey_text{
+	padding-left: 12px;
+}
+#spec_services .input-group{
+	padding-left: 12px;
+	padding-right: 12px;
+}
 .container.main #spec_services {
 	width: 100%;
 }
@@ -669,11 +693,15 @@ input#accept {
 
 	/* ### A PROPOS ### */
 
+#spec_apropos{
+	background-color:#e5e4e4;
+	width:100% !important;
+	padding:0px;
+}
 #spec_apropos .teamtitle{
 	width:100%;
 	height:70px;
 	background-color: #54c1de;
-	margin-top: -20px;
 }
 #spec_apropos .down{
 	margin-top: -6px;
@@ -691,18 +719,18 @@ input#accept {
 #spec_apropos #spec_team{
 	background-color: #323232;
 	margin-top: -20px;
-	padding-top: 60px;
-	padding-bottom: 40px;
+	padding-top: 50px;
+	padding-bottom: 50px;
 }
 #spec_apropos #spec_team .row{
 	box-sizing:border-box;
 	width:100%;
 	margin: 0;
 	padding: 0;
-	padding: 40px 0px 14px 0px;
+	/*padding: 14px 0px 14px 0px;*/
 }
-#spec_apropos #spec_team img{
-	margin-bottom: 46px;
+#spec_apropos .center{
+	margin-bottom: 26px;
 }
 #spec_apropos .projet{
 	margin-top: -20px;
@@ -711,11 +739,201 @@ input#accept {
 #spec_apropos .projet p{
 	text-align: justify;
 }
-
+.team{
+	margin-left: -20px;
+}
 .auto_width {
 	width:auto !important;
 	display:inline;
 }
+.view {
+   width: 225px;
+   height: 225px;
+   float: left;
+   overflow: hidden;
+   position: relative;
+   text-align: center;
+   cursor: default;
+}
+.view .mask,.view .content {
+   width: 225px;
+   height: 225px;
+   position: absolute;
+   overflow: hidden;
+   top: 0;
+   left: 0;
+}
+.view img {
+   display: block;
+   position: relative;
+   margin-left:-15px; 
+}
+.view h2 {
+   text-transform: uppercase;
+   color: #fff;
+   text-align: center;
+   position: relative;
+   font-size: 17px;
+   padding: 10px;
+   background: rgba(0, 0, 0, 0.8);
+   margin: 20px 0 0 0;
+}
+.view p {
+   font-family: Georgia, serif;
+   font-style: italic;
+   font-size: 12px;
+   position: relative;
+   color: #fff;
+   padding: 10px 20px 20px;
+   text-align: center;
+}
+.view a.more {
+   display: inline-block;
+   text-decoration: none;
+   padding: 7px 14px;
+   background: #000;
+   color: #fff;
+   text-transform: uppercase;
+   -webkit-box-shadow: 0 0 1px #000;
+   -moz-box-shadow: 0 0 1px #000;
+   box-shadow: 0 0 1px #000;
+}
+.view a.more:hover {
+   -webkit-box-shadow: 0 0 5px #000;
+   -moz-box-shadow: 0 0 5px #000;
+   box-shadow: 0 0 5px #000;
+}
+
+.view-sixth img {
+   -webkit-transition: all 0.4s ease-in-out 0.5s;
+   -moz-transition: all 0.4s ease-in-out 0.5s;
+   -o-transition: all 0.4s ease-in-out 0.5s;
+   -ms-transition: all 0.4s ease-in-out 0.5s;
+   transition: all 0.4s ease-in-out 0.5s;
+}
+.view-sixth .mask {
+   background-color: rgba(146,96,91,0.5);
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
+   filter: alpha(opacity=0);
+   opacity: 0;
+   -webkit-transition: all 0.3s ease-in 0.4s;
+   -moz-transition: all 0.3s ease-in 0.4s;
+   -o-transition: all 0.3s ease-in 0.4s;
+   -ms-transition: all 0.3s ease-in 0.4s;
+   transition: all 0.3s ease-in 0.4s;
+}
+.view-sixth h2 {
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
+   filter: alpha(opacity=0);
+   opacity: 0;
+   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+   background: transparent;
+   margin: 20px 20px 0px 20px;
+   -webkit-transform: scale(10);
+   -moz-transform: scale(10);
+   -o-transform: scale(10);
+   -ms-transform: scale(10);
+   transform: scale(10);
+   -webkit-transition: all 0.3s ease-in-out 0.1s;
+   -moz-transition: all 0.3s ease-in-out 0.1s;
+   -o-transition: all 0.3s ease-in-out 0.1s;
+   -ms-transition: all 0.3s ease-in-out 0.1s;
+   transition: all 0.3s ease-in-out 0.1s;
+}
+.view-sixth p {
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
+   filter: alpha(opacity=0);
+   opacity: 0;
+   -webkit-transform: scale(10);
+   -moz-transform: scale(10);
+   -o-transform: scale(10);
+   -ms-transform: scale(10);
+   transform: scale(10);
+   -webkit-transition: all 0.3s ease-in-out 0.2s;
+   -moz-transition: all 0.3s ease-in-out 0.2s;
+   -o-transition: all 0.3s ease-in-out 0.2s;
+   -ms-transition: all 0.3s ease-in-out 0.2s;
+   transition: all 0.3s ease-in-out 0.2s;
+}
+.view-sixth a.more {
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
+   filter: alpha(opacity=0);
+   opacity: 0;
+   -webkit-transform: translateY(100px);
+   -moz-transform: translateY(100px);
+   -o-transform: translateY(100px);
+   -ms-transform: translateY(100px);
+   transform: translateY(100px);
+   -webkit-transition: all 0.3s ease-in-out 0.1s;
+   -moz-transition: all 0.3s ease-in-out 0.1s;
+   -o-transition: all 0.3s ease-in-out 0.1s;
+   -ms-transition: all 0.3s ease-in-out 0.1s;
+   transition: all 0.3s ease-in-out 0.1s;
+}
+.view-sixth:hover .mask {
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";
+   filter: alpha(opacity=100);
+   opacity: 1;
+   -webkit-transition-delay: 0s;
+   -moz-transition-delay: 0s;
+   -o-transition-delay: 0s;
+   -ms-transition-delay: 0s;
+   transition-delay: 0s;
+}
+.view-sixth:hover img {
+   -webkit-transition-delay: 0s;
+   -moz-transition-delay: 0s;
+   -o-transition-delay: 0s;
+   -ms-transition-delay: 0s;
+   transition-delay: 0s;
+}
+.view-sixth:hover h2 {
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";
+   filter: alpha(opacity=100);
+   opacity: 1;
+   -webkit-transform: scale(1);
+   -moz-transform: scale(1);
+   -o-transform: scale(1);
+   -ms-transform: scale(1);
+   transform: scale(1);
+   -webkit-transition-delay: 0.1s;
+   -moz-transition-delay: 0.1s;
+   -o-transition-delay: 0.1s;
+   -ms-transition-delay: 0.1s;
+   transition-delay: 0.1s;
+}
+.view-sixth:hover p {
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";
+   filter: alpha(opacity=100);
+   opacity: 1;
+   -webkit-transform: scale(1);
+   -moz-transform: scale(1);
+   -o-transform: scale(1);
+   -ms-transform: scale(1);
+   transform: scale(1);
+   -webkit-transition-delay: 0.2s;
+   -moz-transition-delay: 0.2s;
+   -o-transition-delay: 0.2s;
+   -ms-transition-delay: 0.2s;
+   transition-delay: 0.2s;
+}
+.view-sixth:hover a.more {
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";
+   filter: alpha(opacity=100);
+   opacity: 1;
+   -webkit-transform: translateY(0px);
+   -moz-transform: translateY(0px);
+   -o-transform: translateY(0px);
+   -ms-transform: translateY(0px);
+   transform: translateY(0px);
+   -webkit-transition-delay: 0.3s;
+   -moz-transition-delay: 0.3s;
+   -o-transition-delay: 0.3s;
+   -ms-transition-delay: 0.3s;
+   transition-delay: 0.3s;
+}
+				
+
 	/* ### CGU/Mentions légales ### */
 #spec_cgu p{
 	margin-top: 20px;
@@ -752,21 +970,17 @@ input#accept {
 	font-size: 1.25em;
 }
 
-#spec_apropos {
-	width:100% !important;
-	padding:0px;
-}
-
 /* ### CONTACT ### */
 
 #contact .header_contact{
 	margin-top: -20px;
 	background-color: #53c1dd;
-	padding:25px 0px 20px 0px;
+	padding:30px 0px 20px 0px;
 }
 #contact .header_contact .top{
 	text-align: center;
 	font-size: 38px;
+	margin-bottom: 28px;
 	font-family: "Pacifico";
 }
 #contact .header_contact .bot{
@@ -776,7 +990,7 @@ input#accept {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 36px;
+	margin-top: 26px;
 }
 #contact .header_contact .row p{
 	text-align: center;
@@ -901,11 +1115,14 @@ td {
 	.greyback{
 		padding: 8px;
 	}
-	#spec_apropos #spec_team img{
-		display: block;
-		margin-left: auto;
-		margin-right: auto;
+	#spec_apropos #spec_team .center{
+		margin-left: 22%;
 	}
+	/*#spec_apropos #spec_team .center{
+		display: block;
+		margin-left: 0 auto;
+		margin-right: 0 auto;
+	}*/
 	#spec_contact .form-group {
 		padding:0px;
 	}
