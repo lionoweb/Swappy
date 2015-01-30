@@ -169,7 +169,7 @@ $(document).ready(function(e) {
 function load_ajax_d(form, options) {
 	$form_b = $(form);
 	if($form_b.find("#loader_ajax").length < 1) {
-		$form_b.append('<div id="loader_ajax"><p><img src="img/icon/loading.gif" alt="chargement..." >Envoie en cours...</p></div>');
+		$form_b.append('<div id="loader_ajax"><p><img src="img/icon/loading.gif" alt="" > Envoie en cours...</p></div>');
 	}
 	return true;
 }
