@@ -27,7 +27,7 @@ if(isset($_GET['logout'])) {
 </head>
 
 <body role="document">
-<div id="wrap">
+<div id="wrap" class="back-grey">
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -70,7 +70,7 @@ if(isset($_GET['logout'])) {
             <p class="bot col-md-8 col-md-offset-2">Une équipe professionnelle et réactive : si vous rencontrez un problème nous saurons vous guider.</p>
             <div class="row small">
                 <div class="getintouch col-md-2 col-md-offset-4 col-xs-4 col-xs-offset-1"><img src="img/contact/phone.png">
-                    <p>01.02.03.04.05</p>
+                    <p>06.27.75.49.05</p>
                 </div>
 
                 <div class="getintouch col-md-2 col-md-offset-0 col-xs-5 col-xs-offset-1"><img src="img/contact/mail.png">
