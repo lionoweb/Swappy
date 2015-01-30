@@ -178,7 +178,7 @@ if(isset($_GET['logout'])) {
 <footer id="footer">
     <img src="img/footer.png">
     <div class="container-fluid">
-        <a href="mentions-legales.php">Mentions légales</a> | <a href="cgu.php">CGU</a> | <a href="contact.php" class="active">Contact</a>
+        <a href="mentions-legales.php">Mentions légales</a> - <a href="cgu.php">CGU</a> | <a href="contact.php" class="active">Contact</a>
         <hr>
         <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
     </div>

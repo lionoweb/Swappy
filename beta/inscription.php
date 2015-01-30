@@ -116,10 +116,13 @@ $user->onlyVisitors();	?>
             </div>
         </div>
         <?php } else { ?>
-         <form id="user_add" class="col-md-6 col-md-offset-3" action="inc/add_user.php" method="post">
-        <div colspan="2" class="header_inscription">Inscription</div>
-        
-        <div class="greyback">
+        <div class="header_propose">
+            <p class="col-md-6 col-md-offset-3 top">Inscrivez-vous</p>
+            <p class="col-md-6 col-md-offset-3 bot">Créez votre compte afin de rentrer en contacter et échanger des services avec les utilisateurs</p>
+        </div>
+        <div colspan="2" class="title_propose">Inscription</div>
+            <div class="greyback">
+        <form id="user_add" class="col-md-6 col-md-offset-3" action="inc/add_user.php" method="post">
         
         	<div class="form-group">
         		<label for="login" class="control-label col-xs-12 col-sm-2 col-md-4">Identifiant*</label>
@@ -221,27 +224,22 @@ $user->onlyVisitors();	?>
 
             <div class="form-group">
                 <input id="accept" class="validate[required]" type="checkbox" name="accept">
-                <label for="accept" class="lu">J'ai lu et j'accepte les <a target="_blank" href="cgu.php">conditions générales d'utilisation</a> et les <a target="_blank" href="mentions-legales.php">mentions légales</a> du site Swappy</label>
+                <label for="accept" class="col-md-10 col-md-offset-1 lu">J'ai lu et j'accepte les <a target="_blank" href="cgu.php">conditions générales d'utilisation</a> et les <a target="_blank" href="mentions-legales.php">mentions légales</a> du site Swappy</label>
             </div>
 
-            <div class="form-group">
-                <input type="submit" class="form-control" value="S'enregistrer">
+            <div class="form-group col-sm-4 col-sm-offset-8 col-xs-12">
+                <input type="submit" class="form-control col-md-4" value="S'enregistrer">
             </div>
-            
-            </div>
-            </form>
-            <?php } ?>
-        
-        <!-- END GREYBACK -->
-    
+        </form>
+            <?php } ?>    
 
     </div>
-    </div>
-    <!-- END WRAP -->
+</div>
+<!-- END WRAP -->
 <footer id="footer">
     <img src="img/footer.png">
     <div class="container-fluid">
-        <a href="mentions-legales.php">Mentions légales</a> | <a href="cgu.php">CGU</a> | <a href="contact.php" class="active">Contact</a>
+        <a href="mentions-legales.php">Mentions légales</a> - <a href="cgu.php">CGU</a> | <a href="contact.php" class="active">Contact</a>
         <hr>
         <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
     </div>

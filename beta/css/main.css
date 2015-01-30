@@ -5,6 +5,24 @@ html, body {
 	height:100%;
 	overflow:inherit;
 }
+@font-face{
+    font-family : "Overlock";
+
+    src : url('../fonts/overlock/Overlock-Regular.eot');
+    src : local('☺'),
+          url('../fonts/overlock/Overlock-Regular.woff') format('woff'),
+          url('../fonts/overlock/Overlock-Regular.svg') format('svg'),
+          url('../fonts/overlock/Overlock-Regular.ttf') format('truetype');
+}
+@font-face{
+    font-family : "Pacifico";
+
+    src : url('../fonts/pacifico/Pacifico.eot');
+    src : local('☺'),
+          url('../fonts/pacifico/Pacifico.woff') format('woff'),
+          url('../fonts/pacifico/Pacifico.svg') format('svg'),
+          url('../fonts/pacifico/Pacifico.ttf') format('truetype');
+}
 #wrap {
 	min-height: 100%;
     height:auto; 
@@ -14,7 +32,6 @@ html, body {
 	width:100%;
 	overflow-y:hidden;
 }
-
 #footer {
 	clear:both;
 	background-color: #323232;
@@ -326,6 +343,8 @@ select, input {
 	height:40px;
 	line-height:40px;
 	margin-top:20px;
+	font-family: "Overlock";
+	font-size: 1.2em;
 }
 #spec_search label {
 	padding-right:10px;
@@ -576,39 +595,62 @@ input.space-button {
 }
 	/* ### PROPOSE ### */
 
-#spec_propose label {
-	padding-right:10px;
+.header_propose{
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	background-color: #323232;
+	color: white;
+	padding-bottom: 30px;
 }
-#spec_propose .header_propose {
+.header_propose .top{
+	text-align: center;
+	font-size: 38px;
+	margin-bottom: 28px;
+	font-family: "Pacifico";
+}
+.header_propose .bot{
+	text-align: center;
+}
+.title_propose {
 	width:100%;
 	text-align:center;
 	background-color:#53c1dd;
 	text-transform: uppercase;
-	/*font-size: 22px;*/
 	color:white;
 	height:40px;
 	line-height:40px;
-	margin-top:20px;	
+	margin-top: -5px;
+	font-family: "Overlock";
+	font-size: 1.2em;
+	letter-spacing: 0.05em;
 }
+#spec_propose label {
+	padding-right:10px;
+}
+
 .greyback{
 	background-color:#e5e4e4;
-	padding:26px;
+	width: 100%;
+	padding:56px 0px 56px 0px;
 	margin-left:0px;
 	margin-bottom:0px;
 	margin-right:0px;
-	display:block;
+	display:inline-block;
 	box-sizing:border-box;
+	margin-bottom: -35px;
 }
 .clear {
 	clear:both;	
 }
-#spec_propose .greyback .form-group:last-child {
+.greyback .form-group:last-child {
 	margin-bottom:0px;	
 }
-#spec_propose .greyback label {
+.greyback label {
 	color:#323232;
+	text-align: right
 }
-#spec_propose .greyback .days {
+.greyback .days {
 	display: inline;
 	width:140px;
 }
@@ -624,7 +666,7 @@ input.space-button {
 	display: inline;
 	width:80px;
 }
-#spec_propose .greyback .time {
+.greyback .time {
 	display: inline;
 	width:70px;
 	height:32px;
@@ -651,7 +693,7 @@ input#accept {
 	width:100% !important;
 	box-shadow:none;
 }
-#spec_propose .greyback button{
+.greyback button{
 	margin-top: 6px;
 	background-color: white;
 	border: 1px solid #ccc;
@@ -662,15 +704,15 @@ input#accept {
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-#spec_propose .greyback button:hover{
+.greyback button:hover{
 	background-color: #53c1dd;
 	color:white;
 }
-#spec_propose .greyback .kilometre{
+.greyback .kilometre{
 	display: inline;
 	width:48px;
 }
-#spec_propose .greyback input[type=submit]{
+.greyback input[type=submit]{
 	background-color: white;
 	color:#323232;
 	text-transform: uppercase;
@@ -686,7 +728,7 @@ input#accept {
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-#spec_propose .greyback input[type=submit]:hover{
+.greyback input[type=submit]:hover{
 	background-color: #53c1dd;
 	color:white;
 }
@@ -702,12 +744,8 @@ input#accept {
 	width:100%;
 	height:70px;
 	background-color: #54c1de;
-}
-#spec_apropos .down{
-	margin-top: -6px;
-}
-#spec_apropos .pictodown{
-	text-align: center;
+	font-family: "Overlock";
+	font-size: 1.2em;
 }
 #spec_apropos .teamtitle p {
 	color:white;
@@ -715,6 +753,12 @@ input#accept {
 	text-transform: uppercase;
 	text-align: center;
 	font-size: 1.5em;
+}
+#spec_apropos .down{
+	margin-top: -6px;
+}
+#spec_apropos .pictodown{
+	text-align: center;
 }
 #spec_apropos #spec_team{
 	background-color: #323232;
@@ -935,39 +979,99 @@ input#accept {
 				
 
 	/* ### CGU/Mentions légales ### */
-#spec_cgu p{
-	margin-top: 20px;
-}
 
-#spec_cgu .cgutitle{
-	background-image: url(../img/cgu/ruban1.png);
-	background-repeat: no-repeat;
-	height: 34px;
-	margin-bottom: 2%;
+.cgutitle{
+	width:100%;
+	height:70px;
+	background-color: #54c1de;
+	font-family: "Overlock";
+	font-size: 1.2em;
 }
-#spec_cgu .cgutitle p {
+.cgutitle p {
 	color:white;
-	line-height: 34px;
+	line-height: 70px;
 	text-transform: uppercase;
-	margin-left: 6%;
-	font-size: 1.25em;
+	text-align: center;
+	font-size: 1.5em;
 }
-#spec_cgu .box img{
-	margin-top: 39px;
+.down{
+	margin-top: -6px;
 }
-
-#spec_cgu .mentiontitle{
+.pictodown{
+	text-align: center;
+}
+#spec_cgu{
+	background-color: #323232;
+}
+#spec_cgu .box p{
+	text-align: justify;
+}
+#spec_mention{
+	background-color:#e5e4e4;
+	display: inline-block;	
+	padding: 0px 0px 40px 0px;
+}
+#spec_cgu .greyback{
+	background-color:#e5e4e4;
+	padding:26px;
+	margin-top: 0px;
+	margin-left:0px;
+	margin-bottom:0px;
+	margin-right:0px;
+	display:block;
+	box-sizing:border-box;
+	z-index: -9000;
+}
+#spec_cgu .header_cgu {
+	background-color:#53c1dd;
+	line-height: 39px;
+	height:39px;
+	margin-top: -39px;
+	text-align: center;
+	text-transform: uppercase;
+	color: white;
+	z-index: 9000;
+}
+#spec_cgu .box{
+	float: left;
+}
+/*#spec_cgu .box p{
+	text-align: justify;
+}
+#spec_cgu .box3{
+	margin-top: -140px;
+}
+#spec_cgu .box2 {
+	margin-bottom: 40px;
+}
+#spec_cgu .box4 {
+	margin-bottom: 40px;
+}
+#spec_cgu .box5 {
+	margin-top: -140px;
+}
+#spec_cgu .box6{
+	margin-top: 0px;
+}
+#spec_cgu .box7{
+	margin-top: -320px;
+}
+#spec_cgu .box8{
+	margin-top: -90px;
+}
+#spec_cgu .box9{
+	margin-top: 40px;
+}*/
+#spec_mention .mentiontitle{
 	background-image: url(../img/cgu/ruban2.png);
 	background-repeat: no-repeat;
 	height: 34px;
 	margin-bottom: 2%;
-}
-#spec_cgu .mentiontitle p {
-	color:white;
+	font-size: 1.175em;
 	line-height: 34px;
 	text-transform: uppercase;
-	margin-left: 6%;
-	font-size: 1.25em;
+	color: white;
+	padding-left: 100%;
 }
 
 /* ### CONTACT ### */
@@ -1064,7 +1168,7 @@ td {
 	margin-left: 0px;
 	margin-right: 0px;
 	}
-}
+}	
 
 
 @media (max-width:767px){
@@ -1118,16 +1222,11 @@ td {
 	#spec_apropos #spec_team .center{
 		margin-left: 22%;
 	}
-	/*#spec_apropos #spec_team .center{
-		display: block;
-		margin-left: 0 auto;
-		margin-right: 0 auto;
-	}*/
 	#spec_contact .form-group {
 		padding:0px;
 	}
 	#contact .header_contact .top{
-		font-size: 28px;
+		font-size: 2em;
 	}
 	.desc_services h1 {
 		font-size:1.25em;
@@ -1151,6 +1250,18 @@ td {
 	left: 24px;
 	font-size: 1.4em;
 	}
+	.greyback label {
+	padding-right:10px;
+	text-align: left;
+	}
+	.greyback{
+	padding:36px 0px 56px 0px;
+	margin-bottom: -35px;
+	}
+	.header_propose .top{
+	font-size: 2em;
+	}
+	
 /*FIX BOOTSTRAP*/
 .row{
 	box-sizing:border-box;

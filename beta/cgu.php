@@ -64,37 +64,126 @@ if(isset($_GET['logout'])) {
   		</div><!-- /.container-fluid -->
 	</nav>
 
-    <div id="spec_cgu" class="container main" role="main">
-
-    <div class="cgutitle"><p>Conditions générales d'utilisation</p></div>
+    <div id="spec_cgu" class="container-fluid main" role="main">
         
-            <div class="col-md-10 col-md-offset-1">
-                <div class="col-md-2 col-md-offset-1">
+            <div class="cgutitle"><p>Conditions générales d'utilisation</p></div>
+            <div class="pictodown"><img src="img/apropos/down.png" alt="" class="down"></div>
+        
+            <div class="col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-1 col-xs-10 col-xs-offset-1 box1 box">
+                
+                <div class="row">
                 <img src="img/cgu/objet.png">
-                <span class="cgintitle">Objet</span>
+                
+                <div class="header_cgu">Objet</div></div>
+                    <p class="greyback">Les présentes Conditions d’Utilisation (CGU) établissent les conditions contractuelles entre swappy.com et ses utilisateurs.</p>
             </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget libero mauris. Praesent eget tortor rhoncus, malesuada justo eget, tempus nunc. Nullam non volutpat ligula. Nulla eget lorem ac dolor auctor cursus. Curabitur non nisi dictum, sodales turpis id, tincidunt leo. Ut finibus dolor a faucibus malesuada. Duis eget massa nulla. Integer diam erat, sagittis ac ornare eget, gravida id ex. Suspendisse egestas justo eu porta tempus. Praesent vel pulvinar nisi. Duis tellus massa, viverra vitae luctus sit amet, vulputate ac tellus. Suspendisse potenti.</p>
-            </div>
-        
 
+            <div class="col-md-4 col-md-offset-0 col-sm-5 col-sm-offset-0 col-xs-10 col-xs-offset-1 box2 box">
+                
+                <div class="row">
+                <img src="img/cgu/site.png" class="pic">
+                
+                <div class="header_cgu">Accès au site</div></div>
+                    <p class="greyback">L’inscription au site swappy.com est réservée aux personnes majeures (âgées de 18 ans ou plus). Tout accès et/ou utilisation du site swappy.com suppose l’acceptation et le respect de l’ensemble des termes des présentes Conditions d’Utilisation.Swappy.com se réserve le droit de bannir temporairement ou définitivement tout membre qui aurait violé ces Conditions d’Utilisation. En s'inscrivant au site swappy.fr, l'utilisateur s'engage à mettre en ligne une photo d'eux sous 7 jours.</p>
+            </div>
+
+            <div class="col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-1 col-xs-10 col-xs-offset-1 box3 box">
+                
+                <div class="row">
+                <img src="img/cgu/propriete.png" class="pic">
+                
+                <div class="header_cgu">Propriété intellectuelle</div></div>
+                    <p class="greyback">L’inscription au site swappy.com est réservée aux personnes majeures (âgées de 18 ans ou plus). Tout accès et/ou utilisation du site swappy.com suppose l’acceptation et le respect de l’ensemble des termes des présentes Conditions d’Utilisation.Swappy.com se réserve le droit de bannir temporairement ou définitivement tout membre qui aurait violé ces Conditions d’Utilisation. En s'inscrivant au site swappy.fr, l'utilisateur s'engage à mettre en ligne une photo d'eux sous 7 jours.</p>
+            </div>
+
+            <div class="col-md-4 col-md-offset-0 col-sm-5 col-sm-offset-0 col-xs-10 col-xs-offset-1 box4 box">
+                
+                <div class="row">
+                <img src="img/cgu/perso.png" class="pic">
+                
+                <div class="header_cgu">Données personnelles</div></div>
+                    <p class="greyback">Les données personnelles des utilisateurs restent strictement confidentielles et sont stockées exclusivement sur nos serveurs. Elles ne sont en aucun cas vendues, données ou échangées.Les utilisateurs s’engagent à fournir des informations exactes.
+                    <br>Swappy.com conserve une copie des messages échangés par l’intermédiaire de notre serveur afin de pouvoir s’assurer du respect déontologique des échanges.</p>
+            </div>
+
+            <div class="col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-1 col-xs-10 col-xs-offset-1 box5 box">
+                
+                <div class="row">
+                <img src="img/cgu/responsabilite.png" class="pic">
+                
+                <div class="header_cgu">Responsabilité</div></div>
+                    <p class="greyback">Swappy.com ne pourra être tenu responsable en cas de dommages directs ou indicrects subis par un utilisateur.</p>
+            </div>
+
+            <div class="col-md-4 col-md-offset-0 col-sm-5 col-sm-offset-0 col-xs-10 col-xs-offset-1 box6 box">
+                
+                <div class="row">
+                <img src="img/cgu/annonce.png" class="pic">
+                
+                <div class="header_cgu">Annonces</div></div>
+                    <p class="greyback">Swappy.com est une plateforme d’échanges de services qui vise à faciliter la mise en relation entre particuliers. La publication des annonces est gratuite. Les annonces restent en ligne pendant une période indéterminée et peuvent être modifiées ou supprimées (lorsque ces dernières ne sont plus d’actualité) à tout moment, et ceci gratuitement.
+                    En déposant une annonce, le membre déclare avoir la capacité juridique nécessaire et toutes les autorisations nécessaires pour proposer l’échange du service. Si vous jugez le contenu d’une annonce inapproprié, nous vous invitons à le signaler via le bouton situé sur la page de l’annonce ou à nous contacter via le formulaire de contact pour nous en informer.
+                    </p>
+            </div>
+
+            <div class="col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-0 col-xs-10 col-xs-offset-1 box7 box">
+                
+                <div class="row">
+                <img src="img/cgu/interdiction.png" class="pic">
+                
+                <div class="header_cgu">Interdiction</div></div>
+                    <p class="greyback">Il est interdit de proposer plusieurs services dans le texte d’une même annonce. Le langage sms et/ou l’écriture abrégée sont proscris afin d’obtenir une meilleure compréhension entre utilisateurs et un référencement optimal.</p>
+            </div>
+
+            <div class="col-md-4 col-md-offset-0 col-sm-5 col-sm-offset-0 col-xs-10 col-xs-offset-1 box8 box">
+                
+                <div class="row">
+                <img src="img/cgu/messagerie.png" class="pic">
+                
+                <div class="header_cgu">Utilisation de la messagerie</div></div>
+                    <p class="greyback">Swappy.com met à disposition des utilisateurs un système de messagerie interne leur permettant de s’échanger des informations à propos des services. S’ils le souhaitent, les utilisateurs peuvent spécifier leurs coordonnées dans un message en vue d’une mise en relation. Les précautions et mesures de prudence prises lors de cette mise en relation doivent être définies par les utilisateurs eux-mêmes et n’engagent en aucun cas Swappy.com.</p>
+            </div>
+
+            <div class="col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-0 col-xs-10 col-xs-offset-1 box9 box">
+                
+                <div class="row">
+                <img src="img/cgu/suppression.png" class="pic">
+                
+                <div class="header_cgu">Suppresion de compte</div></div>
+                    <p class="greyback">En cas de non respect des Conditions Générales d’Utilisation, les administrateurs du site swappy.fr pourront envoyer des avertissements aux utilisateurs concernés. Cet avertissement pourra survenir après la signalisation d’une infraction par un autre utilisateur, après que les administrateurs aient vérifié ladite infraction.</p>
+            </div>
+        </div>
+    <div id="spec_mention">
     <div class="cgutitle"><p>Mentions légales</p></div>
+            <div class="pictodown"><img src="img/apropos/down.png" alt="" class="down"></div>
         <div class="col-md-10 col-md-offset-1">
             <p>
-                Pellentesque viverra tincidunt mollis. Phasellus luctus finibus sem, at molestie ante consequat id. Proin pulvinar faucibus quam. Aliquam quis mauris ligula. Quisque pretium arcu quis magna tempor elementum. Vestibulum iaculis, augue at suscipit posuere, quam turpis dignissim enim, sit amet dictum augue ante vitae arcu. Vivamus lacinia a ipsum sed iaculis. Maecenas eget commodo massa.
-
-Nulla vehicula at nulla ut elementum. Vivamus pellentesque ligula eros, ac finibus nulla volutpat a. Morbi ex leo, lobortis tempus eros vel, pretium tempor lectus. Suspendisse potenti. Aenean molestie blandit velit hendrerit commodo. Aenean vel maximus sapien. Integer vitae enim ut justo ultricies ullamcorper eu tincidunt ligula. Pellentesque et velit dictum nisl scelerisque interdum. Donec fermentum erat eu tortor malesuada, eget ultrices lorem vulputate. Quisque ac lacus augue. Nunc egestas quam in sapien semper tempor. Nulla facilisi. Fusce a pharetra sem. Sed sem tellus, eleifend sed nisi in, porttitor elementum elit.
-
-Nam non blandit quam. Donec aliquet nisl et nisi consequat, fringilla condimentum augue sollicitudin. Donec commodo non lorem sit amet porttitor. Phasellus euismod neque id porttitor pharetra. Nulla facilisi. Maecenas tincidunt interdum euismod. Sed blandit erat non neque vestibulum viverra. Curabitur lacinia nulla id porttitor lacinia. Integer in dolor sagittis, scelerisque ex nec, ultrices urna. Vivamus dictum lacus in volutpat dignissim. Vivamus vel odio vitae justo porttitor sodales eget non purus. Praesent venenatis leo sit amet sodales ultricies. Aenean rhoncus ac risus non lacinia.
+                Tous les sites internet édités à titre professionnel, qu'ils proposent des ventes en ligne ou non, doivent obligatoirement indiquer les mentions légales suivantes :</span>
+                <ul>
+                <li>pour un entrepreneur individuel : nom, prénom, domicile,</li>
+                <li>pour une société : raison sociale, forme juridique, adresse de l'établissement ou du siège social (et non pas une simple boîte postale), montant du capital social,</li>
+                <li>adresse de courrier électronique et numéro de téléphone,</li>
+                <li>pour une activité commerciale : numéro d'inscription au registre du commerce et des sociétés (RCS),</li>
+                <li>pour une activité artisanale : numéro d'immatriculation au répertoire des métiers (RM),</li>
+                <li>numéro individuel d'identification fiscale (numéro de TVA intracommunautaire),</li>
+                <li>pour une profession réglementée : référence aux règles professionnelles applicables et au titre professionnel,</li>
+                <li>nom et adresse de l'autorité ayant délivré l'autorisation d'exercer quand celle-ci est nécessaire,</li>
+                <li>nom du responsable de la publication,</li>
+                <li>coordonnées de l'hébergeur du site : nom, dénomination ou raison sociale, adresse et numéro de téléphone,</li>
+                <li>pour un site marchand, conditions générales de vente (CGV) : prix (exprimé en euros et TTC), frais et date de livraison, modalité de paiement, service après-vente, droit de rétractation, durée de l'offre, coût de la technique de communication à distance,
+                <li>numéro de déclaration simplifiée Cnil, dans le cas de collecte de données sur les clients.</li>
+                </ul>
+                Le manquement à l'une de ces obligations peut être sanctionné jusqu'à un an d'emprisonnement, 75 000 € d'amende pour les personnes physiques et 375 000 € pour les personnes morales.
             </p>
         </div>
-
-
+    </div>
+    </div>
 </div>
-</div>
+<!-- END WRAP -->
 <footer id="footer">
     <img src="img/footer.png">
     <div class="container-fluid">
-        <a href="mentions-legales.php">Mentions légales</a> | <a href="cgu.php">CGU</a> | <a href="contact.php" class="active">Contact</a>
+        <a href="mentions-legales.php">Mentions légales</a> - <a href="cgu.php">CGU</a> | <a href="contact.php" class="active">Contact</a>
         <hr>
         <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
     </div>
