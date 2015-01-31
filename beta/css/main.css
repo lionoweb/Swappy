@@ -77,6 +77,11 @@ html, body {
 #login_form label {
 	margin-bottom:12px;
 }
+#spec_inscription{
+	background-color:#e5e4e4;
+	width: 100%;
+	display: inline-block;
+}
 #user_add, #user_remind {
 	display:block; 
 	margin-bottom: 10px;
@@ -91,7 +96,6 @@ html, body {
 	line-height:40px;
 	margin-top:40px; 
 }
-
 .center {
 	text-align:center;	
 }
@@ -277,7 +281,6 @@ select, input {
 	font-size:1.1em;
 }
 #loader_ajax {
-	 
 	position:absolute;
 	display:block; 
 	top:0px; 
@@ -628,7 +631,10 @@ input.space-button {
 #spec_propose label {
 	padding-right:10px;
 }
-
+#spec_proposition{
+	background-color:#e5e4e4;
+	width: 100%;
+}
 .greyback{
 	background-color:#e5e4e4;
 	width: 100%;
@@ -638,40 +644,39 @@ input.space-button {
 	margin-right:0px;
 	display:inline-block;
 	box-sizing:border-box;
-	margin-bottom: -35px;
 }
 .clear {
 	clear:both;	
 }
-.greyback .form-group:last-child {
+#spec_proposition .form-group:last-child {
 	margin-bottom:0px;	
 }
-.greyback label {
+#spec_inscription label, #spec_proposition label {
 	color:#323232;
 	text-align: right
 }
-.greyback .days {
+#spec_proposition .days {
 	display: inline;
 	width:140px;
 }
- .greyback .birthday {
+#spec_inscription .birthday {
 	display: inline;
 	width:66px;
 }
-.greyback .birthmonth {
+#spec_inscription .birthmonth {
 	display: inline;
 	width:66px;
 }
- .greyback .birthyear {
+#spec_inscription .birthyear {
 	display: inline;
 	width:80px;
 }
-.greyback .time {
+#spec_proposition .time {
 	display: inline;
 	width:70px;
 	height:32px;
 }
-.greyback .zipcode {
+#spec_proposition .zipcode, #spec_inscription .zipcode {
 	display: inline;
 	width:100px;	
 }
@@ -679,21 +684,21 @@ input#accept {
 	display:inline;	
 	width:auto !important;
 } 
-.greyback .liketext:not(.fullwidth) {
+#spec_inscription .liketext:not(.fullwidth), #spec_proposition .liketext:not(.fullwidth) {
 	border:none;
 	background:transparent;	
 	display:inline;
 	width:auto !important;
 	box-shadow:none;
 }
-.greyback .liketext.fullwidth {
+#spec_inscription .liketext.fullwidth, #spec_proposition .liketext.fullwidth {
 	border:none;
 	background:transparent;	
 	display:inline;
 	width:100% !important;
 	box-shadow:none;
 }
-.greyback button{
+#spec_proposition button{
 	margin-top: 6px;
 	background-color: white;
 	border: 1px solid #ccc;
@@ -704,15 +709,15 @@ input#accept {
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-.greyback button:hover{
+#spec_proposition button:hover{
 	background-color: #53c1dd;
 	color:white;
 }
-.greyback .kilometre{
+#spec_proposition .kilometre{
 	display: inline;
 	width:48px;
 }
-.greyback input[type=submit]{
+#spec_proposition input[type=submit]{
 	background-color: white;
 	color:#323232;
 	text-transform: uppercase;
@@ -728,7 +733,7 @@ input#accept {
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-.greyback input[type=submit]:hover{
+#spec_proposition input[type=submit]:hover{
 	background-color: #53c1dd;
 	color:white;
 }
@@ -1179,8 +1184,9 @@ td {
 		display:block;	
 		margin-top:10px;
 	}
-	form#user_add .greyback label, form#user_remind .greyback label {
-		text-align: left;
+	#spec_proposition label, #spec_inscription label {
+	color:#323232;
+	text-align: left;
 	}
 	.picto {
 		display:none;
