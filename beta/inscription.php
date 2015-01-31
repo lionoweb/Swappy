@@ -64,13 +64,17 @@ $user->onlyVisitors();	?>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
+<<<<<<< HEAD
 	<div class="container main" role="main">
+=======
+
+>>>>>>> origin/master
  		<?php if(isset($_GET['remind'])) { $mm = $user->uncrypt_remind($_GET['remind']); ?>
         	<?php if($user->prevent_ex_remind($mm[0], $mm[2])) { ?>
-			<form id="user_remind" class="col-md-6 col-md-offset-3" action="inc/add_user.php" method="post">
+		
+        <form id="user_remind" class="col-md-6 col-md-offset-3" action="inc/add_user.php" method="post">
             <div colspan="2" class="header_inscription">Changement du mot de passe</div>
 
-            <div class="greyback">
             	<div class="form-group">
                     <label for="email" class="control-label col-xs-12 col-sm-2 col-md-4">Email :</label>
                     <div class="col-xs-12 col-sm-10 col-md-8">
@@ -79,49 +83,58 @@ $user->onlyVisitors();	?>
                     </div>
             	</div>
                 <div class="form-group">
-        		<label for="password" class="control-label col-xs-12 col-sm-2 col-md-4">Mot de passe*</label>
-                <div class="col-xs-12 col-sm-10 col-md-8">
-                    <input autocomplete="off" class="validate[required,minSize[6]] form-control" id="password" type="password" name="password">
+            		<label for="password" class="control-label col-xs-12 col-sm-2 col-md-4">Mot de passe*</label>
+                    <div class="col-xs-12 col-sm-10 col-md-8">
+                        <input autocomplete="off" class="validate[required,minSize[6]] form-control" id="password" type="password" name="password">
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-            	<label for="password_r" class="control-label col-xs-12 col-sm-2 col-md-4">Retaper mot de passe*</label>
-                <div class="col-xs-12 col-sm-10 col-md-8">
-                    <input autocomplete="off" class="validate[required,minSize[6],equalsPASS[password]] form-control" type="password" id="password_r" name="password_r">
+                <div class="form-group">
+                	<label for="password_r" class="control-label col-xs-12 col-sm-2 col-md-4">Retaper mot de passe*</label>
+                    <div class="col-xs-12 col-sm-10 col-md-8">
+                        <input autocomplete="off" class="validate[required,minSize[6],equalsPASS[password]] form-control" type="password" id="password_r" name="password_r">
+                    </div>
                 </div>
+                <div class="form-group">
+                    <input type="submit" class="form-control" value="Modifier">
+                </div>
+<<<<<<< HEAD
             </div>
             <div class="form-group">
                 <input type="submit" class="form-control" value="Modifier">
             </div>
             </div>
         
+=======
+>>>>>>> origin/master
         </form>
+    </div>
         <?php } else { ?>
         	<div id="user_add" class="col-md-6 col-md-offset-3">
-            <div colspan="2" class="header_inscription">Changement du mot de passe</div>
-    
-            <div class="greyback">
-            	<p>Désolé, mais ce lien a déjà servis pour la modification de votre mot de passe.</p>
+                <div colspan="2" class="header_inscription">Changement du mot de passe</div>
+        
+                <div class="greyback">
+                	<p>Désolé, mais ce lien a déjà servis pour la modification de votre mot de passe.</p>
+                </div>
             </div>
-        </div>
         <?php } ?>
 		<?php } else if(isset($_GET['validation'])) { ?>
-        <div id="user_add" class="col-md-6 col-md-offset-3">
-            <div colspan="2" class="header_inscription">Validation d'inscription</div>
+            <div id="user_add" class="col-md-6 col-md-offset-3">
+                    <div colspan="2" class="header_inscription">Validation d'inscription</div>
     
-            <div class="greyback">
-            	<?php echo $user->validate_account($_GET['validation']); ?>
+                <div class="greyback">
+                	<?php echo $user->validate_account($_GET['validation']); ?>
+                </div>
             </div>
-        </div>
         <?php } else { ?>
-        <div class="header_propose">
-            <p class="col-md-6 col-md-offset-3 top">Inscrivez-vous</p>
-            <p class="col-md-6 col-md-offset-3 bot">Créez votre compte afin de rentrer en contacter et échanger des services avec les utilisateurs</p>
-        </div>
-        <div colspan="2" class="title_propose">Inscription</div>
-            <div class="greyback">
-        <form id="user_add" class="col-md-6 col-md-offset-3" action="inc/add_user.php" method="post">
+            <div class="header_propose">
+                <p class="col-md-6 col-md-offset-3 top">Inscrivez-vous</p>
+                <p class="col-md-6 col-md-offset-3 bot">Créez votre compte afin de rentrer en contacter et échanger des services avec les utilisateurs</p>
+            </div>
+
+    <div colspan="2" class="title_propose">Inscription</div>
+    <div id="spec_inscription" class="container main" role="main">
+        <form id="user_add" class="col-md-6 col-md-offset-3 container" action="inc/add_user.php" method="post">
         
         	<div class="form-group">
         		<label for="login" class="control-label col-xs-12 col-sm-2 col-md-4">Identifiant*</label>
@@ -167,7 +180,7 @@ $user->onlyVisitors();	?>
 
             <div class="form-group">
             	<label for="gender" class="control-label col-xs-12 col-sm-2 col-md-4">Sexe*</label>
-                <div class="col-xs-12 col-sm-10 col-md-8">
+                <div class="col-xs-4 col-md-3">
                     <select name="gender" class="form-control">
             		  <option value="M">Homme</option>
             		  <option value="F">Femme</option>
@@ -177,14 +190,14 @@ $user->onlyVisitors();	?>
 
             <div class="form-group">
             	<label for="phone" class="control-label col-xs-12 col-sm-2 col-md-4">Numéro de téléphone</label>
-                <div class="col-xs-12 col-sm-10 col-md-8">
+                <div class="col-xs-4 col-md-3">
                     <input maxlength="10" class="validate[custom[phone],custom[onlyNumberSp],maxSize[10],minSize[10]] form-control" id="phone" autocomplete="off" type="text" name="phone">
                 </div>
             </div>
 
             <div class="form-group">
             	<label for="day" class="control-label col-xs-12 col-sm-2 col-md-4">Date de naissance* :</label>
-                <div class="col-xs-12 col-sm-10 col-md-8">
+                <div class="col-xs-4 col-md-2">
                     <select id="day" name="day" class="form-control birthday">
         			 <?php for($i=1;$i<32;$i++) { 
         					$o = $i; 
@@ -192,17 +205,18 @@ $user->onlyVisitors();	?>
         					echo '<option value="'.$o.'">'.$o.'</option>'; 
         				} ?>
                     </select> 
-            	<select name="month" class="form-control birthmonth">
+                    <select name="month" class="form-control birthmonth">
         			<?php for($i=1;$i<13;$i++) { 
         					$o = $i; 
         					if($o < 10) $o = "0".$o; 
         					echo '<option value="'.$o.'">'.$o.'</option>'; 
-        				} ?></select> 
-            	<select name="year" class="form-control birthyear">
-        			<?php for($i=(date("Y")-18);$i>1940;$i--) { 
-        					echo '<option value="'.$i.'">'.$i.'</option>'; 
         				} ?>
-               	</select>
+                    </select> 
+                	<select name="year" class="form-control birthyear">
+            			<?php for($i=(date("Y")-18);$i>1940;$i--) { 
+            					echo '<option value="'.$i.'">'.$i.'</option>'; 
+            				} ?>
+                   	</select>
                </div>
             </div>
 
@@ -231,7 +245,6 @@ $user->onlyVisitors();	?>
             </div>
         </form>
             <?php } ?>    
-
     </div>
 </div>
 </div>

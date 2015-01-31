@@ -68,14 +68,13 @@ $user->onlyUsers();	?>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
-	<div class="container main" role="main">
+
     <div class="header_propose">
         <p class="col-md-6 col-md-offset-3 top">Proposez un service</p>
         <p class="col-md-6 col-md-offset-3 bot">Faites partie de la communauté en proposant et partageant vos services à autrui.</p>
     </div>
     <div colspan="2" class="title_propose">Proposez</div>
-
-    <div class="greyback">
+    <div id="spec_proposition" class="container main" role="main">
     <form autocomplete="off" class="col-md-10 col-md-offset-1 col-sm-12 container" id="spec_propose" action="inc/add_services.php" method="post">
 
 		<input type="hidden" name="ID" value="<?php echo $user->cryptID; ?>">
@@ -151,6 +150,7 @@ $user->onlyUsers();	?>
                 <input type="submit" value="Valider">
             </div>
     </form>
+    </div>
 </div>
 </div>
 </div>
