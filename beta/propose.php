@@ -153,6 +153,7 @@ $user->onlyUsers();	?>
     </form>
 </div>
 </div>
+</div>
 <!-- END DIV ID WRAP-->
 <footer id="footer">
     <img src="img/footer.png">

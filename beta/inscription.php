@@ -64,7 +64,6 @@ $user->onlyVisitors();	?>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
-
 	<div class="container main" role="main">
  		<?php if(isset($_GET['remind'])) { $mm = $user->uncrypt_remind($_GET['remind']); ?>
         	<?php if($user->prevent_ex_remind($mm[0], $mm[2])) { ?>
@@ -96,7 +95,7 @@ $user->onlyVisitors();	?>
                 <input type="submit" class="form-control" value="Modifier">
             </div>
             </div>
-        </div>
+        
         </form>
         <?php } else { ?>
         	<div id="user_add" class="col-md-6 col-md-offset-3">
@@ -234,6 +233,7 @@ $user->onlyVisitors();	?>
             <?php } ?>    
 
     </div>
+</div>
 </div>
 <!-- END WRAP -->
 <footer id="footer">
