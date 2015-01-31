@@ -2,7 +2,8 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Swappy - prochainement...</title>
+<title>Swappy - prochainement ...</title>
+<link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
 <style>
 	html, body {
 		margin:0;
@@ -11,18 +12,19 @@
 		height:100%;
 	}
 	body {
-		background:#000 url(cover.jpg) no-repeat center;
-		background-size:auto 100%;	
+		background:#eb957f url(cover.png) no-repeat center;
+		background-size:auto 100%;
+		font-family: 'Pacifico';	
 	}
 	.soon {
 		width:100%;
 		padding:10px;
-		padding-top:20px;
+		padding-top:100px;
 		box-sizing:border-box;
 		text-align:center;
-		font-size:1.8em;
-		color:#FFF;
-		height:50px;
+		font-size:3em;
+		color:#cbe5f0;/*
+		height:50px;*/
 	}
 </style>
 </head>
