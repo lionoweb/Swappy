@@ -1,18 +1,13 @@
 <?php
 session_start();
-require_once("inc/user.php");
-require_once("inc/mysql.php");
-$user = new user($mysql);
-if(isset($_GET['logout'])) {
-	$user->logout();
-}	?>
+?>
 <!doctype html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Swappy.fr - Error 404</title>
+    <title>Swappy.fr - Erreur 404</title>
     <link rel="stylesheet" href="css/jquery-ui.css">
     <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
     <link rel="stylesheet" href="css/template.css" type="text/css"/>

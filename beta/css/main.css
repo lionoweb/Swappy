@@ -1,11 +1,12 @@
 /* CSS Document */
 html, body {
-	margin:0;
-	padding:0;	
-	height:100%;
-	overflow:inherit;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: inherit;
 }
-@font-face{
+
+@font-face {
     font-family : "Overlock";
 
     src : url('../fonts/overlock/Overlock-Regular.eot');
@@ -14,7 +15,8 @@ html, body {
           url('../fonts/overlock/Overlock-Regular.svg') format('svg'),
           url('../fonts/overlock/Overlock-Regular.ttf') format('truetype');
 }
-@font-face{
+
+@font-face {
     font-family : "Pacifico";
 
     src : url('../fonts/pacifico/Pacifico.eot');
@@ -23,287 +25,337 @@ html, body {
           url('../fonts/pacifico/Pacifico.svg') format('svg'),
           url('../fonts/pacifico/Pacifico.ttf') format('truetype');
 }
+
 #wrap {
-	min-height: 100%;
-    height:auto; 
-	margin: 0 auto -131px;
-	padding-bottom:131px;
-	position:relative;
-	width:100%;
-	overflow-y:hidden;
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -131px;
+    padding-bottom: 131px;
+    position: relative;
+    width: 100%;
+    overflow-y: hidden;
 }
+
 #footer {
-	clear:both;
-	background-color: #323232;
-	text-align:center;
-	color: white;
-	padding: 10px 0px 10px 0px;
-	position:relative;
-	z-index:4;
+    clear: both;
+    background-color: #323232;
+    text-align: center;
+    color: white;
+    padding: 10px 0px 10px 0px;
+    position: relative;
+    z-index: 4;
 }
+
 #footer img {
-	margin-top: -60px;
+    margin-top: -60px;
 }
+
 #footer a {
-	padding-left:4px;
-	padding-right:4px;
-	color:white;
-	text-decoration:none;	
+    padding-left: 4px;
+    padding-right: 4px;
+    color: white;
+    text-decoration: none;
 }
-#footer hr{
-	width:65%;
+
+#footer hr {
+    width: 65%;
 }
-#footer p{
-	text-transform: uppercase;
+
+#footer p {
+    text-transform: uppercase;
 }
-#error{
-	background-image:url('../img/404.png');
-	background-position: top;
-	background-repeat: no-repeat;
-	background-color: #323232;
-	width: 100%;
-	height: 100%;
-	margin-top: -20px;
-	color: white;
-	text-align: center;
+
+#error {
+    background-image: url('../img/404.png');
+    background-position: top;
+    background-repeat: no-repeat;
+    background-color: #323232;
+    width: 100%;
+    height: 100%;
+    margin-top: -20px;
+    color: white;
+    text-align: center;
 }
-#error img{
-	display: block;
-	margin: 0 auto;
-	padding-top: 40px;
-	padding-bottom: 12%;
-	opacity: 0.5;
+
+#error img {
+    display: block;
+    margin: 0 auto;
+    padding-top: 40px;
+    padding-bottom: 12%;
+    opacity: 0.5;
 }
+
 #login_form label {
-	margin-bottom:12px;
+    margin-bottom: 12px;
 }
-#spec_inscription{
-	background-color:#e5e4e4;
-	width: 100%;
-	display: inline-block;
-}
+
 #user_add, #user_remind {
-	display:block; 
-	margin-bottom: 10px;
+    display: block;
+    margin-bottom: 10px;
 }
+
 #user_add .header_inscription, #user_remind .header_inscription {
-	width:100%;
-	text-align:center;
-	background-color:#53c1dd;
-	text-transform: uppercase;
-	color:white;
-	height:40px;
-	line-height:40px;
-	margin-top:40px; 
+    width: 100%;
+    text-align: center;
+    background-color: #53c1dd;
+    text-transform: uppercase;
+    color: white;
+    height: 40px;
+    line-height: 40px;
+    margin-top: 40px;
 }
+
 .center {
-	text-align:center;	
+    text-align: center;
 }
+
 td.center {
-	padding-top:10px;
-	padding-bottom:10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
-form#user_add .greyback label, form#user_remind .greyback label{
-	line-height: 28px;
-	text-align: right;
+
+form#user_add .greyback label, form#user_remind .greyback label {
+    line-height: 28px;
+    text-align: right;
 }
-form#user_add .greyback .lu{
-	display:inline;
-	line-height:20px;
-	text-align:left;
-	width:auto !important;
+
+form#user_add .greyback .lu {
+    display: inline;
+    line-height: 20px;
+    text-align: left;
+    width: auto !important;
 }
-form#user_add .greyback input[type=submit], form#user_remind .greyback input[type=submit]{
-	background-color: white;
-	color:#323232;
-	text-transform: uppercase;
-	padding:8px 14px 8px 14px;
-	float: right;
-	border: 1px solid #ccc;
-  	border-radius: 4px;
-	width:auto !important;
- 	 -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-          	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  	-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+
+form#user_add .greyback input[type=submit], form#user_remind .greyback input[type=submit] {
+    background-color: white;
+    color: #323232;
+    text-transform: uppercase;
+    padding: 8px 14px 8px 14px;
+    float: right;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: auto !important;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
+
 form#user_add .greyback input[type=submit]:hover, form#user_remind .greyback input[type=submit]:hover {
-	background-color: #53c1dd;
-	color:white;
+    background-color: #53c1dd;
+    color: white;
 }
+
 form#add_services {
-	display:block; 
-	width:480px; 
-	margin:40px auto;
-	border:1px solid black;
-	border-radius:8px;
-	padding:6px;
-	position:relative;
+    display: block;
+    width: 480px;
+    margin: 40px auto;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 6px;
+    position: relative;
 }
+
 form .input-field {
-	display:block;
-	margin-bottom:10px;
-	padding:3px;
-	font-size:1.05em;	
+    display: block;
+    margin-bottom: 10px;
+    padding: 3px;
+    font-size: 1.05em;
 }
+
 .input-field input, .input-field select {
-	font-size:1.02em;	
+    font-size: 1.02em;
 }
+
 .input-field input.error {
-	border:#E93336 1px solid;	
+    border: #E93336 1px solid;
 }
+
 .input-field .field_error {
-	color:#FF060A;
-	padding-left:5px;	
+    color: #FF060A;
+    padding-left: 5px;
 }
+
 input.html_like.error {
-	border:none !important;	
+    border: none !important;
 }
+
 input.html_like {
-	border:none;
-	cursor:default;
-	background-color:transparent !important;
-	color:inherit !important;
+    border: none;
+    cursor: default;
+    background-color: transparent !important;
+    color: inherit !important;
 }
+
 .timepicker {
-	text-align:center;	
+    text-align: center;
 }
+
 a.add_dispo, a.remove_dispo {
-	cursor:pointer;
-	text-decoration:underline;	
+    cursor: pointer;
+    text-decoration: underline;
 }
+
 .dispo_field {
-	display:block;
-	margin-top:4px;	
-	margin-bottom:4px;
+    display: block;
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
+
 .navbar {
-  margin-bottom: 0px !important; 
+    margin-bottom: 0px !important;
 }
+
 .navbar-default {
-	background:#eb957f !important;	
-	border:none;
-	border-radius:0px;
+    background: #eb957f !important;
+    border: none;
+    border-radius: 0px;
 }
+
 .navbar-brand img {
-	margin-top:-10px;	
-	height:40px;
+    margin-top: -10px;
+    height: 40px;
 }
+
 .search_navbar {
-	text-align:center;	
+    text-align: center;
 }
+
 .navbar-default .navbar-nav > li > a, .navbar-default .navbar-nav > li > a:focus {
     color: #FFF;
-	text-transform:uppercase;
+    text-transform: uppercase;
 }
+
 .search_navbar input {
-	border-radius:0px;	
-	width:240px !important;
-	margin-left:40px;
+    border-radius: 0px;
+    width: 240px !important;
+    margin-left: 40px;
 }
+
 .navbar-default .navbar-toggle .icon-bar {
-	background-color:#FFF;	
+    background-color: #FFF;
 }
+
 .search_navbar button {
-	border-radius:0px;	
-	border:none;
-	background:#767676 url(../img/search.png) no-repeat center;
-	height:34px;
-	width:38px;
+    border-radius: 0px;
+    border: none;
+    background: #767676 url(../img/search.png) no-repeat center;
+    height: 34px;
+    width: 38px;
 }
+
 .bluesearch {
-	border-radius:0px;	
-	border:none;
-	background:#53c1dd url(../img/search.png) no-repeat center;
-	height:34px;
-	width:38px;
+    border-radius: 0px;
+    border: none;
+    background: #53c1dd url(../img/search.png) no-repeat center;
+    height: 34px;
+    width: 38px;
 }
+
 .bluesearch:hover {
-	background-color:#53c1dd;
+    background-color: #53c1dd;
 }
+
 .blueback {
-	background-color:#53c1dd;
-	padding:12px;
-	margin-top:15px;
-	margin-left:-15px;
-	margin-bottom:-15px;
-	margin-right:-15px;
+    background-color: #53c1dd;
+    padding: 12px;
+    margin-top: 15px;
+    margin-left: -15px;
+    margin-bottom: -15px;
+    margin-right: -15px;
 }
+
 .blueback .form-group:last-child {
-	margin-bottom:0px;	
+    margin-bottom: 0px;
 }
+
 .blueback label {
-	color:#FFF;	
+    color: #FFF;
 }
+
 .search_navbar button:hover {
-	background-color:#767676;
+    background-color: #767676;
 }
+
 .dropdown-menu {
-	min-width:100%;	
-	width:100%;
+    min-width: 100%;
+    width: 100%;
 }
+
 select, input {
-	border-radius:0px !important;	
+    border-radius: 0px !important;
 }
+
 .login-menu {
-	padding: 15px; 
-	min-width:240px;
+    padding: 15px;
+    min-width: 240px;
 }
+
 .login-menu input[type=password], .login-menu input[type=text], .login-menu input[type=email] {
-	margin-bottom: 15px;
-	width:100%;
+    margin-bottom: 15px;
+    width: 100%;
 }
+
 .login-menu input[type=checkbox] {
-	float: left; 
-	margin-right: 10px;
+    float: left;
+    margin-right: 10px;
 }
+
 .login-menu input[type=submit] {
-	clear: left; 
-	width: 100%; 
-	height: 32px; 
-	font-size: 13px;
-	display:inline-block;
+    clear: left;
+    width: 100%;
+    height: 32px;
+    font-size: 13px;
+    display: inline-block;
 }
+
 .login-menu .remind {
-	margin-top:12px;
-	text-align:center;	
-	margin-bottom:0px;
+    margin-top: 12px;
+    text-align: center;
+    margin-bottom: 0px;
 }
+
 #remind_section {
-	display:none;
+    display: none;
 }
+
 .remind_link:hover {
-	cursor:pointer;	
+    cursor: pointer;
 }
+
 .grey_text {
-	color:#e5e4e4;
-	font-size:1.1em;
+    color: #e5e4e4;
+    font-size: 1.1em;
 }
+
 #loader_ajax {
-	position:absolute;
-	display:block; 
-	top:0px; 
-	left:0px; 
-	z-index:1000; 
-	background-color:#FFF; 
-	opacity:0.8; 
-	text-align:center; 
-	box-sizing:border-box; 
-	padding:8px; 
-	width:100%; 
-	height:100%; 
-	color:#000;
+    position: absolute;
+    display: block;
+    top: 0px;
+    left: 0px;
+    z-index: 1000;
+    background-color: #FFF;
+    opacity: 0.8;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 8px;
+    width: 100%;
+    height: 100%;
+    color: #000;
 }
+
 #loader_ajax p, #message_ajax p {
-	width:100%;
-  margin:0px !important; /* espacement horizontal des blocs */
-  display:inline;
-  display:inline-block;
-  vertical-align:middle;
-  padding:5px;
-  font-weight:bold;
-  text-align:center; /* on rétablit l'alignement du texte */
+    width: 100%;
+    margin: 0px !important;
+ /* espacement horizontal des blocs */
+    display: inline;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 5px;
+    font-weight: bold;
+    text-align: center;
+ /* on rétablit l'alignement du texte */
   height:auto;
   font-size:16px;
 
@@ -632,13 +684,14 @@ input.space-button {
 	padding-right:10px;
 }
 #spec_proposition{
-	background-color:#e5e4e4;
+	
 	width: 100%;
 }
 .greyback{
 	background-color:#e5e4e4;
 	width: 100%;
-	padding:56px 0px 56px 0px;
+	padding-top:10px;
+	padding-bottom:16px;
 	margin-left:0px;
 	margin-bottom:0px;
 	margin-right:0px;
@@ -648,35 +701,35 @@ input.space-button {
 .clear {
 	clear:both;	
 }
-#spec_proposition .form-group:last-child {
+.greyback .form-group:last-child {
 	margin-bottom:0px;	
 }
-#spec_inscription label, #spec_proposition label {
+.greyback label, .greyback label {
 	color:#323232;
 	text-align: right
 }
-#spec_proposition .days {
+.greyback .days {
 	display: inline;
 	width:140px;
 }
-#spec_inscription .birthday {
+.greyback .birthday {
 	display: inline;
 	width:66px;
 }
-#spec_inscription .birthmonth {
+.greyback .birthmonth {
 	display: inline;
 	width:66px;
 }
-#spec_inscription .birthyear {
+.greyback .birthyear {
 	display: inline;
 	width:80px;
 }
-#spec_proposition .time {
+.greyback .time {
 	display: inline;
 	width:70px;
 	height:32px;
 }
-#spec_proposition .zipcode, #spec_inscription .zipcode {
+.greyback .zipcode, .greyback .zipcode {
 	display: inline;
 	width:100px;	
 }
@@ -684,21 +737,21 @@ input#accept {
 	display:inline;	
 	width:auto !important;
 } 
-#spec_inscription .liketext:not(.fullwidth), #spec_proposition .liketext:not(.fullwidth) {
+.greyback .liketext:not(.fullwidth), .greyback .liketext:not(.fullwidth) {
 	border:none;
 	background:transparent;	
 	display:inline;
 	width:auto !important;
 	box-shadow:none;
 }
-#spec_inscription .liketext.fullwidth, #spec_proposition .liketext.fullwidth {
+.greyback .liketext.fullwidth, .greyback .liketext.fullwidth {
 	border:none;
 	background:transparent;	
 	display:inline;
 	width:100% !important;
 	box-shadow:none;
 }
-#spec_proposition button{
+.greyback button{
 	margin-top: 6px;
 	background-color: white;
 	border: 1px solid #ccc;
@@ -709,15 +762,15 @@ input#accept {
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-#spec_proposition button:hover{
+.greyback button:hover{
 	background-color: #53c1dd;
 	color:white;
 }
-#spec_proposition .kilometre{
+.greyback .kilometre{
 	display: inline;
 	width:48px;
 }
-#spec_proposition input[type=submit]{
+.greyback input[type=submit]{
 	background-color: white;
 	color:#323232;
 	text-transform: uppercase;
@@ -733,7 +786,7 @@ input#accept {
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-#spec_proposition input[type=submit]:hover{
+.greyback input[type=submit]:hover{
 	background-color: #53c1dd;
 	color:white;
 }
@@ -1177,6 +1230,7 @@ td {
 
 
 @media (max-width:767px){
+
 	.remind_link {
 		color:#FFF;
 	}
@@ -1184,7 +1238,7 @@ td {
 		display:block;	
 		margin-top:10px;
 	}
-	#spec_proposition label, #spec_inscription label {
+	form#user_add .greyback label, form#user_remind .greyback label { {
 	color:#323232;
 	text-align: left;
 	}
@@ -1283,4 +1337,3 @@ td {
 @-moz-document url-prefix() {
   fieldset { display: table-cell; }
 }
-
