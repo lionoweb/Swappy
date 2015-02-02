@@ -66,12 +66,12 @@ $(document).ready(function(e) {
 	});
 	navbar_padding();
 	$(".remind_link").bind("click", function() {
-	   if($("#remind_section").css("display") == "none") {
-		   $("#remind_section").css("display", "block");
-		   $("#login_section").css("display", "none");
+	   if($(this).parents("#clone_login, .login-menu").find("#remind_section").css("display") == "none") {
+		   $(this).parents("#clone_login, .login-menu").find("#remind_section").css("display", "block");
+		   $(this).parents("#clone_login, .login-menu").find("#login_section").css("display", "none");
 	   } else {
-		   $("#remind_section").css("display", "none");
-		   $("#login_section").css("display", "block");
+		   $(this).parents("#clone_login, .login-menu").find("#remind_section").css("display", "none");
+		   $(this).parents("#clone_login, .login-menu").find("#login_section").css("display", "block");
 	   }
    });
 	$("#user_add").validationEngine({
@@ -276,7 +276,9 @@ function modal_prevent() {
 			$("#modal_alert").remove();
 			$("body").append('<div id="modal_alert" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-md"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="exampleModalLabel">Page inaccessible</h4></div><div class="modal-body">Désolé, mais la page à laquelle vous souhaitiez afficher n\'est pas accessible en tant que visiteur.<br><br>Veuillez vous inscrire/connecter pour l\'afficher.<div id="clone_login"></div></div></div></div></div>');
 			$('#modal_alert').modal('show');
-			$("#login_form").clone(true);
+			$("#login_section").clone(true).appendTo("#clone_login");
+			$("#remind_section").clone(true).appendTo("#clone_login");
+			$("#clone_login").append('<a href="inscription.php" class="hidden_ notsigned">Pas encore inscrit ?</a><div class="clear"></div>');
 			$("#modal_alert").on("hidden.bs.modal", function(e) {
 				$(this).remove();
 			});

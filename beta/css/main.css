@@ -88,7 +88,13 @@ html, body {
 #login_form label {
     margin-bottom: 12px;
 }
-
+#clone_login {
+	margin-top:10px;	
+}
+#clone_login input[type="submit"] {
+	float:right;
+	margin-top:10px;
+}
 #user_add, #user_remind {
     display: block;
     margin-bottom: 10px;
@@ -296,12 +302,12 @@ select, input {
     min-width: 240px;
 }
 
-.login-menu input[type=password], .login-menu input[type=text], .login-menu input[type=email] {
+.login-menu input[type=password], .login-menu input[type=text], .login-menu input[type=email], #clone_login input[type=password], #clone_login input[type=text], #clone_login input[type=email] {
     margin-bottom: 15px;
     width: 100%;
 }
 
-.login-menu input[type=checkbox] {
+.login-menu input[type=checkbox], #clone_login input[type=checkbox] {
     float: left;
     margin-right: 10px;
 }
@@ -315,9 +321,28 @@ select, input {
 }
 
 .login-menu .remind {
-    margin-top: 12px;
+    
     text-align: center;
-    margin-bottom: 0px;
+    
+}
+.login-menu .hidden_ {
+	display:none;	
+}
+#clone_login .hidden_ {
+	display:block;	
+	margin-bottom:4px;
+	margin-top:4px;
+	font-size:1.2em;
+	font-weight:bold;
+}
+.notsigned {
+	float:right;
+	margin-top:5px;	
+}
+#clone_login #remind_section .remind {
+	margin-top: 12px;
+	margin-bottom: 0px;
+	float:left;
 }
 
 #remind_section {

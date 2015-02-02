@@ -184,11 +184,15 @@
 		}
 		function modal_location_c($GET) {
 			$text = "";
+			$extra = '';
 			if(isset($_GET['needunlogged'])) {
 				$text = "Désolé, mais la page à laquelle vous souhaitiez afficher n'est pas accessible en tant qu'utilisateur connecté.<br><br>Veuillez vous déconnecté pour l'afficher.";
 			}
 			if(isset($_GET['unlogged'])) {
-				$text = "Désolé, mais la page à laquelle vous souhaitiez afficher n'est pas accessible en tant que visiteur.<br><br>Veuillez vous inscrire/connecter pour l'afficher.";
+				$text = "Désolé, mais la page à laquelle vous souhaitiez afficher n'est pas accessible en tant que visiteur.<br><br>Veuillez vous inscrire/connecter pour l'afficher.<div id='clone_login'></div>";
+				$extra = " $('#login_section').clone(true).appendTo('#clone_login');
+			$('#remind_section').clone(true).appendTo('#clone_login');
+			$('#clone_login').append('<a href=\"inscription.php\" class=\"hidden_ notsigned\">Pas encore inscrit ?</a><div class=\"clear\"></div>');";
 			}
 			if(isset($_GET['noadmin'])) {
 				$text = "Désolé, mais la page à laquelle vous souhaitiez afficher est accessible uniquement pour les administrateurs du site.";
@@ -205,7 +209,7 @@
 	  </div>
     </div>
   </div>
-</div> <script>$(\'#modal_alert\').modal(\'show\'); $("#modal_alert").on("hidden.bs.modal", function(e) {
+</div> <script>$(\'#modal_alert\').modal(\'show\');'.$extra.' $("#modal_alert").on("hidden.bs.modal", function(e) {
 				$(this).remove();
 			});</script>';
 			if(!empty($text)) {
@@ -501,6 +505,7 @@
                         <div class="dropdown-menu login-menu">
                             <div id="login_section">
                                 <form action="inc/login.php" method="post" id="login_form">
+									<span class="hidden_">Se connecter :</span>
                                     <input id="login_form" name="login_form" class="validate[required,minSize[5]] form-control" placeholder="Identifiant" type="text" size="30">
                                     <input type="password" id="password_form" name="password_form" placeholder="Mot de passe" class="validate[required,minSize[6]] form-control" size="30">
                                     <label class="string optional" for="remember_me">
@@ -512,9 +517,10 @@
                             </div>
                             <div id="remind_section">
                                 <form id="remind_form" action="inc/login.php" method="post" accept-charset="UTF-8">
+									<span class="hidden_">Mot de passe perdu :</span>
                                     <input id="user_username" placeholder="Email" class="form-control validate[required,email]" type="text" name="remind[email]" size="30">
                                     <input class="btn btn-primary" type="submit" name="commit" value="Recuperer">
-                                    <div class="remind"><a class="remind_link">Je m\'en souviens !</a></div>
+                                    <div class="remind"><a class="remind_link">Je m\'en souviens !</a></div><div class="clear"></div>
                                 </form>
                             </div>
                         </div>';
