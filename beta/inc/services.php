@@ -157,13 +157,15 @@
 			if($required) {
 				$req = 'validate[required] ';
 			}
-			$html = '<select class="'.$req.'form-control" id="type" name="type">';
+			$html = '<select class="'.$req.'form-control list_type_" id="type" name="type">';
 			$html .= '<option value=""></option>';
 			$select = $this->mysql->query("SELECT * FROM `categories` ORDER BY `Name` ASC");
 			while($data = $select->fetch(PDO::FETCH_OBJ)) {
 				$select_ = $this->mysql->prepare("SELECT `ID`,`Name` FROM `type` WHERE `Categorie` = :ID ORDER BY `Name` ASC");
 				$select_->execute(array(":ID" => $data->ID));
-				$html .= '<option disabled="disabled">'.$data->Name.'</option>';
+				if($data->Name != "Autres") {
+					$html .= '<option disabled="disabled">'.$data->Name.'</option>';
+				}
 				while($data_ = $select_->fetch(PDO::FETCH_OBJ)) {
 					if($data->Name == "Autres") {
 						$other = $data_->ID;

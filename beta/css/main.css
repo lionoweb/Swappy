@@ -119,6 +119,10 @@ form#user_add .greyback label, form#user_remind .greyback label {
     text-align: right;
 }
 
+.list_type_ option[disabled="disabled"] {
+	font-weight:bold;	
+}
+
 form#user_add .greyback .lu {
     display: inline;
     line-height: 20px;
@@ -373,15 +377,18 @@ select, input {
 #message_ajax {
 	display:block;  
 	z-index:1000; 
-	background-color:#21D076; 
 	opacity:0.8; 
 	text-align:center; 
 	box-sizing:border-box; 
-	border:1px solid #09931D;
 	padding:10px; 
 	width:100%; 
 	height:auto !important; 
 	color:#000;	
+}
+#message_ajax p {
+	display: inline-block;
+    vertical-align: middle;
+    float: none;
 }
 	/* ### SERVICES ### */
 
@@ -439,6 +446,10 @@ input.space-button {
 .ui-autocomplete, .ui-autocomplete .ui-menu-item, .ui-helper-hidden-accessible {
 	z-index:99999;
 	background:#FFF !important;	
+}
+.ui-menu-item.ui-state-focus {
+	color:#53c1dd;
+	border:#53c1dd 1px solid;
 }
 .bloc_services {
 	width:100%;	
