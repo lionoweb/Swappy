@@ -22,13 +22,13 @@
       <link rel="stylesheet" href="css/template.css" type="text/css"/>
       <link rel="stylesheet" href="css/bootstrap.min.css">
       <link rel="stylesheet" href="css/main.css">
-      <script src="js/jquery.js" async></script>
-      <script src="js/jquery-ui.js" async></script>
-      <script src="js/jquery.datetimepicker.js" async></script>
-      <script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js" async></script>
-      <script src="js/ValidationEngine/jquery.validationEngine.js" async></script>
-      <script src="js/bootstrap.min.js" async></script>
-      <script src="js/main.js" async></script>
+      <script src="js/jquery.js"></script>
+      <script src="js/jquery-ui.js"></script>
+      <script src="js/jquery.datetimepicker.js"></script>
+      <script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js"></script>
+      <script src="js/ValidationEngine/jquery.validationEngine.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/main.js"></script>
    </head>
    <body role="document">
       <div id="wrap" class="back-grey">

@@ -1202,6 +1202,9 @@ td {
 	.remind_link {
 		color:#FFF;
 	}
+	#clone_login .remind_link {
+		color:#337ab7;
+	}
 	.toline-xs {
 		display:block;	
 		margin-top:10px;
@@ -1295,6 +1298,9 @@ td {
 	.servicepropose .header_annonce {
 		top:0px !important;	
 		bottom:0px !important;
+	}
+	.inline-xs {
+		display:inline;	
 	}
 }
 /*FIX BOOTSTRAP*/

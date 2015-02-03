@@ -19,12 +19,12 @@
       <link rel="stylesheet" href="css/template.css" type="text/css"/>
       <link href="css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="css/main.css">
-      <script src="js/jquery.js" async></script>
-      <script src="js/jquery-ui.js" async></script>
-      <script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js" async></script>
-      <script src="js/ValidationEngine/jquery.validationEngine.js" async></script>
-      <script src="js/bootstrap.min.js" async></script>
-      <script src="js/main.js" async></script>
+      <script src="js/jquery.js"></script>
+      <script src="js/jquery-ui.js"></script>
+      <script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js"></script>
+      <script src="js/ValidationEngine/jquery.validationEngine.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/main.js"></script>
    </head>
    <body role="document">
       <div id="wrap" class="back-grey">
@@ -206,7 +206,7 @@
                   </div>
                   <div class="form-group">
                      <input id="accept" class="validate[required]" type="checkbox" name="accept">
-                     <label for="accept" class="col-md-10 col-md-offset-1 lu">J'ai lu et j'accepte les <a target="_blank" href="cgu.php">conditions générales d'utilisation</a> et les <a target="_blank" href="mentions-legales.php">mentions légales</a> du site Swappy</label>
+                     <label for="accept" class="col-md-10 col-md-offset-1 lu inline-xs">J'ai lu et j'accepte les <a target="_blank" href="cgu.php">conditions générales d'utilisation</a> et les <a target="_blank" href="mentions-legales.php">mentions légales</a> du site Swappy</label>
                   </div>
                   <div class="form-group col-sm-4 col-sm-offset-8 col-xs-12">
                      <input type="submit" class="form-control col-md-4" value="S'enregistrer">
