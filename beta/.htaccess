@@ -94,3 +94,4 @@ Header unset ETag
 FileETag none
 Header unset Cookie
 Header unset Set-Cookie
+AddCharset UTF-8 .php
