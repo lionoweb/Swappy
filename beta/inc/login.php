@@ -3,7 +3,7 @@
 	require_once("mysql.php");
 	require_once("user.php");
 	$arr = array();
-	if(isset($_POST['login_form'])) {
+	if(isset($_POST['login_form_'])) {
 		$user = new user($mysql);
 		$arr = $user->flogin($_POST);
 	}

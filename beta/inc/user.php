@@ -164,13 +164,15 @@
 			}
 		}
 		function onlyUsers() {
-			if(!$this->logged) {
-				header("Location: services.php?unlogged");	
+			if(!$this->logged && !isset($_GET['logout'])) {
+				header("Location: services.php?unlogged&p=".basename($_SERVER['PHP_SELF'])."");	
+			} else if (!$this->logged && isset($_GET['logout'])) {
+				header("Location: services.php");	
 			}
 		}
 		function onlyVisitors() {
 			if($this->logged) {
-				if(preg_match("/inscription\.php/", $_SERVER['PHP_SELF'])) {
+				if(preg_match("/inscription\.php/", $_SERVER['PHP_SELF']) || isset($_GET['logout'])) {
 					header("Location: services.php");	
 				} else {
 					header("Location: services.php?needunlogged");	
@@ -178,6 +180,7 @@
 			}
 		}
 		function onlyAdmin() {
+			$this->onlyUsers();
 			if($this->admin == 0) {
 				header("Location: services.php?noadmin");	
 			}
@@ -192,6 +195,7 @@
 				$text = "Désolé, mais la page à laquelle vous souhaitiez afficher n'est pas accessible en tant que visiteur.<br><br>Veuillez vous inscrire/connecter pour l'afficher.<div id='clone_login'></div>";
 				$extra = " $('#login_section').clone(true).appendTo('#clone_login');
 			$('#remind_section').clone(true).appendTo('#clone_login');
+			$(\"#clone_login .login_form\").append(\"<input type='hidden' name='to_url' value='".@basename(@$_GET['p'])."'>\");
 			$('#clone_login').append('<a href=\"inscription.php\" class=\"hidden_ notsigned\">Pas encore inscrit ?</a><div class=\"clear\"></div>');";
 			}
 			if(isset($_GET['noadmin'])) {
@@ -317,7 +321,7 @@
 		function flogin($POST) {
 			$arr = array();
 			$select = $this->mysql->prepare("SELECT `ID`,`Password`,`Validation` FROM `users` WHERE `Login` = :login");
-			$select->execute(array(":login" =>  strtolower($POST['login_form'])));
+			$select->execute(array(":login" =>  strtolower($POST['login_form_'])));
 			$data = $select->fetch(PDO::FETCH_OBJ);
 			$total = $select->rowCount();
 			if($total > 0) {
@@ -504,9 +508,9 @@
              	$html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Connexion <span class="caret"></span></a>
                         <div class="dropdown-menu login-menu">
                             <div id="login_section">
-                                <form action="inc/login.php" method="post" id="login_form">
+                                <form action="inc/login.php" method="post" class="login_form">
 									<span class="hidden_">Se connecter :</span>
-                                    <input id="login_form" name="login_form" class="validate[required,minSize[5]] form-control" placeholder="Identifiant" type="text" size="30">
+                                    <input id="login_form_" name="login_form_" class="validate[required,minSize[5]] form-control" placeholder="Identifiant" type="text" size="30">
                                     <input type="password" id="password_form" name="password_form" placeholder="Mot de passe" class="validate[required,minSize[6]] form-control" size="30">
                                     <label class="string optional" for="remember_me">
                                         <input id="remember_me" type="checkbox" name="remember_me" checked> Se souvenir de moi
@@ -516,7 +520,7 @@
                                 </form>		
                             </div>
                             <div id="remind_section">
-                                <form id="remind_form" action="inc/login.php" method="post" accept-charset="UTF-8">
+                                <form class="remind_form" action="inc/login.php" method="post" accept-charset="UTF-8">
 									<span class="hidden_">Mot de passe perdu :</span>
                                     <input id="user_username" placeholder="Email" class="form-control validate[required,email]" type="text" name="remind[email]" size="30">
                                     <input class="btn btn-primary" type="submit" name="commit" value="Recuperer">

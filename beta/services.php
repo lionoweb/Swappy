@@ -22,12 +22,12 @@
       <link rel="stylesheet" href="css/template.css" type="text/css"/>
       <link href="css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="css/main.css">
-      <script src="js/jquery.js"></script>
-      <script src="js/jquery-ui.js"></script>
-      <script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js"></script>
-      <script src="js/ValidationEngine/jquery.validationEngine.js"></script>
-      <script src="js/bootstrap.min.js"></script>
-      <script src="js/main.js"></script>
+      <script src="js/jquery.js" async></script>
+      <script src="js/jquery-ui.js" async></script>
+      <script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js" async></script>
+      <script src="js/ValidationEngine/jquery.validationEngine.js" async></script>
+      <script src="js/bootstrap.min.js" async></script>
+      <script src="js/main.js" async></script>
    </head>
    <body role="document">
       <div id="wrap">
@@ -41,7 +41,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img src="img/logonav.png"></a>
+                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="149" height="47" src="img/logonav.png"></a>
                </div>
                <form class="navbar-form navbar-left search_navbar" method="get" role="search">
                   <div class=" input-group">
@@ -175,7 +175,7 @@
          </div>
       </div>
       <footer id="footer">
-         <img src="img/footer.png">
+         <img src="img/footer.png" width="30" height="18">
          <div class="container-fluid">
             <a href="mentions-legales.php">Mentions légales</a> - <a href="cgu.php">CGU</a> | <a href="contact.php" class="active">Contact</a>
             <hr>

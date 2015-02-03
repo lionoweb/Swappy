@@ -177,9 +177,11 @@
 						}
 					}
 				}
-				$html .= '<option value="'.$other_.'">&emsp;&emsp;Autres</option>';
+				if($data->Name != "Autres") {
+					$html .= '<option value="'.$other_.'">&emsp;&emsp;Autres services en '.$data->Name.'</option>';
+				}
 			} 
-			$html .= '<option disabled="disabled">Autres</option><option value="'.$other.'">&emsp;&emsp;Autres</option>';
+			$html .= '<option disabled="disabled">Autres</option><option value="'.$other.'">&emsp;&emsp;Autres...</option>';
 			$html .= '</select>	';
 			return $html;
 		}

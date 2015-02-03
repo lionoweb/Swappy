@@ -98,7 +98,7 @@ $(document).ready(function(e) {
 		showOneMessage: true,
 		promptPosition : "topLeft"
 	});
-	$("#login_form").validationEngine({
+	$(".login_form").validationEngine({
 		ajaxFormValidation: true,
 		ajaxFormValidationMethod: 'post',
 		onAjaxFormComplete: login_user_function,
@@ -106,7 +106,7 @@ $(document).ready(function(e) {
 		showOneMessage: true,
 		promptPosition : "topLeft"
 	});
-	$("#remind_form").validationEngine({
+	$(".remind_form").validationEngine({
 		ajaxFormValidation: true,
 		ajaxFormValidationMethod: 'post',
 		onAjaxFormComplete: remind_user_function,
@@ -207,8 +207,13 @@ function add_service_function(status, form, json, options) {
 }
 function login_user_function(status, form, json, options) {
 	$form_b = $(form);
+	var page = "";
 	if(json[0] == true) {
-		var page = document.location.href;
+		if($form_b.find("input[name='to_url']").length > 0 && $form_b.find("input[name='to_url']").val() != "") {
+			page = $form_b.find("input[name='to_url']").val();
+		} else {
+			page = document.location.href;
+		}
 		document.location.replace(page.replace("?logout", "").replace("#", ""));
 	} else {
 		$form_b.find("#loader_ajax").remove();
@@ -268,7 +273,7 @@ function isArray(obj) {
     return (obj.constructor.toString().indexOf("Array") != -1);
 }
 function modal_prevent() {
-	if($("#login_form").length > 0) {
+	if($(".login_form").length > 0) {
 		//NOT LOGGED
 		$('nav li a[href$="propose.php"]').off();
 		$('nav li a[href$="propose.php"]').on("click", function(e) {
@@ -279,6 +284,7 @@ function modal_prevent() {
 			$("#login_section").clone(true).appendTo("#clone_login");
 			$("#remind_section").clone(true).appendTo("#clone_login");
 			$("#clone_login").append('<a href="inscription.php" class="hidden_ notsigned">Pas encore inscrit ?</a><div class="clear"></div>');
+			$("#clone_login .login_form").append("<input type='hidden' name='to_url' value='"+$(this).attr("href")+"'>");
 			$("#modal_alert").on("hidden.bs.modal", function(e) {
 				$(this).remove();
 			});
