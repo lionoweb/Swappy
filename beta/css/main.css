@@ -1189,6 +1189,9 @@ td {
 	}
 }	
 @media (max-width:767px){
+	 .container .servicepropose .row img {
+		display:none; 
+	 }
 	.remind_link {
 		color:#FFF;
 	}
@@ -1290,9 +1293,13 @@ td {
 	margin: 0;
 	padding: 0;
 }
-.container .row{
-        margin-left: -15px;
-        margin-right: -15px;
-    }
+/*.container .row{
+	margin-left: -15px;
+	margin-right: -15px;
+ }
+ .container .servicepropose .row {
+	 margin-left: 0px;
+     margin-right: 0px;
+ }*/
 @-moz-document url-prefix() {
   fieldset { display: table-cell; }
