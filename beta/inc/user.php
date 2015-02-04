@@ -529,8 +529,12 @@
                             </div>
                         </div>';
                  } else { 
-                    $html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Bonjour '.$this->firstname.'<span class="caret"></span></a>
+                    $html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img src="'.$this->avatar.'" height="40" width="40"> '.$this->firstname.'<span class="caret"></span></a>
                             <ul class="dropdown-menu">
+								<li><a href="profil.php#profil">Mon profil</a></li>
+								<li><a href="profil.php#propositions">Mes propositions</a></li>
+								<li><a href="profil.php#rendez-vous">Mes rendez-vous</a></li>
+								<li><a href="profil.php#messagerie">Messagerie <span class="mess_count">0</span></a></li>
                                 <li><a href="?logout">Se deconnecter</a></li>
                             </ul>';
                 } 
