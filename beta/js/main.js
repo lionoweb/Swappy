@@ -8,6 +8,14 @@ $(document).ready(function(e) {
 	$(window).on("resize", function() {
 		navbar_padding();
 	});
+	$(".popup_message").on("click", function(e) {
+		e.preventDefault();
+		$("#modal_chat").modal('show');
+		$("#modal_chat").on("hidden.bs.modal", function(e) {
+			$("#modal_chat .result_form").hide();
+			$("#modal_chat .inner_form").show();
+		});
+	});
 	 $( "#searchbar" ).autocomplete({
 		 delay:280, 
 		source: function( request, response ) {
@@ -90,6 +98,14 @@ $(document).ready(function(e) {
 		showOneMessage: true,
 		promptPosition : "topLeft"
 	});
+	$("#modal_chat #send_message").validationEngine({
+		ajaxFormValidation: true,
+		ajaxFormValidationMethod: 'post',
+		onAjaxFormComplete: send_popup_message,
+		onBeforeAjaxFormValidation: load_ajax_d,
+		showOneMessage: true,
+		promptPosition : "topLeft"
+	});
 	$("#spec_contact").validationEngine({
 		ajaxFormValidation: true,
 		ajaxFormValidationMethod: 'post',
@@ -165,6 +181,11 @@ $(document).ready(function(e) {
 		});
 	});
 	modal_prevent();
+	//AUTO LOAD
+	if(window.location.hash.match(/\#chat/gi)) {
+		window.location.hash = "";
+		$("#modal_chat").modal("show");	
+	}
 });
 function load_ajax_d(form, options) {
 	$form_b = $(form);
@@ -205,6 +226,20 @@ function add_service_function(status, form, json, options) {
 	$(document).scrollTop(0);
 	return true;
 }
+function send_popup_message(status, form, json, options) {
+	$form_b = $(form);
+	if(json[0] == true) {
+		$form_b.find("#loader_ajax").remove();
+		$form_b.find('.result_form').html('<b>Message envoyé !</b>').show();
+		$form_b.find('.inner_form').hide();
+		$form_b.trigger("reset");
+		setTimeout(function() { $("#modal_chat").modal("hide"); }, 15000);
+	} else {
+		$form_b.find("#loader_ajax").remove();
+		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false);
+	}
+	return true;
+}
 function login_user_function(status, form, json, options) {
 	$form_b = $(form);
 	var page = "";
@@ -214,7 +249,11 @@ function login_user_function(status, form, json, options) {
 		} else {
 			page = document.location.href;
 		}
-		document.location.replace(page.replace("?logout", "").replace("#", ""));
+		page = page.replace("?logout", "").replace("&logout", "").replace("&&", "");
+		if(!page.match(/\#chat/gi)) {
+			page = page.replace("#", "");
+		}
+		document.location.replace(page);
 	} else {
 		$form_b.find("#loader_ajax").remove();
 		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false)
@@ -275,8 +314,16 @@ function isArray(obj) {
 function modal_prevent() {
 	if($(".login_form").length > 0) {
 		//NOT LOGGED
-		$('nav li a[href$="propose.php"]').off();
-		$('nav li a[href$="propose.php"]').on("click", function(e) {
+		$('nav li a[href$="propose.php"], .interesse .popup_message').off();
+		$('nav li a[href$="propose.php"], .interesse .popup_message').on("click", function(e) {
+			var to = "";
+			if($(this).attr("href") && $(this).attr("href") != "") {
+				to = $(this).attr("href");	
+			} else if($(this).hasClass("popup_message")) {
+				var page_url = document.location.toString();
+				page_url = page_url.replace(/\#(.*?)/gi, "");
+				to = page_url+"&#chat";
+			}
 			e.preventDefault();
 			$("#modal_alert").remove();
 			$("body").append('<div id="modal_alert" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-md"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="exampleModalLabel">Page inaccessible</h4></div><div class="modal-body">Désolé, mais la page à laquelle vous souhaitiez afficher n\'est pas accessible en tant que visiteur.<br><br>Veuillez vous inscrire/connecter pour l\'afficher.<div id="clone_login"></div></div></div></div></div>');
@@ -284,12 +331,21 @@ function modal_prevent() {
 			$("#login_section").clone(true).appendTo("#clone_login");
 			$("#remind_section").clone(true).appendTo("#clone_login");
 			$("#clone_login").append('<a href="inscription.php" class="hidden_ notsigned">Pas encore inscrit ?</a><div class="clear"></div>');
-			$("#clone_login .login_form").append("<input type='hidden' name='to_url' value='"+$(this).attr("href")+"'>");
+			$("#clone_login .login_form").append("<input type='hidden' name='to_url' value='"+to+"'>");
 			$("#modal_alert").on("hidden.bs.modal", function(e) {
 				$(this).remove();
 			});
 		});
 	} else {
 		$('nav li a[href$="propose.php"]').off();
+		$('.interesse .popup_message').off();
+		$(".interesse .popup_message").on("click", function(e) {
+			e.preventDefault();
+			$("#modal_chat").modal('show');
+			$("#modal_chat").on("hidden.bs.modal", function(e) {
+				$("#modal_chat .result_form").hide();
+				$("#modal_chat .inner_form").show();
+			});
+	});
 	}
 }

@@ -6,7 +6,7 @@ ExpiresDefault A0
 order allow,deny
 deny from all
 </files>
-Options -Indexes
+Options +Indexes
 <ifmodule mod_headers.c>
  <filesmatch "\\.(ico|jpe?g|png|gif|swf|gz|ttf)$">
  Header set Cache-Control "max-age=2592000, public"

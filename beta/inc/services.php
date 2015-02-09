@@ -29,7 +29,9 @@
 			$data = $select->fetch(PDO::FETCH_OBJ);
 			$total = $select->rowCount();
 			if($total < 1) {
-				header("Location: 404.php");
+				if(!preg_match("/inc\//", $_SERVER['PHP_SELF'])) {
+					header("Location: 404.php");
+				}
 			} else {
 				$this->ID = $data->ID;
 				if(empty($data->Title)) {

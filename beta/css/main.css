@@ -706,6 +706,13 @@ input#accept {
 	display:inline;	
 	width:auto !important;
 } 
+form .liketext { 
+	border:none;
+	background:transparent;	
+	display:inline;
+	width:auto !important;
+	box-shadow:none;
+}
 .greyback .liketext:not(.fullwidth), .greyback .liketext:not(.fullwidth) {
 	border:none;
 	background:transparent;	
@@ -1180,6 +1187,34 @@ td {
 	text-align:center;
 	line-height:18px;
 }
+.mess_count.red {
+	background:red;
+	border:red 0px solid;
+}
+.chat_title {
+	display:block;
+	color:#269ed0;
+	padding-left:30px;
+	font-size:1.3em;	
+}
+.chat_for {
+	display:block;
+	padding-left:30px;
+	font-size:0.8em;	
+}
+#modal_chat input[type="submit"] {
+	text-transform:uppercase;
+	margin-top:8px;
+	width:120px;
+	float:right;
+}
+#modal_chat input[type="submit"]:hover {
+	background-color: #e5e4e4;
+	color:black;
+}
+#modal_chat .result_form {
+	display:none;	
+}
 @media (min-width:768px){
 .navbar-right {
 	position:relative;	
@@ -1231,6 +1266,8 @@ td {
 	}
 	#spec_annonce .interesse button {
 		margin-left:6px !important;
+		margin-right:6px !important;
+
 	}
 	.greyback.row .description {
 		padding-left:8px !important;

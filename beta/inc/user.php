@@ -160,7 +160,7 @@
 			if(empty($id)) {
 				$this->find_sess();
 			} else {
-				$this->load_user_data($id, "", false);
+				$this->load_user_data($id, $this->crypt_sess($id), false);
 			}
 		}
 		function onlyUsers() {
@@ -219,6 +219,13 @@
 			if(!empty($text)) {
 				echo $html;
 			}
+		}
+		function list_messages() {
+			$t = 0;
+			$select = $this->mysql->prepare("SELECT `conversation_reply`.`ID` FROM `conversation_reply` INNER JOIN `conversation` ON `conversation_reply`.`C_ID` = `conversation`.`ID` WHERE (`conversation`.`User_One` = :id OR `conversation`.`User_Two` = :id) AND `conversation_reply`.`Author` != :id AND `conversation_reply`.`Seen` = '0'");	
+			$select->execute(array(":id" => $this->ID));
+			$t = $select->rowCount();
+			return $t;
 		}
 		function crypt_sess($ID) {
 			$step = base64_encode($ID."__SWAP");
@@ -353,7 +360,9 @@
 				if($me == true) {
 					$this->logout();
 				} else {
-					header("Location: 404.php");
+					if(!preg_match("/inc\//", $_SERVER['PHP_SELF'])) {
+						header("Location: 404.php");
+					}
 				}
 			} else {
 				//OK	
@@ -529,13 +538,28 @@
                             </div>
                         </div>';
                  } else { 
-                    $html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img src="'.$this->avatar.'" height="40" width="40"> '.$this->firstname.'<span class="caret"></span></a>
+					 $get = @$_SERVER['QUERY_STRING'];
+					 if(empty($get)) {
+						$logout = "?logout"; 
+					 } else {
+						$logout = "?".$get."&logout";	 
+					 }
+					 $total_m = $this->list_messages();
+					 if($total_m > 0) {
+						 $message_name = '<span class="mess_count red">'.$total_m.'</span> ';
+						 $message_list = '<span class="mess_count red">'.$total_m.'</span>';
+					 } else {
+						$message_name = '';
+						$message_list = '<span class="mess_count">0</span>'; 
+					 }
+					 $logout = preg_replace("/\&\&/", "&", $logout);
+                    $html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img src="'.$this->avatar.'" height="40" width="40"> '.$this->firstname.' '.$message_name.'<span class="caret"></span></a>
                             <ul class="dropdown-menu">
 								<li><a href="profil.php#profil">Mon profil</a></li>
 								<li><a href="profil.php#propositions">Mes propositions</a></li>
 								<li><a href="profil.php#rendez-vous">Mes rendez-vous</a></li>
-								<li><a href="profil.php#messagerie">Messagerie <span class="mess_count">0</span></a></li>
-                                <li><a href="?logout">Se deconnecter</a></li>
+								<li><a href="profil.php#messagerie">Messagerie '.$message_list.'</a></li>
+                                <li><a href="'.$logout.'">Se deconnecter</a></li>
                             </ul>';
                 } 
 			$html .= "</li>";

@@ -3,13 +3,15 @@
    require_once("inc/mysql.php");
    require_once("inc/user.php");
    require_once("inc/services.php");
+   require_once("inc/chat.php");
    $user = new user($mysql);
    if(isset($_GET['logout'])) {
    	$user->logout();
    }
    $ID_service = @$_GET['id'];
    $services = new	services($mysql, $ID_service);
-   $user_ = new user($mysql, $services->by); ?>
+   $user_ = new user($mysql, $services->by);
+   $chat = new chat($mysql, $user); ?>
 <!doctype html>
 <html>
    <head>
@@ -78,7 +80,11 @@
                   <div class="info loc"><img src="img/annonce/location.png" width="18" height="28"><?php echo $services->city; ?>, jusqu'à <?php echo $services->distance; ?> km de déplacement</div>
                </div>
                <div class="interesse">
-                  <a href=""><button>Je suis interessé(e)</button></a>
+               		<?php if($user->ID != $user_->ID) { ?>
+                  <button class="popup_message">Je suis interessé(e)</button>
+                  <?php } else { ?>
+                  <button disabled>Vous êtes le propriétaire de ce service.</button>
+                  <?php } ?>
                </div>
             </div>
             <div class="servicepropose">
@@ -106,6 +112,8 @@
             <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
          </div>
       </footer>
+      <?php $chat->prepare_popup($user_, $services); ?>
       <?php $user->modal_location_c($_GET); ?>
+
    </body>
 </html>
