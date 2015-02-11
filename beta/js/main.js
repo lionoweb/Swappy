@@ -298,6 +298,28 @@ function ZipFill(json) {
 	}
 }
 function navbar_padding() {
+	if($(document).width() > 767) {
+		var ww = $("#navbar").width();
+		var whe = $(".navbar-header").width();
+		//alert(ww);
+		var wm = $(".navbar-form").width() + $(".nav.navbar-nav:not(.navbar-right)").width() + $(".nav.navbar-nav.navbar-right").width();
+		if((wm+2) >= (ww-whe-15)) {
+			if($(".search_navbar:not(.moved-group)").length > 0) {
+				$(".search_navbar:not(.moved-group)").addClass("moved-group");
+				$("nav").height("+=50px");
+			}
+		} else {
+			if($(".search_navbar.moved-group").length > 0) {
+				$(".search_navbar.moved-group").removeClass("moved-group");
+				$("nav").height("");
+			}
+		}
+	} else {
+		if($(".search_navbar.moved-group").length > 0) {
+			$(".search_navbar.moved-group").removeClass("moved-group");
+			$("nav").css("height", "");
+		}
+	}
 	var h = $("nav").height() + parseInt($("nav").css("margin-bottom").replace("px", ""));
 	$("body").css("padding-top", h+"px");
 	var wh = $(window).height();
@@ -306,18 +328,6 @@ function navbar_padding() {
 		$("#wrap").css("height", "100%");
 	} else {
 		$("#wrap").removeAttr("style");
-	}
-	if($(document).width() > 767) {
-		var ww = $("#navbar").width();
-		var whe = $(".navbar-header").width();
-		//alert(ww);
-		var wm = $(".navbar-form").width() + $(".nav.navbar-nav:not(.navbar-right)").width() + $(".nav.navbar-nav.navbar-right").width();
-		if((wm+2) >= (ww-whe-15)) {
-			
-		}
-		//$(".nav-h").css("width", $(document).width()+"px");
-	} else {
-		//$(".nav-h").css("width", "");
 	}
 }
 function isArray(obj) {

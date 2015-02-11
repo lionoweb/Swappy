@@ -44,7 +44,7 @@
                   <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="127" height="47" src="img/logonav.png"></a>
                </div>
                <form class="navbar-form navbar-left search_navbar" method="get" role="search">
-                  <div class=" input-group">
+                  <div class="input-group">
                      <input id="searchbar" name="searchbar" type="text" class="form-control" placeholder="Rechercher">
                      <span class="input-group-btn">
                      <button title="Rechercher" type="submit" class="btn btn-default"></button>

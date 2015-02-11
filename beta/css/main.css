@@ -198,6 +198,9 @@ a.add_dispo, a.remove_dispo {
 .search_navbar {
     text-align: center;
 }
+.visible {
+	display:block !important;	
+}
 .navbar-default .navbar-nav > li > a, .navbar-default .navbar-nav > li > a:focus {
     color: #FFF;
     text-transform: uppercase;
@@ -1220,6 +1223,12 @@ td {
 }
 .navbar-right li.open > a {
 	background:#eca694 !important;	
+}
+.moved-group  {
+	margin-left:114px;	
+	position:absolute;
+	top:50px;
+	left:0px;
 }
 @media (min-width:768px){
 .nav-h {
