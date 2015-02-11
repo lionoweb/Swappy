@@ -306,7 +306,7 @@ class search {
 					$sername = $data[$ist]->SerName;
 					if(empty($sername)) { $sername = $data[$ist]->TypName; }
 					$final .= '	<tr class="bloc_services">
-									<td class="picto"><a href="annonce.php?id='.$data[$ist]->ID.'&r='.base64_encode($query_s).'"><div class="fullfit picto-'.$data[$ist]->CatID.'"></div></a></td>
+									<td class="picto"><a href="annonce.php?id='.$data[$ist]->ID.'"><img class="fullfit" src="img/services/'.$data[$ist]->CatID.'.jpg"></a></td>
 									<td class="desc_services"><a href="annonce.php?id='.$data[$ist]->ID.'&r='.base64_encode($query_s).'"><div class="fullfit">
 										<h1>'.ucfirst($sername).'</h1>
 										<p>
@@ -423,7 +423,7 @@ class search {
 					$sername = $data->SerName;
 					if(empty($sername)) { $sername = $data->TypName; }
 					$final[1] .= '	<tr class="bloc_services">
-									<td class="picto"><a href="annonce.php?id='.$data->ID.'"><div class="fullfit picto-'.$data->CatID.'"></div></a></td>
+									<td class="picto"><a href="annonce.php?id='.$data->ID.'"><img class="fullfit" src="img/services/'.$data->CatID.'.jpg"></a></td>
 									<td class="desc_services"><a href="annonce.php?id='.$data->ID.'"><div class="fullfit">
 										<h1>'.ucfirst($sername).'</h1>
 										<p>
@@ -451,7 +451,7 @@ class search {
 						$sername = $data->SerName;
 						if(empty($sername)) { $sername = $data->TypName; }
 						$final[1] .= '	<tr class="bloc_services">
-										<td class="picto"><a href="annonce.php?id='.$data->ID.'"><div class="fullfit picto-'.$data->CatID.'"></div></a></td>
+										<td class="picto"><a href="annonce.php?id='.$data->ID.'"><img class="fullfit" src="img/services/'.$data->CatID.'.jpg"></a></td>
 										<td class="desc_services"><a href="annonce.php?id='.$data->ID.'"><div class="fullfit">
 											<h1>'.ucfirst($sername).'</h1>
 											<p>

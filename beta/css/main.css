@@ -2,7 +2,7 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    overflow: inherit;
+	width:100%;
 }
 @font-face {
     font-family : "Overlock";
@@ -80,6 +80,9 @@ html, body {
 #clone_login input[type="submit"] {
 	float:right;
 	margin-top:10px;
+}
+nav {
+	-webkit-transform: translateZ(0);
 }
 #user_add, #user_remind {
     display: block;
@@ -202,7 +205,7 @@ a.add_dispo, a.remove_dispo {
 .search_navbar input {
     border-radius: 0px;
     width: 240px !important;
-    margin-left: 40px;
+    margin-left: 28px;
 }
 .navbar-default .navbar-toggle .icon-bar {
     background-color: #FFF;
@@ -241,9 +244,9 @@ a.add_dispo, a.remove_dispo {
 .search_navbar button:hover {
     background-color: #767676;
 }
-.dropdown-menu {
-    min-width: 100%;
-    width: 100%;
+.dropdown-menu.nav-h {
+    min-width: 100% !important;
+    width: 100% !important;
 }
 select, input {
     border-radius: 0px !important;
@@ -1215,7 +1218,45 @@ td {
 #modal_chat .result_form {
 	display:none;	
 }
+.navbar-right li.open > a {
+	background:#eca694 !important;	
+}
 @media (min-width:768px){
+.nav-h {
+	background:#eca694;
+	left:0;
+	right:0;
+	width:100%;
+	border-radius:0px !important;
+	text-align:right;
+}
+.navbar-right{
+	position:inherit !important;
+}
+.dropdown.hf {
+	position:inherit !important;
+}
+.nav-h li {
+	display:inline-block;	
+	text-align:center;
+}
+.nav-h {
+	padding-top:0px;
+	padding-bottom:0px;
+}
+.nav-h li a {
+	padding-top:5px;
+	padding-bottom:	5px;
+	width:auto !important;
+	display:inline-block !important;
+	color:white !important;
+}
+.nav-h li a:hover, .nav-h li.active > a {
+	color:#000 !important;
+}
+.nav-h li:last-child {
+	text-align:right;	
+}
 .navbar-right {
 	position:relative;	
 	text-align:center;
@@ -1229,7 +1270,7 @@ td {
 	float:right;
 	margin-top:10px;
 }
-.navbar-right .dropdown-toggle {
+.navbar-right .dropdown.hf .dropdown-toggle {
 	padding-left:50px;	
 }
 .navbar-right ul, .navbar-right .dropdown-toggle {

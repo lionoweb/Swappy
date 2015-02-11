@@ -38,7 +38,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="149" height="47" src="img/logonav.png"></a>
+                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="127" height="47" src="img/logonav.png"></a>
                </div>
                <form class="navbar-form navbar-left search_navbar" method="get" role="search">
                   <div class=" input-group">

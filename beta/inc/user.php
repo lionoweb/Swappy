@@ -186,12 +186,15 @@
 			}
 		}
 		function modal_location_c($GET) {
+			$title = "";
 			$text = "";
 			$extra = '';
 			if(isset($_GET['needunlogged'])) {
+				$title = "Se deconnecter pour y accéder";
 				$text = "Désolé, mais la page à laquelle vous souhaitiez afficher n'est pas accessible en tant qu'utilisateur connecté.<br><br>Veuillez vous déconnecté pour l'afficher.";
 			}
 			if(isset($_GET['unlogged'])) {
+				$title = "Se connecter pour y accéder";
 				$text = "Désolé, mais la page à laquelle vous souhaitiez afficher n'est pas accessible en tant que visiteur.<br><br>Veuillez vous inscrire/connecter pour l'afficher.<div id='clone_login'></div>";
 				$extra = " $('#login_section').clone(true).appendTo('#clone_login');
 			$('#remind_section').clone(true).appendTo('#clone_login');
@@ -199,6 +202,7 @@
 			$('#clone_login').append('<a href=\"inscription.php\" class=\"hidden_ notsigned\">Pas encore inscrit ?</a><div class=\"clear\"></div>');";
 			}
 			if(isset($_GET['noadmin'])) {
+				$title = "Être administrateur pour y accéder";
 				$text = "Désolé, mais la page à laquelle vous souhaitiez afficher est accessible uniquement pour les administrateurs du site.";
 			}
 			$html = '<div id="modal_alert" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -512,8 +516,8 @@
                 	$html .= '<li><a href="inscription.php">Inscription</a></li>';
 				}
              } 
-             $html .= '<li class="dropdown">';
              if(!$this->logged) {
+				$html .= '<li class="dropdown">';
              	$html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Connexion <span class="caret"></span></a>
                         <div class="dropdown-menu login-menu">
                             <div id="login_section">
@@ -538,6 +542,7 @@
                             </div>
                         </div>';
                  } else { 
+				 	$html .= '<li class="dropdown hf">';
 					 $get = @$_SERVER['QUERY_STRING'];
 					 if(empty($get)) {
 						$logout = "?logout"; 
@@ -554,13 +559,13 @@
 					 }
 					 $logout = preg_replace("/\&\&/", "&", $logout);
                     $html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img src="'.$this->avatar.'" height="40" width="40"> '.$this->firstname.' '.$message_name.'<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-								<li><a href="profil.php#profil">Mon profil</a></li>
-								<li><a href="profil.php#propositions">Mes propositions</a></li>
-								<li><a href="profil.php#rendez-vous">Mes rendez-vous</a></li>
-								<li><a href="profil.php#messagerie">Messagerie '.$message_list.'</a></li>
-                                <li><a href="'.$logout.'">Se deconnecter</a></li>
-                            </ul>';
+                            <ul class="dropdown-menu nav-h"><!--
+								--><li><a href="profil.php#profil">Mon profil</a></li><!--
+								--><li><a href="profil.php#propositions">Mes propositions</a></li><!--
+								--><li><a href="profil.php#rendez-vous">Mes rendez-vous</a></li><!--
+								--><li><a href="profil.php#messagerie">Messagerie '.$message_list.'</a></li><!--
+                                --><li><a href="'.$logout.'">Se deconnecter</a></li><!--
+                            --></ul>';
                 } 
 			$html .= "</li>";
 			return $html;

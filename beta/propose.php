@@ -42,7 +42,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="149" height="47" src="img/logonav.png"></a>
+                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="127" height="47" src="img/logonav.png"></a>
                </div>
                <form class="navbar-form navbar-left search_navbar" method="get" role="search">
                   <div class=" input-group">
@@ -114,7 +114,7 @@
                   <div class="form-group">
                      <label for="day" class="control-label col-xs-12 col-sm-3">Disponibilités</label>
                      <div class="col-xs-12 col-sm-8">
-                        <span data-IDF="1" class="dispo_field">&bull; 
+                        <span data-IDF="1" class="dispo_field">
                         <select id="dispoday[1]" name="dispoday[1]" class="form-control days">
                         <?php $list_days = '<option value="all">Tous les jours</option>'.
                            '<option value="weekend">Le week-end</option>'.

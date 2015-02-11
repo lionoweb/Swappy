@@ -155,7 +155,7 @@ $(document).ready(function(e) {
 		var lastID = $(".dispo_field:last").attr("data-IDF");
 		lastID++;
 		var html = '<span data-IDF="'+lastID+'" class="dispo_field">' +
-            	'&bull; <select id="dispoday['+lastID+']" class="form-control days" name="dispoday['+lastID+']">' +
+            	'<select id="dispoday['+lastID+']" class="form-control days" name="dispoday['+lastID+']">' +
                 	'<option value="all">Tous les jours</option>' +
                     '<option value="weekend">Le week-end</option>' +
                 	'<option value="lun">Lundi</option>' +
@@ -307,6 +307,18 @@ function navbar_padding() {
 	} else {
 		$("#wrap").removeAttr("style");
 	}
+	if($(document).width() > 767) {
+		var ww = $("#navbar").width();
+		var whe = $(".navbar-header").width();
+		//alert(ww);
+		var wm = $(".navbar-form").width() + $(".nav.navbar-nav:not(.navbar-right)").width() + $(".nav.navbar-nav.navbar-right").width();
+		if((wm+2) >= (ww-whe-15)) {
+			
+		}
+		//$(".nav-h").css("width", $(document).width()+"px");
+	} else {
+		//$(".nav-h").css("width", "");
+	}
 }
 function isArray(obj) {
     return (obj.constructor.toString().indexOf("Array") != -1);
@@ -326,7 +338,7 @@ function modal_prevent() {
 			}
 			e.preventDefault();
 			$("#modal_alert").remove();
-			$("body").append('<div id="modal_alert" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-md"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="exampleModalLabel">Page inaccessible</h4></div><div class="modal-body">Désolé, mais la page à laquelle vous souhaitiez afficher n\'est pas accessible en tant que visiteur.<br><br>Veuillez vous inscrire/connecter pour l\'afficher.<div id="clone_login"></div></div></div></div></div>');
+			$("body").append('<div id="modal_alert" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-md"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="exampleModalLabel">Se connecter pour y accéder</h4></div><div class="modal-body">Désolé, mais la page à laquelle vous souhaitiez afficher n\'est pas accessible en tant que visiteur.<br><br>Veuillez vous inscrire/connecter pour l\'afficher.<div id="clone_login"></div></div></div></div></div>');
 			$('#modal_alert').modal('show');
 			$("#login_section").clone(true).appendTo("#clone_login");
 			$("#remind_section").clone(true).appendTo("#clone_login");

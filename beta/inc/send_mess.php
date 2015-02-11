@@ -16,5 +16,11 @@
 		$user_ = new user($mysql, $user->uncrypt_sess($_POST['to']));
 		$arr = $chat->send($user_, $_POST, $service);
 	}
+	if(isset($_GET['list_message'])) {
+		$arr = $chat->list_message();
+	}
+	if(isset($_GET['get_message']) && !empty($_GET['get_message'])) {
+		$arr = $chat->content_conv($_GET['get_message']);
+	}
 	echo json_encode($arr);
 ?>

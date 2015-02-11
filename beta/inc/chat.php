@@ -74,23 +74,27 @@
 			$select->execute(array(":me" => $this->user->ID, ":id" => $id));
 		}
 		function list_message() {
-			$html = '';
+			$array = array();
 			$select = $this->mysql->prepare("SELECT `conversation`.`ID`, `conversation`.`ServiceFor`, `users`.`LastName`, `users`.`FirstName` FROM `conversation` INNER JOIN `conversation_reply` ON `conversation`.`ID` = `conversation_reply`.`C_ID` INNER JOIN `users` ON CASE WHEN `conversation`.`User_One` != :me THEN `conversation`.`User_One` = `users`.`ID` ELSE `conversation`.`User_Two` = `users`.`ID` END WHERE (`conversation`.`User_One` = :me OR `conversation`.`User_Two` = :me) GROUP BY `conversation`.`ID` ORDER BY `conversation_reply`.`Time` DESC, `conversation`.`Timestamp` DESC ");
 			$select->execute(array(":me" => $this->user->ID));
 			while($data = $select->fetch(PDO::FETCH_OBJ)) {
-				$html .= '<div style="border:1px solid black;"><span style="border-bottom:2px solid black; display:block;">'.ucfirst($data->FirstName).' '.ucfirst($data->LastName).'<br>Pour : <a href="annonce.php?id='.$data->ServiceFor.'">'.$this->service_title($data->ServiceFor).'</a></span>'.$this->content_conv($data->ID).'<div>';	
+				$array[] = array("Name" => ucfirst($data->FirstName).' '.ucfirst($data->LastName), "For" => $data->ServiceFor, "Title" => $this->service_title($data->ServiceFor), "ID" => $data->ID);
 			}
-			return $html;
+			return $array;
 		}
 		function content_conv($id) {
-			$html = '';
-			$select = $this->mysql->prepare("SELECT * FROM `conversation_reply` WHERE `C_ID` = :id ORDER BY `Time` DESC");
+			$array = array();
+			$select = $this->mysql->prepare("SELECT * FROM `conversation_reply` WHERE `C_ID` = :id ORDER BY `Time` ASC");
 			$select->execute(array(":id" => $id));
 			while($data = $select->fetch(PDO::FETCH_OBJ)) {
-				$html .= $data->Message.'<br>';
+				$me = $data->Author;
+				if($data->Author == $this->user->ID) {
+					$me = "ME";
+				}
+				$html .= $array[] = array("ID" => $data->ID, "Message" => $data->Message, "Author" => $me, "Time" => $data->Time);
 			}
 			$this->set_read($id);
-			return $html;
+			return $array;
 		}
 		function send($user, $POST, $for) {
 			$f_for = "";
