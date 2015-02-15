@@ -69,56 +69,60 @@
                <p>L'équipe</p>
             </div>
             <div class="pictodown"><img src="img/apropos/down.png" alt="" class="down"></div>
-            <div id="spec_team" class="container team row">
-               <div class="col-lg-3 col-lg-offset-2 col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-2 col-xs-3 col-xs-offset-3 center view view-sixth">
-                  <img src="img/apropos/calypso.png" width="225" height="225">
-                  <div class="mask">
-                     <h2>Calypso Redor</h2>
-                     <p>Chef de projet, Calypso dirige et tient en main le bon déroulement et la bonne gestion de la plateforme.</p>
-                     <a href="mailto:calypso.redor@swappy.fr" class="more">Contactez-la</a>
-                  </div>
+            <div id="spec_team" class="container team">
+               <ul class="row">
+                  <li class="view view-sixth">
+                     <img src="img/apropos/calypso.png" width="225" height="225">
+                     <div class="mask">
+                        <h2>Calypso Redor</h2>
+                        <p>Chef de projet, Calypso dirige et tient en main le bon déroulement et la bonne gestion de la plateforme.</p>
+                        <a href="mailto:calypso.redor@swappy.fr" class="more">Contactez-la</a>
+                     </div>
+                  </li>
+                  <li class="view view-sixth">
+                     <img src="img/apropos/lionel.png" width="225" height="225">
+                     <div class="mask">
+                        <h2>Lionel Jeronimo</h2>
+                        <p>Développeur, Lionel est le membre clé de l'agence.</p>
+                        <a href="mailto:lionel.jeronimo@swappy.fr" class="more">Contactez-le</a>
+                     </div>
+                  </li>
+                  <li class="view view-sixth">
+                     <img src="img/apropos/oceane.png" width="225" height="225">
+                     <div class="mask">
+                        <h2>Océane Perret</h2>
+                        <p>Intégratice et Développeuse, Océane accompagne Lionel et Line dans l'avancé technique du projet</p>
+                        <a href="mailto:oceane.perret@swappy.fr" class="more">Contactez-la</a>
+                     </div>
+                  </li>
+               </ul>
+               <ul class="row">
+                  <li class="view view-sixth">
+                     <img src="img/apropos/line.png" width="225" height="225">
+                     <div class="mask">
+                        <h2>Line Bui</h2>
+                        <p>Intégratice, Line met en place l'aspect graphique à travers l'aspect technique.</p>
+                        <a href="mailto:line.bui@swappy.fr" class="more">Contactez-la</a>
+                     </div>
+                  </li>
+                  <li class="view view-sixth">
+                     <img src="img/apropos/brice.png" width="225" height="225">
+                     <div class="mask">
+                        <h2>Brice Olivrie</h2>
+                        <p>Vidéaste, Brice se charge de donner vie à la plateforme en créant une vidéo illustrative.</p>
+                        <a href="mailto:brice.olivrie@swappy.fr" class="more">Contactez-le</a>
+                     </div>
+                  </li>
+                  <li class="view view-sixth">
+                     <img src="img/apropos/margot.png" width="225" height="225">
+                     <div class="mask">
+                        <h2>Margot Gillodes</h2>
+                        <p>Webdesigner et graphiste, Margot donne de la couleur à la plateforme en offrant ses compétences visuelle.</p>
+                        <a href="mailto:margot.gillodes@swappy.fr" class="more">Contactez-le</a>
+                     </div>
+                  </li>
                </div>
-               <div class="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-2 col-xs-6 col-xs-offset-3 center view view-sixth">
-                  <img src="img/apropos/lionel.png" width="225" height="225">
-                  <div class="mask">
-                     <h2>Lionel Jeronimo</h2>
-                     <p>Développeur, Lionel est le membre clé de l'agence.</p>
-                     <a href="mailto:lionel.jeronimo@swappy.fr" class="more">Contactez-le</a>
-                  </div>
-               </div>
-               <div class="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-2 col-xs-6 col-xs-offset-3 center view view-sixth">
-                  <img src="img/apropos/oceane.png" width="225" height="225">
-                  <div class="mask">
-                     <h2>Océane Perret</h2>
-                     <p>Intégratice et Développeuse, Océane accompagne Lionel et Line dans l'avancé technique du projet</p>
-                     <a href="mailto:oceane.perret@swappy.fr" class="more">Contactez-la</a>
-                  </div>
-               </div>
-               <div class="col-lg-3 col-lg-offset-2 col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-2 col-xs-6 col-xs-offset-3 center view view-sixth">
-                  <img src="img/apropos/line.png" width="225" height="225">
-                  <div class="mask">
-                     <h2>Line Bui</h2>
-                     <p>Intégratice, Line met en place l'aspect graphique à travers l'aspect technique.</p>
-                     <a href="mailto:line.bui@swappy.fr" class="more">Contactez-la</a>
-                  </div>
-               </div>
-               <div class="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-2 col-xs-6 col-xs-offset-3 center view view-sixth">
-                  <img src="img/apropos/brice.png" width="225" height="225">
-                  <div class="mask">
-                     <h2>Brice Olivrie</h2>
-                     <p>Vidéaste, Brice se charge de donner vie à la plateforme en créant une vidéo illustrative.</p>
-                     <a href="mailto:brice.olivrie@swappy.fr" class="more">Contactez-le</a>
-                  </div>
-               </div>
-               <div class="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-2 col-xs-6 col-xs-offset-3 center view view-sixth">
-                  <img src="img/apropos/margot.png" width="225" height="225">
-                  <div class="mask">
-                     <h2>Margot Gillodes</h2>
-                     <p>Webdesigner et graphiste, Margot donne de la couleur à la plateforme en offrant ses compétences visuelle.</p>
-                     <a href="mailto:margot.gillodes@swappy.fr" class="more">Contactez-le</a>
-                  </div>
-               </div>
-            </div>
+            </ul>
             <div class="teamtitle">
                <p>Notre projet</p>
             </div>

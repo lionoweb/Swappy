@@ -64,42 +64,45 @@
             </div>
             <!-- /.container-fluid -->
          </nav>
-         <div id="spec_cgu" class="container-fluid main" role="main">
+         <div id="spec_cgu" class="spec_cgu container-fluid main" role="main">
             <div class="cgutitle">
                <p>Conditions générales d'utilisation</p>
             </div>
             <div class="pictodown"><img src="img/apropos/down.png" alt="" class="down"></div>
-            <div class="col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-1 col-xs-10 col-xs-offset-1 box1 box">
-               <div class="row">
-                  <img src="img/cgu/objet.png">
-                  <div class="header_cgu">Objet</div>
-               </div>
-               <p class="greyback">Les présentes Conditions d’Utilisation (CGU) établissent les conditions contractuelles entre swappy.com et ses utilisateurs.</p>
-            </div>
-            <div class="col-md-4 col-md-offset-0 col-sm-5 col-sm-offset-0 col-xs-10 col-xs-offset-1 box2 box">
-               <div class="row">
-                  <img src="img/cgu/site.png" class="pic">
-                  <div class="header_cgu">Accès au site</div>
-               </div>
-               <p class="greyback">L’inscription au site swappy.com est réservée aux personnes majeures (âgées de 18 ans ou plus). Tout accès et/ou utilisation du site swappy.com suppose l’acceptation et le respect de l’ensemble des termes des présentes Conditions d’Utilisation.Swappy.com se réserve le droit de bannir temporairement ou définitivement tout membre qui aurait violé ces Conditions d’Utilisation. En s'inscrivant au site swappy.fr, l'utilisateur s'engage à mettre en ligne une photo d'eux sous 7 jours.</p>
-            </div>
-            <div class="col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-1 col-xs-10 col-xs-offset-1 box3 box">
-               <div class="row">
-                  <img src="img/cgu/propriete.png" class="pic">
-                  <div class="header_cgu">Propriété intellectuelle</div>
-               </div>
-               <p class="greyback">L’inscription au site swappy.com est réservée aux personnes majeures (âgées de 18 ans ou plus). Tout accès et/ou utilisation du site swappy.com suppose l’acceptation et le respect de l’ensemble des termes des présentes Conditions d’Utilisation.Swappy.com se réserve le droit de bannir temporairement ou définitivement tout membre qui aurait violé ces Conditions d’Utilisation. En s'inscrivant au site swappy.fr, l'utilisateur s'engage à mettre en ligne une photo d'eux sous 7 jours.</p>
-            </div>
-            <div class="col-md-4 col-md-offset-0 col-sm-5 col-sm-offset-0 col-xs-10 col-xs-offset-1 box4 box">
-               <div class="row">
-                  <img src="img/cgu/perso.png" class="pic">
-                  <div class="header_cgu">Données personnelles</div>
-               </div>
-               <p class="greyback">Les données personnelles des utilisateurs restent strictement confidentielles et sont stockées exclusivement sur nos serveurs. Elles ne sont en aucun cas vendues, données ou échangées.Les utilisateurs s’engagent à fournir des informations exactes.
-                  <br>Swappy.com conserve une copie des messages échangés par l’intermédiaire de notre serveur afin de pouvoir s’assurer du respect déontologique des échanges.
-               </p>
-            </div>
-            <div class="col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-1 col-xs-10 col-xs-offset-1 box5 box">
+               <section class="cgu_wrap">
+                  <ul class="box">
+                     <li>
+                        <div class="row">
+                           <img src="img/cgu/objet.png">
+                           <div class="header_cgu">Objet</div>
+                        </div>
+                        <p class="greyback">Les présentes Conditions d’Utilisation (CGU) établissent les conditions contractuelles entre swappy.com et ses utilisateurs.</p>
+                     </li>
+                     <li>
+                        <div class="row">
+                           <img src="img/cgu/site.png" class="pic">
+                           <div class="header_cgu">Accès au site</div>
+                        </div>
+                        <p class="greyback">L’inscription au site swappy.com est réservée aux personnes majeures (âgées de 18 ans ou plus). Tout accès et/ou utilisation du site swappy.com suppose l’acceptation et le respect de l’ensemble des termes des présentes Conditions d’Utilisation.Swappy.com se réserve le droit de bannir temporairement ou définitivement tout membre qui aurait violé ces Conditions d’Utilisation. En s'inscrivant au site swappy.fr, l'utilisateur s'engage à mettre en ligne une photo d'eux sous 7 jours.</p>
+                     </li>
+                     <li>
+                        <div class="row">
+                           <img src="img/cgu/propriete.png" class="pic">
+                           <div class="header_cgu">Propriété intellectuelle</div>
+                        </div>
+                        <p class="greyback">L’inscription au site swappy.com est réservée aux personnes majeures (âgées de 18 ans ou plus). Tout accès et/ou utilisation du site swappy.com suppose l’acceptation et le respect de l’ensemble des termes des présentes Conditions d’Utilisation.Swappy.com se réserve le droit de bannir temporairement ou définitivement tout membre qui aurait violé ces Conditions d’Utilisation. En s'inscrivant au site swappy.fr, l'utilisateur s'engage à mettre en ligne une photo d'eux sous 7 jours.</p>
+                     </li>
+                     <li>
+                        <div class="row">
+                           <img src="img/cgu/perso.png" class="pic">
+                           <div class="header_cgu">Données personnelles</div>
+                        </div>
+                        <p class="greyback">Les données personnelles des utilisateurs restent strictement confidentielles et sont stockées exclusivement sur nos serveurs. Elles ne sont en aucun cas vendues, données ou échangées.Les utilisateurs s’engagent à fournir des informations exactes.
+                           <br>Swappy.com conserve une copie des messages échangés par l’intermédiaire de notre serveur afin de pouvoir s’assurer du respect déontologique des échanges.
+                        </p>
+                     </li>
+                  </ul>
+               </section>
                <div class="row">
                   <img src="img/cgu/responsabilite.png" class="pic">
                   <div class="header_cgu">Responsabilité</div>

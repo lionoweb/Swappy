@@ -775,7 +775,7 @@ form .liketext {
 }
 	/* ### A PROPOS ### */
 #spec_apropos{
-	background-color:#e5e4e4;
+	background-color: white;
 	width:100% !important;
 	padding:0px;
 }
@@ -807,12 +807,14 @@ form .liketext {
 }
 #spec_apropos #spec_team .row{
 	box-sizing:border-box;
-	width:100%;
-	margin: 0;
-	padding: 0;
-}
-#spec_apropos .center{
 	margin-bottom: 26px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+#spec_apropos #spec_team li{
+	margin-left: 20px;
+
 }
 #spec_apropos .projet{
 	margin-top: -20px;
@@ -848,7 +850,7 @@ form .liketext {
 .view img {
    display: block;
    position: relative;
-   margin-left:-15px; 
+   margin-top: -20px;
 }
 .view h2 {
    text-transform: uppercase;
@@ -1036,12 +1038,23 @@ form .liketext {
 }
 #spec_cgu{
 	background-color: #323232;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+.cgu_wrap{
+	max-width: 69em;
+	margin: 0 auto;
+	padding: 0 1em 1.875em;
+}
+.box li{
+	width:35%;
 }
 #spec_cgu .box p{
 	text-align: justify;
 }
 #spec_mention{
-	background-color:#e5e4e4;
+	background-color: white;
 	display: inline-block;	
 	padding: 0px 0px 40px 0px;
 }
@@ -1065,9 +1078,6 @@ form .liketext {
 	text-transform: uppercase;
 	color: white;
 	z-index: 9000;
-}
-#spec_cgu .box{
-	float: left;
 }
 /*#spec_cgu .box p{
 	text-align: justify;
