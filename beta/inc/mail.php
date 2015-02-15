@@ -43,9 +43,10 @@ class mailer {
 			return mail($to, $subject, $message, $headers);
 		} else {
 			//$to = "check-auth2@verifier.port25.com";
-			$transport = Swift_SmtpTransport::newInstance('ssl0.ovh.net', 465, 'ssl')
+			$transport = Swift_SmtpTransport::newInstance('ssl0.ovh.net', 587)
   						->setUsername($from)
   						->setPassword('2Dside770')
+						->setAuthMode('login')
   			;
 			$mailer = Swift_Mailer::newInstance($transport);
 			$privateKey = file_get_contents('swappy.fr.pem');
@@ -64,7 +65,7 @@ class mailer {
 			$message->setCharset("utf-8");
 			$message->setBody($html, 'text/html');
 			$message->addPart($text, 'text/plain');
-			if (!$mailer->send($message, $failures)) {
+			if (!$mailer->send($message)) {
 				return false;
 			} else {
 				return true;

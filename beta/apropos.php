@@ -70,7 +70,7 @@
             </div>
             <div class="pictodown"><img src="img/apropos/down.png" alt="" class="down"></div>
             <div id="spec_team" class="container team">
-               <ul class="row">
+               <ul class="row list_view">
                   <li class="view view-sixth">
                      <img src="img/apropos/calypso.png" width="225" height="225">
                      <div class="mask">
@@ -95,8 +95,8 @@
                         <a href="mailto:oceane.perret@swappy.fr" class="more">Contactez-la</a>
                      </div>
                   </li>
-               </ul>
-               <ul class="row">
+                  </ul>
+                  <ul class="row list_view">
                   <li class="view view-sixth">
                      <img src="img/apropos/line.png" width="225" height="225">
                      <div class="mask">
