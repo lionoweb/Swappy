@@ -22,5 +22,8 @@
 	if(isset($_GET['get_message']) && !empty($_GET['get_message'])) {
 		$arr = $chat->content_conv($_GET['get_message']);
 	}
+	if(isset($_POST['message_r'])) {
+		$arr = $chat->send_r($user, $_POST);
+	}
 	echo json_encode($arr);
 ?>

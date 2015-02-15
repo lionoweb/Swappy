@@ -21,6 +21,18 @@
 			$this->mysql = $mysql;
 			$this->user = $user;
 		}
+		function isset_conversation_id($id) {
+			$t = false;
+			$select = $this->mysql->prepare("SELECT `ID`, COUNT(*) AS `total` FROM `conversation` WHERE (`User_One` = :me OR `User_Two` = :me) AND `ID` = :id AND `Status` = '0'");
+			$select->execute(array(":me" => $this->user->ID, ":id" => $id));
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			if($data->total > 0) {
+				$t = $data->ID;
+			} else {
+				$t = false;
+			}
+			return $t;	
+		}
 		function isset_conversation($id, $for) {
 			$t = false;
 			$select = $this->mysql->prepare("SELECT `ID`, COUNT(*) AS `total` FROM `conversation` WHERE ((`User_One` = :me AND `User_Two` = :id) OR (`User_Two` = :me AND `User_One` = :id)) AND `ServiceFor` = :for AND `Status` = '0'");
@@ -91,10 +103,38 @@
 				if($data->Author == $this->user->ID) {
 					$me = "ME";
 				}
-				$html .= $array[] = array("ID" => $data->ID, "Message" => $data->Message, "Author" => $me, "Time" => $data->Time);
+				$array[] = array("ID" => $data->ID, "Message" => $data->Message, "Author" => $me, "Time" => $data->Time);
 			}
+			$array["count"] = $this->user->list_messages();
 			$this->set_read($id);
 			return $array;
+		}
+		function send_r($user, $POST) {
+			$f_for = "";
+			$allow = 0;
+			$arr = array(false);
+			if($this->user->logged) {
+				if(!empty($user->ID) && $user->ID != false) {
+					$allow = 1;
+				} else {
+					$allow = 0;
+					$arr = array(false, "Destinataire inexistant");
+				}
+			} else {
+				$allow = 0;
+				$arr = array(false, "Vous n'êtes pas connecté");	
+			}
+			if($allow == 1) {
+				$conver = $this->isset_conversation_id($POST['ID_Converse']);
+				if($conver == false) {
+					$arr = array(false, "Cette conversation n'existe pas");
+				} else {
+					if($this->send_reply($POST['message_r'], $conver)) {
+						$arr = array(true, $POST['message_r']);
+					}
+				}
+			}
+			return $arr;	
 		}
 		function send($user, $POST, $for) {
 			$f_for = "";

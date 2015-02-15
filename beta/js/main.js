@@ -2,6 +2,7 @@
 var wait;
 var requestajax = null;
 $(document).ready(function(e) {
+	$.ajaxSetup({ cache: false });
 	$(window).on("orientationchange", function() {
 		navbar_padding();
 	});

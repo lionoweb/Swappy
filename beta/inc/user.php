@@ -542,7 +542,12 @@
                             </div>
                         </div>';
                  } else { 
-				 	$html .= '<li class="dropdown hf">';
+				 	$p_bl = array("profil", "messagerie", "date", "proposition");
+					$fixed_n = array("false", "", "");
+					if(preg_grep("/".preg_replace("/\.php/", "", basename($_SERVER['PHP_SELF']))."/", $p_bl)) {
+						$fixed_n = array("true", " visible"," open");
+					}
+				 	$html .= '<li class="dropdown hf'.$fixed_n[2].'">';
 					 $get = @$_SERVER['QUERY_STRING'];
 					 if(empty($get)) {
 						$logout = "?logout"; 
@@ -558,14 +563,17 @@
 						$message_list = '<span class="mess_count">0</span>'; 
 					 }
 					 $logout = preg_replace("/\&\&/", "&", $logout);
-                    $html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><img src="'.$this->avatar.'" height="40" width="40"> '.$this->firstname.' '.$message_name.'<span class="caret"></span></a>
-                            <ul class="dropdown-menu nav-h"><!--
+                    $html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="'.$fixed_n[0].'"><img src="'.$this->avatar.'" height="40" width="40"> '.$this->firstname.' '.$message_name.'<span class="caret"></span></a>
+                            <ul class="dropdown-menu nav-h'.$fixed_n[1].'"><!--
 								--><li><a href="profil.php#profil">Mon profil</a></li><!--
 								--><li><a href="profil.php#propositions">Mes propositions</a></li><!--
 								--><li><a href="profil.php#rendez-vous">Mes rendez-vous</a></li><!--
-								--><li><a href="profil.php#messagerie">Messagerie '.$message_list.'</a></li><!--
+								--><li><a href="messagerie.php">Messagerie '.$message_list.'</a></li><!--
                                 --><li><a href="'.$logout.'">Se deconnecter</a></li><!--
                             --></ul>';
+							if($fixed_n[0] == "true") {
+								$html = preg_replace('/\<li\>\<a href\=\"'.basename($_SERVER['PHP_SELF']).'/', '<li class="active"><a href="'.basename($_SERVER['PHP_SELF']).'', $html);	
+							}
                 } 
 			$html .= "</li>";
 			return $html;

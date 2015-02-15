@@ -1,6 +1,6 @@
 <?php
 require('class.html2text.inc');
-require('PHPMailerAutoload.php');
+require('swift/swift_required.php');
 class mailer {
 	public $noreply = "no-reply@swappy.fr";
 	public $contact = "contact@swappy.fr";
@@ -43,44 +43,33 @@ class mailer {
 			return mail($to, $subject, $message, $headers);
 		} else {
 			//$to = "check-auth2@verifier.port25.com";
-			$mail = new PHPMailer;
-
-			//$mail->SMTPDebug = 3;                               // Enable verbose debug output
-			
-			$mail->isSMTP();                                      // Set mailer to use SMTP
-			$mail->Host = 'ssl0.ovh.net';  // Specify main and backup SMTP servers
-			$mail->SMTPAuth = true;                               // Enable SMTP authentication
-			$mail->Username = $from;                 // SMTP username
-			$mail->Password = '2Dside770';                           // SMTP password
-			$mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
-			$mail->Port = 465;                                    // TCP port to connect to
-			
-			$mail->From = $from;
-			$mail->Sender=$from;
-			$mail->ReturnPath=$from;
-			$mail->FromName = $fromname;
-			$mail->addAddress($to);               // Name is optional
-			$mail->addReplyTo($from, $fromname);
-			$mail->DKIM_domain = 'swappy.fr';
-			$mail->DKIM_identity = $from;
-			$mail->DKIM_private = 'swappy.fr.pem';
-			$mail->DKIM_selector = 'swappy'; //this effects what you put in your DNS record
-
-			$mail->CharSet = "UTF-8";
-			$mail->isHTML(true);                                  // Set email format to HTML
-			
-			$mail->Subject = $subject;
-			$mail->Body    = $html;
-			$mail->AltBody = $text;
-			
-			if(!$mail->send()) {
+			$transport = Swift_SmtpTransport::newInstance('ssl0.ovh.net', 465, 'ssl')
+  						->setUsername($from)
+  						->setPassword('2Dside770')
+  			;
+			$mailer = Swift_Mailer::newInstance($transport);
+			$privateKey = file_get_contents('swappy.fr.pem');
+			$domainName = 'swappy.fr';
+			$selector = 'swappy';
+			$signer = new Swift_Signers_DKIMSigner($privateKey, $domainName, $selector); 
+			$signer->setHashAlgorithm('rsa-sha256');
+			$signer->ignoreHeader('Return-Path');
+			$message = Swift_Message::newInstance();
+			$message->attachSigner($signer);
+			$message->setSubject($subject);
+			$message->setReturnPath($from);
+			$message->setFrom(array($from => $fromname));
+			$message->setSender(array($from => $fromname));
+			$message->setTo($to);
+			$message->setCharset("utf-8");
+			$message->setBody($html, 'text/html');
+			$message->addPart($text, 'text/plain');
+			if (!$mailer->send($message, $failures)) {
 				return false;
 			} else {
 				return true;
 			}
-		
 		}
-		
 	}
 	function send_remind($hash, $mail, $name, $cname) {
 		
@@ -145,5 +134,4 @@ class mailer {
 		}
 	}
 }
-
 ?>

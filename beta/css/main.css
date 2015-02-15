@@ -118,7 +118,7 @@ form#user_add .greyback .lu {
     text-align: left;
     width: auto !important;
 }
-form#user_add .greyback input[type=submit], form#user_remind .greyback input[type=submit] {
+form#user_add .greyback input[type=submit], form#user_remind .greyback input[type=submit], .message_box input[type=submit], .message_box button {
     background-color: white;
     color: #323232;
     text-transform: uppercase;
@@ -133,7 +133,7 @@ form#user_add .greyback input[type=submit], form#user_remind .greyback input[typ
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-form#user_add .greyback input[type=submit]:hover, form#user_remind .greyback input[type=submit]:hover {
+form#user_add .greyback input[type=submit]:hover, form#user_remind .greyback input[type=submit]:hover, .message_box input[type=submit]:hover, .message_box button:hover {
     background-color: #53c1dd;
     color: white;
 }
@@ -221,11 +221,11 @@ a.add_dispo, a.remove_dispo {
     width: 38px;
 }
 .bluesearch {
-    border-radius: 0px;
+    border-radius: 0px !important;
     border: none;
-    background: #53c1dd url(../img/search.png) no-repeat center;
-    height: 34px;
-    width: 38px;
+    background: #53c1dd url(../img/search.png) no-repeat center !important;
+    height: 34px !important;
+    width: 38px !important;
 }
 .bluesearch:hover {
     background-color: #53c1dd;
@@ -472,6 +472,7 @@ input.space-button {
 	height:100%;
 	min-height:100%;
 }
+/*
 .picto-1 {
 	background:url(../img/services/2.jpg) center no-repeat;
 	background-size:cover;	
@@ -531,7 +532,7 @@ input.space-button {
 .picto-15 {
 	background:url(../img/services/15.jpg) center no-repeat;
 	background-size:cover;	
-}
+}*/
 .form-group {
 	overflow:auto;	
 }
@@ -1257,6 +1258,7 @@ td {
 	width:100%;
 	border-radius:0px !important;
 	text-align:right;
+	border-bottom:none !important;
 }
 .navbar-right{
 	position:inherit !important;
@@ -1281,6 +1283,7 @@ td {
 }
 .nav-h li a:hover, .nav-h li.active > a {
 	color:#000 !important;
+	background:#e7e7e7 !important;
 }
 .nav-h li:last-child {
 	text-align:right;	
