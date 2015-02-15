@@ -13,6 +13,7 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>Swappy.fr - CGU & Mentions légales</title>
+      <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
       <link rel="stylesheet" href="css/template.css" type="text/css"/>
@@ -64,7 +65,7 @@
             </div>
             <!-- /.container-fluid -->
          </nav>
-         <div id="spec_cgu" class="spec_cgu container-fluid main" role="main">
+         <div id="spec_cgu_mention" class="container main" role="main">
             <div class="cgutitle">
                <p>Conditions générales d'utilisation</p>
             </div>
@@ -83,90 +84,76 @@
                            <img src="img/cgu/site.png" class="pic">
                            <div class="header_cgu">Accès au site</div>
                         </div>
-                        <p class="greyback">L’inscription au site swappy.com est réservée aux personnes majeures (âgées de 18 ans ou plus). Tout accès et/ou utilisation du site swappy.com suppose l’acceptation et le respect de l’ensemble des termes des présentes Conditions d’Utilisation.Swappy.com se réserve le droit de bannir temporairement ou définitivement tout membre qui aurait violé ces Conditions d’Utilisation. En s'inscrivant au site swappy.fr, l'utilisateur s'engage à mettre en ligne une photo d'eux sous 7 jours.</p>
+                        <p class="greyback">L’inscription au site swappy.fr est réservé aux personnes majeures (âgées de 18 ans ou plus). Tout accès et/ou utilisation du site swappy.fr suppose l’acceptation et le respect de l’ensemble des termes des présentes Conditions d’Utilisation. Swappy.fr se réserve le droit de bannir temporairement ou définitivement tout membre qui aurait violé ces Conditions d’Utilisation. Le site est accessible 7j/7 et 24h/24. Il pourrait être temporairement inaccessible pour cause de maintenance ou de problèmes techniques qui relèveraient de notre entière responsabilité.</p>
                      </li>
                      <li>
                         <div class="row">
                            <img src="img/cgu/propriete.png" class="pic">
                            <div class="header_cgu">Propriété intellectuelle</div>
                         </div>
-                        <p class="greyback">L’inscription au site swappy.com est réservée aux personnes majeures (âgées de 18 ans ou plus). Tout accès et/ou utilisation du site swappy.com suppose l’acceptation et le respect de l’ensemble des termes des présentes Conditions d’Utilisation.Swappy.com se réserve le droit de bannir temporairement ou définitivement tout membre qui aurait violé ces Conditions d’Utilisation. En s'inscrivant au site swappy.fr, l'utilisateur s'engage à mettre en ligne une photo d'eux sous 7 jours.</p>
+                        <p class="greyback">Swappy.fr se couvre de toute reproduction malveillante de son nom de domaine, de son logo et de son graphisme. Le Copyright indique aux utilisateurs que Swappy.fr est la propriété des administrateurs. Toute infraction à ces droits sera considérée comme un préjudice engageant la responsabilité civile et/ou pénale de son auteur.</p>
                      </li>
                      <li>
                         <div class="row">
                            <img src="img/cgu/perso.png" class="pic">
                            <div class="header_cgu">Données personnelles</div>
                         </div>
-                        <p class="greyback">Les données personnelles des utilisateurs restent strictement confidentielles et sont stockées exclusivement sur nos serveurs. Elles ne sont en aucun cas vendues, données ou échangées.Les utilisateurs s’engagent à fournir des informations exactes.
-                           <br>Swappy.com conserve une copie des messages échangés par l’intermédiaire de notre serveur afin de pouvoir s’assurer du respect déontologique des échanges.
-                        </p>
+                        <p class="greyback">Les données personnelles des utilisateurs restent strictement confidentielles et sont stockées exclusivement sur nos serveurs. Elles ne sont en aucun cas vendues, données ou échangées. Les utilisateurs s’engagent à fournir des informations exactes. Swappy.fr s’engage à ne conserver aucune conversation que les utilisateurs auraient échangé dans un souci de respect de la vie privée. Cependant, en cas de litige, l’utilisateur  pourra nous faire parvenir des copies des conversations afin que l’exploitant puisse juger de la situation.</p>
+                     </li>
+                     <li>
+                        <div class="row">
+                           <img src="img/cgu/responsabilite.png" class="pic">
+                           <div class="header_cgu">Responsabilité</div>
+                        </div>
+                        <p class="greyback">Swappy.fr est une plateforme mettant en lien les utilisateurs. Le bon déroulement des rendez-vous n’est pas la responsabilité des administrateurs du site. Nous mettons en place un système de mise en lien. Toute personne s’engageant en prenant un rendez-vous s’engage à maximiser la prudence lors d’un déplacement chez l’interlocuteur ainsi que lors de la réalisation d’un service. Les utilisateurs doivent être mutuellement couverts par la sécurité sociale et doivent avoir un logement assuré. En effet, en cas de problème, swappy.fr ne sera tenu pour responsable. Nous mettons en place un système de notation des profils qui permet de guider l’utilisateur vers l’interlocuteur qui lui parait le plus fiable. Dans le cas d’un litige durant un service rendu, nous vous prions de nous prévenir à l’aide de notre formulaire de contact pour que nous puissions agir en conséquence.</p>
+                     </li>
+                     <li>
+                        <div class="row">
+                           <img src="img/cgu/annonce.png" class="pic">
+                           <div class="header_cgu">Annonces</div>
+                        </div>
+                        <p class="greyback">Swappy.fr est une plateforme d’échanges de services qui vise à faciliter la mise en relation entre particuliers. La publication des annonces est gratuite. Les annonces restent en ligne pendant une période indéterminée et peuvent être modifiées ou supprimées (lorsque ces dernières ne sont plus d’actualité) à tout moment, et ceci gratuitement. En déposant une annonce, le membre déclare avoir la capacité juridique nécessaire et toutes les autorisations nécessaires pour proposer l’échange du service. Si vous jugez le contenu d’une annonce inapproprié, nous vous invitons à le signaler via le bouton situé sur la page de l’annonce ou à nous contacter via le formulaire de contact pour nous en informer.</p>
+                     </li>
+                     <li>
+                        <div class="row">
+                           <img src="img/cgu/interdiction.png" class="pic">
+                           <div class="header_cgu">Interdiction</div>
+                        </div>
+                        <p class="greyback">Il est interdit de proposer plusieurs services au sein d’une même annonce. Le langage sms et/ou l’écriture abrégée sont proscrits afin d’obtenir une meilleure compréhension, un meilleur confort aux utilisateurs et un référencement optimal. Nous rappelons aux utilisateurs que swappy.fr est une plateforme d’entraide. Celle-ci a pour but de mettre en lien des personnes voulant partager une expérience. Swappy permet donc d’échanger des services et uniquement des services. Toute proposition de service inapproprié entraînera une suppression de l’annonce ainsi qu’une exclusion temporaire ou définitive de l’utilisateur. De même, tout contenu inapproprié ou abus de langage entraînera une suppression de l’annonce sans préavis ni consentement de l’utilisateur ayant posté ce contenu. Un mail lui sera adressé pour lui faire part des mesures prises par les administrateurs.</p>
+                     </li>
+                     <li>
+                        <div class="row">
+                           <img src="img/cgu/messagerie.png" class="pic">
+                           <div class="header_cgu">Utilisation de la messagerie</div>
+                        </div>
+                        <p class="greyback">Swappy.fr met à disposition des utilisateurs un système de messagerie interne leur permettant de s’échanger des informations à propos des services. S’ils le souhaitent, les utilisateurs peuvent spécifier leurs coordonnées dans un message en vue d’une mise en relation. Les précautions et mesures de prudence prises lors de cette mise en relation doivent être définies par les utilisateurs eux-mêmes et n’engagent en aucun cas swappy.fr. La prise de rendez-vous se fait par le biais de cette messagerie. Les deux parties se mettent d’accord sur la date et l’heure du rendez-vous et rentrent ensuite ces informations dans le calendrier ce qui permet d’enregistrer ces informations.</p>
+                     </li>
+                     <li>
+                        <div class="row">
+                           <img src="img/cgu/suppression.png" class="pic">
+                           <div class="header_cgu">Suppresion de compte</div>
+                        </div>
+                        <p class="greyback">En cas de non-respect des Conditions Générales d’Utilisation, les administrateurs du site swappy.fr pourront envoyer des avertissements aux utilisateurs concernés. Cet avertissement pourra survenir après la signalisation d’une infraction par un autre utilisateur, après que les administrateurs aient vérifié ladite infraction. Ils se réservent tout droit de suspension temporaire du compte ou de suppression définitive du compte. L’utilisateur sera banni sans préavis dans le cas de non-respect grave des Conditions Générales d’Utilisation.</p>
                      </li>
                   </ul>
                </section>
-               <div class="row">
-                  <img src="img/cgu/responsabilite.png" class="pic">
-                  <div class="header_cgu">Responsabilité</div>
-               </div>
-               <p class="greyback">Swappy.com ne pourra être tenu responsable en cas de dommages directs ou indicrects subis par un utilisateur.</p>
-            </div>
-            <div class="col-md-4 col-md-offset-0 col-sm-5 col-sm-offset-0 col-xs-10 col-xs-offset-1 box6 box">
-               <div class="row">
-                  <img src="img/cgu/annonce.png" class="pic">
-                  <div class="header_cgu">Annonces</div>
-               </div>
-               <p class="greyback">Swappy.com est une plateforme d’échanges de services qui vise à faciliter la mise en relation entre particuliers. La publication des annonces est gratuite. Les annonces restent en ligne pendant une période indéterminée et peuvent être modifiées ou supprimées (lorsque ces dernières ne sont plus d’actualité) à tout moment, et ceci gratuitement.
-                  En déposant une annonce, le membre déclare avoir la capacité juridique nécessaire et toutes les autorisations nécessaires pour proposer l’échange du service. Si vous jugez le contenu d’une annonce inapproprié, nous vous invitons à le signaler via le bouton situé sur la page de l’annonce ou à nous contacter via le formulaire de contact pour nous en informer.
-               </p>
-            </div>
-            <div class="col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-0 col-xs-10 col-xs-offset-1 box7 box">
-               <div class="row">
-                  <img src="img/cgu/interdiction.png" class="pic">
-                  <div class="header_cgu">Interdiction</div>
-               </div>
-               <p class="greyback">Il est interdit de proposer plusieurs services dans le texte d’une même annonce. Le langage sms et/ou l’écriture abrégée sont proscris afin d’obtenir une meilleure compréhension entre utilisateurs et un référencement optimal.</p>
-            </div>
-            <div class="col-md-4 col-md-offset-0 col-sm-5 col-sm-offset-0 col-xs-10 col-xs-offset-1 box8 box">
-               <div class="row">
-                  <img src="img/cgu/messagerie.png" class="pic">
-                  <div class="header_cgu">Utilisation de la messagerie</div>
-               </div>
-               <p class="greyback">Swappy.com met à disposition des utilisateurs un système de messagerie interne leur permettant de s’échanger des informations à propos des services. S’ils le souhaitent, les utilisateurs peuvent spécifier leurs coordonnées dans un message en vue d’une mise en relation. Les précautions et mesures de prudence prises lors de cette mise en relation doivent être définies par les utilisateurs eux-mêmes et n’engagent en aucun cas Swappy.com.</p>
-            </div>
-            <div class="col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-0 col-xs-10 col-xs-offset-1 box9 box">
-               <div class="row">
-                  <img src="img/cgu/suppression.png" class="pic">
-                  <div class="header_cgu">Suppresion de compte</div>
-               </div>
-               <p class="greyback">En cas de non respect des Conditions Générales d’Utilisation, les administrateurs du site swappy.fr pourront envoyer des avertissements aux utilisateurs concernés. Cet avertissement pourra survenir après la signalisation d’une infraction par un autre utilisateur, après que les administrateurs aient vérifié ladite infraction.</p>
-            </div>
-         </div>
+         
          <div id="spec_mention">
             <div class="cgutitle">
                <p>Mentions légales</p>
             </div>
-            <div class="pictodown"><img src="img/apropos/down.png" alt="" class="down"></div>
-            <div class="col-md-10 col-md-offset-1">
-               <p>
-                  Tous les sites internet édités à titre professionnel, qu'ils proposent des ventes en ligne ou non, doivent obligatoirement indiquer les mentions légales suivantes :</span>
-               <ul>
-                  <li>pour un entrepreneur individuel : nom, prénom, domicile,</li>
-                  <li>pour une société : raison sociale, forme juridique, adresse de l'établissement ou du siège social (et non pas une simple boîte postale), montant du capital social,</li>
-                  <li>adresse de courrier électronique et numéro de téléphone,</li>
-                  <li>pour une activité commerciale : numéro d'inscription au registre du commerce et des sociétés (RCS),</li>
-                  <li>pour une activité artisanale : numéro d'immatriculation au répertoire des métiers (RM),</li>
-                  <li>numéro individuel d'identification fiscale (numéro de TVA intracommunautaire),</li>
-                  <li>pour une profession réglementée : référence aux règles professionnelles applicables et au titre professionnel,</li>
-                  <li>nom et adresse de l'autorité ayant délivré l'autorisation d'exercer quand celle-ci est nécessaire,</li>
-                  <li>nom du responsable de la publication,</li>
-                  <li>coordonnées de l'hébergeur du site : nom, dénomination ou raison sociale, adresse et numéro de téléphone,</li>
-                  <li>pour un site marchand, conditions générales de vente (CGV) : prix (exprimé en euros et TTC), frais et date de livraison, modalité de paiement, service après-vente, droit de rétractation, durée de l'offre, coût de la technique de communication à distance,
-                  <li>numéro de déclaration simplifiée Cnil, dans le cas de collecte de données sur les clients.</li>
-               </ul>
-               Le manquement à l'une de ces obligations peut être sanctionné jusqu'à un an d'emprisonnement, 75 000 € d'amende pour les personnes physiques et 375 000 € pour les personnes morales.
-               </p>
-            </div>
+            <div class="pictodown"><img src="img/apropos/down.png" alt="" class="down"/></div>
+               <div class="mention_wrap col-md-10 col-md-offset-1">
+                  <p>
+                     Tous les sites internet édités à titre professionnel, qu'ils proposent des ventes en ligne ou non, doivent obligatoirement indiquer les mentions légales suivantes :
+                  </p>
+                     <ul>
+                        <li>Swappy.fr, 2 rue Albert Einstein 77420, Champs-sur-Marne</li>
+                        <li>contact@swappy.fr<br>06.27.75.49.05</li>
+                        <li>Calypso Redor</li>
+                     </ul>
+               </div>
          </div>
-      </div>
       </div>
       <!-- END WRAP -->
       <footer id="footer">

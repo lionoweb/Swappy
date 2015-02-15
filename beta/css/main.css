@@ -666,8 +666,8 @@ input.space-button {
 .greyback{
 	background-color:#e5e4e4;
 	width: 100%;
-	padding-top:10px;
-	padding-bottom:16px;
+	padding-top:26px;
+	padding-bottom:26px;
 	margin-left:0px;
 	margin-bottom:0px;
 	margin-right:0px;
@@ -855,7 +855,6 @@ form .liketext {
 .view img {
    display: block;
    position: relative;
-   margin-top: -20px;
 }
 .view h2 {
    text-transform: uppercase;
@@ -1028,6 +1027,9 @@ form .liketext {
 	font-family: "Overlock";
 	font-size: 1.2em;
 }
+.container .cgutitle{
+	padding-top: 0px !important;
+}
 .cgutitle p {
 	color:white;
 	line-height: 70px;
@@ -1041,41 +1043,25 @@ form .liketext {
 .pictodown{
 	text-align: center;
 }
-#spec_cgu{
-	background-color: #323232;
+#spec_cgu_mention{
+	background-color: white;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 }
+#spec_cgu_mention .cgu_wrap ul{
+	list-style-type: none;
+}
 .cgu_wrap{
-	max-width: 69em;
+	max-width: 54em;
 	margin: 0 auto;
 	padding: 0 1em 1.875em;
 }
-.box li{
-	width:35%;
-}
-#spec_cgu .box p{
-	text-align: justify;
-}
-#spec_mention{
-	background-color: white;
-	display: inline-block;	
-	padding: 0px 0px 40px 0px;
-}
-#spec_cgu .greyback{
-	background-color:#e5e4e4;
-	padding:26px;
-	margin-top: 0px;
-	margin-left:0px;
-	margin-bottom:0px;
-	margin-right:0px;
-	display:block;
-	box-sizing:border-box;
-	z-index: -9000;
-}
-#spec_cgu .header_cgu {
-	background-color:#53c1dd;
+#spec_cgu_mention .header_cgu {
+	font-family: "Overlock";
+	font-size: 1.2em;
+	letter-spacing: 0.03em;
+	background-color:#323232;
 	line-height: 39px;
 	height:39px;
 	margin-top: -39px;
@@ -1084,44 +1070,22 @@ form .liketext {
 	color: white;
 	z-index: 9000;
 }
-/*#spec_cgu .box p{
+#spec_cgu_mention .greyback{
+	background-color:#e5e4e4;
+	padding:26px;
+	display:block;
+	z-index: -9000;
+}
+.box li{
+	margin-top: 36px;
+}
+#spec_cgu_mention .box p{
 	text-align: justify;
 }
-#spec_cgu .box3{
-	margin-top: -140px;
+#spec_mention .mention_wrap{
+	padding: 20px 0px 20px 0px !important;
 }
-#spec_cgu .box2 {
-	margin-bottom: 40px;
-}
-#spec_cgu .box4 {
-	margin-bottom: 40px;
-}
-#spec_cgu .box5 {
-	margin-top: -140px;
-}
-#spec_cgu .box6{
-	margin-top: 0px;
-}
-#spec_cgu .box7{
-	margin-top: -320px;
-}
-#spec_cgu .box8{
-	margin-top: -90px;
-}
-#spec_cgu .box9{
-	margin-top: 40px;
-}*/
-#spec_mention .mentiontitle{
-	background-image: url(../img/cgu/ruban2.png);
-	background-repeat: no-repeat;
-	height: 34px;
-	margin-bottom: 2%;
-	font-size: 1.175em;
-	line-height: 34px;
-	text-transform: uppercase;
-	color: white;
-	padding-left: 100%;
-}
+
 /* ### CONTACT ### */
 
 #contact .header_contact{
