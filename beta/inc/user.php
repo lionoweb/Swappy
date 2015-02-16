@@ -231,6 +231,12 @@
 			$t = $select->rowCount();
 			return $t;
 		}
+		function update($variable, $field, $value) {
+			$select = $this->mysql-prepare("UPDATE FROM `users` SET `".$field."` = :value WHERE `ID` = :ID ");
+			$select->execute(array(":value" => $value, ":id" => $this->ID));
+			$this->{"".$variable.""} = $value;
+			return array(true);
+		}
 		function crypt_sess($ID) {
 			$step = base64_encode($ID."__SWAP");
 			$total = strlen($step);

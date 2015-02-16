@@ -120,6 +120,26 @@
 			border:1px solid #CCC;	
 			border-bottom:2px solid #CCC;	
 		}
+		@media (max-width:701px){
+			#content_m {
+				display:none;	
+				margin-left:0px !important;
+				padding-left:0px !important;
+			}
+			#content_m.montre {
+				display:inline-block;	
+			}
+			#list_m {
+				width:100%;	
+				min-width:100%;
+			}
+			.mess_t.active {
+				background:#E4E4E4 !important;
+			}
+			#list_m.cache {
+				display:none;	
+			}
+		}
 	  </style>
    </head>
    <body role="document">
@@ -162,7 +182,7 @@
             <!-- /.container-fluid -->
          </nav>
          <div class="container main" role="main">
-<div class="message_box col-md-8 col-md-offset-2 "><!--
+<div class="message_box col-md-8 col-md-offset-2 col-xs-10 col-xs-offset-1"><!--
 --><div id="list_m">
 <div class=" input-group">
 <span class="input-group-btn">
@@ -184,9 +204,9 @@
         <input type="submit" value="envoyer">
         <button>Fixer un rendez-vous</button>
         </form>
+        <div class="clear"></div>
     </div>
 </div>
-<div style="clear:both;"></div>
 <script>
 var fst_l = 1;
 $(document).ready(function(e) {
@@ -237,7 +257,14 @@ function load_content(id, title) {
 		var id = $(".mess_t:first").attr("data-ID");
 		var title = $(".mess_t:first").html();
 		$(".mess_t:first").addClass("active");
+	}	else {
+	var w = $(document).width();
+	if(w < 701 ) {
+		$("#list_m:not(.cache)").addClass("cache");	
+		$("#content_m:not(.montre)").addClass("montre");	
 	}
+	}
+	$(".inner_m").html('Chargement...');
 	$.getJSON("inc/send_mess.php?get_message="+id, function(data) {
 		$(".inner_m").html('');
 		$(".header_m").html(title);
@@ -246,6 +273,9 @@ function load_content(id, title) {
 				var c = 'other';
 				if(value.Author == "ME") {
 					c = 'me';
+				}
+				if(value.Author == "BOT") {
+					c = 'bot';
 				}
 				$(".inner_m").append('<div class="'+c+' msg">'+value.Message+'</div>');
 			}
@@ -256,7 +286,8 @@ function load_content(id, title) {
 			$(".nav-h .mess_count").removeClass("red").html("0");
 			$(".dropdown-toggle .mess_count").remove();
 		} else {
-			$(".nav-h .mess_count:not(.red)").addClass("red").html(data.count);
+			$(".nav-h .mess_count:not(.red)").addClass("red");
+			$(".nav-h .mess_count").html(data.count);
 			if($(".dropdown-toggle .mess_count").length < 1) {
 				$("<span class=''>"+data.count+"</span>").insertBefore(".dropdown-toggle .caret");
 			} else {

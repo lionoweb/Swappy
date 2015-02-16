@@ -10,6 +10,9 @@ if(isset($_POST['login'])) {
 if(isset($_POST['hash'])) {
 	$arr = $user->remind_account($_POST);
 }
+if(isset($_POST['update'])) {
+	$arr = $user->update($_POST['variable'], $_POST['field'], $_POST['value']);
+}
 if(isset($_POST['fieldId'])) {
 	if($_POST['fieldId'] == "login") {
 		$arr = $user->issetLogin($_POST['fieldValue'], $_POST['fieldId']);

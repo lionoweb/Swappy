@@ -216,14 +216,14 @@ a.add_dispo, a.remove_dispo {
 .search_navbar button {
     border-radius: 0px;
     border: none;
-    background: #767676 url(../img/search.png) no-repeat center;
+    background: #767676 url('../img/search.png') no-repeat center;
     height: 34px;
     width: 38px;
 }
 .bluesearch {
     border-radius: 0px !important;
     border: none;
-    background: #53c1dd url(../img/search.png) no-repeat center !important;
+    background: #53c1dd url('../img/search.png') no-repeat center !important;
     height: 34px !important;
     width: 38px !important;
 }
@@ -1162,20 +1162,18 @@ td {
 	width:100% !important;	
 }
 .mess_count {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	display:inline-block;
 	height:18px;
 	width:18px;
-	background:blue;
-	border:blue 0px solid;
-	border-radius:50%;
+	background:url(../img/icon/read.png) center no-repeat;
 	font-weight:bold;	
 	color:#FFF;
 	text-align:center;
 	line-height:18px;
 }
 .mess_count.red {
-	background:red;
-	border:red 0px solid;
+	background:url(../img/icon/unread.png) center no-repeat;
 }
 .chat_title {
 	display:block;
