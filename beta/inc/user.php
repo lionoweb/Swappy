@@ -416,8 +416,9 @@
 		}
 		function add_user($POST) {
 			//prevenir le bug de Validation engine
-			if(empty($POST['cityname']) || empty($POST['zipcode'])) {
-				$arr = array(false);
+			$arr = array(false, "Une erreur à eu lieu...");
+			if(empty($POST['cityname']) || empty($POST['zipcode']) || $this->issetEmail(strtolower($POST['email']), false) == false || $this->issetLogin(strtolower($POST['login']), false) == false) {
+				$arr = array(false, "Une erreur à eu lieu...");
 			} else {
 				$street = $POST['street'];
 				if(!empty($_POST['street2'])) {
@@ -456,8 +457,8 @@
 					$mail->send_validation($replace[':email'], $replace[':login'], $replace[':firstname']." ".$replace[':lastname'], $hash);
 					$arr = array(true);
 				}
-				return $arr;
 			}
+			return $arr;
 			} 
 			function make_link_validation($email, $login) {
 				$email = strtolower($email);
@@ -472,10 +473,18 @@
 				$select = $this->mysql->prepare("SELECT COUNT(*) AS `total` FROM `users` WHERE `Login` = :login");
 				$select->execute(array(":login" => $login));
 				$data = $select->fetch(PDO::FETCH_OBJ);
-				if($data->total > 0) {
-					$arr = array($id, false);
+				if($id == false) {
+					if($data->total > 0) {
+						$arr = false;
+					} else {
+						$arr = true;	
+					}
 				} else {
-					$arr = array($id, true);	
+					if($data->total > 0) {
+						$arr = array($id, false);
+					} else {
+						$arr = array($id, true);	
+					}
 				}
 				return $arr;
 		}
@@ -483,11 +492,20 @@
 			$select = $this->mysql->prepare("SELECT COUNT(*) AS `total` FROM `users` WHERE `Email` = :email");
 			$select->execute(array(":email" => $email));
 			$data = $select->fetch(PDO::FETCH_OBJ);
-			if($data->total > 0) {
-				$arr = array($id, false);
+			if($id == false) {
+				if($data->total > 0) {
+					$arr = false;
+				} else {
+					$arr = true;	
+				}	
+
 			} else {
-				$arr = array($id, true);	
-			}	
+				if($data->total > 0) {
+					$arr = array($id, false);
+				} else {
+					$arr = array($id, true);	
+				}	
+			}
 			return $arr;
 		}
 		function issetZipCode($zipcode, $id) {
