@@ -719,6 +719,7 @@ form .liketext {
 	display:inline;
 	width:auto !important;
 	box-shadow:none;
+	cursor:default !important;
 }
 .greyback .liketext:not(.fullwidth), .greyback .liketext:not(.fullwidth) {
 	border:none;
@@ -726,6 +727,7 @@ form .liketext {
 	display:inline;
 	width:auto !important;
 	box-shadow:none;
+	cursor:default !important;
 }
 .greyback .liketext.fullwidth, .greyback .liketext.fullwidth {
 	border:none;
@@ -733,6 +735,7 @@ form .liketext {
 	display:inline;
 	width:100% !important;
 	box-shadow:none;
+	cursor:default !important;
 }
 .greyback button{
 	margin-top: 6px;

@@ -307,7 +307,7 @@ function navbar_padding() {
 		if((wm+2) >= (ww-whe-15)) {
 			if($(".search_navbar:not(.moved-group)").length > 0) {
 				$(".search_navbar:not(.moved-group)").addClass("moved-group");
-				$("nav").height("+=50px");
+				$("nav").height("100px");
 			}
 		} else {
 			if($(".search_navbar.moved-group").length > 0) {

@@ -96,13 +96,19 @@
 			min-height:340px;
 		}
 		.header_m {
-			padding:14px;
 			color:#54C0DD;
 			font-size:20px;
-			padding-left:30px;
 			border-bottom:1px solid #CCC;
 			height:86px;
 			min-height:86px;
+		}
+		.header_m .return_list {
+			display:none;	
+		}
+		.header_m span {
+			padding:14px;
+			padding-left:30px;
+			display:inline-block;	
 		}
 		.header_m .m_for {
 			color:#000;
@@ -121,6 +127,25 @@
 			border-bottom:2px solid #CCC;	
 		}
 		@media (max-width:701px){
+			.header_m .return_list {
+				display:inline-block;	
+				width:60px;
+				height:85px;
+				background:#1864EB;
+				line-height:85px;
+				font-size:16px;
+				text-align:center;
+				vertical-align:top;
+				color:#FFF;
+			}
+			.header_m .return_list:hover {
+				cursor:pointer;	
+			}
+			.header_m span {
+				padding:14px;
+				padding-left:14px !important;
+				display:inline-block;	
+			}
 			#content_m {
 				display:none;	
 				margin-left:0px !important;
@@ -193,7 +218,7 @@
                   </div>
 </div><!--
 --><div id="content_m" style=""><!--
-	--><div class="header_m"></div>
+	--><div class="header_m"><div class="return_list">Retour</div><span></span></div>
     <div class="inner_m">
     	
     </div>
@@ -218,6 +243,11 @@ $(document).ready(function(e) {
 		onBeforeAjaxFormValidation: load_ajax_d,
 		showOneMessage: true,
 		promptPosition : "topLeft"
+	});
+	$(".return_list").on("click", function(e) {
+		e.preventDefault();
+		$("#list_m.cache").removeClass("cache");	
+		$("#content_m.montre").removeClass("montre");
 	});
 });
 function message_send_function(status, form, json, options) {
@@ -258,16 +288,13 @@ function load_content(id, title) {
 		var title = $(".mess_t:first").html();
 		$(".mess_t:first").addClass("active");
 	}	else {
-	var w = $(document).width();
-	if(w < 701 ) {
 		$("#list_m:not(.cache)").addClass("cache");	
 		$("#content_m:not(.montre)").addClass("montre");	
 	}
-	}
-	$(".inner_m").html('Chargement...');
+	$(".inner_m").html('<center>Chargement...</center>');
 	$.getJSON("inc/send_mess.php?get_message="+id, function(data) {
 		$(".inner_m").html('');
-		$(".header_m").html(title);
+		$(".header_m span").html(title);
 		$.each(data, function(index, value) {
 			if(typeof(value.Message) != "undefined") {
 				var c = 'other';
