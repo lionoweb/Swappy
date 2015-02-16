@@ -191,7 +191,7 @@ $(document).ready(function(e) {
 function load_ajax_d(form, options) {
 	$form_b = $(form);
 	if($form_b.find("#loader_ajax").length < 1) {
-		$form_b.append('<div id="loader_ajax"><p><img src="img/icon/loading.gif" alt="" > Envoie en cours...</p></div>');
+		$form_b.append('<div id="loader_ajax"><p><img src="img/icon/loading.gif" alt="" > envoie en cours...</p></div>');
 	}
 	return true;
 }
@@ -207,7 +207,7 @@ function send_mail_contact(status, form, json, options) {
 }
 function add_user_function(status, form, json, options) {
 	$form_b = $(form);
-	$form_b.html('<div id="message_ajax"><p>Vous êtes maintenant inscrit !<br><br><i>Vous allez recevoir d\'ici quelques instant un mail de confirmation pour activer votre compte.</i><br><br>Verifiez dans vos indisérable en cas de non reception.</p></div>');
+	$form_b.html('<div id="message_ajax"><p>Vous êtes maintenant inscrit !<br><br><i>Vous allez recevoir d\'ici quelques instants un mail de confirmation pour activer votre compte.</i><br><br>Vérifiez dans vos indésirables en cas de non réception.</p></div>');
 	$(document).scrollTop(0);
 	return true;
 }
@@ -266,7 +266,7 @@ function remind_user_function(status, form, json, options) {
 	if(json[0] == true) {
 		$form_b.find("#loader_ajax").remove();
 		$("#modal_alert").remove();
-		$("body").append('<div id="modal_alert" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-md"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="exampleModalLabel">Mot de passe perdu</h4></div><div class="modal-body">Un mail vous a été envoyer contenant un lien afin de changer le mot de passe de votre compte.<br><br><i>N\'oubliez pas de vérifier dans vos indisérable en cas de non-reception</i></div></div></div></div>');
+		$("body").append('<div id="modal_alert" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-md"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="exampleModalLabel">Mot de passe perdu</h4></div><div class="modal-body">Un mail vous a été envoyé contenant un lien afin de changer le mot de passe de votre compte.<br><br><i>N\'oubliez pas de vérifier dans vos indésirables en cas de non réception</i></div></div></div></div>');
 		$('#modal_alert').modal('show');
 		$("#modal_alert").on("hidden.bs.modal", function(e) {
 			$(this).remove();
@@ -349,7 +349,7 @@ function modal_prevent() {
 			}
 			e.preventDefault();
 			$("#modal_alert").remove();
-			$("body").append('<div id="modal_alert" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-md"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="exampleModalLabel">Se connecter pour y accéder</h4></div><div class="modal-body">Désolé, mais la page à laquelle vous souhaitiez afficher n\'est pas accessible en tant que visiteur.<br><br>Veuillez vous inscrire/connecter pour l\'afficher.<div id="clone_login"></div></div></div></div></div>');
+			$("body").append('<div id="modal_alert" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-md"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="exampleModalLabel">Se connecter pour y accéder</h4></div><div class="modal-body">Désolé, mais la page à laquelle vous souhaitiez accéder n\'est pas accessible en tant que visiteur.<br><br>Veuillez vous inscrire/connecter pour l\'afficher.<div id="clone_login"></div></div></div></div></div>');
 			$('#modal_alert').modal('show');
 			$("#login_section").clone(true).appendTo("#clone_login");
 			$("#remind_section").clone(true).appendTo("#clone_login");

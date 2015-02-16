@@ -62,7 +62,7 @@
 		.message_box {
 			margin-top:40px;
 			height:590px;
-			border:1px solid black;	
+			border:1px solid #CCC;	
 			padding-top:0px !important;
 		}
 		#list_m {
@@ -72,7 +72,7 @@
 			height:100%;
 			min-height:100%;
 			overflow:auto;
-			border-right:1px solid black;
+			border-right:1px solid #CCC;
 			position:relative;
 			z-index:2;
 		}
@@ -100,7 +100,7 @@
 			color:#54C0DD;
 			font-size:20px;
 			padding-left:30px;
-			border-bottom:1px solid #000;
+			border-bottom:1px solid #CCC;
 			height:86px;
 			min-height:86px;
 		}
@@ -117,7 +117,8 @@
 			margin-right:8px;	
 		}
 		#list_m .input-group {
-			border:2px solid #CCC;	
+			border:1px solid #CCC;	
+			border-bottom:2px solid #CCC;	
 		}
 	  </style>
    </head>
@@ -256,7 +257,7 @@ function load_content(id, title) {
 			$(".dropdown-toggle .mess_count").remove();
 		} else {
 			$(".nav-h .mess_count:not(.red)").addClass("red").html(data.count);
-			if($(".dropdown-toggle .mess_count").length > 0) {
+			if($(".dropdown-toggle .mess_count").length < 1) {
 				$("<span class=''>"+data.count+"</span>").insertBefore(".dropdown-toggle .caret");
 			} else {
 				$(".dropdown-toggle .mess_count").html(data.count);

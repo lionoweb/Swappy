@@ -191,11 +191,11 @@
 			$extra = '';
 			if(isset($_GET['needunlogged'])) {
 				$title = "Se deconnecter pour y accéder";
-				$text = "Désolé, mais la page à laquelle vous souhaitiez afficher n'est pas accessible en tant qu'utilisateur connecté.<br><br>Veuillez vous déconnecté pour l'afficher.";
+				$text = "Désolé, mais la page à laquelle vous souhaitiez accéder n'est pas accessible en tant qu'utilisateur connecté.<br><br>Veuillez vous déconnecté pour l'afficher.";
 			}
 			if(isset($_GET['unlogged'])) {
 				$title = "Se connecter pour y accéder";
-				$text = "Désolé, mais la page à laquelle vous souhaitiez afficher n'est pas accessible en tant que visiteur.<br><br>Veuillez vous inscrire/connecter pour l'afficher.<div id='clone_login'></div>";
+				$text = "Désolé, mais la page à laquelle vous souhaitiez accéder n'est pas accessible en tant que visiteur.<br><br>Veuillez vous inscrire/connecter pour l'afficher.<div id='clone_login'></div>";
 				$extra = " $('#login_section').clone(true).appendTo('#clone_login');
 			$('#remind_section').clone(true).appendTo('#clone_login');
 			$(\"#clone_login .login_form\").append(\"<input type='hidden' name='to_url' value='".@basename(@$_GET['p'])."'>\");
@@ -203,7 +203,7 @@
 			}
 			if(isset($_GET['noadmin'])) {
 				$title = "Être administrateur pour y accéder";
-				$text = "Désolé, mais la page à laquelle vous souhaitiez afficher est accessible uniquement pour les administrateurs du site.";
+				$text = "Désolé, mais la page à laquelle vous souhaitiez accéder est accessible uniquement pour les administrateurs du site.";
 			}
 			$html = '<div id="modal_alert" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-md">
@@ -622,7 +622,7 @@
 			if($select->execute(array(":password" => md5(trim($POST['password'])), ":ID" => $info[0], ":email" => $info[1]))) {
 				$arr = array(true);
 			} else {
-				$arr = array(false, "Une erreur à eu lieu au moment tu changement du mot de passe... Veuillez réessayer.");
+				$arr = array(false, "Une erreur à eu lieu au moment du changement du mot de passe... Veuillez réessayer.");
 			}
 			return $arr;	
 		}
