@@ -76,7 +76,7 @@
                      <img src="img/apropos/calypso.png" width="225" height="225">
                      <div class="mask">
                         <h2>Calypso Redor</h2>
-                        <p>Chef de projet, Calypso dirige et tient en main le bon déroulement et la bonne gestion de la plateforme.</p>
+                        <p>Chef de projet, chargée de communication et marketing. Elle mène à bien le projet et entoure son équipe dans la bonne humeur</p>
                         <a href="mailto:calypso.redor@swappy.fr" class="more">Contactez-la</a>
                      </div>
                   </li>
@@ -84,7 +84,7 @@
                      <img src="img/apropos/lionel.png" width="225" height="225">
                      <div class="mask">
                         <h2>Lionel Jeronimo</h2>
-                        <p>Développeur, Lionel est le membre clé de l'agence.</p>
+                        <p>Développeur en chef de l’agence. Aussitôt dit aussitôt fait, Lionel est professionnel et très réactif.</p>
                         <a href="mailto:lionel.jeronimo@swappy.fr" class="more">Contactez-le</a>
                      </div>
                   </li>
@@ -92,7 +92,7 @@
                      <img src="img/apropos/oceane.png" width="225" height="225">
                      <div class="mask">
                         <h2>Océane Perret</h2>
-                        <p>Intégratice et Développeuse, Océane accompagne Lionel et Line dans l'avancé technique du projet</p>
+                        <p>Intégratrice et développeuse, elle est sérieuse et impliquée. Elle est toujours disponible avec des idées novatrices.</p>
                         <a href="mailto:oceane.perret@swappy.fr" class="more">Contactez-la</a>
                      </div>
                   </li>
@@ -102,7 +102,7 @@
                      <img src="img/apropos/line.png" width="225" height="225">
                      <div class="mask">
                         <h2>Line Bui</h2>
-                        <p>Intégratice, Line met en place l'aspect graphique à travers l'aspect technique.</p>
+                        <p> Intégratrice et développeuse. Elle est motivée et prête à passer des heures sur un problème pour le résoudre.</p>
                         <a href="mailto:line.bui@swappy.fr" class="more">Contactez-la</a>
                      </div>
                   </li>
@@ -110,7 +110,7 @@
                      <img src="img/apropos/brice.png" width="225" height="225">
                      <div class="mask">
                         <h2>Brice Olivrie</h2>
-                        <p>Vidéaste, Brice se charge de donner vie à la plateforme en créant une vidéo illustrative.</p>
+                        <p>Vidéaste, il est en charge de la production complète de la vidéo. Entre le graphisme et le montage, Brice travaille sur tous les fronts.</p>
                         <a href="mailto:brice.olivrie@swappy.fr" class="more">Contactez-le</a>
                      </div>
                   </li>
@@ -118,7 +118,7 @@
                      <img src="img/apropos/margot.png" width="225" height="225">
                      <div class="mask">
                         <h2>Margot Gillodes</h2>
-                        <p>Webdesigner et graphiste, Margot donne de la couleur à la plateforme en offrant ses compétences visuelle.</p>
+                        <p>Graphiste à plein temps. Passionnée, elle a su trouver des solutions graphiques à nos envies les plus complexes.</p>
                         <a href="mailto:margot.gillodes@swappy.fr" class="more">Contactez-le</a>
                      </div>
                   </li>
@@ -130,10 +130,11 @@
             <div class="pictodown"><img src="img/apropos/down.png" alt="" class="down"></div>
             <div class="row projet">
                <div class="col-md-4 col-md-offset-2 col-xs-10 col-xs-offset-1">
-                  <p>Swappy est une plate-forme d’échanges de services entre particuliers à titre gratuit. Nous voulons ainsi promouvoir l’entraide et le sentiment de communauté.Les échanges ne concerne que des services. Cette prestation permet de mettre à disposition les capacités techniques et intellectuelles de chacun. Pour être plus précis, voici un exemple : une personne A pourra proposer son aide pour jardiner à une personne B. En contrepartie, la personne B pourra cuisiner pour la personne A.</p>
+                  <p>Swappy est une plate-forme d’échanges de services entre particuliers à titre gratuit. Nous voulons ainsi promouvoir l’entraide et le sentiment de communauté. Les échanges ne concernent que des services. Cette prestation permet de mettre à disposition les capacités techniques et intellectuelles de chacun. Pour être plus précis, voici un exemple : une personne A pourra proposer son aide pour jardiner chez une personne B. En contrepartie, la personne B pourra cuisiner pour la personne A.</p>
                </div>
                <div class="col-md-4 col-md-offset-0 col-xs-10 col-xs-offset-1">
-                  <p>Cependant les échanges pourront également être réalisés dans un sens unique. Nous voulons mettre en avant l’aspect de la générosité et de l’altruisme des personnes. Il y aura plusieurs catégories (filtres) afin que tout le monde puisse trouver le service qui lui convient. Chaque personne inscrite sur la plate-forme pourra de même poster des annonces.Durant l'année de préparation du projet, nous avons pu nous construire un site vitrine, détaillant les membres de l'agence et le projet envisagé. Vous pouvez trouver ce travail sur le site suivant : <a href="https://perso-etudiant.univ-mlv.fr/~ljeronim/2DSide/">2DSide</a></p>
+                  <p>Cependant les échanges pourront également être réalisés dans un sens unique. Nous voulons mettre en avant l’aspect de la générosité et de l’altruisme des personnes. <br>Durant l'année de préparation du projet, nous avons pu nous construire un site vitrine, détaillant les membres de l'agence et le projet envisagé. Vous pouvez trouver ce travail sur le site suivant :
+ <a href="https://perso-etudiant.univ-mlv.fr/~ljeronim/2DSide/">2DSide</a></p>
                </div>
             </div>
          </div>
@@ -141,7 +142,7 @@
       <footer id="footer">
          <img src="img/footer.png" width="30" height="18">
          <div class="container-fluid">
-            <a href="mentions-legales.php">Mentions légales</a> - <a href="cgu.php">CGU</a> | <a href="contact.php">Contact</a>
+            <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php">Contact</a>
             <hr>
             <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
          </div>

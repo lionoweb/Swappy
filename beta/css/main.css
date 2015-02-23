@@ -536,6 +536,27 @@ input.space-button {
 .form-group {
 	overflow:auto;	
 }
+
+	/* ### ACCUEIL ###*/
+
+.carousel-inner{
+	background-color: #53c1dd;
+}
+.carousel-inner .item img{
+	float: right;
+	position: relative;
+	right: 8%;
+	z-index: -9000;
+}
+.carousel-title{
+	font-family: "Pacifico";
+	color: white;
+	font-size: 3em;
+	padding-top: 50px;
+	padding-left: 100px;
+	z-index: 9000;
+}
+
 	/* ### SERVICE/ANNONCE DÉTAILLÉ ### */
 .row{
 	margin-left: 0px;
@@ -810,14 +831,13 @@ form .liketext {
 }
 #spec_apropos #spec_team .row{
 	box-sizing:border-box;
-	margin-bottom: 26px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 }
 #spec_apropos #spec_team li{
 	margin-left: 20px;
-
+	margin-bottom: 20px;
 }
 #spec_apropos .projet{
 	margin-top: -20px;
@@ -1039,6 +1059,7 @@ form .liketext {
 	text-transform: uppercase;
 	text-align: center;
 	font-size: 1.5em;
+	z-index: -9000;
 }
 .down{
 	margin-top: -6px;
@@ -1047,6 +1068,8 @@ form .liketext {
 	text-align: center;
 }
 #spec_cgu_mention{
+	width:100% !important;
+	padding:0px;
 	background-color: white;
 	display: block;
 	margin-left: auto;
@@ -1054,20 +1077,24 @@ form .liketext {
 }
 #spec_cgu_mention .cgu_wrap ul{
 	list-style-type: none;
+	padding: 0;
 }
 .cgu_wrap{
 	max-width: 54em;
 	margin: 0 auto;
 	padding: 0 1em 1.875em;
 }
-#spec_cgu_mention .header_cgu {
-	font-family: "Overlock";
-	font-size: 1.2em;
-	letter-spacing: 0.03em;
+#spec_cgu_mention .header_cgu{
 	background-color:#323232;
 	line-height: 39px;
 	height:39px;
 	margin-top: -39px;
+}
+#spec_cgu_mention .header_cgu p{
+	width: auto;
+	font-family: "Overlock";
+	font-size: 1.2em;
+	letter-spacing: 0.03em;
 	text-align: center;
 	text-transform: uppercase;
 	color: white;
@@ -1078,15 +1105,28 @@ form .liketext {
 	padding:26px;
 	display:block;
 	z-index: -9000;
-}
-.box li{
-	margin-top: 36px;
-}
-#spec_cgu_mention .box p{
 	text-align: justify;
 }
+.box li{
+	margin: 32px 0px 32px 0px;
+}
+.mentiontitle{
+	width:100%;
+	height:70px;
+	background-color: #54c1de;
+	font-family: "Overlock";
+	font-size: 1.2em;
+}
+.mentiontitle p {
+	color:white;
+	line-height: 70px;
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 1.5em;
+	z-index: -9000;
+}
 #spec_mention .mention_wrap{
-	padding: 20px 0px 20px 0px !important;
+	padding: 20px !important;
 }
 
 /* ### CONTACT ### */
@@ -1143,6 +1183,78 @@ form .liketext {
 	background-color: #53c1dd;
 	color:white;
 }
+
+/* ### PROFIL ### */
+
+#profil {
+	width:100%;
+	padding:0px;
+}
+#profil .header_profil{
+	color: white;
+	margin-top: -20px;
+	background-color: #323232;
+	padding:30px 0px 20px 0px;
+}
+#profil .header_profil .top{
+	text-align: center;
+	margin-bottom: 28px;
+}
+#profil .header_profil .top .nom {
+	font-family: "Pacifico";
+	font-size: 2em;
+}
+#profil .header_profil span {
+	margin-left: 15px;
+}
+#profil .header_profil span img {
+	margin-right: 5px;
+}
+#profil .header_profil .btn{
+	background-color: #f3f0f0;
+	border-radius: 0;
+	color: black;
+}
+#profil .header_profil .btn:hover{
+	background-color: #53c1dd;
+	color: white;
+}
+#profil .header_profil .top .tags p{
+	display: inline-block;
+	background-color: #f3f0f0;
+	color: black;
+	padding: 3px;
+}
+.profiltitle{
+	color: white;
+	width:100%;
+	height:70px;
+	background-color: #5fe1bb;
+	font-family: "Overlock";
+	font-size: 1.2em;
+}
+.profiltitle p {
+	line-height: 70px;
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 1.5em;
+}
+#profil .notes div {
+	color: white;
+	border-radius: 10px;
+	padding-bottom: -23px;
+}
+#profil .notes div.note:nth-child(odd) {
+	/*background-clip: content-box;*/
+	background-color: #53c1dd; /*bleu*/
+	/*background-image: url(img/profil/notesDown.png);*/
+	margin-bottom: 20px;
+}
+#profil .notes div.note:nth-child(even) {
+	background-color: #c495bf; /*violet*/
+	margin-bottom: 20px;
+}
+
 #pagination {
 	text-align:center;	
 }
@@ -1227,6 +1339,30 @@ td {
 	font-size:18px;
 	z-index:-2;
 }
+.shrink{
+	display:none;
+	height:70px; 
+	line-height:70px; 
+	margin:0 auto; 
+	width:100% !important; 
+	text-align:center;
+	color: white;
+	font-size:1.5em;
+	z-index:2;	
+}
+.shortage{
+	display:none;
+	height:39px; 
+	line-height:39px; 
+	margin:0 auto; 
+	width:100% !important; 
+	text-align:center;
+	color: white;
+	font-size:1em;
+	z-index:2;	
+	font-family: "Overlock";
+	font-size: 1.2em;
+}
 .navbar-header img.min {
 	display:none;
 }
@@ -1290,14 +1426,6 @@ td {
 }
 }
 @media(max-width: 992px){
-	#spec_cgu .pictocgu{
-		position: relative;
-		left:2%;
-	}
-	#spec_cgu .cgintitle {
-		position: relative;
-		left:6%;
-	}
 	#contact .header_contact img{
 		display: block;
 		margin-left: auto;
@@ -1310,8 +1438,27 @@ td {
 	}
 }	
 @media (max-width:767px){
+	.box li {
+		display: inline-block;
+		margin: 32px 0px 32px 0px;
+	}
+	.header_cgu .short{
+		display: none;
+	}
+	.cgutitle p {
+		display: none;
+	}
+	.shortage {
+		display: inline-block;
+		font-size: 1.2em;
+		text-transform: uppercase;
+		letter-spacing: 0.03em;
+	}
 	.brand-title {
 		display:inline-block; 
+	}
+	.shrink{
+		display: inline-block;
 	}
 	.navbar-header img.min {
 		display:block;
@@ -1387,9 +1534,6 @@ td {
 	}
 	.greyback{
 		padding: 8px;
-	}
-	#spec_apropos #spec_team .center{
-		margin-left: 22%;
 	}
 	#spec_contact .form-group {
 		padding:0px;
