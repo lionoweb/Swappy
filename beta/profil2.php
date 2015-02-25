@@ -70,10 +70,10 @@
                <div class="row">
                   <div class="top col-lg-4 col-lg-offset-3 col-md-4 col-md-offset-3">
                      <!-- pas sûre du php pour l'image -->
-                     <img src="<?php echo user->avatar;?>" class="col-lg-4 col-md-4">
+                     <img src="<?php echo $user->avatar;?>" class="col-lg-4 col-md-4">
                      <p class="text-left col-lg-8 col-md-8 nom"><?php echo $user->firstname; ?> <?php echo $user->lastname; ?></p>
                      <!-- manque le php pour l'âge -->
-                     <p class="text-left col-lg-8 col-md-8"><?php echo user->;?> ans<span><img src="img/profil/location.png" alt=""><?php echo user->city;?></span></p>
+                     <p class="text-left col-lg-8 col-md-8"><?php echo $user->Birthday;?> ans<span><img src="img/profil/location.png" alt=""><?php echo $user->city;?></span></p>
                      <div class="text-left col-lg-8 col-md-8 tags">
                         <p>manuel</p>
                         <p>bricoleur</p>

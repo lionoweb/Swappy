@@ -38,6 +38,7 @@
 			background:#E4E4E4;	
 			padding:3px;
 			border-bottom:1px solid #FFF;
+			position:relative;
 		}
 		.mess_t.active {
 			background:#54C0DD;
@@ -99,13 +100,17 @@
 			color:#54C0DD;
 			font-size:20px;
 			border-bottom:1px solid #CCC;
-			height:86px;
+			height:auto;
 			min-height:86px;
+			position:relative;
 		}
 		.header_m .return_list {
 			display:none;	
+			position:absolute;
+			left:0px;
+			top:0px;
 		}
-		.header_m span {
+		.header_m > span {
 			padding:14px;
 			padding-left:30px;
 			display:inline-block;	
@@ -115,6 +120,9 @@
 			font-size:14px;
 			padding-left:15px;
 			display:inline-block;
+		}
+		.header_m .mess_count {
+			display:none !important;	
 		}
 		.message_box textarea {
 			margin-bottom:6px;
@@ -126,24 +134,33 @@
 			border:1px solid #CCC;	
 			border-bottom:2px solid #CCC;	
 		}
+		.mess_t .mess_count {
+			position:absolute;
+			right:4px;
+			top:50%;
+			margin-top:-9px;
+			display:none;
+		}
+		.mess_t .mess_count.red {
+			display:block !important;
+		}
 		@media (max-width:701px){
 			.header_m .return_list {
 				display:inline-block;	
 				width:60px;
-				height:85px;
+				height:100%;
 				background:#1864EB;
-				line-height:85px;
+				
 				font-size:16px;
 				text-align:center;
-				vertical-align:top;
 				color:#FFF;
 			}
 			.header_m .return_list:hover {
 				cursor:pointer;	
 			}
-			.header_m span {
+			.header_m > span {
 				padding:14px;
-				padding-left:14px !important;
+				padding-left:74px !important;
 				display:inline-block;	
 			}
 			#content_m {
@@ -234,6 +251,7 @@
 </div>
 <script>
 var fst_l = 1;
+var last_m = false;
 $(document).ready(function(e) {
     load_list();
 	$("#message_send").validationEngine({
@@ -256,8 +274,8 @@ function message_send_function(status, form, json, options) {
 		$form_b = $(form);
 		$form_b.find("textarea[name='message_r']").val("");
 		$(".inner_m").scrollTop($(".inner_m").scrollHeight);
-		load_content($form_b.find("input[name='ID_Converse']").val(), $(".mess_t.active").html());
-		
+		load_content($form_b.find("input[name='ID_Converse']").val(), $(".mess_t.active").html(), true);
+		load_list();
 		return true;
 	} else{
 		return false;	
@@ -266,14 +284,23 @@ function message_send_function(status, form, json, options) {
 function load_list() {
 	$.getJSON("inc/send_mess.php?list_message", function(data) {
 		var for_ = "";
+		var active = "";
+		var count = '<span class="mess_count"></span>';
 		$(".mess_t").remove();
 		$.each(data, function(index, value) {
+			active = "";
 				if(value.For > 0) {
 					for_ = '<a target="_blank" href="annonce.php?id='+value.For+'">'+value.Title+'</a>';	
 				} else {
 					for_ = '<i>discuter</i>';
 				}
-				$("#list_m").append('<div data-id="'+value.ID+'" class="mess_t">'+value.Name+'<br><span class="m_for">Pour : '+for_+'</span></div>');
+				if(value.Count > 0) {
+					count = '<span class="mess_count red">'+value.Count+'</span>';
+				}
+				if(value.ID == last_m) {
+					active = " active";
+				}
+				$("#list_m").append('<div data-id="'+value.ID+'" class="mess_t'+active+'">'+value.Name+'<br><span class="m_for">Pour : '+for_+'</span>'+count+'</div>');
 		});
 		event_click();
 		if(fst_l == 1) {
@@ -282,18 +309,26 @@ function load_list() {
 		}
 	});
 }
-function load_content(id, title) {
+function load_content(id, title, sc) {
+	if(typeof(sc) == "undefined") {
+		var sc = false;
+	}
 	if(typeof(id) == "undefined") {
 		var id = $(".mess_t:first").attr("data-ID");
+		last_m = id;
 		var title = $(".mess_t:first").html();
 		$(".mess_t:first").addClass("active");
-	}	else {
+	} else {
 		$("#list_m:not(.cache)").addClass("cache");	
 		$("#content_m:not(.montre)").addClass("montre");	
+		last_m = id;
 	}
 	$(".inner_m").html('<center>Chargement...</center>');
 	$.getJSON("inc/send_mess.php?get_message="+id, function(data) {
 		$(".inner_m").html('');
+		if(sc == false) {
+			$(".inner_m").scrollTop($(".inner_m").scrollHeight);
+		}
 		$(".header_m span").html(title);
 		$.each(data, function(index, value) {
 			if(typeof(value.Message) != "undefined") {
@@ -307,6 +342,7 @@ function load_content(id, title) {
 				$(".inner_m").append('<div class="'+c+' msg">'+value.Message+'</div>');
 			}
 		});
+		$('div[data-id="'+id+'"] .mess_count').removeClass("red");
 		$("input[name='ID_Converse']").val(id);
 		$("input[name='message_r']").val("");
 		if(data.count == 0) {

@@ -85,12 +85,19 @@
 			$select = $this->mysql->prepare("UPDATE `conversation_reply` INNER JOIN `conversation` ON `conversation_reply`.`C_ID` = `conversation`.`ID` SET `Seen` = '1' WHERE (`conversation`.`User_One` = :me OR `conversation`.`User_Two` = :me) AND `conversation_reply`.`Seen` = '0' AND `conversation_reply`.`Author` != :me AND `conversation`.`ID` = :id");	
 			$select->execute(array(":me" => $this->user->ID, ":id" => $id));
 		}
+		function unread_message($id) {
+			$t = 0;
+			$select = $this->mysql->prepare("SELECT `ID` FROM `conversation_reply` WHERE `Author` != :id AND `Seen` = '0' AND `C_ID` = :idc");	
+			$select->execute(array(":id" => $this->user->ID, ":idc" => $id));
+			$t = $select->rowCount();
+			return $t;	
+		}
 		function list_message() {
 			$array = array();
-			$select = $this->mysql->prepare("SELECT `conversation`.`ID`, `conversation`.`ServiceFor`, `users`.`LastName`, `users`.`FirstName` FROM `conversation` INNER JOIN `conversation_reply` ON `conversation`.`ID` = `conversation_reply`.`C_ID` INNER JOIN `users` ON CASE WHEN `conversation`.`User_One` != :me THEN `conversation`.`User_One` = `users`.`ID` ELSE `conversation`.`User_Two` = `users`.`ID` END WHERE (`conversation`.`User_One` = :me OR `conversation`.`User_Two` = :me) GROUP BY `conversation`.`ID` ORDER BY `conversation_reply`.`Time` DESC, `conversation`.`Timestamp` DESC ");
+			$select = $this->mysql->prepare("SELECT `conversation`.`ID`, MAX(`conversation_reply`.`Time`) AS `LastTime`, `conversation`.`ServiceFor`, `users`.`LastName`, `users`.`FirstName` FROM `conversation` INNER JOIN `conversation_reply` ON `conversation`.`ID` = `conversation_reply`.`C_ID` INNER JOIN `users` ON CASE WHEN `conversation`.`User_One` != :me THEN `conversation`.`User_One` = `users`.`ID` ELSE `conversation`.`User_Two` = `users`.`ID` END WHERE (`conversation`.`User_One` = :me OR `conversation`.`User_Two` = :me) GROUP BY `conversation`.`ID` ORDER BY `LastTime` DESC, `conversation`.`Timestamp` DESC ");
 			$select->execute(array(":me" => $this->user->ID));
 			while($data = $select->fetch(PDO::FETCH_OBJ)) {
-				$array[] = array("Name" => ucfirst($data->FirstName).' '.ucfirst($data->LastName), "For" => $data->ServiceFor, "Title" => $this->service_title($data->ServiceFor), "ID" => $data->ID);
+				$array[] = array("Name" => ucfirst($data->FirstName).' '.ucfirst($data->LastName), "For" => $data->ServiceFor, "Title" => $this->service_title($data->ServiceFor), "ID" => $data->ID, "Count" => $this->unread_message($data->ID));
 			}
 			return $array;
 		}
@@ -105,8 +112,8 @@
 				}
 				$array[] = array("ID" => $data->ID, "Message" => $data->Message, "Author" => $me, "Time" => $data->Time);
 			}
-			$array["count"] = $this->user->list_messages();
 			$this->set_read($id);
+			$array["count"] = $this->user->list_messages();
 			return $array;
 		}
 		function send_r($user, $POST) {

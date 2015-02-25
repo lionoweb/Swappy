@@ -52,7 +52,7 @@ $user->logout();
                <!-- Collect the nav links, forms, and other content for toggling -->
                <div class="collapse navbar-collapse" id="navbar">
                   <ul class="nav navbar-nav">
-                     <li class="active"><a  href="services.php">Services</a></li>
+                     <li><a  href="services.php">Services</a></li>
                      <li><a href="propose.php">Je propose</a></li>
                      <li><a href="ccm.php">Comment ça marche ?</a></li>
                      <li><a href="apropos.php">A propos</a></li>
