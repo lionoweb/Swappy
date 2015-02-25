@@ -539,22 +539,72 @@ input.space-button {
 
 	/* ### ACCUEIL ###*/
 
-.carousel-inner{
-	background-color: #53c1dd;
-}
-.carousel-inner .item img{
-	float: right;
-	position: relative;
-	right: 8%;
-	z-index: -9000;
+.carousel-inner img{
+    min-width: 100%;
 }
 .carousel-title{
+	display: inline-block;
+	position: absolute;
 	font-family: "Pacifico";
+	color: black;
+}
+.carousel-title h1{
+	font-family: "Pacifico";
+	font-size: 3.8em;
+}
+.carousel-title p{
+	margin-top: 28px;
+	font-family: "Arial";
+}
+.first .carousel-title{
+	position: absolute;
+	left: 14%;
+	top: 32%;
+}
+.first h1, .first p {
 	color: white;
-	font-size: 3em;
-	padding-top: 50px;
-	padding-left: 100px;
-	z-index: 9000;
+}
+.second .carousel-title{
+	position: absolute;
+	left: 14%;
+	top: 26%;
+}
+.second h1, .second p {
+	color: white;
+}
+.third .carousel-title{
+	position: absolute;
+	left: 58%;
+	top: 26%;
+}
+.third h1, .third p{
+	color: #3d3d3d;
+	text-align: center;
+}
+.carousel-control {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 15%;
+  font-size: 20px;
+  color: #fff !important;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .6);
+  filter: alpha(opacity=50) !important;
+  opacity: 0,5 !important;
+}
+.carousel-control.left {
+  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%) !important;
+  background-image:      -o-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%) !important;
+  background-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0))) !important;
+  background-image:         linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%) !important;
+}
+.carousel-control.right {
+  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%) !important;
+  background-image:      -o-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%) !important;
+  background-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0))) !important;
+  background-image:         linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%) !important;
 }
 
 	/* ### SERVICE/ANNONCE DÉTAILLÉ ### */
