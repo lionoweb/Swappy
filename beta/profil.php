@@ -74,8 +74,10 @@
                      <div class="col-md-2 col-md-offset-3">
                         <img src="img/user/M.jpg">
                      </div>
-                     <div class="infos col-md-7">
-                        <p class="nom"><?php echo $user->firstname." ".$user->lastname; ?></p>
+                     <div class="infos col-md-4">
+                        <p class="nom">
+                           <?php echo $user->firstname." ".$user->lastname; ?>
+                        </p>
                         <p class="">
                            <?php
                               $birthDate = $user->birthdate;
@@ -90,13 +92,11 @@
                         </div>
                      </div>
                   </div>
-                  <div class="text-left col-lg-2">
-               <p class="text-justify col-md-6 col-md-offset-3">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean massa nibh, commodo ut eleifend nec, rutrum vel lacus. Morbi congue, nibh a venenatis tempus, nulla ligula molestie orci, ac euismod erat urna quis ante. Vivamus velit felis, porta ut suscipit a, suscipit at arcu.
-               </p>
+                  <div class="row">
+                     <p class="text-justify description col-md-6 col-md-offset-3">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean massa nibh, commodo ut eleifend nec, rutrum vel lacus. Morbi congue, nibh a venenatis tempus, nulla ligula molestie orci, ac euismod erat urna quis ante. Vivamus velit felis, porta ut suscipit a, suscipit at arcu.
+                     </p>
                   </div>
-               </div>
-               <div class="row small">
                </div>
             </div>
 

@@ -2,8 +2,7 @@
    session_start();
    require_once("inc/user.php");
    require_once("inc/mysql.php");
-   $user = new user($mysql//, trim($_GET['id'])
-      );
+   $user = new user($mysql, trim($_GET['id']));
    if(isset($_GET['logout'])) {
    	$user->logout();
    }
@@ -97,7 +96,9 @@
                      </div>
                   </div>
                   <div class="row">
-                     <p class="text-justify description col-md-6 col-md-offset-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean massa nibh, commodo ut eleifend nec, rutrum vel lacus. Morbi congue, nibh a venenatis tempus, nulla ligula molestie orci, ac euismod erat urna quis ante. Vivamus velit felis, porta ut suscipit a, suscipit at arcu.</p>
+                     <p class="text-justify description col-md-6 col-md-offset-3">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean massa nibh, commodo ut eleifend nec, rutrum vel lacus. Morbi congue, nibh a venenatis tempus, nulla ligula molestie orci, ac euismod erat urna quis ante. Vivamus velit felis, porta ut suscipit a, suscipit at arcu.
+                     </p>
                   </div>
                </div>
             </div>
