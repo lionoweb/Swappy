@@ -1248,11 +1248,10 @@ form .liketext {
 
 #profil {
 	width:100%;
-	padding:0px;
+	padding: 0;
 }
 #profil .header_profil{
 	color: white;
-	margin-top: -20px;
 	background-color: #323232;
 	padding:30px 0px 20px 0px;
 }
@@ -1279,11 +1278,17 @@ form .liketext {
 	background-color: #53c1dd;
 	color: white;
 }
+#profil .header_profil .top .tags {
+	padding: 0;
+}
 #profil .header_profil .top .tags p{
 	display: inline-block;
 	background-color: #f3f0f0;
 	color: black;
 	padding: 3px;
+}
+#profil .header_profil .description{
+	margin-top: 10px;
 }
 .profiltitle{
 	color: white;
@@ -1313,6 +1318,15 @@ form .liketext {
 #profil .notes div.note:nth-child(even) {
 	background-color: #c495bf; /*violet*/
 	margin-bottom: 20px;
+}
+
+@media(min-width: 992px){
+	#profil .header_profil .top .infos p{
+		text-align: left;
+	}
+	#profil .header_profil .top .infos .tags{
+		text-align: left;
+	}
 }
 
 #pagination {

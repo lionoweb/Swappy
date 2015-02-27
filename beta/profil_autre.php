@@ -2,18 +2,21 @@
    session_start();
    require_once("inc/user.php");
    require_once("inc/mysql.php");
-   $user = new user($mysql,trim($_GET['id']));
+   $user = new user($mysql//, trim($_GET['id'])
+      );
    if(isset($_GET['logout'])) {
-      $user->logout();
+   	$user->logout();
    }
-   $user->onlyUsers();  ?>
+   $user->onlyUsers();
+   $user_ = new user($mysql);
+?>
 <!doctype html>
 <html>
    <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Swappy.fr - Profil de <?php echo $user->firstname; $user->lastname; ?></title>
+      <title>Swappy.fr - Profil de <?php echo $user->firstname." ".$user->lastname; ?></title>
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
       <link rel="stylesheet" href="css/template.css" type="text/css"/>
@@ -68,23 +71,34 @@
 
             <div class="header_profil">
                <div class="row">
-                  <div class="top col-lg-4 col-lg-offset-3 col-md-4 col-md-offset-3">
-                     <!-- pas sûre du php pour l'image -->
-                     <img src="<?php echo $user->avatar;?>" class="col-lg-4 col-md-4">
-                     <p class="text-left col-lg-8 col-md-8 nom"><?php echo $user->firstname; ?> <?php echo $user->lastname; ?></p>
-                     <!-- manque le php pour l'âge -->
-                     <p class="text-left col-lg-8 col-md-8"><?php echo $user->Birthday;?> ans<span><img src="img/profil/location.png" alt=""><?php echo $user->city;?></span></p>
-                     <div class="text-left col-lg-8 col-md-8 tags">
-                        <p>manuel</p>
-                        <p>bricoleur</p>
+                  <div class="top">
+                     <div class="col-md-2 col-md-offset-3">
+                        <img src="img/user/M.jpg">
+                     </div>
+                     <div class="infos col-md-4">
+                        <p class="nom">
+                           <?php echo $user->firstname." ".$user->lastname; ?>
+                        </p>
+                        <p class="">
+                           <?php
+                              $birthDate = $user->birthdate;
+                              $birthDate = explode("-", $birthDate);
+                              $age = (date("md", date("U", mktime(0, 0, 0, $birthDate[2], $birthDate[1], $birthDate[0]))) > date("md") ? ((date("Y")-$birthDate[0])-1):(date("Y")-$birthDate[0]));
+                              echo $age." ans ";
+                           ?><span><img src="img/profil/location.png" alt=""><?php echo $user->city;?></span>
+                        </p>
+                        <div class="col-lg-8 col-md-8 tags">
+                           <p>manuel</p>
+                           <p>bricoleur</p>
+                        </div>
+                     </div>
+                     <div class="col-md-2">
+                        <button class="text-right btn">Demander un rendez-vous</button>
                      </div>
                   </div>
-                  <div class="text-left col-lg-2">
-                     <p class="btn">Demander un rendez-vous</p>
+                  <div class="row">
+                     <p class="text-justify description col-md-6 col-md-offset-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean massa nibh, commodo ut eleifend nec, rutrum vel lacus. Morbi congue, nibh a venenatis tempus, nulla ligula molestie orci, ac euismod erat urna quis ante. Vivamus velit felis, porta ut suscipit a, suscipit at arcu.</p>
                   </div>
-               <p class="text-justify col-md-6 col-md-offset-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean massa nibh, commodo ut eleifend nec, rutrum vel lacus. Morbi congue, nibh a venenatis tempus, nulla ligula molestie orci, ac euismod erat urna quis ante. Vivamus velit felis, porta ut suscipit a, suscipit at arcu.</p>
-               </div>
-               <div class="row small">
                </div>
             </div>
 
@@ -115,9 +129,9 @@
          </div>
       </div>
       <footer id="footer">
-         <img src="img/footer.png">
+         <img src="img/footer.png" width="30" height="18">
          <div class="container-fluid">
-            <a href="mentions-legales.php">Mentions légales</a> - <a href="cgu.php">CGU</a> | <a href="contact.php">Contact</a>
+            <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php" class="active">Contact</a>
             <hr>
             <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
          </div>
