@@ -22,10 +22,12 @@ session_start();
 
 <body role="document">
     <div id="error">
-        <h1><img src="img/logo_error.png" width="75" height="81"></h1>
-        <h2>Page introuvable</h2>
-        <p>Il semblerait que le lien que vous avez saisi est incorrect.</p>
-        <p>Voici le lien vers la <a href="index.php">page d'accueil</a></p>
+        <h1 class="logo_error"><img src="img/logo_error.png" width="75" height="81"></h1>
+        <div class="text_error">
+            <h2>Page introuvable</h2>
+            <p>Il semblerait que le lien que vous avez saisi est incorrect.</p>
+            <p>Voici le lien vers la <a href="index.php">page d'accueil</a></p>
+        </div>
     </div>
 </body>
 </html>

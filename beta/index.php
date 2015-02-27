@@ -65,52 +65,61 @@ $user->logout();
             </div>
             <!-- /.container-fluid -->
         </nav>
+          <div id="spec_accueil" class="container-fluid main" role="main">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+               <!-- Indicators -->
+              <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+              </ol>
 
-        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-           <!-- Indicators -->
-          <ol class="carousel-indicators">
-            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-          </ol>
-
-           <!-- Wrapper for slides -->
-          <div class="carousel-inner" role="listbox">
-            <div class="item active first">
-              <img src="img/accueil/slide2bis.png" alt="...">
-              <div class="carousel-title">
-                  <h1>Bienvenue sur<br>Swappy</h1>
-              </div>
-            </div>
-
-            <div class="item second">
-              <img src="img/accueil/slide2.png" alt="...">
-              <div class="carousel-title">
-                  <h1>la communauté <br>Swappy</h1>
-                  <p>Rejoignez notre communauté d'entraide <br>et rencontrez d'autres swappeurs !</p>
-              </div>
-            </div>
-
-            <div class="item third">
-                <img src="img/accueil/slide3.png" alt="...">
+               <!-- Wrapper for slides -->
+              <div class="carousel-inner" role="listbox">
+                <div class="item active first">
+                  <img src="img/accueil/slide1.jpg" alt="...">
                   <div class="carousel-title">
-                    <h1>et maintenant,<br>rejoignez-nous</h1>
-                    <p>Inscrivez-vous dès maintenant et partagez<br>l'expérience Swappy avec la communauté</p>
+                      <h1>Bienvenue sur<br>Swappy</h1>
+                      <p>Une plateforme d'échanges de services<br>gratuits entre particuliers</p>
                   </div>
-            </div>
-          </div>
+                </div>
 
-           <!-- Controls -->
-           <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-             <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-             <span class="sr-only">Previous</span>
-           </a>
-           <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-             <span class="sr-only">Next</span>
-           </a>
-         </div>
+                <div class="item second">
+                  <img src="img/accueil/slide2.jpg" alt="...">
+                  <div class="carousel-title">
+                      <h1>la communauté <br>Swappy</h1>
+                      <p>Rejoignez notre communauté d'entraide <br>et rencontrez d'autres swappeurs !</p>
+                  </div>
+                </div>
 
-     </div>
+                <div class="item third">
+                    <img src="img/accueil/slide3.jpg" alt="...">
+                      <div class="carousel-title">
+                        <h1>et maintenant,<br>rejoignez-nous</h1>
+                        <p>Inscrivez-vous dès maintenant et partagez<br>l'expérience Swappy avec la communauté</p>
+                      </div>
+                </div>
+              </div>
+
+               <!-- Controls -->
+               <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                 <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                 <span class="sr-only">Previous</span>
+               </a>
+               <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                 <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                 <span class="sr-only">Next</span>
+               </a>
+             </div>
+        </div>
+      </div>
+    <footer id="footer">
+      <img src="img/footer.png" width="30" height="18">
+        <div class="container-fluid">
+          <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php" class="active">Contact</a>
+          <hr>
+          <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
+        </div>
+    </footer>
     </body>
 </html>
