@@ -92,10 +92,50 @@
 			$t = $select->rowCount();
 			return $t;	
 		}
-		function list_message() {
+		function preg_accent($w) {
+			if(preg_match("/E|É|È|Ê|Ë|e|é|è|ê|ë/", $w)) {
+				$w = preg_replace("/E|É|È|Ê|Ë|e|é|è|ê|ë/","(E|É|È|Ê|Ë)", $w);	
+			}
+			if(preg_match("/A|À|Á|Â|Ä|a|à|á|â|ä/", $w)) {
+				$w = preg_replace("/A|À|Á|Â|Ä|a|à|á|â|ä/","(A|À|Á|Â|Ä)", $w);	
+			}
+			if(preg_match("/C|Ç|c|ç/", $w)) {
+				$w = preg_replace("/C|Ç|c|ç/","(C|Ç)", $w);	
+			}
+			return $w;
+		}
+		function clause_search($input) {
+			$replace = array();
+			$out = '';
+			$where = '';
+			$order = '';
+			$input = preg_replace("/ |\-|\'/", "{}" , $input);
+			$l = explode("{}", $input);
+			for($i=0;$i<count($l);$i++) {
+				$prpn = ":value".$i;
+				$w = $this->preg_accent(strtoupper($l[$i]));
+				if(strlen($w) > 1) {
+					$replace[$prpn] = $w;
+					$where .= ' OR (UPPER(`users`.`LastName`) REGEXP '.$prpn.') OR (UPPER(`users`.`FirstName`) REGEXP '.$prpn.') OR (UPPER(`services`.`Title`) REGEXP '.$prpn.') OR (UPPER(`type`.`Name`) REGEXP '.$prpn.')';
+					$order .= ' + (CASE WHEN UPPER(`users`.`LastName`) REGEXP '.$prpn.' THEN 1.1 ELSE 0 END) + (CASE WHEN UPPER(`users`.`FirstName`) REGEXP '.$prpn.' THEN 1.2 ELSE 0 END) + (CASE WHEN UPPER(`services`.`Title`) REGEXP '.$prpn.' THEN 1.3 ELSE 0 END) + (CASE WHEN UPPER(`type`.`Name`) REGEXP '.$prpn.' THEN 1 ELSE 0 END)';
+				}
+			}
+			if(!empty($where)) { $where = substr($where, 4, (strlen($where)-1)); }
+			if(!empty($order)) { $order = substr($order, 3, (strlen($order))); }
+			$out = '('.$where.') GROUP BY `type`.`ID`  ORDER BY '.$order. ' DESC, `conversation`.`Timestamp` DESC';
+			return array($out, $replace);
+		}
+		function list_message($search="") {
 			$array = array();
-			$select = $this->mysql->prepare("SELECT `conversation`.`ID`, MAX(`conversation_reply`.`Time`) AS `LastTime`, `conversation`.`ServiceFor`, `users`.`LastName`, `users`.`FirstName` FROM `conversation` INNER JOIN `conversation_reply` ON `conversation`.`ID` = `conversation_reply`.`C_ID` INNER JOIN `users` ON CASE WHEN `conversation`.`User_One` != :me THEN `conversation`.`User_One` = `users`.`ID` ELSE `conversation`.`User_Two` = `users`.`ID` END WHERE (`conversation`.`User_One` = :me OR `conversation`.`User_Two` = :me) GROUP BY `conversation`.`ID` ORDER BY `LastTime` DESC, `conversation`.`Timestamp` DESC ");
-			$select->execute(array(":me" => $this->user->ID));
+			if($search == "") {
+				$select = $this->mysql->prepare("SELECT `conversation`.`ID`, MAX(`conversation_reply`.`Time`) AS `LastTime`, `conversation`.`ServiceFor`, `users`.`LastName`, `users`.`FirstName` FROM `conversation` INNER JOIN `conversation_reply` ON `conversation`.`ID` = `conversation_reply`.`C_ID` INNER JOIN `users` ON CASE WHEN `conversation`.`User_One` != :me THEN `conversation`.`User_One` = `users`.`ID` ELSE `conversation`.`User_Two` = `users`.`ID` END WHERE (`conversation`.`User_One` = :me OR `conversation`.`User_Two` = :me) GROUP BY `conversation`.`ID` ORDER BY `LastTime` DESC, `conversation`.`Timestamp` DESC ");
+				$select->execute(array(":me" => $this->user->ID));
+			} else {
+				$clause = $this->clause_search($search);
+				$select = $this->mysql->prepare("SELECT `conversation`.`ID`, `conversation`.`ServiceFor`, `users`.`LastName`, `users`.`FirstName` FROM `conversation` INNER JOIN `users` ON CASE WHEN `conversation`.`User_One` != :me THEN `conversation`.`User_One` = `users`.`ID` ELSE `conversation`.`User_Two` = `users`.`ID` END INNER JOIN `services` ON `conversation`.`ServiceFor` = `services`.`ID` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` WHERE (`conversation`.`User_One` = :me OR `conversation`.`User_Two` = :me) AND ".$clause[0]."");
+				$clause[1][":me"] = $this->user->ID;
+				$select->execute($clause[1]);
+			}
 			while($data = $select->fetch(PDO::FETCH_OBJ)) {
 				$array[] = array("Name" => ucfirst($data->FirstName).' '.ucfirst($data->LastName), "For" => $data->ServiceFor, "Title" => $this->service_title($data->ServiceFor), "ID" => $data->ID, "Count" => $this->unread_message($data->ID));
 			}
@@ -110,7 +150,7 @@
 				if($data->Author == $this->user->ID) {
 					$me = "ME";
 				}
-				$array[] = array("ID" => $data->ID, "Message" => $data->Message, "Author" => $me, "Time" => $data->Time);
+				$array[] = array("ID" => $data->ID, "Message" => $data->Message, "Author" => $me, "Time" => $data->Time, "TimeText" => "Le ".date("d/m/y \à H:i", $data->Time));
 			}
 			$this->set_read($id);
 			$array["count"] = $this->user->list_messages();

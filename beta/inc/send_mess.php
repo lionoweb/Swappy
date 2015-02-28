@@ -17,7 +17,7 @@
 		$arr = $chat->send($user_, $_POST, $service);
 	}
 	if(isset($_GET['list_message'])) {
-		$arr = $chat->list_message();
+		$arr = $chat->list_message(@$_GET['search']);
 	}
 	if(isset($_GET['get_message']) && !empty($_GET['get_message'])) {
 		$arr = $chat->content_conv($_GET['get_message']);

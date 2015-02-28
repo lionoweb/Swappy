@@ -152,6 +152,7 @@
 			$city, 
 			$lat,
 			$logged, 
+			$age,
 		$lon;
 		private $mysql, 
 			$cookies;
@@ -162,6 +163,9 @@
 			} else {
 				$this->load_user_data($id, $this->crypt_sess($id), false);
 			}
+		}
+		function getAge($date) {
+  			return (int) ((time() - strtotime($date)) / 3600 / 24 / 365);
 		}
 		function onlyUsers() {
 			if(!$this->logged && !isset($_GET['logout'])) {
@@ -377,6 +381,7 @@
 			} else {
 				//OK	
 				$this->ID = $ID;
+				$this->age = $this->getAge($data->Birthdate);
 				$this->cryptID = $crypt;
 				$this->admin = $data->Admin;
 				$this->avatar = $data->Avatar;
@@ -402,6 +407,7 @@
 		}
 		function unload_user_data() {
 			$this->ID = false;
+			$this->age = false;
 			$this->cryptID = false;
 			$this->admin = false;
 			$this->avatar = false;

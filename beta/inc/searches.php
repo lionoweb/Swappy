@@ -24,17 +24,17 @@ class search {
 		return array($out_t, $out_n);
 	}
 	function preg_accent($w) {
-		if(preg_match("/E|É|È|Ê|Ë/", $w)) {
-			$w = preg_replace("/E|É|È|Ê|Ë/","(E|É|È|Ê|Ë)", $w);	
-		}
-		if(preg_match("/A|À|Á|Â|Ä/", $w)) {
-			$w = preg_replace("/A|À|Á|Â|Ä/","(A|À|Á|Â|Ä)", $w);	
-		}
-		if(preg_match("/C|Ç/", $w)) {
-			$w = preg_replace("/C|Ç/","(C|Ç)", $w);	
-		}
-		return $w;
-	}
+		  if(preg_match("/E|É|È|Ê|Ë|e|é|è|ê|ë/", $w)) {
+			  $w = preg_replace("/E|É|È|Ê|Ë|e|é|è|ê|ë/","(E|É|È|Ê|Ë)", $w);	
+		  }
+		  if(preg_match("/A|À|Á|Â|Ä|a|à|á|â|ä/", $w)) {
+			  $w = preg_replace("/A|À|Á|Â|Ä|a|à|á|â|ä/","(A|À|Á|Â|Ä)", $w);	
+		  }
+		  if(preg_match("/C|Ç|c|ç/", $w)) {
+			  $w = preg_replace("/C|Ç|c|ç/","(C|Ç)", $w);	
+		  }
+		  return $w;
+	  }
 	function clean_w($input) {
 		return preg_replace("/\(|\)/", "", $input);	
 	}

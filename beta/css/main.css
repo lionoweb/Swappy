@@ -1488,6 +1488,9 @@ td {
 	}
 }	
 @media (max-width:767px){
+	.bloc_services {
+		border-bottom:1px solid #FFF;	
+	}
 	.box li {
 		display: inline-block;
 		margin: 32px 0px 32px 0px;

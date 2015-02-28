@@ -46,25 +46,47 @@
 		.other {
 			background:#54C0DD; 
 			display:block; 
-			width:100%; 
+			width:78%; 
 			padding:6px;
 			padding-left:40px;
-			padding-right:120px;
+			padding-right:9%;
+			border-radius:10px;
+			margin-top:8px;
+			margin-bottom:8px;
+			margin-left:8px;
+			margin-right:16%;
+			clear:both;
+			float:left;
 		}
 		.me {
+			clear:both;
+			float:right;
 			 background:#FFF; 
 			 display:block; 
-			width:100%; 
+			width:78%; 
 			padding:6px;
-			padding-left:120px;
+			padding-left:9%;
 			padding-right:40px;
 			text-align:right;
+			background:#CCC;
+			border-radius:10px;
+			margin-left:16%;
+			margin-top:8px;
+			margin-bottom:8px;
+			margin-right:8px;
 		}
 		.message_box {
 			margin-top:40px;
-			height:590px;
+			height:490px;
+			min-height:490px;
 			border:1px solid #CCC;	
 			padding-top:0px !important;
+		}
+		#list_m input, #list_m button {
+			margin-top:0px !important;	
+			margin-bottom:0px !important;
+			margin-left:0px !important;	
+			margin-right:0px !important;
 		}
 		#list_m {
 			width:220px; 
@@ -91,10 +113,10 @@
 			margin-top:0px !important;	
 		}
 		.inner_m {
-			height:340px; 
+			height:240px; 
 			overflow:auto; 
-			max-height:340px;
-			min-height:340px;
+			max-height:240px;
+			min-height:240px;
 		}
 		.header_m {
 			color:#54C0DD;
@@ -128,7 +150,9 @@
 			margin-bottom:6px;
 		}
 		.message_box button, .message_box input {
-			margin-right:8px;	
+			margin-right:8px;
+			margin-top:4px;	
+			margin-bottom:3px;
 		}
 		#list_m .input-group {
 			border:1px solid #CCC;	
@@ -143,6 +167,34 @@
 		}
 		.mess_t .mess_count.red {
 			display:block !important;
+		}
+		.msg .time {
+			font-size:10px;
+			font-style:italic;
+			display:block;	
+		}
+		.delete_m {
+			position:absolute;
+			top:2px;
+			right:3px;
+			font-size:11px;
+			color:#000;
+			width:15px;
+			height:15px;
+			text-align:center;
+			line-height:15px;
+		}
+		.delete_m:hover {
+			color:#000;
+			text-decoration:none !important;
+			border:1px solid #262626;
+			border-radius:50%;
+		}
+		@media (max-width:381px){
+			.message_box {
+				height:530px;
+				min-height:530px;		
+			}
 		}
 		@media (max-width:701px){
 			.header_m .return_list {
@@ -254,6 +306,10 @@ var fst_l = 1;
 var last_m = false;
 $(document).ready(function(e) {
     load_list();
+	$("#message_send button").on("click", function(e) {
+		e.preventDefault();
+		//SHOW POPUP
+	});
 	$("#message_send").validationEngine({
 		ajaxFormValidation: true,
 		ajaxFormValidationMethod: 'post',
@@ -267,28 +323,44 @@ $(document).ready(function(e) {
 		$("#list_m.cache").removeClass("cache");	
 		$("#content_m.montre").removeClass("montre");
 	});
+	$("#list_m input").on("keyup", function(e) {
+		var va = $(this).val();
+		if(va.length >= 3) {
+			$(this).addClass("onsearch");
+			load_list(va);
+		} else if(va == "") {
+			$(this).removeClass("onsearch");
+			load_list("");
+		} else if($(this).hasClass("onsearch")) {
+			$(this).removeClass("onsearch");
+			load_list("");
+		}
+	});
 });
 function message_send_function(status, form, json, options) {
 	if(json[0] == true) {
 		$("#loader_ajax").remove();
 		$form_b = $(form);
 		$form_b.find("textarea[name='message_r']").val("");
-		$(".inner_m").scrollTop($(".inner_m").scrollHeight);
-		load_content($form_b.find("input[name='ID_Converse']").val(), $(".mess_t.active").html(), true);
+		load_content($form_b.find("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false);
 		load_list();
 		return true;
 	} else{
 		return false;	
 	}
 }
-function load_list() {
-	$.getJSON("inc/send_mess.php?list_message", function(data) {
+function load_list(search_) {
+	if(typeof(search_) == "undefined") {
+		var search_ = "";
+	}
+	$.getJSON("inc/send_mess.php?list_message=&search="+search_, function(data) {
 		var for_ = "";
 		var active = "";
 		var count = '<span class="mess_count"></span>';
 		$(".mess_t").remove();
 		$.each(data, function(index, value) {
 			active = "";
+			count = "";
 				if(value.For > 0) {
 					for_ = '<a target="_blank" href="annonce.php?id='+value.For+'">'+value.Title+'</a>';	
 				} else {
@@ -300,7 +372,7 @@ function load_list() {
 				if(value.ID == last_m) {
 					active = " active";
 				}
-				$("#list_m").append('<div data-id="'+value.ID+'" class="mess_t'+active+'">'+value.Name+'<br><span class="m_for">Pour : '+for_+'</span>'+count+'</div>');
+				$("#list_m").append('<div data-id="'+value.ID+'" class="mess_t'+active+'">'+value.Name+'<br><span class="m_for">Pour : '+for_+'</span>'+count+'<a title="Supprimer cette conversation" class="delete_m">X</a></div>');
 		});
 		event_click();
 		if(fst_l == 1) {
@@ -326,9 +398,6 @@ function load_content(id, title, sc) {
 	$(".inner_m").html('<center>Chargement...</center>');
 	$.getJSON("inc/send_mess.php?get_message="+id, function(data) {
 		$(".inner_m").html('');
-		if(sc == false) {
-			$(".inner_m").scrollTop($(".inner_m").scrollHeight);
-		}
 		$(".header_m span").html(title);
 		$.each(data, function(index, value) {
 			if(typeof(value.Message) != "undefined") {
@@ -339,9 +408,12 @@ function load_content(id, title, sc) {
 				if(value.Author == "BOT") {
 					c = 'bot';
 				}
-				$(".inner_m").append('<div class="'+c+' msg">'+value.Message+'</div>');
+				$(".inner_m").append('<div class="'+c+' msg">'+value.Message+'<span class="time">'+value.TimeText+'</span></div>');
 			}
 		});
+		if(sc == false) {
+			$(".inner_m").scrollTop($(".inner_m")[0].scrollHeight);
+		}
 		$('div[data-id="'+id+'"] .mess_count').removeClass("red");
 		$("input[name='ID_Converse']").val(id);
 		$("input[name='message_r']").val("");
