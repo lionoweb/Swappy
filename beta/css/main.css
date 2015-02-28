@@ -20,6 +20,14 @@ html, body {
           url('../fonts/pacifico/Pacifico.svg') format('svg'),
           url('../fonts/pacifico/Pacifico.ttf') format('truetype');
 }
+@font-face {
+    font-family : "Calibri";
+    src : url('../fonts/calibri/Calibri.eot');
+    src : local('☺'),
+          url('../fonts/calibri/Calibri.woff') format('woff'),
+          url('../fonts/calibri/Calibri.svg') format('svg'),
+          url('../fonts/calibri/Calibri.ttf') format('truetype');
+}
 #wrap {
     min-height: 100%;
     height: auto;
@@ -57,18 +65,17 @@ html, body {
     background-image: url('../img/404.png');
     background-position: top;
     background-repeat: no-repeat;
+    /*background-size: 100%;*/
     background-color: #323232;
     width: 100%;
     height: 100%;
-    margin-top: -20px;
     color: white;
     text-align: center;
 }
-#error img {
+#error h1 {
     display: block;
     margin: 0 auto;
-    padding-top: 40px;
-    padding-bottom: 12%;
+    padding-top: 56px;
     opacity: 0.5;
 }
 #login_form label {
@@ -538,7 +545,9 @@ input.space-button {
 }
 
 	/* ### ACCUEIL ###*/
-
+#spec_accueil{
+	padding: 0px !important;
+}
 .carousel-inner img{
     min-width: 100%;
 }
@@ -554,12 +563,13 @@ input.space-button {
 }
 .carousel-title p{
 	margin-top: 28px;
-	font-family: "Arial";
+	font-family: "Calibri";
+	font-size: 1.175em;
 }
 .first .carousel-title{
 	position: absolute;
 	left: 14%;
-	top: 32%;
+	top: 26%;
 }
 .first h1, .first p {
 	color: white;
@@ -1238,11 +1248,10 @@ form .liketext {
 
 #profil {
 	width:100%;
-	padding:0px;
+	padding: 0;
 }
 #profil .header_profil{
 	color: white;
-	margin-top: -20px;
 	background-color: #323232;
 	padding:30px 0px 20px 0px;
 }
@@ -1269,11 +1278,17 @@ form .liketext {
 	background-color: #53c1dd;
 	color: white;
 }
+#profil .header_profil .top .tags {
+	padding: 0;
+}
 #profil .header_profil .top .tags p{
 	display: inline-block;
 	background-color: #f3f0f0;
 	color: black;
 	padding: 3px;
+}
+#profil .header_profil .description{
+	margin-top: 10px;
 }
 .profiltitle{
 	color: white;
@@ -1303,6 +1318,15 @@ form .liketext {
 #profil .notes div.note:nth-child(even) {
 	background-color: #c495bf; /*violet*/
 	margin-bottom: 20px;
+}
+
+@media(min-width: 992px){
+	#profil .header_profil .top .infos p{
+		text-align: left;
+	}
+	#profil .header_profil .top .infos .tags{
+		text-align: left;
+	}
 }
 
 #pagination {
@@ -1486,10 +1510,26 @@ td {
 	margin-left: 0px;
 	margin-right: 0px;
 	}
+	.carousel-title h1{
+	font-size: 3em;
+	}
+	.carousel-title p{
+	font-size: 1em;
+}
 }	
 @media (max-width:767px){
+
 	.bloc_services {
 		border-bottom:1px solid #FFF;	
+	}
+	.carousel-title h1{
+		margin-top: -20px;
+		margin-left: -10px;
+		font-size: 1.8em;
+	}
+	.carousel-title p{
+		font-size: 0.5em;
+
 	}
 	.box li {
 		display: inline-block;
