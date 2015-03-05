@@ -323,9 +323,9 @@
 				 	if($data->Validation == 0) {
 						$select = $this->mysql->prepare("UPDATE `users` SET `Validation` = '1' WHERE `Email` = :email");
 						if(!$select->execute(array(":email" => base64_decode($split[1])))) {
-							$html = 'Désolé, une erreurà eu lieu au moment de l\'activation.<br> Veuillez réessayer plus tard...';
+							$html = 'Désolé, une erreur à eu lieu au moment de l\'activation.<br> Veuillez réessayer plus tard...';
 						} else {
-							$html = 'Félicitation !<br>Votre compte est activé !<br><br>Vous pouvez dès à présent vous connecter.';
+							$html = 'Vous êtes bien enregistré comme nouvel utilisateur de Swappy. À vous d\'échanger !';
 						}
 					} else {
 						$html = 'Votre compte à déjà été activé !';	
@@ -428,9 +428,9 @@
 		}
 		function add_user($POST) {
 			//prevenir le bug de Validation engine
-			$arr = array(false, "Une erreur à eu lieu...");
+			$arr = array(false);
 			if(empty($POST['cityname']) || empty($POST['zipcode']) || $this->issetEmail(strtolower($POST['email']), false) == false || $this->issetLogin(strtolower($POST['login']), false) == false) {
-				$arr = array(false, "Une erreur à eu lieu...");
+				$arr = array(false);
 			} else {
 				$street = $POST['street'];
 				if(!empty($_POST['street2'])) {

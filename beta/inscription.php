@@ -42,7 +42,7 @@
                   <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="127" height="47" src="img/logonav.png" class="max"><img width="50" height="47" src="img/logo_min.png" class="min"></a>
                   <span class="brand-title">Inscription</span>
                </div>
-               <form class="navbar-form navbar-left search_navbar" method="get" role="search">
+               <form class="navbar-form navbar-left search_navbar" action="services.php" method="get" role="search">
                   <div class=" input-group">
                      <input id="searchbar" name="searchbar" type="text" class="form-control" placeholder="Rechercher">
                      <span class="input-group-btn">
@@ -82,13 +82,13 @@
                   <div class="form-group">
                      <label for="password" class="control-label col-xs-12 col-sm-2 col-md-4">Mot de passe*</label>
                      <div class="col-xs-12 col-sm-10 col-md-8">
-                        <input autocomplete="off" class="validate[required,minSize[6]] form-control" id="password" type="password" name="password">
+                        <input autocomplete="off" data-validation-engine="validate[required,minSize[6]]" class="form-control" id="password" type="password" name="password">
                      </div>
                   </div>
                   <div class="form-group">
                      <label for="password_r" class="control-label col-xs-12 col-sm-2 col-md-4">Retaper mot de passe*</label>
                      <div class="col-xs-12 col-sm-10 col-md-8">
-                        <input autocomplete="off" class="validate[required,minSize[6],equalsPASS[password]] form-control" type="password" id="password_r" name="password_r">
+                        <input autocomplete="off" data-validation-engine="validate[required,minSize[6],equalsPASS[password]]" class="form-control" type="password" id="password_r" name="password_r">
                      </div>
                   </div>
                   <div class="form-group">
@@ -114,7 +114,7 @@
             <?php } else { ?>
             <div class="header_propose">
                <p class="col-md-6 col-md-offset-3 top">Inscrivez-vous</p>
-               <p class="col-md-6 col-md-offset-3 bot">Créez votre compte afin de rentrer en contacter et échanger des services avec les utilisateurs</p>
+               <p class="col-md-6 col-md-offset-3 bot">Inscrivez-vous et commencez dès maintenant à échanger sur swappy!</p>
             </div>
             <div colspan="2" class="title_propose">Inscription</div>
             <div class="greyback">
@@ -122,37 +122,37 @@
                   <div class="form-group">
                      <label for="login" class="control-label col-xs-12 col-sm-2 col-md-4">Identifiant*</label>
                      <div class="col-xs-12 col-sm-10 col-md-8">
-                        <input autocomplete="off" class="validate[required,minSize[5],ajax[ajaxLoginCallPHP]] form-control" autofocus data-key="true" type="text" id="login" name="login">
+                        <input autocomplete="off" data-validation-engine="validate[required,minSize[5],ajax[ajaxLoginCallPHP]] " class="form-control" autofocus data-key="true" type="text" id="login" name="login">
                      </div>
                   </div>
                   <div class="form-group">
                      <label for="password" class="control-label col-xs-12 col-sm-2 col-md-4">Mot de passe*</label>
                      <div class="col-xs-12 col-sm-10 col-md-8">
-                        <input autocomplete="off" class="validate[required,minSize[6]] form-control" id="password" type="password" name="password">
+                        <input autocomplete="off" data-validation-engine="validate[required,minSize[6]]" class="form-control" id="password" type="password" name="password">
                      </div>
                   </div>
                   <div class="form-group">
                      <label for="password_r" class="control-label col-xs-12 col-sm-2 col-md-4">Retaper mot de passe*</label>
                      <div class="col-xs-12 col-sm-10 col-md-8">
-                        <input autocomplete="off" class="validate[required,minSize[6],equalsPASS[password]] form-control" type="password" id="password_r" name="password_r">
+                        <input autocomplete="off" data-validation-engine="validate[required,minSize[6],equalsPASS[password]] " class="form-control" type="password" id="password_r" name="password_r">
                      </div>
                   </div>
                   <div class="form-group">
                      <label for="email" class="control-label col-xs-12 col-sm-2 col-md-4">Adresse e-mail*</label>
                      <div class="col-xs-12 col-sm-10 col-md-8">
-                        <input autocomplete="off" class="validate[required,custom[email],ajax[ajaxEmailCallPHP]] form-control" data-key="true" id="email" type="text" name="email"> 
+                        <input autocomplete="off" data-validation-engine="validate[required,custom[email],ajax[ajaxEmailCallPHP]]" class="form-control" data-key="true" id="email" type="text" name="email"> 
                      </div>
                   </div>
                   <div class="form-group">
                      <label for="lastname" class="control-label col-xs-12 col-sm-2 col-md-4">Nom*</label>
                      <div class="col-xs-12 col-sm-10 col-md-8">
-                        <input autocomplete="off" class="validate[required] form-control" type="text" id="lastname" name="lastname">
+                        <input autocomplete="off" data-validation-engine="validate[required]" class="form-control" type="text" id="lastname" name="lastname">
                      </div>
                   </div>
                   <div class="form-group">
                      <label for="firstname" class="control-label col-xs-12 col-sm-2 col-md-4">Prénom*</label>
                      <div class="col-xs-12 col-sm-10 col-md-8">
-                        <input autocomplete="off" class="validate[required form-control" type="text" id="firstname" name="firstname">
+                        <input autocomplete="off" data-validation-engine="validate[required]" class="form-control" type="text" id="firstname" name="firstname">
                      </div>
                   </div>
                   <div class="form-group">
@@ -167,7 +167,7 @@
                   <div class="form-group">
                      <label for="phone" class="control-label col-xs-12 col-sm-2 col-md-4">Numéro de téléphone</label>
                      <div class="col-xs-12 col-sm-10 col-md-8">
-                        <input maxlength="10" class="validate[custom[phone],custom[onlyNumberSp],maxSize[10],minSize[10]] form-control" id="phone" autocomplete="off" type="text" name="phone">
+                        <input maxlength="10" data-validation-engine="validate[optional,custom[phone],custom[onlyNumberSp],maxSize[10],minSize[10]]" class="form-control" id="phone" autocomplete="off" type="text" name="phone">
                      </div>
                   </div>
                   <div class="form-group">
@@ -203,11 +203,11 @@
                   <div class="form-group">
                      <label for="zipcode" class="control-label col-xs-12 col-sm-2 col-md-4">Code Postal* :</label>
                      <div class="col-xs-12 col-sm-10 col-md-8">
-                        <input class="zipcode validate[required,custom[onlyNumberSp],minSize[5],maxSize[5],ajax[ajaxZipCodeCallPHP]] form-control" autocomplete="off" maxlength="5" type="text" id="zipcode" name="zipcode" placeholder="Ex : 94500"> <input autocomplete="off" type="text" readonly class="form-control liketext" name="cityname">
+                        <input data-validation-engine="validate[required,custom[onlyNumberSp],minSize[5],maxSize[5],ajax[ajaxZipCodeCallPHP]]" class="zipcode form-control" autocomplete="off" maxlength="5" type="text" id="zipcode" name="zipcode" placeholder="Ex : 94500"> <input autocomplete="off" type="text" readonly class="form-control liketext" name="cityname">
                      </div>
                   </div>
                   <div class="form-group">
-                     <input id="accept" class="validate[required]" type="checkbox" name="accept">
+                     <input id="accept" data-validation-engine="validate[required]" type="checkbox" name="accept">
                      <label for="accept" class="col-md-10 col-md-offset-1 lu inline-xs">J'ai lu et j'accepte les <a target="_blank" href="cgu.php">conditions générales d'utilisation</a> et les <a target="_blank" href="mentions-legales.php">mentions légales</a> du site Swappy</label>
                   </div>
                   <div class="form-group col-sm-4 col-sm-offset-8 col-xs-12">

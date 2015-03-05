@@ -276,7 +276,6 @@
 			// validate each field 
 			// (- skip field ajax validation, not necessary IF we will perform an ajax form validation)
 			var r=methods._validateFields(form);
-
 			if (r && options.ajaxFormValidation) {
 				methods._validateFormWithAjax(form, options);
 				// cancel form auto-submission - process with async call onAjaxFormComplete
@@ -335,7 +334,9 @@
 			form.trigger("jqv.form.validating");
 			// first, evaluate status of non ajax fields
 			var first_err=null;
+
 			form.find('['+options.validateAttribute+'*=validate]').not(":disabled").each( function() {
+				
 				var field = $(this);
 				var names = [];
 				if ($.inArray(field.attr('name'), names) < 0) {
@@ -2151,7 +2152,7 @@
 		onValidationComplete: false,
 
 		// Used when you have a form fields too close and the errors messages are on top of other disturbing viewing messages
-		doNotShowAllErrosOnSubmit: true,
+		doNotShowAllErrosOnSubmit: false,
 		// Object where you store custom messages to override the default error messages
 		custom_error_messages:{},
 		// true if you want to vind the input fields

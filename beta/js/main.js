@@ -198,7 +198,7 @@ function load_ajax_d(form, options) {
 function send_mail_contact(status, form, json, options) {
 	if(json[0] == true) {
 		$form_b = $(form);
-		$form_b.html('<div id="message_ajax"><p>Message envoyé</p></div>');
+		$form_b.html('<div id="message_ajax"><p>Votre message a bien été envoyé à l’équipe de Swappy.</p></div>');
 		$(document).scrollTop(0);
 		return true;
 	} else{
@@ -207,25 +207,38 @@ function send_mail_contact(status, form, json, options) {
 }
 function add_user_function(status, form, json, options) {
 	$form_b = $(form);
-	$form_b.html('<div id="message_ajax"><p>Vous êtes maintenant inscrit !<br><br><i>Vous allez recevoir d\'ici quelques instants un mail de confirmation pour activer votre compte.</i><br><br>Vérifiez dans vos indésirables en cas de non réception.</p></div>');
+	if(json[0] == true) {
+	$form_b.html('<div id="message_ajax"><p>Bienvenue au sein de la communauté Swappy, vous êtes enfin inscrit ! Vous allez recevoir un mail afin de confirmer votre inscription.<br><br>Vérifiez dans vos indésirables en cas de non réception.</p></div>');
 	$(document).scrollTop(0);
 	return true;
+	} else {
+		$form_b.find("#loader_ajax").remove();
+		return true;
+	}
 }
 function remind_change_function(status, form, json, options) {
 	$form_b = $(form);
 	if(json[0] == true) {
-		$form_b.html('<div id="message_ajax"><p>Votre mot de passe a été changé !<br><br><i>Vous pouvez dès à présent vous connecter avec ce nouveau mot de passe.</i></p></div>');
+		$form_b.html('<div id="message_ajax"><p>Votre mot de passe a été changé !<br><br><i>Vous pouvez dès à présent vous connecter avec votre nouveau mot de passe.</i></p></div>');
+		return true;
 	} else {
 		$form_b.find("#loader_ajax").remove();
-		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false)
+		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false);
+		return false;
 	}
-	return true;
+	
 }
 function add_service_function(status, form, json, options) {
 	$form_b = $(form);
-	$form_b.html('<div id="message_ajax"><p>Service ajouté !</p></div>');
+	if(json[0] == true) {
+	$form_b.html('<div id="message_ajax"><p>Votre service a bien été ajouté. Vous pouvez le retrouver dans votre profil rubrique “Mes propositions”.</p></div>');
 	$(document).scrollTop(0);
 	return true;
+	} else {
+		$form_b.find("#loader_ajax").remove();
+		$(document).scrollTop(0);
+		return false;
+	}
 }
 function send_popup_message(status, form, json, options) {
 	$form_b = $(form);
@@ -235,11 +248,13 @@ function send_popup_message(status, form, json, options) {
 		$form_b.find('.inner_form').hide();
 		$form_b.trigger("reset");
 		setTimeout(function() { $("#modal_chat").modal("hide"); }, 15000);
+		return true;
 	} else {
 		$form_b.find("#loader_ajax").remove();
 		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false);
+		return false;
 	}
-	return true;
+	
 }
 function login_user_function(status, form, json, options) {
 	$form_b = $(form);
@@ -255,11 +270,12 @@ function login_user_function(status, form, json, options) {
 			page = page.replace("#", "");
 		}
 		document.location.replace(page);
+		return true;
 	} else {
 		$form_b.find("#loader_ajax").remove();
-		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false)
+		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false);
+		return false;
 	}
-	return true;
 }
 function remind_user_function(status, form, json, options) {
 	$form_b = $(form);
@@ -271,11 +287,12 @@ function remind_user_function(status, form, json, options) {
 		$("#modal_alert").on("hidden.bs.modal", function(e) {
 			$(this).remove();
 		});
+		return true;
 	} else {
 		$form_b.find("#loader_ajax").remove();
-		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false)
+		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false);
+		return false;
 	}
-	return true;
 }
 function ZipFill(json) {
 	var $parent;
