@@ -1521,7 +1521,7 @@ td {
 }
 }	
 @media (max-width:767px){
-
+	
 	.bloc_services {
 		border-bottom:1px solid #FFF;	
 	}
@@ -1567,6 +1567,9 @@ td {
 	}
 	.navbar-right .dropdown-menu li a {
 		color:#F3F3F3 !important;	
+	}
+	.nav-h li.active a {
+		color:#000 !important;	
 	}
 	#spec_annonce .interesse button {
 		margin-left:6px !important;

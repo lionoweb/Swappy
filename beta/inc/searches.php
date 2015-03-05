@@ -362,7 +362,7 @@ class search {
 			}
 			if(empty($final)) {
 				if(empty($searchbar) && empty($locat) && empty($day) && empty($type) && empty($zip)) {
-					$final = "<tr><td class='center'>Veuillez remplir au moins un champ.</td></tr>";
+					$final = "<tr><td class='center'>Pour une recherche optimale, veuillez remplir au moins un champ.</td></tr>";
 				} else {
 					$final = "<tr><td class='center'>Aucun résultat trouvé</td></tr>";
 				}
