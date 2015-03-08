@@ -72,7 +72,7 @@
                <div class="row">
                   <div class="top">
                      <div class="col-md-2 col-md-offset-3">
-                        <img src="img/user/M.jpg">
+                        <img src="<?php echo $user->avatar; ?>">
                      </div>
                      <div class="infos col-md-4">
                         <p class="nom">

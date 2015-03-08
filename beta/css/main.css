@@ -1293,6 +1293,14 @@ form .liketext {
 
 #profil {
 	width:100%;
+	padding: 0;
+}
+@media(min-width: 768px){
+	#profil{
+		margin-top: 31px;
+	}
+}
+#profil.mon_profil{
 	padding:0px;
 }
 #profil .header_profil{
@@ -1305,12 +1313,21 @@ form .liketext {
 	text-align: center;
 	margin-bottom: 28px;
 }
-#profil .header_profil .top .nom {
+@media(min-width: 992px){
+	#profil .header_profil .top .infos{
+		text-align: left!important;
+	}
+}
+#profil .header_profil .top .infos .nom {
 	font-family: "Pacifico";
 	font-size: 2em;
+	display: inline-block;
 }
-#profil .header_profil span {
-	margin-left: 15px;
+#profil .header_profil .edit .infos .nom br{
+	display: none; /* empêcher le saut de ligne dans l'édit */
+}
+#profil .header_profil .edit .infos .nom:hover {
+	background-color: red;
 }
 #profil .header_profil span img {
 	margin-right: 5px;

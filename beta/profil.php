@@ -66,17 +66,18 @@
             </div>
             <!-- /.container-fluid -->
          </nav>
-         <div id="profil" class="container-fluid main" role="main">
+         <div id="profil" class="container-fluid main mon_profil" role="main">
 
             <div class="header_profil">
                <div class="row">
-                  <div class="top">
+                  <div class="top edit">
                      <div class="col-md-2 col-md-offset-3">
-                        <img src="img/user/M.jpg">
+                        <img src="<?php echo $user->avatar; ?>">
                      </div>
                      <div class="infos col-md-4">
                         <p class="nom">
-                           <?php echo $user->firstname." ".$user->lastname; ?>
+                           <span id="prenom" contenteditable="true"><?php echo $user->firstname; ?></span>
+                           <span id="nom" contenteditable="true"> <?php echo $user->lastname; ?></span>
                         </p>
                         <p class="">
                            <?php
