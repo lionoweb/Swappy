@@ -66,7 +66,7 @@
             <!-- /.container-fluid -->
          </nav>
          <div id="spec_apropos" class="container-fluid main" role="main">
-            <div class="teamtitle">
+            <div class="banner_title">
                <p>L'équipe</p>
             </div>
             <div class="pictodown"><img src="img/apropos/down.png" alt="" class="down"></div>
@@ -96,8 +96,8 @@
                         <a href="mailto:oceane.perret@swappy.fr" class="more">Contactez-la</a>
                      </div>
                   </li>
-                  </ul>
-                  <ul class="row list_view">
+               </ul>
+               <ul class="row list_view">
                   <li class="view view-sixth">
                      <img src="img/apropos/line.png" width="225" height="225">
                      <div class="mask">
@@ -122,9 +122,9 @@
                         <a href="mailto:margot.gillodes@swappy.fr" class="more">Contactez-le</a>
                      </div>
                   </li>
-               </div>
-            </ul>
-            <div class="teamtitle">
+               </ul>
+            </div>
+            <div class="banner_title">
                <p>Notre projet</p>
             </div>
             <div class="pictodown"><img src="img/apropos/down.png" alt="" class="down"></div>

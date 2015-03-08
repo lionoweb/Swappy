@@ -111,6 +111,7 @@ $user->logout();
                  <span class="sr-only">Next</span>
                </a>
              </div>
+             <iframe src="https://player.vimeo.com/video/119140474" class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12" width="700" height="401" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         </div>
       </div>
     <footer id="footer">
