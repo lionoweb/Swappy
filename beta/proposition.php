@@ -1,11 +1,17 @@
 <?php
-	session_start();
-	require_once("inc/user.php");
-	require_once("inc/mysql.php");
-	$user = new user($mysql);
-	if(isset($_GET['logout'])) {
-	$user->logout();
-} ?>
+   session_start();
+   require_once("inc/mysql.php");
+   require_once("inc/user.php");
+   require_once("inc/services.php");
+   require_once("inc/chat.php");
+   $user = new user($mysql);
+   if(isset($_GET['logout'])) {
+    $user->logout();
+   }
+   $ID_service = @$_GET['id'];
+   $services = new  services($mysql, $ID_service);
+   $user_ = new user($mysql, $services->by);
+   $chat = new chat($mysql, $user); ?>
 <html>
 	<head>
     	<meta charset="utf-8">

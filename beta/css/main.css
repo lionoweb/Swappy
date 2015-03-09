@@ -1297,6 +1297,11 @@ form .liketext {
 }
 @media(min-width: 768px){
 	#profil{
+		margin-top: 62px;
+	}
+}
+@media(min-width: 992px){
+	#profil{
 		margin-top: 31px;
 	}
 }
