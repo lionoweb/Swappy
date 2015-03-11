@@ -58,7 +58,7 @@
                <!-- Collect the nav links, forms, and other content for toggling -->
                <div class="collapse navbar-collapse" id="navbar">
                   <ul class="nav navbar-nav">
-                     <li><a  href="services.php">Services</span></a></li>
+                     <li><a href="services.php">Services</span></a></li>
                      <li><a href="propose.php">Je propose</a></li>
                      <li><a href="ccm.php">Comment ça marche ?</a></li>
                      <li><a href="apropos.php">A propos</a></li>
@@ -74,10 +74,10 @@
          <div id="spec_annonce" class="container main" role="main">
             <div class="profil row">
                <div class="col-md-1 col-md-offset-2 col-sm-1 col-sm-offset-1 col-xs-1 col-xs-offset-0">
-                  <img src="<?php echo $user_->avatar; ?>" width="130" height="130">
+                  <a class="link-profil" href="profil.php?id=<?php echo $user_->ID; ?>"><img src="<?php echo $user_->avatar; ?>" width="130" height="130"></a>
                </div>
                <div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-1 dispo">
-                  <div class="name"><?php echo $user_->firstname." ".$user_->lastname; ?> (<?php echo $user_->login; ?>) propose</div>
+                  <div class="name"><a class="link-profil" href="profil.php?id=<?php echo $user_->ID; ?>"><?php echo $user_->firstname." ".$user_->lastname; ?> (<?php echo $user_->login; ?>)</a> propose</div>
                   <div class="info"><img src="img/annonce/clock.png"><?php echo $services->disponibility; ?></div>
                   <div class="info loc"><img src="img/annonce/location.png" width="18" height="28"><?php echo $services->city; ?>, jusqu'à <?php echo $services->distance; ?> km de déplacement</div>
                </div>

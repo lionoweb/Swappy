@@ -153,6 +153,8 @@
 			$lat,
 			$logged, 
 			$age,
+			$description,
+			$tags,
 		$lon;
 		private $mysql, 
 			$cookies;
@@ -365,6 +367,32 @@
 			}
 			return $arr;
 		}
+		function tags_uncrypt($tags) {
+			$html = "";
+			$l = preg_split('/\;\|\;/', $tags);	
+			for($i=0;$i<count($l);$i++) {
+				$c = trim($l[$i]);
+				if(!empty($c)) {
+					$html .= "<p>".ucfirst(strtolower($c))."</p>";
+				}
+			}
+			return $html;
+		}
+		function tags_crypt($tags) {
+			$field = "";
+			$l = preg_split('/\,/', $tags);	
+			for($i=0;$i<count($l);$i++) {
+				$c = trim($l[$i]);
+			  if(!empty($c)) {
+				if($i == 0) {
+					$field .= $c;
+				} else {
+					$field .= ";|;".$c;
+				}
+			  }
+			}
+			return $field;
+		}
 		function load_user_data($ID, $crypt, $me=true) {			
 			$select = $this->mysql->prepare("SELECT *, COUNT(*) AS `exist` FROM `users` WHERE `ID` = :ID");
 			$select->execute(array(":ID" => $ID));
@@ -398,6 +426,8 @@
 				$this->birthdate = $data->Birthdate;
 				$this->lon = $data->Lon;
 				$this->lat = $data->Lat;
+				$this->tags = $data->Tags;
+				$this->description = $data->Desc ? '' : 'Pas de description';
 				if($me == true) {
 					$this->logged = true;
 				} else {
@@ -425,6 +455,8 @@
 			$this->lon = false;
 			$this->lat = false;
 			$this->logged = false;
+			$this->description = false;
+			$this->tags = false;
 		}
 		function add_user($POST) {
 			//prevenir le bug de Validation engine
@@ -444,7 +476,7 @@
 				//Creation de la position Lat/Lon
 				$city = new city($this->mysql);
 				$c = $city->getPosition($POST['street'], $POST['zipcode'], $POST['cityname']);
-				$select = $this->mysql->prepare("INSERT INTO `users` (`ID`, `Login`, `Password`, `Email`, `Created`, `Avatar`, `LastName`, `FirstName`, `Gender`, `Birthdate`, `Street`, `ZipCode`, `City`, `Lat`, `Lon`, `Phone`, `Admin`, `MailOption`, `Validation`) VALUES (NULL, :login, :password, :email, CURRENT_TIMESTAMP, :avatar, :lastname, :firstname, :gender, :birthdate, :street, :zipcode, :city, :lat, :lon, :phone, '0', '0', '0');");
+				$select = $this->mysql->prepare("INSERT INTO `users` (`ID`, `Login`, `Password`, `Email`, `Created`, `Avatar`, `LastName`, `FirstName`, `Gender`, `Birthdate`, `Street`, `ZipCode`, `City`, `Lat`, `Lon`, `Phone`, `Desc`, `Tags`, `Admin`, `MailOption`, `Validation`) VALUES (NULL, :login, :password, :email, CURRENT_TIMESTAMP, :avatar, :lastname, :firstname, :gender, :birthdate, :street, :zipcode, :city, :lat, :lon, :phone, '', '', '0', '0', '0');");
 				$replace = array(":login" => strtolower($POST['login']),
 					":password" => md5($POST['password']), 
 					":email" => strtolower($POST['email']), 
@@ -575,7 +607,11 @@
 				 	$p_bl = array("profil", "messagerie", "date", "proposition");
 					$fixed_n = array("false", "", "");
 					if(preg_grep("/".preg_replace("/\.php/", "", basename($_SERVER['PHP_SELF']))."/", $p_bl)) {
-						$fixed_n = array("true", " visible"," open");
+						if(preg_match('/profil\.php(.*?)id\=(.*?)/', basename($_SERVER['PHP_SELF']).$_SERVER['QUERY_STRING'])) {
+							$fixed_n = array("false", "","");
+						} else {
+							$fixed_n = array("true", " visible"," open");
+						}
 					}
 				 	$html .= '<li class="dropdown hf'.$fixed_n[2].'">';
 					 $get = @$_SERVER['QUERY_STRING'];
@@ -595,9 +631,9 @@
 					 $logout = preg_replace("/\&\&/", "&", $logout);
                     $html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="'.$fixed_n[0].'"><img src="'.$this->avatar.'" height="40" width="40"> '.$this->firstname.' '.$message_name.'<span class="caret"></span></a>
                             <ul class="dropdown-menu nav-h'.$fixed_n[1].'"><!--
-								--><li><a href="profil.php#profil">Mon profil</a></li><!--
-								--><li><a href="profil.php#propositions">Mes propositions</a></li><!--
-								--><li><a href="profil.php#rendez-vous">Mes rendez-vous</a></li><!--
+								--><li><a href="profil.php">Mon profil</a></li><!--
+								--><li><a href="propositions.php">Mes propositions</a></li><!--
+								--><li><a href="rendez-vous.php">Mes rendez-vous</a></li><!--
 								--><li><a href="messagerie.php">Messagerie '.$message_list.'</a></li><!--
                                 --><li><a href="'.$logout.'">Se deconnecter</a></li><!--
                             --></ul>';

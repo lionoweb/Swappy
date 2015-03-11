@@ -234,6 +234,18 @@
 				display:none;	
 			}
 		}
+		#modal_delete .delete_m {
+			display:none !important;	
+		}
+		#modal_delete a {
+			text-decoration:none;	
+		}
+		.cancel_modal, .valid_modal {
+			margin-left:45px;
+			margin-right:45px;
+			margin-top:14px;
+			display:inline-block;	
+		}
 	  </style>
    </head>
    <body role="document">
@@ -304,6 +316,7 @@
 <script>
 var fst_l = 1;
 var last_m = false;
+var ajax_c = false;
 $(document).ready(function(e) {
     load_list();
 	$("#message_send button").on("click", function(e) {
@@ -352,8 +365,9 @@ function message_send_function(status, form, json, options) {
 function load_list(search_) {
 	if(typeof(search_) == "undefined") {
 		var search_ = "";
-	}
-	$.getJSON("inc/send_mess.php?list_message=&search="+search_, function(data) {
+	} 
+	if(typeof(ajax_call) == "object") { ajax_call.abort(); }
+	ajax_call = $.getJSON("inc/send_mess.php?list_message=&search="+search_, function(data) {
 		var for_ = "";
 		var active = "";
 		var count = '<span class="mess_count"></span>';
@@ -372,20 +386,25 @@ function load_list(search_) {
 				if(value.ID == last_m) {
 					active = " active";
 				}
-				$("#list_m").append('<div data-id="'+value.ID+'" class="mess_t'+active+'">'+value.Name+'<br><span class="m_for">Pour : '+for_+'</span>'+count+'<a title="Supprimer cette conversation" class="delete_m">X</a></div>');
+				$("#list_m").append('<div data-id="'+value.ID+'" class="mess_t'+active+'"><a href="profil.php?id='+value.UserID+'">'+value.Name+'</a><br><span class="m_for">Pour : '+for_+'</span>'+count+'<a title="Supprimer cette conversation" class="delete_m">X</a></div>');
 		});
+		delete_click();
 		event_click();
 		if(fst_l == 1) {
 			load_content();
 			fst_l = 0;	
 		}
 	});
+
 }
 function load_content(id, title, sc) {
 	if(typeof(sc) == "undefined") {
 		var sc = false;
 	}
-	if(typeof(id) == "undefined") {
+	var ccc = "false";
+	if(typeof(id) == "undefined" || id == "") {
+		var hash = window.hash;
+		alert(hash);
 		var id = $(".mess_t:first").attr("data-ID");
 		last_m = id;
 		var title = $(".mess_t:first").html();
@@ -395,41 +414,55 @@ function load_content(id, title, sc) {
 		$("#content_m:not(.montre)").addClass("montre");	
 		last_m = id;
 	}
-	$(".inner_m").html('<center>Chargement...</center>');
-	$.getJSON("inc/send_mess.php?get_message="+id, function(data) {
-		$(".inner_m").html('');
-		$(".header_m span").html(title);
-		$.each(data, function(index, value) {
-			if(typeof(value.Message) != "undefined") {
-				var c = 'other';
-				if(value.Author == "ME") {
-					c = 'me';
+	if($(".mess_t").length < 1) {
+		$(".inner_m").html('<center><br>Vous n\'avez aucun message</center>');
+		$(".header_m span").html('');
+		$(".form_m, .header_m").css("display", "none");
+		ccc = 0;
+	} else {
+		$(".form_m, .header_m").css("display", "");
+		$(".inner_m").html('<center>Chargement...</center>');
+		$.getJSON("inc/send_mess.php?get_message="+id, function(data) {
+			$(".inner_m").html('');
+			$(".header_m span").html(title);
+			$.each(data, function(index, value) {
+				if(typeof(value.Message) != "undefined") {
+					var c = 'other';
+					if(value.Author == "ME") {
+						c = 'me';
+					}
+					if(value.Author == "BOT") {
+						c = 'bot';
+					}
+					$(".inner_m").append('<div class="'+c+' msg">'+value.Message+'<span class="time">'+value.TimeText+'</span></div>');
 				}
-				if(value.Author == "BOT") {
-					c = 'bot';
-				}
-				$(".inner_m").append('<div class="'+c+' msg">'+value.Message+'<span class="time">'+value.TimeText+'</span></div>');
+			});
+			if(sc == false) {
+				$(".inner_m").scrollTop($(".inner_m")[0].scrollHeight);
 			}
+			ccc = data.count;
 		});
-		if(sc == false) {
-			$(".inner_m").scrollTop($(".inner_m")[0].scrollHeight);
-		}
+	}
+	mess_count(ccc, id);
+}
+function mess_count(data, id) {
+	if(data != "false") {
 		$('div[data-id="'+id+'"] .mess_count').removeClass("red");
 		$("input[name='ID_Converse']").val(id);
 		$("input[name='message_r']").val("");
-		if(data.count == 0) {
+		if(data == 0) {
 			$(".nav-h .mess_count").removeClass("red").html("0");
 			$(".dropdown-toggle .mess_count").remove();
 		} else {
 			$(".nav-h .mess_count:not(.red)").addClass("red");
-			$(".nav-h .mess_count").html(data.count);
+			$(".nav-h .mess_count").html(data);
 			if($(".dropdown-toggle .mess_count").length < 1) {
-				$("<span class=''>"+data.count+"</span>").insertBefore(".dropdown-toggle .caret");
+				$("<span class=''>"+data+"</span>").insertBefore(".dropdown-toggle .caret");
 			} else {
-				$(".dropdown-toggle .mess_count").html(data.count);
+				$(".dropdown-toggle .mess_count").html(data);
 			}
 		}
-	});
+	}
 }
 function event_click() {
 	$(".mess_t").off("click");
@@ -444,7 +477,37 @@ function event_click() {
 		}
 });
 }
-</script>        </div></div>
+function delete_click() {
+	$(".delete_m").on("click", function(e) {
+		var id = $(this).parent().attr("data-id");
+		e.preventDefault();
+		$("#modal_delete").remove();
+		$("body").append('<div id="modal_delete" data-id="'+id+'" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-md"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="exampleModalLabel">Supprimer cette conversation ?</h4></div><div class="modal-body"><center><u>Êtes-vous sûr de vouloir effacer la conversation :</u> <br><br>'+$(this).parent().html()+'<br><button class="btn btn-success valid_modal">Oui</button> <button class="cancel_modal btn btn-danger">Non</button></center></div></div></div></div>');
+		$('#modal_delete .valid_modal').on("click", function(e) {
+			e.preventDefault();
+			var id = $(this).parents("#modal_delete").attr("data-id");
+			$.getJSON("inc/send_mess.php?delete="+id, function(data) {
+				if(data == "true") {
+					$("#modal_delete").remove();
+					fst_l = 1;
+					load_list();
+				} else {
+					$("#modal_delete").remove();
+				}
+			});
+		});
+		$("#modal_delete .cancel_modal").on("click", function(e) {
+			e.preventDefault();
+			$('#modal_delete').modal('hide');
+			$('#modal_delete').remove();
+		});
+		$('#modal_delete').modal('show');
+		$("#modal_delete").on("hidden.bs.modal", function(e) {
+			$(this).remove();
+		});
+	});
+}
+</script>     </div></div>
       </div>
       <!-- END DIV ID WRAP-->
       <footer id="footer">

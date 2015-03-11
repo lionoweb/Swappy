@@ -7,7 +7,11 @@
    	$user->logout();
    }
    $user->onlyUsers();
-   $user_ = new user($mysql);
+   if(isset($_GET['id'])) {
+	   $user_ = new user($mysql, trim($_GET['id']));
+   } else {
+		$user_ = $user;   
+   }
 ?>
 <!doctype html>
 <html>
@@ -15,7 +19,7 @@
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Swappy.fr - Profil de <?php echo $user->firstname." ".$user->lastname; ?></title>
+      <title>Swappy.fr - Profil de <?php echo ucfirst($user_->firstname)." ".ucfirst($user_->lastname); ?></title>
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
       <link rel="stylesheet" href="css/template.css" type="text/css"/>
@@ -72,29 +76,31 @@
                <div class="row">
                   <div class="top">
                      <div class="col-md-2 col-md-offset-3">
-                        <img src="img/user/M.jpg">
+                        <img src="<?php echo $user_->avatar; ?>">
                      </div>
                      <div class="infos col-md-4">
                         <p class="nom">
-                           <?php echo $user->firstname." ".$user->lastname; ?>
+                           <?php echo ucfirst($user_->firstname)." ".ucfirst($user_->lastname); ?>
                         </p>
                         <p class="">
                            <?php
-                              $birthDate = $user->birthdate;
-                              $birthDate = explode("-", $birthDate);
-                              $age = (date("md", date("U", mktime(0, 0, 0, $birthDate[2], $birthDate[1], $birthDate[0]))) > date("md") ? ((date("Y")-$birthDate[0])-1):(date("Y")-$birthDate[0]));
-                              echo $age." ans ";
-                           ?><span><img src="img/profil/location.png" alt=""><?php echo $user->city;?></span>
+                             
+                              echo $user_->age." ans ";
+                           ?><span><img src="img/profil/location.png" alt=""><?php echo $user_->city;?></span>
                         </p>
                         <div class="col-lg-8 col-md-8 tags">
-                           <p>manuel</p>
-                           <p>bricoleur</p>
+                           <?php echo ($user_->tags_uncrypt($user_->tags) ? '' : 'Pas de tags...'); ?>
                         </div>
                      </div>
                   </div>
+                  <?php if(isset($_GET['id']) && $_GET['id'] != $user->ID ) { ?>
+                  <div class="text-left col-lg-2">
+                     <p class="btn">Envoyer un message</p>
+                  </div>
+                  <?php } ?>
                   <div class="row">
                      <p class="text-justify description col-md-6 col-md-offset-3">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean massa nibh, commodo ut eleifend nec, rutrum vel lacus. Morbi congue, nibh a venenatis tempus, nulla ligula molestie orci, ac euismod erat urna quis ante. Vivamus velit felis, porta ut suscipit a, suscipit at arcu.
+                        <?php echo ucfirst($user_->description); ?>
                      </p>
                   </div>
                </div>
