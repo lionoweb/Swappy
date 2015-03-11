@@ -574,7 +574,7 @@ input.space-button {
 }
 .first .carousel-title{
 	position: absolute;
-	left: 14%;
+	left: 5%;
 	top: 26%;
 }
 .first h1, .first p {
@@ -582,7 +582,7 @@ input.space-button {
 }
 .second .carousel-title{
 	position: absolute;
-	left: 14%;
+	left: 15%;
 	top: 26%;
 }
 .second h1, .second p {
@@ -621,6 +621,13 @@ input.space-button {
   background-image:      -o-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%) !important;
   background-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0))) !important;
   background-image:         linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%) !important;
+}
+
+#spec_accueil iframe{
+/*	display: block;
+	margin: 0 auto;*/
+	margin-top:58px;
+	margin-bottom: 64px; 
 }
 
 	/* ### SERVICE/ANNONCE DÉTAILLÉ ### */
@@ -863,20 +870,55 @@ form .liketext {
 	background-color: #53c1dd;
 	color:white;
 }
+
+	/* ### COMMENT ÇA MARCHE ### */
+#spec_ccm{
+	width: 100%;
+	padding: 0px;
+}
+#spec_tuto{
+	padding-top: 24px;
+	padding-bottom: 32px;
+}
+#spec_tuto .list_view{
+	width: 100%;
+	text-align: center;
+}
+#spec_tuto .view {
+   width: 250px;
+   height: 250px;
+   overflow: hidden;
+   position: relative;
+   text-align: center;
+   cursor: default;
+   margin: 4px 8px 4px 8px;
+   display:inline-block;
+}
+#spec_video{
+	margin-bottom: 26px;
+}
+#spec_video .pictodown{
+	margin-bottom: 26px;
+}
+#spec_video iframe{
+/*	display: block;
+	margin: 0 auto;*/
+}
+
 	/* ### A PROPOS ### */
 #spec_apropos{
 	background-color: white;
 	width:100% !important;
 	padding:0px;
 }
-#spec_apropos .teamtitle{
+.banner_title{
 	width:100%;
 	height:70px;
 	background-color: #54c1de;
 	font-family: "Overlock";
 	font-size: 1.2em;
 }
-#spec_apropos .teamtitle p {
+.banner_title p {
 	color:white;
 	line-height: 70px;
 	text-transform: uppercase;
@@ -1256,8 +1298,22 @@ form .liketext {
 	width:100%;
 	padding: 0;
 }
+@media(min-width: 768px){
+	#profil{
+		margin-top: 62px;
+	}
+}
+@media(min-width: 992px){
+	#profil{
+		margin-top: 31px;
+	}
+}
+#profil.mon_profil{
+	padding:0px;
+}
 #profil .header_profil{
 	color: white;
+	margin-top: -20px;
 	background-color: #323232;
 	padding:30px 0px 20px 0px;
 }
@@ -1265,12 +1321,21 @@ form .liketext {
 	text-align: center;
 	margin-bottom: 28px;
 }
-#profil .header_profil .top .nom {
+@media(min-width: 992px){
+	#profil .header_profil .top .infos{
+		text-align: left!important;
+	}
+}
+#profil .header_profil .top .infos .nom {
 	font-family: "Pacifico";
 	font-size: 2em;
+	display: inline-block;
 }
-#profil .header_profil span {
-	margin-left: 15px;
+#profil .header_profil .edit .infos .nom br{
+	display: none; /* empêcher le saut de ligne dans l'édit */
+}
+#profil .header_profil .edit .infos .nom:hover {
+	background-color: red;
 }
 #profil .header_profil span img {
 	margin-right: 5px;
@@ -1284,17 +1349,11 @@ form .liketext {
 	background-color: #53c1dd;
 	color: white;
 }
-#profil .header_profil .top .tags {
-	padding: 0;
-}
 #profil .header_profil .top .tags p{
 	display: inline-block;
 	background-color: #f3f0f0;
 	color: black;
 	padding: 3px;
-}
-#profil .header_profil .description{
-	margin-top: 10px;
 }
 .profiltitle{
 	color: white;
@@ -1324,15 +1383,6 @@ form .liketext {
 #profil .notes div.note:nth-child(even) {
 	background-color: #c495bf; /*violet*/
 	margin-bottom: 20px;
-}
-
-@media(min-width: 992px){
-	#profil .header_profil .top .infos p{
-		text-align: left;
-	}
-	#profil .header_profil .top .infos .tags{
-		text-align: left;
-	}
 }
 
 #pagination {
@@ -1528,14 +1578,36 @@ td {
 	.bloc_services {
 		border-bottom:1px solid #FFF;	
 	}
+	.carousel-indicators{
+		position: absolute;
+  		bottom: -2px !important;
+	}
+	.carousel-inner p{
+		display: none;
+	}
 	.carousel-title h1{
-		margin-top: -20px;
-		margin-left: -10px;
-		font-size: 1.8em;
+		margin:0 auto;
+		margin-top: -2px;
+		text-align: center;
+		font-size: 1.6em;
 	}
 	.carousel-title p{
 		font-size: 0.5em;
-
+	}
+	.first .carousel-title{
+		position: absolute;
+		left: -8%;
+		top: 30%;
+	}
+	.second .carousel-title{
+		position: absolute;
+		left: 10%;
+		top: 30%;
+	}
+	.third .carousel-title{
+		position: absolute;
+		left: 50%;
+		top: 26%;
 	}
 	.box li {
 		display: inline-block;

@@ -156,21 +156,22 @@
                   </ul>
                </section>
          
-         <div id="spec_mention">
-            <div class="mentiontitle">
-               <p>Mentions légales</p>
-            </div>
-            <div class="pictodown"><img src="img/apropos/down.png" alt="" class="down"/></div>
-               <div class="mention_wrap col-md-4 col-md-offset-4">
-                  <p>
-                     Tous les sites internet édités à titre professionnel, qu'ils proposent des ventes en ligne ou non, doivent obligatoirement indiquer les mentions légales suivantes :
-                  </p>
-                     <ul>
-                        <li>Swappy.fr, 2 rue Albert Einstein 77420, Champs-sur-Marne</li>
-                        <li>contact@swappy.fr<br>06.27.75.49.05</li>
-                        <li>Calypso Redor</li>
-                     </ul>
+            <div id="spec_mention">
+               <div class="mentiontitle">
+                  <p>Mentions légales</p>
                </div>
+               <div class="pictodown"><img src="img/apropos/down.png" alt="" class="down"/></div>
+                  <div class="mention_wrap col-md-4 col-md-offset-4">
+                     <p>
+                        Tous les sites internet édités à titre professionnel, qu'ils proposent des ventes en ligne ou non, doivent obligatoirement indiquer les mentions légales suivantes :
+                     </p>
+                        <ul>
+                           <li>Swappy.fr, 2 rue Albert Einstein 77420, Champs-sur-Marne</li>
+                           <li>contact@swappy.fr<br>06.27.75.49.05</li>
+                           <li>Calypso Redor</li>
+                        </ul>
+                  </div>
+            </div>
          </div>
       </div>
       <footer id="footer">

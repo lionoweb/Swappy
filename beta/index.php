@@ -77,15 +77,15 @@ $user->logout();
                <!-- Wrapper for slides -->
               <div class="carousel-inner" role="listbox">
                 <div class="item active first">
-                  <img src="img/accueil/slide1.jpg" alt="...">
-                  <div class="carousel-title">
+                  <img src="img/accueil/slide1.jpg" alt="Bienvenue">
+                  <div class="carousel-title col-xs-6 col-xs-offset-1">
                       <h1>Bienvenue sur<br>Swappy</h1>
                       <p>Une plateforme d'échanges de services<br>gratuits entre particuliers</p>
                   </div>
                 </div>
 
                 <div class="item second">
-                  <img src="img/accueil/slide2.jpg" alt="...">
+                  <img src="img/accueil/slide2.jpg" alt="Communauté">
                   <div class="carousel-title">
                       <h1>la communauté <br>Swappy</h1>
                       <p>Rejoignez notre communauté d'entraide <br>et rencontrez d'autres swappeurs !</p>
@@ -93,9 +93,9 @@ $user->logout();
                 </div>
 
                 <div class="item third">
-                    <img src="img/accueil/slide3.jpg" alt="...">
+                    <img src="img/accueil/slide3.jpg" alt="Rejoindre">
                       <div class="carousel-title">
-                        <h1>et maintenant,<br>rejoignez-nous</h1>
+                        <h1>et maintenant,<br>rejoignez-nous !</h1>
                         <p>Inscrivez-vous dès maintenant et partagez<br>l'expérience Swappy avec la communauté</p>
                       </div>
                 </div>
@@ -111,6 +111,7 @@ $user->logout();
                  <span class="sr-only">Next</span>
                </a>
              </div>
+             <iframe src="https://player.vimeo.com/video/119140474" class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12" width="700" height="401" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         </div>
       </div>
     <footer id="footer">
