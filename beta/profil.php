@@ -77,12 +77,12 @@
                   <div class="top edit">
                      <div class="col-md-2 col-md-offset-3">
 
-                        <img src="<?php echo $user->avatar; ?>">
+                        <img src="<?php echo $user_->avatar; ?>">
                      </div>
                      <div class="infos col-md-4">
                         <p class="nom">
-                           <span id="prenom" contenteditable="true"><?php echo $user->ucfirst(firstname); ?></span>
-                           <span id="nom" contenteditable="true"> <?php echo ucfirst($user->lastname); ?></span>
+                           <span id="prenom"><?php echo ucfirst($user_->firstname); ?></span>
+                           <span id="nom"> <?php echo ucfirst($user_->lastname); ?></span>
 
                         </p>
                         <p class="">
@@ -98,7 +98,7 @@
                   </div>
                   <?php if(isset($_GET['id']) && $_GET['id'] != $user->ID ) { ?>
                   <div class="text-left col-lg-2">
-                     <p class="btn">Envoyer un message</p>
+                     <p class="btn talk-button">Envoyer un message</p>
                   </div>
                   <?php } ?>
                   <div class="row">

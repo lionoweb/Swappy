@@ -18,7 +18,7 @@ class mailer {
 		$htmli = preg_replace("/\<a /i", '<a style="color: #218cb9;" ', $htmli);
 		$html = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>'.$title.'</title><style type="text/css"> a { color: #218cb9; }/style></head>
+<title>'.$title.'</title><style type="text/css"> a { color: #218cb9; } </style></head>
 <body style="width:100% !important; background-color:#FFFFFF; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; height:100%;">';
 		$html .= '<table border="0" cellspacing="0" cellpadding="0" width="100%" style="font-family: Arial, Helvetica, sans-serif;" align="center"><tr><td align="center"><table border="0" cellspacing="0" cellpadding="0" width="100%" align="center"><tr style="background-color:#df755c;"><td align="left" width="126"><img src="http://swappy.fr/beta/img/mail/logo.jpg" height="60" width="126"></td><td align="right" width="264"><img src="http://swappy.fr/beta/img/mail/header.jpg" height="60" width="264"></td></tr>';
 		$html .= '<tr style="background-color:#FFFFFF;"><td colspan="2" style="word-break:break-all; word-wrap:break-word;  padding:25px 20px 0px 20px; text-align:left;" align="left">'.$htmli.'<br><br>L\'équipe Swappy.'.$rep.'</td></tr>';

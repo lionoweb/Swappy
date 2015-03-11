@@ -8,10 +8,7 @@
    if(isset($_GET['logout'])) {
     $user->logout();
    }
-   $ID_service = @$_GET['id'];
-   $services = new  services($mysql, $ID_service);
-   $user_ = new user($mysql, $services->by);
-   $chat = new chat($mysql, $user); ?>
+ ?>
 <html>
 	<head>
     	<meta charset="utf-8">
@@ -80,7 +77,12 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <?php echo $result[0]; ?>
+                     <?php $boucle = $user->list_services_edit();
+					 for($i=0;$i<count($boucle);$i++) {
+						 // A PARTIR D'EN DESSOUS C'EST LE HTML  ?>
+                     <tr><td><?php echo $boucle[$i]['Image']; ?></td><td><?php echo $boucle[$i]['Title']; ?></td></tr>
+                     <?php //FIN
+					  } ?>
                   </tbody>
                </table>
          	</div>

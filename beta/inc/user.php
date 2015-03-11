@@ -632,7 +632,7 @@
                     $html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="'.$fixed_n[0].'"><img src="'.$this->avatar.'" height="40" width="40"> '.$this->firstname.' '.$message_name.'<span class="caret"></span></a>
                             <ul class="dropdown-menu nav-h'.$fixed_n[1].'"><!--
 								--><li><a href="profil.php">Mon profil</a></li><!--
-								--><li><a href="propositions.php">Mes propositions</a></li><!--
+								--><li><a href="proposition.php">Mes propositions</a></li><!--
 								--><li><a href="rendez-vous.php">Mes rendez-vous</a></li><!--
 								--><li><a href="messagerie.php">Messagerie '.$message_list.'</a></li><!--
                                 --><li><a href="'.$logout.'">Se deconnecter</a></li><!--
@@ -682,5 +682,36 @@
 			} else {
 				return false;
 			}
+		}
+		function list_services_edit() {
+			$return = array();
+			$select = $this->mysql->prepare("SELECT `services`.`ID`, `categories`.`ID` AS `CatType`, `services`.`Title`, `services`.`Type`, `type`.`Name` AS `TypeName`, `services`.`By`, `services`.`Description`, `services`.`Distance`, `services`.`Disponibility`, `services`.`Created`, `services`.`City`, `services`.`Lat`, `services`.`Lon`, `french_city`.`Real_Name` AS `CityName` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` INNER JOIN `users` ON `services`.`By` = `users`.`ID` WHERE `users`.`ID` = :ID ORDER BY `services`.`Created` DESC");
+			$select->execute(array(":ID" => $this->ID));
+			while($data = $select->fetch(PDO::FETCH_OBJ)) {
+				$id = $data->ID;
+				if(empty($data->Title)) {
+					$title = $data->TypeName;
+				} else {
+					$title = $data->Title;
+				}
+				$type = $data->Type;
+				$typename = $data->TypeName;
+				$catype = $data->CatType;
+				$by = $data->By;
+				if(empty($data->Description)) {
+					$description = "Pas de description...";
+				} else {
+					$description = $data->Description;
+				}
+				$image = "img/services/".$catype.".jpg";
+				$distance = $data->Distance;
+				//$disponibility = $this->dispo_uncrypt_an($data->Disponibility);
+				$creation = $data->Created;
+				$city = $data->CityName;
+				$lat = $data->Lat;
+				$lon = $data->Lon;
+				$return[] = array("ID" => $id, "Title" => $title, "Image" => $image, "Created" => $creation, "CityName" => $city);
+			}
+			return $return;
 		}
 	}  ?>

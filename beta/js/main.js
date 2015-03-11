@@ -34,7 +34,7 @@ $(document).ready(function(e) {
 		minLength: 3,
 		select: function( event, ui ) {
 			if(ui.item.val) {
-				document.location.replace("search.php?searchbar=&type="+ui.item.val);	
+				document.location.replace("services.php?searchbar=&type="+ui.item.val);	
 			}
 			if(ui.item.userID) {
 				document.location.replace("profil.php?id="+ui.item.userID);	

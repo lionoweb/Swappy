@@ -386,7 +386,7 @@ function load_list(search_) {
 				if(value.ID == last_m) {
 					active = " active";
 				}
-				$("#list_m").append('<div data-id="'+value.ID+'" class="mess_t'+active+'"><a href="profil.php?id='+value.UserID+'">'+value.Name+'</a><br><span class="m_for">Pour : '+for_+'</span>'+count+'<a title="Supprimer cette conversation" class="delete_m">X</a></div>');
+				$("#list_m").append('<div data-state="'+value.Status+'" data-id="'+value.ID+'" class="mess_t'+active+'"><a href="profil.php?id='+value.UserID+'">'+value.Name+'</a><br><span class="m_for">Pour : '+for_+'</span>'+count+'<a title="Supprimer cette conversation" class="delete_m">X</a></div>');
 		});
 		delete_click();
 		event_click();
@@ -403,12 +403,26 @@ function load_content(id, title, sc) {
 	}
 	var ccc = "false";
 	if(typeof(id) == "undefined" || id == "") {
-		var hash = window.hash;
-		alert(hash);
-		var id = $(".mess_t:first").attr("data-ID");
-		last_m = id;
-		var title = $(".mess_t:first").html();
-		$(".mess_t:first").addClass("active");
+		var hash = window.location.hash;
+		if(hash.match(/\#select\-/)) {
+			window.location.hash = "";
+			var id = hash.replace(/\#select\-/, "");
+			if($(".mess_t[data-id='"+id+"']").length > 0) {
+				last_m = id;
+				var title = $(".mess_t[data-id='"+id+"']").html();
+				$(".mess_t[data-id='"+id+"']").addClass("active");
+			} else {
+				var id = $(".mess_t:first").attr("data-ID");
+				last_m = id;
+				var title = $(".mess_t:first").html();
+				$(".mess_t:first").addClass("active");
+			}
+		} else {
+			var id = $(".mess_t:first").attr("data-ID");
+			last_m = id;
+			var title = $(".mess_t:first").html();
+			$(".mess_t:first").addClass("active");
+		}
 	} else {
 		$("#list_m:not(.cache)").addClass("cache");	
 		$("#content_m:not(.montre)").addClass("montre");	
@@ -420,6 +434,7 @@ function load_content(id, title, sc) {
 		$(".form_m, .header_m").css("display", "none");
 		ccc = 0;
 	} else {
+		var state = $(".mess_t[data-id='"+id+"']").attr("data-state");
 		$(".form_m, .header_m").css("display", "");
 		$(".inner_m").html('<center>Chargement...</center>');
 		$.getJSON("inc/send_mess.php?get_message="+id, function(data) {
@@ -442,6 +457,24 @@ function load_content(id, title, sc) {
 			}
 			ccc = data.count;
 		});
+	}
+	if(state == "0") {
+		$(".form_m button").html("FIXER UN RENDEZ-VOUS");
+		$(".form_m button").css("display", "");
+	}
+	if(state == "1") {
+		$(".form_m button").html("CHANGER LE RENDEZ-VOUS");
+		$(".form_m button").css("display", "");
+	}
+	if(state == "2") {
+		$(".form_m button").html("");
+		$(".form_m button").attr("disabled");
+		$(".form_m button").css("display", "none");
+	}
+	if(state == "3") {
+		$(".form_m button").html("");
+		$(".form_m button").attr("disabled");
+		$(".form_m button").css("display", "none");
 	}
 	mess_count(ccc, id);
 }

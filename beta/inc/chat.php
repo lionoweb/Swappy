@@ -212,11 +212,11 @@
 		function list_message($search="") {
 			$array = array();
 			if($search == "") {
-				$select = $this->mysql->prepare("SELECT `conversation`.`ID`, MAX(`conversation_reply`.`Time`) AS `LastTime`, `conversation`.`ServiceFor`, `conversation`.`HiddenFor`, `users`.`LastName`, `users`.`FirstName`, `users`.`ID` AS `UserID` FROM `conversation` INNER JOIN `conversation_reply` ON `conversation`.`ID` = `conversation_reply`.`C_ID` INNER JOIN `users` ON CASE WHEN `conversation`.`User_One` != :me THEN `conversation`.`User_One` = `users`.`ID` ELSE `conversation`.`User_Two` = `users`.`ID` END WHERE (`conversation`.`User_One` = :me OR `conversation`.`User_Two` = :me) GROUP BY `conversation`.`ID` ORDER BY `LastTime` DESC, `conversation`.`Timestamp` DESC ");
+				$select = $this->mysql->prepare("SELECT `conversation`.`ID`, MAX(`conversation_reply`.`Time`) AS `LastTime`, `conversation`.`ServiceFor`, `conversation`.`HiddenFor`, `users`.`LastName`, `users`.`FirstName`, `users`.`ID` AS `UserID`, `conversation`.`Status` FROM `conversation` INNER JOIN `conversation_reply` ON `conversation`.`ID` = `conversation_reply`.`C_ID` INNER JOIN `users` ON CASE WHEN `conversation`.`User_One` != :me THEN `conversation`.`User_One` = `users`.`ID` ELSE `conversation`.`User_Two` = `users`.`ID` END WHERE (`conversation`.`User_One` = :me OR `conversation`.`User_Two` = :me) GROUP BY `conversation`.`ID` ORDER BY `LastTime` DESC, `conversation`.`Timestamp` DESC ");
 				$select->execute(array(":me" => $this->user->ID));
 			} else {
 				$clause = $this->clause_search($search);
-				$select = $this->mysql->prepare("SELECT `conversation`.`ID`, `conversation`.`ServiceFor`, `users`.`LastName`, `users`.`FirstName`, `conversation`.`HiddenFor`, `users`.`ID` AS `UserID` FROM `conversation` INNER JOIN `users` ON CASE WHEN `conversation`.`User_One` != :me THEN `conversation`.`User_One` = `users`.`ID` ELSE `conversation`.`User_Two` = `users`.`ID` END INNER JOIN `services` ON `conversation`.`ServiceFor` = `services`.`ID` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` WHERE (`conversation`.`User_One` = :me OR `conversation`.`User_Two` = :me) AND ".$clause[0]."");
+				$select = $this->mysql->prepare("SELECT `conversation`.`ID`, `conversation`.`ServiceFor`, `users`.`LastName`, `users`.`FirstName`, `conversation`.`HiddenFor`, `users`.`ID` AS `UserID`, `conversation`.`Status` FROM `conversation` INNER JOIN `users` ON CASE WHEN `conversation`.`User_One` != :me THEN `conversation`.`User_One` = `users`.`ID` ELSE `conversation`.`User_Two` = `users`.`ID` END INNER JOIN `services` ON `conversation`.`ServiceFor` = `services`.`ID` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` WHERE (`conversation`.`User_One` = :me OR `conversation`.`User_Two` = :me) AND ".$clause[0]."");
 				$clause[1][":me"] = $this->user->ID;
 				$select->execute($clause[1]);
 			}
@@ -230,7 +230,7 @@
 						$val = 1;
 					}
 					if($data->HiddenFor != $val) {
-					$array[] = array("Name" => ucfirst($data->FirstName).' '.ucfirst($data->LastName), "For" => $data->ServiceFor, "Title" => $this->service_title($data->ServiceFor), "UserID" => $data->UserID, "ID" => $data->ID, "Count" => $this->unread_message($data->ID));
+					$array[] = array("Name" => ucfirst($data->FirstName).' '.ucfirst($data->LastName), "For" => $data->ServiceFor, "Title" => $this->service_title($data->ServiceFor), "UserID" => $data->UserID, "ID" => $data->ID, "Status" =>$data->Status, "Count" => $this->unread_message($data->ID));
 				}
 				$i++;
 			}
@@ -345,7 +345,7 @@
 				$for_ = '<input type="hidden" name="for" value="'.$service->ID.'" >'.$for.'';
 				$conv = $this->isset_conversation($user->ID, $service->ID);
 				if($conv != false) {
-					$isset = " - <a href='messagerie.php#select-".$conv."'>Cet conversation à déjà commencé.</a>";
+					$isset = " - <a href='messagerie.php#select-".$conv."'>Cette conversation a déjà commencé</a>";
 					$k = $this->content_conv($conv);
 					$g = count($k);
 					for($o=0;$o<$g-1;$o++) {
