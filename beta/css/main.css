@@ -84,9 +84,6 @@ html, body {
 #clone_login {
 	margin-top:10px;	
 }
-.link-profil {
-	color:#FFF;	
-}
 #clone_login input[type="submit"] {
 	float:right;
 	margin-top:10px;
@@ -128,7 +125,7 @@ form#user_add .greyback .lu {
     text-align: left;
     width: auto !important;
 }
-form#user_add .greyback input[type=submit], form#user_remind .greyback input[type=submit], .message_box input[type=submit], .message_box button, form input[type=submit] {
+form#user_add .greyback input[type=submit], form#user_remind .greyback input[type=submit], .message_box input[type=submit], .message_box button {
     background-color: white;
     color: #323232;
     text-transform: uppercase;
@@ -143,7 +140,7 @@ form#user_add .greyback input[type=submit], form#user_remind .greyback input[typ
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-form#user_add .greyback input[type=submit]:hover, form#user_remind .greyback input[type=submit]:hover, .message_box input[type=submit]:hover, .message_box button:hover, form input[type=submit]:hover {
+form#user_add .greyback input[type=submit]:hover, form#user_remind .greyback input[type=submit]:hover, .message_box input[type=submit]:hover, .message_box button:hover {
     background-color: #53c1dd;
     color: white;
 }
@@ -261,7 +258,7 @@ a.add_dispo, a.remove_dispo {
     min-width: 100% !important;
     width: 100% !important;
 }
-select, input, textarea {
+select, input {
     border-radius: 0px !important;
 }
 .login-menu {
@@ -485,11 +482,69 @@ input.space-button {
 	height:100%;
 	min-height:100%;
 }
+/*
+.picto-1 {
+	background:url(../img/services/2.jpg) center no-repeat;
+	background-size:cover;	
+}
+.picto-2 {
+	background:url(../img/services/2.jpg) center no-repeat;
+	background-size:cover;	
+}
+.picto-3 {
+	background:url(../img/services/3.jpg) center no-repeat;
+	background-size:cover;	
+}
+.picto-4 {
+	background:url(../img/services/4.jpg) center no-repeat;
+	background-size:cover;	
+}
+.picto-5 {
+	background:url(../img/services/5.jpg) center no-repeat;
+	background-size:cover;	
+}
+.picto-6 {
+	background:url(../img/services/6.jpg) center no-repeat;
+	background-size:cover;	
+}
+.picto-7 {
+	background:url(../img/services/7.jpg) center no-repeat;
+	background-size:cover;	
+}
+.picto-8 {
+	background:url(../img/services/8.jpg) center no-repeat;
+	background-size:cover;	
+}
+.picto-9 {
+	background:url(../img/services/9.jpg) center no-repeat;
+	background-size:cover;	
+}
+.picto-10 {
+	background:url(../img/services/10.jpg) center no-repeat;
+	background-size:cover;	
+}
+.picto-11 {
+	background:url(../img/services/11.jpg) center no-repeat;
+	background-size:cover;	
+}
+.picto-12 {
+	background:url(../img/services/12.jpg) center no-repeat;
+	background-size:cover;	
+}
+.picto-13 {
+	background:url(../img/services/13.jpg) center no-repeat;
+	background-size:cover;	
+}
+.picto-14 {
+	background:url(../img/services/14.jpg) center no-repeat;
+	background-size:cover;	
+}
+.picto-15 {
+	background:url(../img/services/15.jpg) center no-repeat;
+	background-size:cover;	
+}*/
 .form-group {
 	overflow:auto;	
-}
-#profil .form-group {
-	overflow:visible !important;	
 }
 
 	/* ### ACCUEIL ###*/
@@ -724,15 +779,15 @@ input.space-button {
 	display: inline;
 	width:140px;
 }
-.birthday{
+.greyback .birthday {
 	display: inline;
 	width:66px;
 }
- .birthmonth {
+.greyback .birthmonth {
 	display: inline;
 	width:66px;
 }
- .birthyear {
+.greyback .birthyear {
 	display: inline;
 	width:80px;
 }
@@ -741,7 +796,7 @@ input.space-button {
 	width:70px;
 	height:32px;
 }
-.greyback .zipcode, form .zipcode {
+.greyback .zipcode, .greyback .zipcode {
 	display: inline;
 	width:100px;	
 }
@@ -751,7 +806,7 @@ input#accept {
 } 
 form .liketext { 
 	border:none;
-	background:transparent !important;	
+	background:transparent;	
 	display:inline;
 	width:auto !important;
 	box-shadow:none;
@@ -759,7 +814,7 @@ form .liketext {
 }
 .greyback .liketext:not(.fullwidth), .greyback .liketext:not(.fullwidth) {
 	border:none;
-	background:transparent !important;	
+	background:transparent;	
 	display:inline;
 	width:auto !important;
 	box-shadow:none;
@@ -808,9 +863,9 @@ form .liketext {
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-.greyback input[type=submit]:hover, form input[type=submit]:hover {
-	background-color: #53c1dd !important;
-	color:white !important;
+.greyback input[type=submit]:hover{
+	background-color: #53c1dd;
+	color:white;
 }
 
 	/* ### COMMENT ÇA MARCHE ### */
@@ -872,13 +927,6 @@ form .liketext {
 }
 #spec_apropos .pictodown{
 	text-align: center;
-}
-.text-left {
-	text-align:left;
-}
-.aste {
-	text-align:left;
-	font-size:0.9em;
 }
 #spec_apropos #spec_team{
 	background-color: #323232;
@@ -1146,6 +1194,7 @@ form .liketext {
 	line-height: 39px;
 	height:39px;
 	margin-top: -39px;
+	margin-left: 39px;
 }
 #spec_cgu_mention .header_cgu p{
 	width: auto;
@@ -1247,31 +1296,35 @@ form .liketext {
 	width:100%;
 	padding: 0;
 }
-
+@media(min-width: 768px){
+	#profil{
+		margin-top: 62px;
+	}
+}
+@media(min-width: 992px){
+	#profil{
+		margin-top: 31px;
+	}
+}
 #profil.mon_profil{
 	padding:0px;
 }
 #profil .header_profil{
 	color: white;
+	margin-top: -20px;
 	background-color: #323232;
-	padding:50px 0px 20px 0px;
+	padding:30px 0px 20px 0px;
 }
 #profil .header_profil .top{
 	text-align: center;
 	margin-bottom: 28px;
-}
-#profil .form-group {
-	text-align:left !important;
 }
 @media(min-width: 992px){
 	#profil .header_profil .top .infos{
 		text-align: left!important;
 	}
 }
-#profil input, #profil textarea {
-	color:#000;	
-}
-#profil .header_profil .top .infos .nom span {
+#profil .header_profil .top .infos .nom {
 	font-family: "Pacifico";
 	font-size: 2em;
 	display: inline-block;
@@ -1279,16 +1332,8 @@ form .liketext {
 #profil .header_profil .edit .infos .nom br{
 	display: none; /* empêcher le saut de ligne dans l'édit */
 }
-.change_pass {
-	font-size:1.18em;
-	text-decoration:underline;	
-	text-align:left;
-	color:#CDCDCD;
-	margin-bottom:4px;
-}
-.see_profile {
-	display:block;
-	padding:6px;
+#profil .header_profil .edit .infos .nom:hover {
+	background-color: red;
 }
 #profil .header_profil span img {
 	margin-right: 5px;
@@ -1448,14 +1493,6 @@ td {
 }
 .navbar-header img.min {
 	display:none;
-}
-#profil form .liketext {
-	color:#FFF !important;	
-}
-.border-hr {
-	border-bottom:#7A7A7A 1px solid !important;	
-	height:2px !important;
-	margin-bottom:10px !important;
 }
 @media (min-width:768px){
 .nav-h {
@@ -1743,51 +1780,3 @@ td {
  }*/
 @-moz-document url-prefix() {
   fieldset { display: table-cell; }
-  .bootstrap-tagsinput {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  display: inline-block;
-  padding: 4px 6px;
-  margin-bottom: 10px;
-  color: #555;
-  vertical-align: middle;
-  border-radius: 0px;
-  max-width: 100%;
-  width:100%;
-  line-height: 22px;
-  cursor: text;
-}
-.bootstrap-tagsinput input {
-  border: none;
-  box-shadow: none;
-  outline: none;
-  background-color: transparent;
-  padding: 0;
-  margin: 0;
-  width: auto !important;
-  max-width: inherit;
-}
-.bootstrap-tagsinput input:focus {
-  border: none;
-  box-shadow: none;
-}
-.bootstrap-tagsinput .tag {
-  margin-right: 2px;
-  color: white;
-}
-.bootstrap-tagsinput .tag [data-role="remove"] {
-  margin-left: 8px;
-  cursor: pointer;
-}
-.bootstrap-tagsinput .tag [data-role="remove"]:after {
-  content: "x";
-  padding: 0px 2px;
-}
-.bootstrap-tagsinput .tag [data-role="remove"]:hover {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-.bootstrap-tagsinput .tag [data-role="remove"]:hover:active {
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-

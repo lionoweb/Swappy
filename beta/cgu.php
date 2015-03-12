@@ -92,7 +92,7 @@
                      </li>
                      <li>
                         <div class="row">
-                           <img src="img/cgu/...png" class="pic">
+                           <img src="img/cgu/use.png" class="pic">
                            <div class="header_cgu"><p>Utilisation du site</p></div>
                         </div>
                         <p class="greyback">L’utilisateur est seul maître de son utilisation. Il est responsable des informations qu’il transmet à travers ce site. Swappy.fr s’engage à ne pas diffuser les informations que l’utilisateur transmet à la plateforme. Il est proscrit aux utilisateurs de transmettre des informations erronées. Swappy.fr veut garantir l’exactitude des informations qu’il transmet. De ce fait, les utilisateurs prennent l’engagement de ne pas rédiger de messages comportant des termes injurieux, obscènes, illicites ou grossiers envers autrui. De même, il s’engage à ne pas rédiger d'éléments publicitaires d’un site concurrent ou de tout autre site afin de ne pas spammer les autres utilisateurs. Le fait de rédiger des éléments répréhensibles par la loi et tout autre comportement qui porterait préjudice au site est passible de poursuite. <br><strong>En cas de non-respect des conditions de rédaction des annonces ou des messages destinés à d’autres personnes</strong>, le compte de l’utilisateur sera supprimé sans préavis.</p>
@@ -148,7 +148,7 @@
                      </li>
                      <li>
                         <div class="row">
-                           <img src="img/cgu/...png" class="pic">
+                           <img src="img/cgu/editer.png" class="pic">
                            <div class="header_cgu"><p>Contenu édité par les utilisateurs</p></div>
                         </div>
                         <p class="greyback">L’utilisateur est le rédacteur des propositions. Par conséquent, il est responsable de son contenu rédactionnel. Comme dit précédemment dans les Conditions d’utilisation du site, tout contenu considéré comme répréhensible entraînera la suppression permanente et irréversible de son compte.</p>
