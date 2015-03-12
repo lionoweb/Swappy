@@ -6,6 +6,7 @@
    if(isset($_GET['logout'])) {
    	$user->logout();
    }
+ $user->onlyUsers();
    if(isset($_GET['id'])) {
 	   $user_ = new user($mysql, trim($_GET['id']));
 	   require_once("inc/chat.php");

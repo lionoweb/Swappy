@@ -71,7 +71,7 @@
 		}
 		function isset_conversation($id, $for) {
 			$t = false;
-			$select = $this->mysql->prepare("SELECT `ID`, COUNT(*) AS `total` FROM `conversation` WHERE ((`User_One` = :me AND `User_Two` = :id) OR (`User_Two` = :me AND `User_One` = :id)) AND `ServiceFor` = :for AND `Status` = '0'");
+			$select = $this->mysql->prepare("SELECT `ID`, COUNT(*) AS `total` FROM `conversation` WHERE ((`User_One` = :me AND `User_Two` = :id) OR (`User_Two` = :me AND `User_One` = :id)) AND `ServiceFor` = :for");
 			$select->execute(array(":me" => $this->user->ID, ":id" => $id, ":for" => $for));
 			$data = $select->fetch(PDO::FETCH_OBJ);
 			if($data->total > 0) {
@@ -343,7 +343,6 @@
 		function prepare_popup($user, $service=false) {
 			$for = "";
 			$isset = "";
-			$isset_ = "";
 			if($service != false) {
 				$stxt = "Bonjour, je suis intéressé par votre service.";
 				$for = "le service <i>\"".$service->title."\"</i>";
@@ -351,9 +350,6 @@
 				$conv = $this->isset_conversation($user->ID, $service->ID);
 				if($conv != false) {
 					$isset = " - <a href='messagerie.php#select-".$conv."'>Cette conversation a déjà commencé</a>";
-					if($isset_ == "") {
-						$isset = "";
-					}
 				}
 			} else {
 				$stxt = "Salut, ";
@@ -362,9 +358,6 @@
 				$conv = $this->isset_conversation($user->ID, 'talk');
 				if($conv != false) {
 					$isset = " - <a href='messagerie.php#select-".$conv."'>Cette conversation a déjà commencé</a>";
-					if($isset_ == "") {
-						$isset = "";
-					}
 				}
 			}
 			$html = '';
