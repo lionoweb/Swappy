@@ -182,7 +182,10 @@
 		* @param {String} type the type of bubble: 'pass' (green), 'load' (black) anything else (red)
 		* @param {String} possible values topLeft, topRight, bottomLeft, centerRight, bottomRight
 		*/
-		showPrompt: function(promptText, type, promptPosition, showArrow) {
+		showPrompt: function(promptText, type, promptPosition, showArrow, scrol) {
+			if(typeof(scrol) == "undefined") {
+				var scrol = false;
+			}
 			var form = this.closest('form, .validationEngineContainer');
 			var options = form.data('jqv');
 			// No option, take default one
@@ -192,7 +195,7 @@
 				options.promptPosition=promptPosition;
 			options.showArrow = showArrow==true;
 
-			methods._showPrompt(this, promptText, type, false, options);
+			methods._showPrompt(this, promptText, type, false, options, false, scrol);
 			return this;
 		},
 		/**
@@ -362,9 +365,14 @@
 
 			// third, check status and scroll the container accordingly
 			form.trigger("jqv.form.result", [errorFound]);
-
+			if(first_err != null) {
+				var gg = first_err.parent().html();
+			} else {
+				var gg = "";
+			}
 			if (errorFound) {
-				if (options.scroll) {
+				if (options.scroll && !gg.match(/BlackPopup/gi)) {
+					
 					var destination=first_err.offset().top;
 					var fixleft = first_err.offset().left;
 
@@ -387,24 +395,32 @@
 					// get the position of the first error, there should be at least one, no need to check this
 					//var destination = form.find(".formError:not('.greenPopup'):first").offset().top;
 					if (options.isOverflown) {
+						var pp = 0;
+						if($(".nav-h.visible").length > 0) {
+							pp = 30;
+						}
 						var overflowDIV = $(options.overflownDIV);
 						if(!overflowDIV.length) return false;
 						var scrollContainerScroll = overflowDIV.scrollTop();
-						var scrollContainerPos = -parseInt(overflowDIV.offset().top) - ($("nav").height() + 50);
+						var scrollContainerPos = -parseInt(overflowDIV.offset().top) - ($("nav").height() + 50 + pp);
 						destination += scrollContainerScroll + scrollContainerPos - 5;
 						var scrollContainer = $(options.overflownDIV + ":not(:animated)");
 
-						scrollContainer.animate({ scrollTop: destination }, 1100, function(){
+						scrollContainer.animate({ scrollTop: destination }, 900, function(){
 							if(options.focusFirstField) first_err.focus();
 						});
 
 					} else {
+						var pp = 0;
+						if($(".nav-h.visible").length > 0) {
+							pp = 30;
+						}
 						$("html, body").animate({
-							scrollTop: destination-($("nav").height() + 50)
-						}, 1100, function(){
+							scrollTop: destination-($("nav").height() + 50 + pp)
+						}, 900, function(){
 							if(options.focusFirstField) first_err.focus();
 						});
-						$("html, body").animate({scrollLeft: fixleft},1100)
+						$("html, body").animate({scrollLeft: fixleft},900)
 					}
 
 				} else if(options.focusFirstField)
@@ -1537,7 +1553,7 @@
 						 var errorField = $("#"+ errorFieldId).eq(0);
 						if(errorField.parents(".col-xs-12").length > 0) {
 			 					errorField = errorField.parents(".col-xs-12");
-			 				}
+			 				} 
 						 // make sure we found the element
 						 if (errorField.length == 1) {
 							 var status = json[1];
@@ -1559,7 +1575,6 @@
 								 }
 								 else
 									msg = rule.alertText;
-
 								 if (options.showPrompts) methods._showPrompt(errorField, msg, "", true, options);
 							 } else {
 								 options.ajaxValidCache[errorFieldId] = true;
@@ -1646,16 +1661,74 @@
 		* @param {boolean} ajaxed - use to mark fields than being validated with ajax
 		* @param {Map} options user options
 		*/
-		 _showPrompt: function(field, promptText, type, ajaxed, options, ajaxform) {
+		 _showPrompt: function(field, promptText, type, ajaxed, options, ajaxform, oo) {
+			 if(typeof(oo) == "undefined") {
+				 var oo = false;
+			 }
 			 if(field.parents(".col-xs-12").length > 0) {
 			 	field = field.parents(".col-xs-12");
-			 }
+			 } 
 			 var prompt = methods._getPrompt(field);
 			 // The ajax submit errors are not see has an error in the form,
 			 // When the form errors are returned, the engine see 2 bubbles, but those are ebing closed by the engine at the same time
 			 // Because no error was found befor submitting
 			 if(ajaxform) prompt = false;
 			 // Check that there is indded text
+			 if (options.scroll && oo == true && type != "load") {
+				var first_err = field;
+				var destination=first_err.offset().top;
+				var fixleft = first_err.offset().left;
+
+				//prompt positioning adjustment support. Usage: positionType:Xshift,Yshift (for ex.: bottomLeft:+20 or bottomLeft:-20,+10)
+				var positionType=options.promptPosition;
+				if (typeof(positionType)=='string' && positionType.indexOf(":")!=-1)
+					positionType=positionType.substring(0,positionType.indexOf(":"));
+
+				if (positionType!="bottomRight" && positionType!="bottomLeft") {
+					var prompt_err= methods._getPrompt(first_err);
+					if (prompt_err) {
+						destination=prompt_err.offset().top;
+					}
+				}
+				
+				// Offset the amount the page scrolls by an amount in px to accomodate fixed elements at top of page
+				if (options.scrollOffset) {
+					destination -= options.scrollOffset;
+				}
+				// get the position of the first error, there should be at least one, no need to check this
+				//var destination = form.find(".formError:not('.greenPopup'):first").offset().top;
+				if (options.isOverflown) {
+					var pp = 0;
+					if($(".nav-h.visible").length > 0) {
+						pp = 30;
+					}
+					var overflowDIV = $(options.overflownDIV);
+					if(!overflowDIV.length) return false;
+					var scrollContainerScroll = overflowDIV.scrollTop();
+					var scrollContainerPos = -parseInt(overflowDIV.offset().top) - ($("nav").height() + 50 + pp);
+					destination += scrollContainerScroll + scrollContainerPos - 5;
+					var scrollContainer = $(options.overflownDIV + ":not(:animated)");
+
+					scrollContainer.animate({ scrollTop: destination }, 900, function(){
+						if(options.focusFirstField) first_err.focus();
+					});
+
+				} else {
+					var pp = 0;
+					if($(".nav-h.visible").length > 0) {
+						pp = 30;
+					}
+					$("html, body").animate({
+						scrollTop: destination-($("nav").height() + 50 + pp)
+					}, 900, function(){
+						if(options.focusFirstField) first_err.focus();
+					});
+					$("html, body").animate({scrollLeft: fixleft},900)
+				}
+
+			} 
+				
+			
 			 if($.trim(promptText)){ 
 				 if (prompt)
 					methods._updatePrompt(field, prompt, promptText, type, ajaxed, options);

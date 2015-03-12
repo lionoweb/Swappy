@@ -7,6 +7,9 @@ $user = new user($mysql);
 if(isset($_POST['login'])) {
 	$arr = $user->add_user($_POST);
 }
+if(isset($_POST['a_mdp'])) {
+	$arr = $user->edit_user($_POST);
+}
 if(isset($_POST['hash'])) {
 	$arr = $user->remind_account($_POST);
 }

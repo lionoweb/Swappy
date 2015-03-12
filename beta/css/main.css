@@ -128,7 +128,7 @@ form#user_add .greyback .lu {
     text-align: left;
     width: auto !important;
 }
-form#user_add .greyback input[type=submit], form#user_remind .greyback input[type=submit], .message_box input[type=submit], .message_box button {
+form#user_add .greyback input[type=submit], form#user_remind .greyback input[type=submit], .message_box input[type=submit], .message_box button, form input[type=submit] {
     background-color: white;
     color: #323232;
     text-transform: uppercase;
@@ -143,7 +143,7 @@ form#user_add .greyback input[type=submit], form#user_remind .greyback input[typ
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-form#user_add .greyback input[type=submit]:hover, form#user_remind .greyback input[type=submit]:hover, .message_box input[type=submit]:hover, .message_box button:hover {
+form#user_add .greyback input[type=submit]:hover, form#user_remind .greyback input[type=submit]:hover, .message_box input[type=submit]:hover, .message_box button:hover, form input[type=submit]:hover {
     background-color: #53c1dd;
     color: white;
 }
@@ -261,7 +261,7 @@ a.add_dispo, a.remove_dispo {
     min-width: 100% !important;
     width: 100% !important;
 }
-select, input {
+select, input, textarea {
     border-radius: 0px !important;
 }
 .login-menu {
@@ -549,6 +549,9 @@ input.space-button {
 .form-group {
 	overflow:auto;	
 }
+#profil .form-group {
+	overflow:visible !important;	
+}
 
 	/* ### ACCUEIL ###*/
 #spec_accueil{
@@ -782,15 +785,15 @@ input.space-button {
 	display: inline;
 	width:140px;
 }
-.greyback .birthday {
+.birthday{
 	display: inline;
 	width:66px;
 }
-.greyback .birthmonth {
+ .birthmonth {
 	display: inline;
 	width:66px;
 }
-.greyback .birthyear {
+ .birthyear {
 	display: inline;
 	width:80px;
 }
@@ -799,7 +802,7 @@ input.space-button {
 	width:70px;
 	height:32px;
 }
-.greyback .zipcode, .greyback .zipcode {
+.greyback .zipcode, form .zipcode {
 	display: inline;
 	width:100px;	
 }
@@ -809,7 +812,7 @@ input#accept {
 } 
 form .liketext { 
 	border:none;
-	background:transparent;	
+	background:transparent !important;	
 	display:inline;
 	width:auto !important;
 	box-shadow:none;
@@ -817,7 +820,7 @@ form .liketext {
 }
 .greyback .liketext:not(.fullwidth), .greyback .liketext:not(.fullwidth) {
 	border:none;
-	background:transparent;	
+	background:transparent !important;	
 	display:inline;
 	width:auto !important;
 	box-shadow:none;
@@ -866,9 +869,9 @@ form .liketext {
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-.greyback input[type=submit]:hover{
-	background-color: #53c1dd;
-	color:white;
+.greyback input[type=submit]:hover, form input[type=submit]:hover {
+	background-color: #53c1dd !important;
+	color:white !important;
 }
 
 	/* ### COMMENT ÇA MARCHE ### */
@@ -930,6 +933,9 @@ form .liketext {
 }
 #spec_apropos .pictodown{
 	text-align: center;
+}
+.text-left {
+	text-align:left;
 }
 #spec_apropos #spec_team{
 	background-color: #323232;
@@ -1311,12 +1317,18 @@ form .liketext {
 	text-align: center;
 	margin-bottom: 28px;
 }
+#profil .form-group {
+	text-align:left !important;
+}
 @media(min-width: 992px){
 	#profil .header_profil .top .infos{
 		text-align: left!important;
 	}
 }
-#profil .header_profil .top .infos .nom {
+#profil input, #profil textarea {
+	color:#000;	
+}
+#profil .header_profil .top .infos .nom span {
 	font-family: "Pacifico";
 	font-size: 2em;
 	display: inline-block;
@@ -1324,9 +1336,7 @@ form .liketext {
 #profil .header_profil .edit .infos .nom br{
 	display: none; /* empêcher le saut de ligne dans l'édit */
 }
-#profil .header_profil .edit .infos .nom:hover {
-	background-color: red;
-}
+
 #profil .header_profil span img {
 	margin-right: 5px;
 }
@@ -1485,6 +1495,14 @@ td {
 }
 .navbar-header img.min {
 	display:none;
+}
+#profil form .liketext {
+	color:#FFF !important;	
+}
+.border-hr {
+	border-bottom:#7A7A7A 1px solid !important;	
+	height:2px !important;
+	margin-bottom:10px !important;
 }
 @media (min-width:768px){
 .nav-h {
@@ -1772,3 +1790,51 @@ td {
  }*/
 @-moz-document url-prefix() {
   fieldset { display: table-cell; }
+  .bootstrap-tagsinput {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  display: inline-block;
+  padding: 4px 6px;
+  margin-bottom: 10px;
+  color: #555;
+  vertical-align: middle;
+  border-radius: 0px;
+  max-width: 100%;
+  width:100%;
+  line-height: 22px;
+  cursor: text;
+}
+.bootstrap-tagsinput input {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  width: auto !important;
+  max-width: inherit;
+}
+.bootstrap-tagsinput input:focus {
+  border: none;
+  box-shadow: none;
+}
+.bootstrap-tagsinput .tag {
+  margin-right: 2px;
+  color: white;
+}
+.bootstrap-tagsinput .tag [data-role="remove"] {
+  margin-left: 8px;
+  cursor: pointer;
+}
+.bootstrap-tagsinput .tag [data-role="remove"]:after {
+  content: "x";
+  padding: 0px 2px;
+}
+.bootstrap-tagsinput .tag [data-role="remove"]:hover {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.bootstrap-tagsinput .tag [data-role="remove"]:hover:active {
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+

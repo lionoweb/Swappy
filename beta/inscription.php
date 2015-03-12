@@ -197,7 +197,6 @@
                      <label for="street" class="control-label col-xs-12 col-sm-2 col-md-4">Adresse :</label>
                      <div class="col-xs-12 col-sm-10 col-md-8">
                         <input autocomplete="off" type="text" id="street" name="street" class="form-control">
-                        <input autocomplete="off" type="text" id="street" name="street2" class="form-control">
                      </div>
                   </div>
                   <div class="form-group">

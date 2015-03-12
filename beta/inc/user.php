@@ -97,6 +97,7 @@
 			if(!empty($adresse)) {
 				//Si on a une adresse complete on va utiliser GOOGLE API pour une meilleur localisation
 				$addr = $adresse." ".$city_;
+				
 				$url='http://maps.googleapis.com/maps/api/geocode/xml?region=FR&address='.$addr.', France&sensor=false';
 				$xml = @simplexml_load_file($url);
 				$coords['status'] = @$xml->status;
@@ -107,9 +108,9 @@
 					if($xml->result->address_component[1]->type == "route") {
 						
 						//On verifie la similarité entre le resultat et la recherche
-						$result_street = $xml->result->address_component[0]->long_name." ".$xml->result->address_component[1]->long_name;
+						$result_street = $xml->result->address_component[0]->long_name." ".$xml->result->address_component[1]->long_name." ".$xml->result->address_component[6]->long_name." ".$xml->result->address_component[2]->long_name;
 						similar_text(strtoupper($this->wd_remove_accents($result_street)), strtoupper($this->wd_remove_accents($adresse)), $percent);
-						if(number_format($percent, 0) < 35) {
+						if(number_format($percent, 0) < 42) {
 							//Si la similitude des adresse est inférieur à 35% par sécurité on va juste ce basé sur le code postal
 							$coords = $this->getPosition("", $zip, $city);
 						} else {
@@ -145,6 +146,7 @@
 			$avatar, 
 			$zipcode, 
 			$street, 
+			$street2,
 			$mailoption, 
 			$admin, 
 			$gender, 
@@ -157,7 +159,8 @@
 			$tags,
 		$lon;
 		private $mysql, 
-			$cookies;
+			$cookies,
+			$password;
 		function __construct($mysql, $id="") {
 			$this->mysql = $mysql;
 			if(empty($id)) {
@@ -369,29 +372,17 @@
 		}
 		function tags_uncrypt($tags) {
 			$html = "";
-			$l = preg_split('/\;\|\;/', $tags);	
+			$l = preg_split('/\,/', $tags);	
 			for($i=0;$i<count($l);$i++) {
 				$c = trim($l[$i]);
 				if(!empty($c)) {
 					$html .= "<p>".ucfirst(strtolower($c))."</p>";
 				}
 			}
-			return $html;
-		}
-		function tags_crypt($tags) {
-			$field = "";
-			$l = preg_split('/\,/', $tags);	
-			for($i=0;$i<count($l);$i++) {
-				$c = trim($l[$i]);
-			  if(!empty($c)) {
-				if($i == 0) {
-					$field .= $c;
-				} else {
-					$field .= ";|;".$c;
-				}
-			  }
+			if($html == "" && !empty($tags)) {
+				$html = "<p>".ucfirst(strtolower($tags))."</p>";
 			}
-			return $field;
+			return $html;
 		}
 		function load_user_data($ID, $crypt, $me=true) {			
 			$select = $this->mysql->prepare("SELECT *, COUNT(*) AS `exist` FROM `users` WHERE `ID` = :ID");
@@ -412,6 +403,7 @@
 				$this->age = $this->getAge($data->Birthdate);
 				$this->cryptID = $crypt;
 				$this->admin = $data->Admin;
+				$this->password = $data->Password;
 				$this->avatar = $data->Avatar;
 				$this->login = $data->Login;
 				$this->email = $data->Email;
@@ -427,7 +419,7 @@
 				$this->lon = $data->Lon;
 				$this->lat = $data->Lat;
 				$this->tags = $data->Tags;
-				$this->description = $data->Desc ? '' : 'Pas de description';
+				$this->description = $data->Desc;
 				if($me == true) {
 					$this->logged = true;
 				} else {
@@ -438,6 +430,7 @@
 		function unload_user_data() {
 			$this->ID = false;
 			$this->age = false;
+			$this->password = false;
 			$this->cryptID = false;
 			$this->admin = false;
 			$this->avatar = false;
@@ -458,6 +451,101 @@
 			$this->description = false;
 			$this->tags = false;
 		}
+		function edit_user($POST) {
+			$avatar = $this->avatar;
+			$return = array(false);
+			$allow = 1;
+			$set = "";
+			$replace = array();
+			if(trim($POST['nom']) != $this->lastname) {
+				$set .= ' `LastName` = :nom,';
+				$replace[':nom'] = trim($POST['nom']);
+			}
+			if(trim($POST['prenom']) != $this->firstname) {
+				$set .= ' `FirstName` = :prenom,';
+				$replace[':prenom'] = trim($POST['prenom']);
+			}
+			if(trim($POST['gender']) != $this->gender) {
+				$set .= ' `Gender` = :gender,';
+				$replace[':gender'] = trim($POST['gender']);
+				if(preg_match('/\/(M|F)\.jpg/', $avatar)) {
+					$avatar = "img/user/".trim($POST['gender']).".jpg";
+					$set .= ' `Avatar` = :avatar,';
+					$replace[':avatar'] = $avatar;
+				}
+			}
+			$birth = $POST['year']."-".$POST['month']."-".$POST['day'];
+			if($birth != $this->birthdate) {
+				$set .= ' `Birthdate` = :birth,';
+				$replace[':birth'] = $birth;
+			}
+			if(trim($POST['street']) != $this->street || trim($POST['zipcode']) != $this->zipcode) {				
+				$city = new city($this->mysql);
+				$c = $city->getPosition($POST['street'], $POST['zipcode'], $POST['cityname']);
+				$set .= ' `Street` = :street,';
+				$replace[':street'] = trim($POST['street']);
+				$set .= ' `ZipCode` = :zipcode,';
+				$replace[':zipcode'] = trim($POST['zipcode']);
+				$set .= ' `City` = :city,';
+				$replace[':city'] = trim($POST['cityname']);
+				$set .= ' `Lat` = :lat, `Lon` = :lon,';
+				$replace[':lat'] = $c['lat'];
+				$replace[':lon'] = $c['lon'];
+			}
+			if(trim($POST['tags']) != $this->tags) {
+				$set .= ' `Tags` = :tags,';
+				$replace[':tags'] = trim($POST['tags']);
+			}
+			if(trim($POST['description']) != $this->description) {
+				$set .= ' `Desc` = :desc,';
+				$replace[':desc'] = trim($POST['description']);
+			}
+			if(trim($POST['phone']) != $this->phone) {
+				$set .= ' `Phone` = :phone,';
+				$replace[':phone'] = trim($POST['phone']);
+			}
+			$mdp = trim($POST['mdp']);
+			$rmdp = trim($POST['r_mdp']);
+			$mail_ = trim(strtolower($POST['email']));
+			if($mail_ != $this->email || (!empty($mdp) && !empty($rmdp))) {			
+				$amdp = trim($POST['a_mdp']);
+				if(empty($amdp)) {
+					$allow = 0;
+					$return = array(false, "Pour changer email et/ou mot de passe, vous devez entrer votre mot de passe actuel !", "a_mdp");
+				} else if(md5($amdp) != $this->password) {
+					$allow = 0;
+					$return = array(false, "Mauvais mot de passe", "a_mdp");
+				}
+				if($allow == 1 && $mail_ != $this->email) {
+					$mm = $this->issetEmail($mail_, "");
+					if($mm[1] == true) {
+						$allow = 0;
+						$return = array(false, "Cette adresse email est déjà utilisée !", "email");
+					} else {
+						$set .= ' `Email` = :email,';
+						$replace[':email'] = $mail_;
+					}
+				}
+				if($allow == 1 && (!empty($mdp) && !empty($rmdp))) {
+					if($mdp == $rmdp) {
+						$set .= ' `Password` = :password,';
+						$replace[':password'] = md5($mdp);
+					} else {
+						$allow = 0;
+						$return = array(false, "Les mots de passe ne sont pas identique", "mdp");
+					}
+				}
+			}
+			if($allow == 1) {
+				if(!empty($set)) {
+					$q = substr($set, 0, strlen($set)-1);
+					$select = $this->mysql->prepare("UPDATE `users` SET".$q." WHERE `ID` = '".$this->ID."'");
+					$select->execute($replace);
+				}
+				$return = array(true, $avatar);
+			}
+			return $return;
+		}
 		function add_user($POST) {
 			//prevenir le bug de Validation engine
 			$arr = array(false);
@@ -465,13 +553,6 @@
 				$arr = array(false);
 			} else {
 				$street = $POST['street'];
-				if(!empty($_POST['street2'])) {
-					if(empty($street)) {
-						$street = $POST['street2'];
-					} else {
-						$street .= " ".$POST['street'];
-					}
-				}
 				$birthdate = $POST['year']."-".$POST['month']."-".$POST['day'];
 				//Creation de la position Lat/Lon
 				$city = new city($this->mysql);

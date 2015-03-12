@@ -8,7 +8,27 @@
    if(isset($_GET['logout'])) {
    	$user->logout();
    }
-   $user->onlyUsers();	?>
+   $user->onlyUsers();
+    if(isset($_GET['edit']) && !empty($_GET['edit'])) {
+		$serviceid = @$_GET['edit'];
+		$services_ = new services($mysql, $serviceid);
+		if($services_->by != $user->ID) {
+			header("Location: annonce.php?id=".$serviceid."");
+		}
+		$title = $services_->title;
+		$zipcode = $services_->zip;
+		$city = $services_->city;
+		$distance = $services_->distance;
+		$description = $services_->description;
+		$selected = $services_->type;
+	} else {
+		$title = "";
+		$zipcode = $user->zipcode;
+		$city= $user->city;
+		$distance= "1";
+		$description = "";
+		$selected = "";
+	}?>
 <!doctype html>
 <html>
    <head>
@@ -82,28 +102,28 @@
                   <div class="form-group">
                      <label for="sujet" class="control-label col-xs-12 col-sm-3">Sujet</label>
                      <div class="col-xs-12 col-sm-8">
-                        <input id="sujet" name="title" type="text" class="form-control" placeholder="Exemple : Construire une étagère">
+                        <input id="sujet" name="title" value="<?php echo $title; ?>" type="text" class="form-control" placeholder="Exemple : Construire une étagère">
                      </div>
                   </div>
                   <div class="form-group">
                      <label for="type" class="control-label col-xs-12 col-sm-3">Catégorie</label>
                      <div class="col-xs-12 col-sm-8">
                         <?php
-                           echo $services->list_categories(true);
+                           echo $services->list_categories(true, $selected);
                            ?>
                      </div>
                   </div>
                   <div class="form-group">
                      <label for="description" class="control-label col-xs-12 col-sm-3">Description</label>
                      <div class="col-xs-12 col-sm-8">
-                        <textarea id="description" name="description" class="form-control" rows="8" cols="22"></textarea>
+                        <textarea id="description" name="description" class="form-control" rows="8" cols="22"><?php echo $description; ?></textarea>
                      </div>
                   </div>
                   <div class="form-group">
                      <label for="zipbar" class="control-label col-xs-12 col-sm-3">Lieu</label>
                      <div class="col-xs-12 col-sm-8">
-                        <input id="zipcode" value="<?php echo $user->zipcode; ?>" name="zipcode" type="text" size="6" class="form-control validate[required,custom[onlyNumberSp],minSize[5],maxSize[5],ajax[ajaxZipCodeCallPHP]] zipcode" placeholder="code postal">
-                        <input type="text" class="liketext" disabled readonly name="cityname" value="<?php echo $user->city; ?>">
+                        <input id="zipcode" value="<?php echo $zipcode; ?>" name="zipcode" type="text" size="6" class="form-control validate[required,custom[onlyNumberSp],minSize[5],maxSize[5],ajax[ajaxZipCodeCallPHP]] zipcode" placeholder="code postal">
+                        <input type="text" class="liketext" disabled readonly name="cityname" value="<?php echo $city; ?>">
                      </div>
                   </div>
                   <div class="form-group">

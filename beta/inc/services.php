@@ -15,6 +15,7 @@
 		public $city = "";
 		public $lat = "";
 		public $lon = "";
+		public $zip = "";
 		function __construct($mysql, $ids="") {
 			$this->mysql = $mysql;
 			if(!empty($ids)) {
@@ -24,7 +25,7 @@
 			}
 		}
 		function load_service($ids) {
-			$select = $this->mysql->prepare("SELECT `services`.`ID`, `categories`.`ID` AS `CatType`, `services`.`Title`, `services`.`Type`, `type`.`Name` AS `TypeName`, `services`.`By`, `services`.`Description`, `services`.`Distance`, `services`.`Disponibility`, `services`.`Created`, `services`.`City`, `services`.`Lat`, `services`.`Lon`, `french_city`.`Real_Name` AS `CityName` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` WHERE `services`.`ID` = :ID");
+			$select = $this->mysql->prepare("SELECT `services`.`ID`, `categories`.`ID` AS `CatType`, `services`.`Title`, `services`.`Type`, `type`.`Name` AS `TypeName`, `services`.`By`, `services`.`Description`, `services`.`Distance`, `services`.`Disponibility`, `services`.`Created`, `services`.`City`, `services`.`Lat`, `services`.`Lon`, `french_city`.`ZipCode`, `french_city`.`Real_Name` AS `CityName` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` WHERE `services`.`ID` = :ID");
 			$select->execute(array(":ID" => $ids));
 			$data = $select->fetch(PDO::FETCH_OBJ);
 			$total = $select->rowCount();
@@ -53,6 +54,7 @@
 				$this->disponibility = $this->dispo_uncrypt_an($data->Disponibility);
 				$this->created = $data->Created;
 				$this->city = $data->CityName;
+				$this->zip = $data->ZipCode;
 				$this->lat = $data->Lat;
 				$this->lon = $data->Lon;
 			}
@@ -154,7 +156,7 @@
 			$data = $select->fetch(PDO::FETCH_OBJ);
 			return $data->Name;
 		}
-		function list_categories($required=false) {
+		function list_categories($required=false, $selected="") {
 			$req = "";
 			if($required) {
 				$req = 'validate[required] ';
@@ -185,6 +187,9 @@
 			} 
 			$html .= '<option disabled="disabled">Autres</option><option value="'.$other.'">&emsp;&emsp;Autres...</option>';
 			$html .= '</select>	';
+			if($selected != "") {
+				$html = preg_replace('/\<option value\=\"'.$selected.'\"/', '<option value="'.$selected.'\" selected', $html);
+			}
 			return $html;
 		}
 	}

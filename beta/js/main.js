@@ -17,6 +17,11 @@ $(document).ready(function(e) {
 			$("#modal_chat .inner_form").show();
 		});
 	});
+	if($('.tags-input').length > 0) {
+		$('.tags-input').tagsinput({
+			confirmKeys: [13, 44, 32, 188]
+		});
+	}
 	 $( "#searchbar" ).autocomplete({
 		 delay:280, 
 		source: function( request, response ) {
@@ -87,6 +92,14 @@ $(document).ready(function(e) {
 		ajaxFormValidation: true,
 		ajaxFormValidationMethod: 'post',
 		onAjaxFormComplete: add_user_function,
+		onBeforeAjaxFormValidation: load_ajax_d,
+		showOneMessage: true,
+		promptPosition : "topLeft"
+	});
+	$("#edit_user").validationEngine({
+		ajaxFormValidation: true,
+		ajaxFormValidationMethod: 'post',
+		onAjaxFormComplete: edit_user_function,
 		onBeforeAjaxFormValidation: load_ajax_d,
 		showOneMessage: true,
 		promptPosition : "topLeft"
@@ -213,7 +226,27 @@ function add_user_function(status, form, json, options) {
 	return true;
 	} else {
 		$form_b.find("#loader_ajax").remove();
+		return false;
+	}
+}
+function edit_user_function(status, form, json, options) {
+	$form_b = $(form);
+	if(json[0] == true) {
+		$form_b.find("#loader_ajax").remove();
+		$("#avatar_u").attr("src", json[1]);
+		$(".dropdown-toggle img").attr("src", json[1]);
+		$ff = $form_b.find("input[type='submit']");
+		$ff.validationEngine('showPrompt', "Modifications éfféctuées !", 'pass', "topLeft", false, true);
 		return true;
+	} else {
+		$form_b.find("#loader_ajax").remove();
+		if(typeof(json[2]) != "undefined") {
+			$ff = $form_b.find("#"+json[2]+"");
+			$ff.validationEngine('showPrompt', json[1], 'error', "topLeft", true, true);
+		} else {
+			$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
+		}
+		return false;
 	}
 }
 function remind_change_function(status, form, json, options) {
@@ -223,7 +256,7 @@ function remind_change_function(status, form, json, options) {
 		return true;
 	} else {
 		$form_b.find("#loader_ajax").remove();
-		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false);
+		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
 		return false;
 	}
 	
@@ -251,7 +284,7 @@ function send_popup_message(status, form, json, options) {
 		return true;
 	} else {
 		$form_b.find("#loader_ajax").remove();
-		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false);
+		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
 		return false;
 	}
 	
@@ -273,7 +306,7 @@ function login_user_function(status, form, json, options) {
 		return true;
 	} else {
 		$form_b.find("#loader_ajax").remove();
-		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false);
+		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
 		return false;
 	}
 }
@@ -290,7 +323,7 @@ function remind_user_function(status, form, json, options) {
 		return true;
 	} else {
 		$form_b.find("#loader_ajax").remove();
-		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false);
+		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
 		return false;
 	}
 }
