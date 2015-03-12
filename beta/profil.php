@@ -8,6 +8,8 @@
    }
    if(isset($_GET['id'])) {
 	   $user_ = new user($mysql, trim($_GET['id']));
+	   require_once("inc/chat.php");
+	   	$chat = new chat($mysql, $user); 
 	   $title = "Profil de ".ucfirst($user_->firstname)." ".ucfirst($user_->lastname);
    } else {
 		$user_ = $user;   
@@ -48,7 +50,7 @@
                   <span class="icon-bar"></span>
                   </button>
                   <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="127" height="47" src="img/logonav.png" class="max"><img width="50" height="47" src="img/logo_min.png" class="min"></a>
-                  <span class="brand-title"<?php echo $title; ?></span>
+                  <span class="brand-title"><?php echo $title; ?></span>
                </div>
                <form class="navbar-form navbar-left search_navbar" action="services.php" method="get" role="search">
                   <div class=" input-group">
@@ -90,6 +92,8 @@
             <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
          </div>
       </footer>
-      
+      <?php if(isset($_GET['id']) && trim($_GET['id']) != $user->ID && $user->logged) {
+		  $chat->prepare_popup($user_, false);
+	  } ?>
    </body>
 </html>

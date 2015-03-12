@@ -397,11 +397,11 @@ function load_list(search_) {
 	});
 
 }
+
 function load_content(id, title, sc) {
 	if(typeof(sc) == "undefined") {
 		var sc = false;
 	}
-	var ccc = "false";
 	if(typeof(id) == "undefined" || id == "") {
 		var hash = window.location.hash;
 		if(hash.match(/\#select\-/)) {
@@ -432,7 +432,8 @@ function load_content(id, title, sc) {
 		$(".inner_m").html('<center><br>Vous n\'avez aucun message</center>');
 		$(".header_m span").html('');
 		$(".form_m, .header_m").css("display", "none");
-		ccc = 0;
+		var id = 0;
+		mess_count(0, id);
 	} else {
 		var state = $(".mess_t[data-id='"+id+"']").attr("data-state");
 		$(".form_m, .header_m").css("display", "");
@@ -440,6 +441,7 @@ function load_content(id, title, sc) {
 		$.getJSON("inc/send_mess.php?get_message="+id, function(data) {
 			$(".inner_m").html('');
 			$(".header_m span").html(title);
+			mess_count(data.count, id);
 			$.each(data, function(index, value) {
 				if(typeof(value.Message) != "undefined") {
 					var c = 'other';
@@ -455,7 +457,6 @@ function load_content(id, title, sc) {
 			if(sc == false) {
 				$(".inner_m").scrollTop($(".inner_m")[0].scrollHeight);
 			}
-			ccc = data.count;
 		});
 	}
 	if(state == "0") {
@@ -476,12 +477,11 @@ function load_content(id, title, sc) {
 		$(".form_m button").attr("disabled");
 		$(".form_m button").css("display", "none");
 	}
-	mess_count(ccc, id);
+	$("input[name='ID_Converse']").val(id);
 }
 function mess_count(data, id) {
 	if(data != "false") {
 		$('div[data-id="'+id+'"] .mess_count').removeClass("red");
-		$("input[name='ID_Converse']").val(id);
 		$("input[name='message_r']").val("");
 		if(data == 0) {
 			$(".nav-h .mess_count").removeClass("red").html("0");

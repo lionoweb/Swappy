@@ -115,7 +115,6 @@
          </div>
       </footer>
       <?php $chat->prepare_popup($user_, $services); ?>
-      <?php $user->modal_location_c($_GET); ?>
 
    </body>
 </html>

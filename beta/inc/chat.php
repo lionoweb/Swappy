@@ -83,8 +83,12 @@
 		}
 		function make_conversation($id, $for) {
 			$i = 0;
-			$select = $this->mysql->prepare("INSERT INTO `conversation` (`ID`, `User_One`, `User_Two`, `ServiceFor`, `Timestamp`, `Status`, `HiddenFor`) VALUES (NULL, :me, :id, :for, :time, '0', '0');");
-			$select->execute(array(":me" => $this->user->ID, ":id" => $id, ":for" => $for, ":time" => time()));
+			$status = 0;
+			if($for == 0) {
+				$status = 3;
+			}
+			$select = $this->mysql->prepare("INSERT INTO `conversation` (`ID`, `User_One`, `User_Two`, `ServiceFor`, `Timestamp`, `Status`, `HiddenFor`) VALUES (NULL, :me, :id, :for, :time, :status, '0');");
+			$select->execute(array(":me" => $this->user->ID, ":id" => $id, ":for" => $for, ":time" => time(), ":status" => $status));
 			$last_id = $this->mysql->lastInsertId();
 			if(!empty($last_id) && $last_id) {
 				$i = $last_id;	
@@ -341,23 +345,27 @@
 			$isset = "";
 			$isset_ = "";
 			if($service != false) {
+				$stxt = "Bonjour, je suis intéressé par votre service.";
 				$for = "le service <i>\"".$service->title."\"</i>";
 				$for_ = '<input type="hidden" name="for" value="'.$service->ID.'" >'.$for.'';
 				$conv = $this->isset_conversation($user->ID, $service->ID);
 				if($conv != false) {
 					$isset = " - <a href='messagerie.php#select-".$conv."'>Cette conversation a déjà commencé</a>";
-					$k = $this->content_conv($conv);
-					$g = count($k);
-					for($o=0;$o<$g-1;$o++) {
-							$isset_ .= ''.$k[$o]['Message'];
-						
-					}
 					if($isset_ == "") {
 						$isset = "";
 					}
 				}
 			} else {
+				$stxt = "Salut, ";
 				$for = "discuter";	
+				$for_ = '<input type="hidden" name="for" value="talk" >'.$for.'';
+				$conv = $this->isset_conversation($user->ID, 'talk');
+				if($conv != false) {
+					$isset = " - <a href='messagerie.php#select-".$conv."'>Cette conversation a déjà commencé</a>";
+					if($isset_ == "") {
+						$isset = "";
+					}
+				}
 			}
 			$html = '';
 			$html = '<div id="modal_chat" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -370,7 +378,7 @@
       </div>
       <div class="modal-body">
       	<div class="inner_form">
-			<textarea rows="4" name="message" class="form-control validate[required]">Bonjour, je suis intéressé par votre service.</textarea>
+			<textarea rows="4" name="message" class="form-control validate[required]">'.$stxt.'</textarea>
 			<input type="submit" class="form-control" value="Envoyer">
 		</div>
 		<div class="clear"></div>
@@ -382,7 +390,7 @@
     </div>
   </div>
 </div>';
-			echo $html;
+			echo $html; 
 		}
 	}
 ?>

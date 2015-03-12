@@ -9,7 +9,7 @@ $(document).ready(function(e) {
 	$(window).on("resize", function() {
 		navbar_padding();
 	});
-	$(".popup_message").on("click", function(e) {
+	$(".popup_message, .talk-button").on("click", function(e) {
 		e.preventDefault();
 		$("#modal_chat").modal('show');
 		$("#modal_chat").on("hidden.bs.modal", function(e) {
@@ -387,8 +387,8 @@ function isArray(obj) {
 function modal_prevent() {
 	if($(".login_form").length > 0) {
 		//NOT LOGGED
-		$('nav li a[href$="propose.php"], .interesse .popup_message').off();
-		$('nav li a[href$="propose.php"], .interesse .popup_message').on("click", function(e) {
+		$('nav li a[href$="propose.php"], .interesse .popup_message, .talk_button').off();
+		$('nav li a[href$="propose.php"], .interesse .popup_message, .talk-button').on("click", function(e) {
 			var to = "";
 			if($(this).attr("href") && $(this).attr("href") != "") {
 				to = $(this).attr("href");	

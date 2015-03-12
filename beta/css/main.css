@@ -84,12 +84,9 @@ html, body {
 #clone_login {
 	margin-top:10px;	
 }
-<<<<<<< HEAD
-=======
 .link-profil, .link-profil:hover {
 	color:#FFF;	
 }
->>>>>>> origin/master
 #clone_login input[type="submit"] {
 	float:right;
 	margin-top:10px;
@@ -676,7 +673,7 @@ input.space-button {
 #spec_annonce .profil .info .disponi:nth-of-type(1) {
 	padding-left:9px !important;	
 }
-#spec_annonce .profil button, a.btn {
+#spec_annonce .profil button, .interesse a.btn {
 	margin-top:50px;
 	font-weight: 500;
 	background-color: white;
@@ -692,7 +689,7 @@ input.space-button {
     white-space: inherit;
 	border-radius:0px;
 }
-#spec_annonce .profil button:hover, a.btn:hover{
+#spec_annonce .profil button:hover, .interesse a.btn:hover{
 	background-color: #74cce2;
 	color: white;
 	border: none;
@@ -1309,24 +1306,14 @@ form .liketext {
 	width:100%;
 	padding: 0;
 }
-@media(min-width: 768px){
-	#profil{
-		margin-top: 62px;
-	}
-}
-@media(min-width: 992px){
-	#profil{
-		margin-top: 31px;
-	}
-}
+
 #profil.mon_profil{
 	padding:0px;
 }
 #profil .header_profil{
 	color: white;
-	margin-top: -20px;
 	background-color: #323232;
-	padding:30px 0px 20px 0px;
+	padding:50px 0px 20px 0px;
 }
 #profil .header_profil .top{
 	text-align: center;
@@ -1344,9 +1331,6 @@ form .liketext {
 }
 #profil .header_profil .edit .infos .nom br{
 	display: none; /* empêcher le saut de ligne dans l'édit */
-}
-#profil .header_profil .edit .infos .nom:hover {
-	background-color: red;
 }
 .badge_ {
 	display:inline-block;	

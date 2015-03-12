@@ -28,7 +28,7 @@ class mailer {
 	}
 	function sendmail($to, $from, $fromname="Swappy.fr", $subject, $html) {
 		if(!preg_match("/\@swappy\.fr/", $from)) {
-			$h2t =& new html2text($html);
+			$h2t = new html2text($html);
 			// Simply call the get_text() method for the class to convert
 			// the HTML to the plain text. Store it into the variable.
 			$text = $h2t->get_text();
@@ -60,7 +60,7 @@ class mailer {
 			} else {
 				$html = $this->bodytext($html, false, $subject);
 			}
-			$h2t =& new html2text($html);
+			$h2t = new html2text($html);
 			// Simply call the get_text() method for the class to convert
 			// the HTML to the plain text. Store it into the variable.
 			$text = $h2t->get_text();
