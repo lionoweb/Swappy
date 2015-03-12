@@ -85,7 +85,7 @@
                		<?php if($user->ID != $user_->ID) { ?>
                   <button class="popup_message">Je suis interessé(e)</button>
                   <?php } else { ?>
-                  <button disabled>Vous êtes le propriétaire de ce service.</button>
+                  <a href="annonce.php?edit=<?php echo $services->ID; ?>" class="btn">Modifier ce service.</a>
                   <?php } ?>
                </div>
             </div>

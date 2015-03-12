@@ -4,7 +4,7 @@
         	<form method="post" action="inc/add_user.php" id="edit_user">
                 <div class="col-md-2 col-md-offset-3 col-sm-3 col-sm-offset-2">
                     <img id="avatar_u" alt="mon avatar" src="<?php echo $user_->avatar; ?>">
-                    <a class="see_profile" alt="Voir ma page profil" href="profil.php?id=<?php echo $user->ID; ?>">Voir ma page profil</a>
+                    <a class="see_profile" alt="Voir ma page profil" href="profil.php?id=<?php echo $user_->ID; ?>">Voir ma page profil</a>
                 </div>
                 <div class="infos col-sm-4">
 					<div class="nom form-group">
@@ -111,7 +111,9 @@
 <div class="pictodown">
 <img src="img/profil/down.png" alt="" class="down">
 </div>
-
+<div class="text-center">
+<?php echo $user_->listing_badge_s(); ?>
+</div>
 <div class="profiltitle">
 <p>Notes et commentaires</p>
 </div>
