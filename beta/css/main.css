@@ -84,7 +84,7 @@ html, body {
 #clone_login {
 	margin-top:10px;	
 }
-.link-profil {
+.link-profil, .link-profil:hover {
 	color:#FFF;	
 }
 #clone_login input[type="submit"] {

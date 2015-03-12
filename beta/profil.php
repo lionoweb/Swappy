@@ -6,7 +6,6 @@
    if(isset($_GET['logout'])) {
    	$user->logout();
    }
-   $user->onlyUsers();
    if(isset($_GET['id'])) {
 	   $user_ = new user($mysql, trim($_GET['id']));
 	   $title = "Profil de ".ucfirst($user_->firstname)." ".ucfirst($user_->lastname);
@@ -48,7 +47,8 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img src="img/logonav.png"></a>
+                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="127" height="47" src="img/logonav.png" class="max"><img width="50" height="47" src="img/logo_min.png" class="min"></a>
+                  <span class="brand-title"<?php echo $title; ?></span>
                </div>
                <form class="navbar-form navbar-left search_navbar" action="services.php" method="get" role="search">
                   <div class=" input-group">

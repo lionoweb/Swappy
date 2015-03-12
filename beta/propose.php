@@ -21,6 +21,8 @@
 		$distance = $services_->distance;
 		$description = $services_->description;
 		$selected = $services_->type;
+		$htitle = "Modifier : ".$title;
+		$ntitle = "Modifier annonce";
 	} else {
 		$title = "";
 		$zipcode = $user->zipcode;
@@ -28,6 +30,8 @@
 		$distance= "1";
 		$description = "";
 		$selected = "";
+		$htitle = "Je propose";
+		$ntitle = $htitle;
 	}?>
 <!doctype html>
 <html>
@@ -35,7 +39,7 @@
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Swappy.fr - Je propose</title>
+      <title>Swappy.fr - <?php echo $htitle; ?></title>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/jquery.datetimepicker.css">
@@ -64,7 +68,7 @@
                   <span class="icon-bar"></span>
                   </button>
                   <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="127" height="47" src="img/logonav.png" class="max"><img width="50" height="47" src="img/logo_min.png" class="min"></a>
-                  <span class="brand-title">Je propose</span>
+                  <span class="brand-title"<?php echo $htitle; ?></span>
                </div>
                <form class="navbar-form navbar-left search_navbar" action="services.php" method="get" role="search">
                   <div class=" input-group">

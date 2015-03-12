@@ -77,7 +77,7 @@
                   <img src="<?php echo $user_->avatar; ?>" width="130" height="130">
                </div>
                <div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-1 dispo">
-                  <div class="name"><?php echo $user_->firstname." ".$user_->lastname; ?> (<?php echo $user_->login; ?>) propose</div>
+                  <div class="name"><a class="link-profil" href="profil.php?id=<?php echo $user_->ID; ?>"><?php echo $user_->firstname." ".$user_->lastname; ?> (<?php echo $user_->login; ?>)</a> propose</div>
                   <div class="info"><img src="img/annonce/clock.png"><?php echo $services->disponibility; ?></div>
                   <div class="info loc"><img src="img/annonce/location.png" width="18" height="28"><?php echo $services->city; ?>, jusqu'à <?php echo $services->distance; ?> km de déplacement</div>
                </div>
@@ -85,7 +85,7 @@
                		<?php if($user->ID != $user_->ID) { ?>
                   <button class="popup_message">Je suis interessé(e)</button>
                   <?php } else { ?>
-                  <a href="annonce.php?edit=<?php echo $services->ID; ?>" class="btn">Modifier ce service.</a>
+                  <a href="propose.php?edit=<?php echo $services->ID; ?>" class="btn">Modifier ce service</a>
                   <?php } ?>
                </div>
             </div>
