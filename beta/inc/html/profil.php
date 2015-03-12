@@ -4,6 +4,7 @@
         	<form method="post" action="inc/add_user.php" id="edit_user">
                 <div class="col-md-2 col-md-offset-3 col-sm-3 col-sm-offset-2">
                     <img id="avatar_u" alt="mon avatar" src="<?php echo $user_->avatar; ?>">
+                    <a class="see_profile" alt="Voir ma page profil" href="profil.php?id=<?php echo $user->ID; ?>">Voir ma page profil</a>
                 </div>
                 <div class="infos col-sm-4">
 					<div class="nom form-group">
@@ -79,6 +80,9 @@
      					<input data-validation-engine="validate[required,custom[email]]" autocomplete="off" value="<?php echo $user_->email; ?>" type="email" class="form-control" id="email" name="email">
   					</div>
                     <div class="row col-sm-12">
+                        <div class="col-sm-12 change_pass">
+                        	Changer de mot de passe* :
+                        </div>
                         <div class="col-sm-6 form-group">
                             <label for="mdp" class="control-label">Nouveau mot de passe : </label>
                             <input data-validation-engine="validate[minSize[6]]" name="mdp" id="mdp" autocomplete="off" value="" type="password" class="form-control">
@@ -88,10 +92,11 @@
                             <input data-validation-engine="validate[minSize[6],equalsPASS[mdp]] " id="r_mdp" name="r_mdp" autocomplete="off" value="" type="password" class="form-control">
                         </div>
                         <div class="col-sm-offset-6 col-sm-6 form-group">
-                            <label for="a_mdp" class="control-label">Mot de passe actuel : </label>
+                            <label for="a_mdp" class="control-label"><u>Mot de passe actuel :</u> </label>
                             <input data-validation-engine="validate[minSize[6]] " id="a_mdp" name="a_mdp" autocomplete="off" value="" type="password" class="form-control">
                         </div>
-                        <div class="form-group col-sm-4 col-sm-offset-8 col-xs-12">
+                        <div class="col-sm-8 aste">* : pour changer d'adresse email ou de mot de passe vous devez entrer votre mot de passe actuel.</div>
+                        <div class="form-group col-sm-4  col-xs-12">
                      		<input type="submit" class="form-control col-md-4" value="Modifier">
                   		</div>
                     </div>

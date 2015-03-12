@@ -9,8 +9,10 @@
    $user->onlyUsers();
    if(isset($_GET['id'])) {
 	   $user_ = new user($mysql, trim($_GET['id']));
+	   $title = "Profil de ".ucfirst($user_->firstname)." ".ucfirst($user_->lastname);
    } else {
 		$user_ = $user;   
+		$title = "Mon profil";
    }
 ?>
 <!doctype html>
@@ -19,7 +21,8 @@
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Swappy.fr - Profil de <?php echo ucfirst($user_->firstname)." ".ucfirst($user_->lastname); ?></title>
+      <title>Swappy.fr - <?php echo $title ; ?></title>
+      <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
       <link rel="stylesheet" href="css/template.css" type="text/css"/>

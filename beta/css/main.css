@@ -485,67 +485,6 @@ input.space-button {
 	height:100%;
 	min-height:100%;
 }
-/*
-.picto-1 {
-	background:url(../img/services/2.jpg) center no-repeat;
-	background-size:cover;	
-}
-.picto-2 {
-	background:url(../img/services/2.jpg) center no-repeat;
-	background-size:cover;	
-}
-.picto-3 {
-	background:url(../img/services/3.jpg) center no-repeat;
-	background-size:cover;	
-}
-.picto-4 {
-	background:url(../img/services/4.jpg) center no-repeat;
-	background-size:cover;	
-}
-.picto-5 {
-	background:url(../img/services/5.jpg) center no-repeat;
-	background-size:cover;	
-}
-.picto-6 {
-	background:url(../img/services/6.jpg) center no-repeat;
-	background-size:cover;	
-}
-.picto-7 {
-	background:url(../img/services/7.jpg) center no-repeat;
-	background-size:cover;	
-}
-.picto-8 {
-	background:url(../img/services/8.jpg) center no-repeat;
-	background-size:cover;	
-}
-.picto-9 {
-	background:url(../img/services/9.jpg) center no-repeat;
-	background-size:cover;	
-}
-.picto-10 {
-	background:url(../img/services/10.jpg) center no-repeat;
-	background-size:cover;	
-}
-.picto-11 {
-	background:url(../img/services/11.jpg) center no-repeat;
-	background-size:cover;	
-}
-.picto-12 {
-	background:url(../img/services/12.jpg) center no-repeat;
-	background-size:cover;	
-}
-.picto-13 {
-	background:url(../img/services/13.jpg) center no-repeat;
-	background-size:cover;	
-}
-.picto-14 {
-	background:url(../img/services/14.jpg) center no-repeat;
-	background-size:cover;	
-}
-.picto-15 {
-	background:url(../img/services/15.jpg) center no-repeat;
-	background-size:cover;	
-}*/
 .form-group {
 	overflow:auto;	
 }
@@ -936,6 +875,10 @@ form .liketext {
 }
 .text-left {
 	text-align:left;
+}
+.aste {
+	text-align:left;
+	font-size:0.9em;
 }
 #spec_apropos #spec_team{
 	background-color: #323232;
@@ -1336,7 +1279,17 @@ form .liketext {
 #profil .header_profil .edit .infos .nom br{
 	display: none; /* empêcher le saut de ligne dans l'édit */
 }
-
+.change_pass {
+	font-size:1.18em;
+	text-decoration:underline;	
+	text-align:left;
+	color:#CDCDCD;
+	margin-bottom:4px;
+}
+.see_profile {
+	display:block;
+	padding:6px;
+}
 #profil .header_profil span img {
 	margin-right: 5px;
 }

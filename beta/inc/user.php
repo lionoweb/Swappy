@@ -546,6 +546,10 @@
 			}
 			return $return;
 		}
+		function listing_badge_s() {
+			$list = array();
+			$select = $this->mysql->query("SELECT * FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` WHERE `By` = '".$this->ID."'");
+		}
 		function add_user($POST) {
 			//prevenir le bug de Validation engine
 			$arr = array(false);
