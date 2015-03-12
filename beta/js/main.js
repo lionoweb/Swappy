@@ -387,8 +387,8 @@ function isArray(obj) {
 function modal_prevent() {
 	if($(".login_form").length > 0) {
 		//NOT LOGGED
-		$('nav li a[href$="propose.php"], .interesse .popup_message, .link-profil').off();
-		$('nav li a[href$="propose.php"], .interesse .popup_message, .link-profil').on("click", function(e) {
+		$('nav li a[href$="propose.php"], .interesse .popup_message').off();
+		$('nav li a[href$="propose.php"], .interesse .popup_message').on("click", function(e) {
 			var to = "";
 			if($(this).attr("href") && $(this).attr("href") != "") {
 				to = $(this).attr("href");	

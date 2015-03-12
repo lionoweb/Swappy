@@ -84,6 +84,12 @@ html, body {
 #clone_login {
 	margin-top:10px;	
 }
+<<<<<<< HEAD
+=======
+.link-profil, .link-profil:hover {
+	color:#FFF;	
+}
+>>>>>>> origin/master
 #clone_login input[type="submit"] {
 	float:right;
 	margin-top:10px;
@@ -670,7 +676,7 @@ input.space-button {
 #spec_annonce .profil .info .disponi:nth-of-type(1) {
 	padding-left:9px !important;	
 }
-#spec_annonce .profil button{
+#spec_annonce .profil button, a.btn {
 	margin-top:50px;
 	font-weight: 500;
 	background-color: white;
@@ -678,8 +684,15 @@ input.space-button {
 	border: none;
 	padding: 10px 16px 10px 16px ;
 	text-transform: uppercase;
+	font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+	display: inline-block;
+    text-indent: 0;
+    white-space: inherit;
+	border-radius:0px;
 }
-#spec_annonce .profil button:hover{
+#spec_annonce .profil button:hover, a.btn:hover{
 	background-color: #74cce2;
 	color: white;
 	border: none;
@@ -1335,6 +1348,17 @@ form .liketext {
 #profil .header_profil .edit .infos .nom:hover {
 	background-color: red;
 }
+.badge_ {
+	display:inline-block;	
+	margin:8px;
+}
+.description_ {
+	margin-top:15px;
+	margin-bottom:8px;	
+}
+.text-center {
+	text-align:center;	
+}
 #profil .header_profil span img {
 	margin-right: 5px;
 }
@@ -1778,5 +1802,8 @@ td {
 	 margin-left: 0px;
      margin-right: 0px;
  }*/
+ #tags > .tag {
+	margin:3px; 
+ }
 @-moz-document url-prefix() {
   fieldset { display: table-cell; }

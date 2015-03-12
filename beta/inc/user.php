@@ -174,24 +174,24 @@
 		}
 		function onlyUsers() {
 			if(!$this->logged && !isset($_GET['logout'])) {
-				header("Location: services.php?unlogged&p=".basename($_SERVER['PHP_SELF'])."");	
+				header("Location: index.php?unlogged&p=".basename($_SERVER['PHP_SELF'])."");	
 			} else if (!$this->logged && isset($_GET['logout'])) {
-				header("Location: services.php");	
+				header("Location: index.php");	
 			}
 		}
 		function onlyVisitors() {
 			if($this->logged) {
 				if(preg_match("/inscription\.php/", $_SERVER['PHP_SELF']) || isset($_GET['logout'])) {
-					header("Location: services.php");	
+					header("Location: index.php");	
 				} else {
-					header("Location: services.php?needunlogged");	
+					header("Location: index.php?needunlogged");	
 				}
 			}
 		}
 		function onlyAdmin() {
 			$this->onlyUsers();
 			if($this->admin == 0) {
-				header("Location: services.php?noadmin");	
+				header("Location: index.php?noadmin");	
 			}
 		}
 		function modal_location_c($GET) {
@@ -376,11 +376,11 @@
 			for($i=0;$i<count($l);$i++) {
 				$c = trim($l[$i]);
 				if(!empty($c)) {
-					$html .= "<p>".ucfirst(strtolower($c))."</p>";
+					$html .= "<span class='tag label label-info'>".ucfirst(strtolower($c))."</span>";
 				}
 			}
 			if($html == "" && !empty($tags)) {
-				$html = "<p>".ucfirst(strtolower($tags))."</p>";
+				$html = "<span class='tag label label-info'>".ucfirst(strtolower($tags))."</span>";
 			}
 			return $html;
 		}
@@ -548,7 +548,15 @@
 		}
 		function listing_badge_s() {
 			$list = array();
-			$select = $this->mysql->query("SELECT * FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` WHERE `By` = '".$this->ID."'");
+			$html = "";
+			$select = $this->mysql->query("SELECT `categories`.`ID` AS `CatID`, `categories`.`Name` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` WHERE `By` = '".$this->ID."'");
+			while($data = $select->fetch(PDO::FETCH_OBJ)) {
+				if(!in_array($data->CatID, $list)) {
+					$list[] = $data->CatID;	
+					$html .= '<div class="badge_"><img src="img/services/'.$data->CatID.'.jpg" alt="'.$data->Name.'" ></div>';
+				}
+			}
+			return $html;
 		}
 		function add_user($POST) {
 			//prevenir le bug de Validation engine
