@@ -187,7 +187,7 @@
                            echo '<option value="'.$o.'">'.$o.'</option>'; 
                            } ?></select> 
                         <select name="year" class="form-control birthyear">
-                        <?php for($i=(date("Y")-18);$i>1940;$i--) { 
+                        <?php for($i=(date("Y")-18);$i>1919;$i--) { 
                            echo '<option value="'.$i.'">'.$i.'</option>'; 
                            } ?>
                         </select>

@@ -39,7 +39,7 @@
                            } ?>
                         </select> 
                         <select name="year" class="form-control birthyear">
-							<?php for($i=(date("Y")-18);$i>1940;$i--) { 
+							<?php for($i=(date("Y")-18);$i>1919;$i--) { 
 								$c = "";
 								if($i == $dd[0]) { $c="selected "; }
 								echo '<option '.$c.'value="'.$i.'">'.$i.'</option>'; 

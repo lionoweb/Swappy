@@ -128,7 +128,7 @@ form#user_add .greyback .lu {
     text-align: left;
     width: auto !important;
 }
-form#user_add .greyback input[type=submit], form#user_remind .greyback input[type=submit], .message_box input[type=submit], .message_box button, form input[type=submit] {
+form#user_add .greyback input[type=submit], form#user_remind .greyback input[type=submit], .message_box input[type=submit], .message_box button, form:not(.login_form) input[type=submit] {
     background-color: white;
     color: #323232;
     text-transform: uppercase;
@@ -143,7 +143,7 @@ form#user_add .greyback input[type=submit], form#user_remind .greyback input[typ
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-form#user_add .greyback input[type=submit]:hover, form#user_remind .greyback input[type=submit]:hover, .message_box input[type=submit]:hover, .message_box button:hover, form input[type=submit]:hover {
+form#user_add .greyback input[type=submit]:hover, form#user_remind .greyback input[type=submit]:hover, .message_box input[type=submit]:hover, .message_box button:hover, form:not(.login_form) input[type=submit]:hover {
     background-color: #53c1dd;
     color: white;
 }
