@@ -1373,6 +1373,12 @@ form .liketext {
 #proposition table tr.bloc_services:nth-child(even) {
 	background-color: #53C1DD; /*bleu foncé*/
 }
+#proposition table tr td.delete {
+	vertical-align: middle;
+}
+#proposition table tr td.edit {
+	vertical-align: middle;
+}
 
 #pagination {
 	text-align:center;	

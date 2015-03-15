@@ -92,6 +92,16 @@
                           </div>
                         </a>
                       </td>
+                      <td class="delete">
+                        <a href="#">
+                          <img src="img/proposition/delete.png" width="25">
+                        </a>
+                      </td>
+                      <td class="edit">
+                        <a href="propose.php?edit=<?php echo $boucle[$i]['ID']; ?>">
+                          <img src="img/proposition/edit.png" width="25">
+                        </a>
+                      </td>
                     </tr>
                      <?php //FIN
 					  } ?>
