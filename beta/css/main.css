@@ -1365,6 +1365,15 @@ form .liketext {
 	margin-bottom: 20px;
 }
 
+/* ### PROPOSITION ### */
+
+#proposition table tr.bloc_services:nth-child(odd) {
+	background-color: #74CCE2; /*bleu clair*/
+}
+#proposition table tr.bloc_services:nth-child(even) {
+	background-color: #53C1DD; /*bleu foncé*/
+}
+
 #pagination {
 	text-align:center;	
 }

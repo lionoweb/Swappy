@@ -68,7 +68,7 @@
             </div>
             <!-- /.container-fluid -->
          </nav>
-         <div class="container-fluid main" role="main">
+         <div class="container-fluid main" role="main" id="proposition">
          	<div class="col-md-10 col-md-offset-1 col-sm-12 table-responsive noborder">
          		<table class="fulltable table">
                   <thead>
@@ -80,7 +80,19 @@
                      <?php $boucle = $user->list_services_edit();
 					 for($i=0;$i<count($boucle);$i++) {
 						 // A PARTIR D'EN DESSOUS C'EST LE HTML  ?>
-                     <tr><td><?php echo $boucle[$i]['Image']; ?></td><td><?php echo $boucle[$i]['Title']; ?></td></tr>
+                    <tr class="bloc_services">
+                      <td class="picto"><img src="<?php echo $boucle[$i]['Image']; ?>"></td>
+                      <td class="desc_services">
+                        <a href="annonce.php?id=<?php echo $boucle[$i]['ID']; ?>">
+                          <div class="fullfit">
+                            <h1><?php echo $boucle[$i]['Title']; ?></h1>
+                            <p>
+                              <?php if($boucle[$i]['Description'] != "Pas de description...") {echo $boucle[$i]['Description'];} ?></p>
+                            <div class="location"><?php echo $boucle[$i]['CityName']; ?></div>
+                          </div>
+                        </a>
+                      </td>
+                    </tr>
                      <?php //FIN
 					  } ?>
                   </tbody>

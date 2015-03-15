@@ -803,7 +803,7 @@
 				$city = $data->CityName;
 				$lat = $data->Lat;
 				$lon = $data->Lon;
-				$return[] = array("ID" => $id, "Title" => $title, "Image" => $image, "Created" => $creation, "CityName" => $city);
+				$return[] = array("ID" => $id, "Title" => $title, "Image" => $image, "Created" => $creation, "CityName" => $city, "Description" => $description);
 			}
 			return $return;
 		}
