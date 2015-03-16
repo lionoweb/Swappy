@@ -73,7 +73,7 @@
          		<table class="fulltable table">
                   <thead>
                      <tr>
-                        <td colspan="2" class="header_search">Mes propositions</td>
+                        <td colspan="4" class="header_search">Mes propositions</td>
                      </tr>
                   </thead>
                   <tbody>
@@ -81,7 +81,7 @@
 					 for($i=0;$i<count($boucle);$i++) {
 						 // A PARTIR D'EN DESSOUS C'EST LE HTML  ?>
                     <tr class="bloc_services">
-                      <td class="picto"><img src="<?php echo $boucle[$i]['Image']; ?>"></td>
+                      <td class="picto"><img class="fullfit" src="<?php echo $boucle[$i]['Image']; ?>"></td>
                       <td class="desc_services">
                         <a href="annonce.php?id=<?php echo $boucle[$i]['ID']; ?>">
                           <div class="fullfit">
@@ -103,6 +103,7 @@
                         </a>
                       </td>
                     </tr>
+                    
                      <?php //FIN
 					  } ?>
                   </tbody>
@@ -113,12 +114,12 @@
       </div>
       <!-- ### END WRAP ### -->
     <footer id="footer">
-        <img src="img/footer.png" width="30" height="18">
-        <div class="container-fluid">
+         <img src="img/footer.png" width="30" height="18">
+         <div class="container-fluid">
             <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php" class="active">Contact</a>
             <hr>
             <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
-        </div>
-    </footer>
+         </div>
+      </footer>
   </body>
 </html>

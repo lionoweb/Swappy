@@ -178,6 +178,7 @@
 		function delete($id) {
 			$delete = "";
 			$update = "";
+			$dlt = 0;
 			$array = array(false);
 			$user = $this->who_ami($id);
 			$list = $this->getHidden($id);
@@ -196,12 +197,13 @@
 						if($val == 0) {
 							$this->mysql->query("UPDATE `conversation` SET `HiddenFor` = '".$value."' WHERE `ID` = '".$id."'");
 						} else if($val == $oppo) {
+							$dlt = 1;
 							$this->mysql->query("DELETE FROM `conversation` WHERE `ID` = '".$id."'");
 						}
 					} else {
-						if($val == 0) {
+						if($val == 0 && $dlt == 0) {
 							$this->mysql->query("UPDATE `conversation_reply` SET `HiddenFor` = '".$value."' WHERE `ID` = '".key($list) ."'");
-						} else if($val == $oppo) {
+						} else if($val == $oppo || $dlt == 1) {
 							$this->mysql->query("DELETE FROM `conversation_reply` WHERE `ID` = '".key($list) ."'");
 						}
 					}
