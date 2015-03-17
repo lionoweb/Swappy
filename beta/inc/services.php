@@ -16,6 +16,7 @@
 		public $lat = "";
 		public $lon = "";
 		public $zip = "";
+		public $dispo_ = "";
 		function __construct($mysql, $ids="") {
 			$this->mysql = $mysql;
 			if(!empty($ids)) {
@@ -57,6 +58,7 @@
 				$this->zip = $data->ZipCode;
 				$this->lat = $data->Lat;
 				$this->lon = $data->Lon;
+				$this->dispo_ = $data->Disponibility;
 			}
 		}
 		function format_city($zipcode, $city="") {
@@ -91,6 +93,47 @@
 				$ID = $data->ID;	
 			}
 			return $ID;
+		}
+		function own_s($id) {
+			$select = $this->mysql->prepare("SELECT `By` FROM `services` WHERE `ID` = :id");
+			$select->execute(array(":id" => $id));
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			return $data->By;
+		}
+		function edit_services($POST, $user) {
+			$id_s = trim($POST['ID_EDIT']);
+			$prop = $this->own_s($id_s);
+			if($prop != $user->ID) {
+				return array(false, "Vous êtes pas le propriétaire du service.");
+			} else {
+			//DISPONIBILITE		
+			$dispo = $this->dispo_crypt($POST['dispoday'], $POST['dispostart'], $POST['dispoend']);
+			$user = new user($this->mysql);
+			$ID = $user->ID;
+			if($user->zipcode == $POST['zipcode']) {
+				$city = $this->get_cityID($user->zipcode);
+				$lat = $user->lat;
+				$lon = $user->lon;	
+			} else {
+				$city = $this->get_cityID($POST['zipcode']);
+				$ar = $this->get_coord($POST['zipcode']);
+				$lat = $ar['lat'];
+				$lon = $ar['lon'];
+			}
+			$replace = array(":title" => $POST['title'],
+					":type" => $POST['type'],
+					":description" => $POST['description'], 
+					":distance" => $POST['distance'], 
+					":dispo" => $dispo,
+					":city" => $city,
+					":lat" => $lat,
+					":lon" => $lon,
+					":ids" => $id_s
+				);
+			$select = $this->mysql->prepare("UPDATE `services` SET `Title` = :title, `Type` = :type, `Description` = :description, `Distance` = :distance, `Disponibility` = :dispo, `City` = :city, `Lat` = :lat, `Lon` = :lon WHERE `ID` = :ids");
+			$select->execute($replace);
+			return array(true);
+			}
 		}
 		function add_services($POST, $user) {
 			//DISPONIBILITE		
@@ -136,6 +179,35 @@
 				$d = explode("@", $sp[$i]);
 				$h = explode("-", $d[1]);
 				$out .= $trad[$d[0]]." de ".$h[0]." à ".$h[1]."<br>";
+			}
+			return $out;
+		}
+		function dispo_uncrypt_edit($txt) {
+			$html = '<span data-IDF="{ID}" class="dispo_field">
+                        <select id="dispoday[{ID}]" name="dispoday[{ID}]" class="form-control days">';
+        $html.= '<option value="all">Tous les jours</option>'.
+                           '<option value="weekend">Le week-end</option>'.
+                                                '<option value="lun">Lundi</option>'.
+                                                '<option value="mar">Mardi</option>'.
+                                                '<option value="mer">Mercredi</option>'.
+                                                '<option value="jeu">Jeudi</option>'.
+                                                '<option value="ven">Vendredi</option>'.
+                                                '<option value="sam">Samedi</option>'.
+                                                '<option value="dim">Dimanche</option>';
+        $html .= '</select>
+                        <span class="toline-xs">entre
+                        <input size="5" maxlength="5" name="dispostart[{ID}]" value="{START}" class="time form-control validate[required] timepicker" id="dispostart[{ID}]" type="text">
+                        et
+                        <input maxlength="5" name="dispoend[{ID}]" class="validate[required,timeCheck[dispostart{{ID}}]] form-control timepicker time" value="{END}" size="5" type="text"></span>
+                        </span>';
+			$out = "";
+			$sp = explode("||", $txt);
+			$trad = array("lun" => "lundi", "mar" => "mardi", "mer" => "mercredi", "jeu" => "jeudi", "ven" => "vendredi", "sam" => "samedi", "dim" => "dimanche", "all" => "tous les jours", "weekend" => "weekend");
+			for($i=0;$i<count($sp);$i++) {
+				$d = explode("@", $sp[$i]);
+				$h = explode("-", $d[1]);
+				$out .= preg_replace('/value\=\"'.$d[0].'\"/', 'value="'.$d[0].'" selected="selected"', preg_replace("/\{END\}/", $h[1], preg_replace("/\{START\}/", $h[0], preg_replace("/\{ID\}/", ($i+1), $html))));
+				//$out .= "<span class='disponi'>".ucfirst($trad[$d[0]])." de ".$h[0]." à ".$h[1]."</span><br>";
 			}
 			return $out;
 		}

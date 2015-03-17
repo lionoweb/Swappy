@@ -264,11 +264,16 @@ function remind_change_function(status, form, json, options) {
 function add_service_function(status, form, json, options) {
 	$form_b = $(form);
 	if(json[0] == true) {
+		if($('input[name="ID_EDIT"]').length < 1) {
 	$form_b.html('<div id="message_ajax"><p>Votre service a bien été ajouté. Vous pouvez le retrouver dans votre profil rubrique “Mes propositions”.</p></div>');
+		} else {
+			$form_b.html('<div id="message_ajax"><p>Votre service a bien été modifié. Vous pouvez retrouver les modifications dans votre profil rubrique “Mes propositions”.</p></div>');
+		}
 	$(document).scrollTop(0);
 	return true;
 	} else {
 		$form_b.find("#loader_ajax").remove();
+		$form_b.find('input[type="submit"]').validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
 		$(document).scrollTop(0);
 		return false;
 	}

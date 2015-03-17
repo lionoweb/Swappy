@@ -200,13 +200,16 @@
 			text-align:center;
 			line-height:15px;
 		}
+		.modal .mess_count {
+			display:none;	
+		}
 		.delete_m:hover {
 			color:#000;
 			text-decoration:none !important;
 			border:1px solid #262626;
 			border-radius:50%;
 		}
-		.valid-this-date:hover, .refuse-this-date:hover {
+		.valid-this-date:hover, .refuse-this-date:hover, .note-this-date:hover {
 			cursor:pointer;
 		}
 		@media (max-width:381px){
@@ -386,7 +389,7 @@ function date_send_function(status, form, json, options) {
 		$('#m_date_modal').validationEngine('detach');
 		$("#modal_date").modal("hide");
 		if(load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false)) {
-			load_list();
+			load_list("load_with_reset_button");
 		}
 		return true;
 	} else{
@@ -399,7 +402,13 @@ function load_list(search_) {
 	if(typeof(search_) == "undefined") {
 		var search_ = "";
 	} 
+	var button = false;
+	if(search_ == "load_with_reset_button") {
+		search_ = "";
+		button = true;
+	}
 	if(typeof(ajax_call) == "object") { ajax_call.abort(); }
+	$.ajaxSetup({'async': false});
 	ajax_call = $.getJSON("inc/send_mess.php?list_message=&search="+search_, function(data) {
 		var for_ = "";
 		var active = "";
@@ -428,7 +437,10 @@ function load_list(search_) {
 			fst_l = 0;	
 		}
 	});
-
+	$.ajaxSetup({'async': true});
+	if(button == true) {
+		button_f(0, true);
+	}
 }
 
 function load_content(id, title, sc) {
@@ -498,7 +510,7 @@ function load_content(id, title, sc) {
 			$(this).on("click", function(e) {
 				$.ajax({url:"inc/send_mess.php", data:"valid="+$(this).attr("data-id")+"&cc="+$("input[name='ID_Converse']").val(), method: "GET", success: function(data) {
 					if(data == "true") { if(load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false)) {
-						load_list();
+						load_list("load_with_reset_button");
 					} }
 				}});
 			});
@@ -507,40 +519,16 @@ function load_content(id, title, sc) {
 			$(this).on("click", function(e) {
 				$.ajax({url:"inc/send_mess.php", data:"refuse="+$(this).attr("data-id")+"&cc="+$("input[name='ID_Converse']").val(), method: "GET", success: function(data) {
 					if(data == "true") { if(load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false)) {
-						load_list();
+						load_list("load_with_reset_button");
 					} }
 				}});
 			});
 		});
+		
 	}
 	$(".form_m button").off("click");
 	if(serv == 1) {
-	if(state == "0") {
-		$(".form_m button").html("FIXER UN RENDEZ-VOUS");
-		$(".form_m button").css("display", "");
-		$(".form_m button").on("click", function(e) {
-			e.preventDefault();
-			make_date($(this));
-		});
-	}
-	if(state == "1") {
-		$(".form_m button").html("CHANGER LE RENDEZ-VOUS");
-		$(".form_m button").css("display", "");
-		$(".form_m button").on("click", function(e) {
-			e.preventDefault();
-			make_date($(this));
-		});
-	}
-	if(state == "2") {
-		$(".form_m button").html("");
-		$(".form_m button").attr("disabled");
-		$(".form_m button").css("display", "none");
-	}
-	if(state == "3") {
-		$(".form_m button").html("");
-		$(".form_m button").attr("disabled");
-		$(".form_m button").css("display", "none");
-	}
+		button_f(state, false, id);
 	} else {
 		$(".form_m button").html("");
 		$(".form_m button").attr("disabled");
@@ -650,6 +638,43 @@ function delete_click() {
 			$(this).remove();
 		});
 	});
+}
+function button_f(state, dd, id) {
+	if(dd == true) {
+		state = $(".mess_t.active").attr("data-state");
+	}
+	if(typeof(id) == "undefined") {
+		var id = $(".mess_t.active").attr("data-id");
+	}
+	var serv = $(".mess_t[data-id='"+id+"']").attr("data-b");
+	if(serv == "1") {
+		if(state == "0") {
+			$(".form_m button").html("FIXER UN RENDEZ-VOUS");
+			$(".form_m button").css("display", "");
+			$(".form_m button").on("click", function(e) {
+				e.preventDefault();
+				make_date($(this));
+			});
+		}
+		if(state == "1") {
+			$(".form_m button").html("CHANGER LE RENDEZ-VOUS");
+			$(".form_m button").css("display", "");
+			$(".form_m button").on("click", function(e) {
+				e.preventDefault();
+				make_date($(this));
+			});
+		}
+		if(state == "2") {
+			$(".form_m button").html("");
+			$(".form_m button").attr("disabled");
+			$(".form_m button").css("display", "none");
+		}
+		if(state == "3") {
+			$(".form_m button").html("");
+			$(".form_m button").attr("disabled");
+			$(".form_m button").css("display", "none");
+		}
+	}
 }
 </script>     </div></div>
       </div>

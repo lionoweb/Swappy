@@ -191,7 +191,7 @@
 				$cc = $chat->isset_conversation($other, $data->Service);
 				if($cc != false) {
 					$this->mysql->query("UPDATE `appointment` SET `State` = '2' WHERE `ID` = '".$data->ID."'");
-					$mess = 'La date du rendez-vous est passé. Confirmez-vous que votre rendez-vous à eu lieu ?.<br><i><a data-id="'.$data->ID.'" class="valid-this-date">Oui</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$data->ID.'" class="refuse-this-date">Non</a>';
+					$mess = 'La date du rendez-vous est passé. Confirmez-vous que votre rendez-vous à eu lieu ?<br><i><a data-id="'.$data->ID.'" class="valid-this-date">Oui</a>&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$data->ID.'" class="refuse-this-date">Non</a>';
 					$chat->send_reply($mess, $cc, $data->User);
 					$this->mysql->query("UPDATE `conversation` SET `Status` = '2' WHERE `ID` = '".$cc."'");
 				}

@@ -16,15 +16,19 @@
 			header("Location: annonce.php?id=".$serviceid."");
 		}
 		$title = $services_->title;
+		$field = "<input name='ID_EDIT' value='".$serviceid."' type='hidden'>";
 		$zipcode = $services_->zip;
 		$city = $services_->city;
 		$distance = $services_->distance;
-		$description = $services_->description;
+		$description = $services_->description == "L'utilisateur n'a pas fourni de description..." ? "" : $services_->description;
 		$selected = $services_->type;
 		$htitle = "Modifier : ".$title;
 		$ntitle = "Modifier annonce";
+		$button = "Modifier";
+		$dispo_ = $services_->dispo_uncrypt_edit($services_->dispo_);
 	} else {
 		$title = "";
+		$field = "";
 		$zipcode = $user->zipcode;
 		$city= $user->city;
 		$distance= "1";
@@ -32,6 +36,24 @@
 		$selected = "";
 		$htitle = "Je propose";
 		$ntitle = $htitle;
+		$button = "Valider";
+		$dispo_ = '<span data-IDF="1" class="dispo_field">
+                        <select id="dispoday[1]" name="dispoday[1]" class="form-control days">';
+        $dispo_ .= '<option value="all">Tous les jours</option>'.
+                           '<option value="weekend">Le week-end</option>'.
+                                                '<option value="lun">Lundi</option>'.
+                                                '<option value="mar">Mardi</option>'.
+                                                '<option value="mer">Mercredi</option>'.
+                                                '<option value="jeu">Jeudi</option>'.
+                                                '<option value="ven">Vendredi</option>'.
+                                                '<option value="sam">Samedi</option>'.
+                                                '<option value="dim">Dimanche</option>';
+        $dispo_ .= '</select>
+                        <span class="toline-xs">entre
+                        <input size="5" maxlength="5" name="dispostart[1]" value="19:00" class="time form-control validate[required] timepicker" id="dispostart[1]" type="text">
+                        et
+                        <input maxlength="5" name="dispoend[1]" class="validate[required,timeCheck[dispostart{1}]] form-control timepicker time" value="21:00" size="5" type="text"></span>
+                        </span>';
 	}?>
 <!doctype html>
 <html>
@@ -68,7 +90,7 @@
                   <span class="icon-bar"></span>
                   </button>
                   <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="127" height="47" src="img/logonav.png" class="max"><img width="50" height="47" src="img/logo_min.png" class="min"></a>
-                  <span class="brand-title"<?php echo $htitle; ?></span>
+                  <span class="brand-title"><?php echo $htitle; ?></span>
                </div>
                <form class="navbar-form navbar-left search_navbar" action="services.php" method="get" role="search">
                   <div class=" input-group">
@@ -102,6 +124,7 @@
             <div colspan="2" class="title_propose">Proposez</div>
             <div class="greyback">
                <form autocomplete="off" class="col-md-10 col-md-offset-1 col-sm-12 container" id="spec_propose" action="inc/add_services.php" method="post">
+               		<?php echo $field; ?>
                   <input type="hidden" name="ID" value="<?php echo $user->cryptID; ?>">
                   <div class="form-group">
                      <label for="sujet" class="control-label col-xs-12 col-sm-3">Sujet</label>
@@ -134,36 +157,18 @@
                      <label for="km" class="control-label col-xs-12 col-sm-3">
                      Rayon de déplacement</label>
                      <div class="col-xs-12 col-sm-8">
-                        <input id="km" name="distance" type="text" size="1" value="1" class="form-control kilometre validate[required,custom[onlyNumberSp]]" > km
+                        <input id="km" name="distance" type="text" size="1" value="<?php echo $distance; ?>" class="form-control kilometre validate[required,custom[onlyNumberSp]]" > km
                      </div>
                   </div>
                   <div class="form-group">
                      <label for="day" class="control-label col-xs-12 col-sm-3">Disponibilités</label>
                      <div class="col-xs-12 col-sm-8">
-                        <span data-IDF="1" class="dispo_field">
-                        <select id="dispoday[1]" name="dispoday[1]" class="form-control days">
-                        <?php $list_days = '<option value="all">Tous les jours</option>'.
-                           '<option value="weekend">Le week-end</option>'.
-                                                '<option value="lun">Lundi</option>'.
-                                                '<option value="mar">Mardi</option>'.
-                                                '<option value="mer">Mercredi</option>'.
-                                                '<option value="jeu">Jeudi</option>'.
-                                                '<option value="ven">Vendredi</option>'.
-                                                '<option value="sam">Samedi</option>'.
-                                                '<option value="dim">Dimanche</option>';
-                                               echo $list_days;
-                                                ?>
-                        </select>
-                        <span class="toline-xs">entre
-                        <input size="5" maxlength="5" name="dispostart[1]" value="19:00" class="time form-control validate[required] timepicker" id="dispostart[1]" type="text">
-                        et
-                        <input maxlength="5" name="dispoend[1]" class="validate[required,timeCheck[dispostart{1}]] form-control timepicker time" value="21:00" size="5" type="text"></span>
-                        </span>
+                        <?php echo $dispo_; ?>
                         <button class="add_dispo">+ Ajouter une disponibilité</button>
                      </div>
                   </div>
                   <div class="form-group col-sm-3 col-sm-offset-8">
-                     <input type="submit" value="Valider">
+                     <input type="submit" value="<?php echo $button ; ?>">
                   </div>
                </form>
             </div>

@@ -217,6 +217,8 @@
 					$value = 2;
 					$oppo = 1;
 				}
+				$status = $this->getstatus($id);
+				if($status == "0" || $status == "3") {
 				while (($val = current($list)) !== FALSE) {
 					if(key($list) == "MasterH") { 
 						if($val == 0) {
@@ -235,6 +237,9 @@
        				next($list);
 				}
 				$array = array(true);
+				} else {
+					$array = array(false, "Un rendez-vous est en cours...");
+				}
 			} else {
 				$array = array(false, "Vous ne semblez faire partie de cette conversation.");
 			}
@@ -384,6 +389,10 @@
 			$arr = array("By" => $data->By, "ID" => $data->ID);
 			return $arr;
 		}
+		function ask_for_com($id, $cc, $user) {
+			$mess = 'Nous espèrons que ce service fût satisfaisant.<br>Vous pouvez dès à présent noté l\'utilisateur ainsi que son service en <a data-id="'.$id.'" class="note-this-date">cliquant ici</a>';
+			$this->send_reply($mess, $cc, $user);
+		}
 		function valid_a($id, $cc) {
 			$a = false;
 			$id = trim($id);
@@ -412,9 +421,55 @@
 					$ss->execute(array(":id" => $cc));
 					//SEND MAIL
 				}
+				if($data->State == 2) {
+					$a = true;
+					$ss = $this->mysql->prepare("UPDATE `appointment` SET `State` = '4' WHERE `ID` = :id");
+					$ss->execute(array(":id" => $id));
+					//SEND TO OTHER
+					$mess = $this->user->login.' a confirmé que le rendez-vous e eu lieu. Confirmer ?<br><a data-id="'.$id.'" class="valid-this-date">Oui</a>&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$id.'" class="refuse-this-date">Non</a>';
+					$this->send_reply($mess, $cc, $other);
+					//SEND TO ME
+					$mess = 'Vous avez confirmé que le rendez-vous à bien eu lieu.';
+					$this->send_reply($mess, $cc, $this->user->ID);
+					//EDIT STATUS
+					//SEND MAIL
+				}
+				if($data->State == 3) {
+					$a = true;
+					$ss = $this->mysql->prepare("DELETE `appointment` WHERE `ID` = :id");
+					$ss->execute(array(":id" => $id));
+					//SEND TO OTHER
+					$mess = $this->user->login.' a confirmé que le rendez-vous n\'a pas eu lieu.';
+					$this->send_reply($mess, $cc, $other);
+					//SEND TO ME
+					$mess = 'Vous avez confirmé que le rendez-vous n\'a pas eu lieu.';
+					$this->send_reply($mess, $cc, $this->user->ID);
+					//EDIT STATUS
+					$ss = $this->mysql->prepare("UPDATE `conversation` SET `Status` = '0' WHERE `ID` = :id");
+					$ss->execute(array(":id" => $cc));
+				}
+				if($data->State == 4) {
+					$a = true;
+					$ss = $this->mysql->prepare("UPDATE `appointment` SET `State` = '5' WHERE `ID` = :id");
+					$ss->execute(array(":id" => $id));
+					//SEND TO OTHER
+					$mess = $this->user->login.' a confirmé que le rendez-vous a bien eu lieu.';
+					$this->send_reply($mess, $cc, $other);
+					//SEND TO ME
+					$mess = 'Vous avez confirmé que le rendez-vous a bien eu lieu.';
+					$this->send_reply($mess, $cc, $this->user->ID);
+					//EDIT STATUS
+					$ss = $this->mysql->prepare("UPDATE `conversation` SET `Status` = '0' WHERE `ID` = :id");
+					$ss->execute(array(":id" => $cc));
+					$this->ask_for_com($id, $cc, $data->User);
+				}
 			}
 			return $a;
 		}
+		//State 2 : after rendez-vous
+		//State 3 : pas fait
+		//State 4 : fait 
+		//State 5 : validé
 		function refuse_a($id, $cc) {
 			$a = false;
 			$id = trim($id);
@@ -433,7 +488,7 @@
 					$ss = $this->mysql->prepare("DELETE FROM `appointment` WHERE `ID` = :id");
 					$ss->execute(array(":id" => $id));
 					//SEND TO OTHER
-					$mess = $this->user->login.' a refuser la date du rendez-vous.';
+					$mess = $this->user->login.' a refusé la date du rendez-vous.';
 					$this->send_reply($mess, $cc, $other);
 					//SEND TO ME
 					$mess = 'Vous avez refusé le rendez-vous';
@@ -456,6 +511,42 @@
 					$ss = $this->mysql->prepare("UPDATE `conversation` SET `Status` = '0' WHERE `ID` = :id");
 					$ss->execute(array(":id" => $cc));
 				}
+				if($data->State == 2) {
+					$a = true;
+					//SEND TO OTHER
+					$mess = $this->user->login.' a signalé que le rendez-vous n\'a pas eu lieu. Confirmer ?<br><a data-id="'.$id.'" class="valid-this-date">Oui</a>&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$id.'" class="refuse-this-date">Non</a>';
+					$this->send_reply($mess, $cc, $other);
+					//SEND TO ME
+					$mess = 'Vous avez signalé que le rendez-vous n\'a pas eu lieu...';
+					$this->send_reply($mess, $cc, $this->user->ID);
+					//EDIT STATUS
+					$ss = $this->mysql->prepare("UPDATE `appointment` SET `State` = '3' WHERE `ID` = :id");
+					$ss->execute(array(":id" => $id));
+				}
+				if($data->State == 3) {
+					$a = true;
+					//SEND TO OTHER
+					$mess = $this->user->login.' a signalé que le rendez-vous a bien eu lieu. Confirmer ?<br><a data-id="'.$id.'" class="valid-this-date">Oui</a>&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$id.'" class="refuse-this-date">Non</a>';
+					$this->send_reply($mess, $cc, $other);
+					//SEND TO ME
+					$mess = 'Vous avez signalé que le rendez-vous a pourtant eu lieu...';
+					$this->send_reply($mess, $cc, $this->user->ID);
+					//EDIT STATUS
+					$ss = $this->mysql->prepare("UPDATE `appointment` SET `State` = '4' WHERE `ID` = :id");
+					$ss->execute(array(":id" => $id));
+				}
+				if($data->State == 4) {
+					$a = true;
+					//SEND TO OTHER
+					$mess = $this->user->login.' a signalé que le rendez-vous n\'a pas eu lieu. Confirmer ?<br><a data-id="'.$id.'" class="valid-this-date">Oui</a>&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$id.'" class="refuse-this-date">Non</a>';
+					$this->send_reply($mess, $cc, $other);
+					//SEND TO ME
+					$mess = 'Vous avez signalé que le rendez-vous n\'a pourtant pas eu lieu...';
+					$this->send_reply($mess, $cc, $this->user->ID);
+					//EDIT STATUS
+					$ss = $this->mysql->prepare("UPDATE `appointment` SET `State` = '3' WHERE `ID` = :id");
+					$ss->execute(array(":id" => $id));
+				}
 			}
 			return $a;
 		}
@@ -475,7 +566,7 @@
 				$other_ = $this->user->ID;
 			}
 			$st = $this->getstatus($id);
-			if($a_date == $date && (($sh[0] < $sah[0]) || ($sh[0] == $sah[0] && $sh[1] <= $sah[1]))) {
+			if($a_date == $date && (((int)$sh[0] < (int)$sah[0]) || ((int)$sh[0] == (int)$sah[0] && (int)$sh[1] <= (int)$sah[1]))) {
 				$arr = array(false, "Vous ne pouvez pas prendre de rendez-vous dans le passé !");
 			} else {
 				$w = $this->who_ami($id);
