@@ -57,6 +57,11 @@
 			}
 			return $return;	
 		}
+		function who_isserv($id) {
+			$select = $this->mysql->query("SELECT `By` FROM `services` WHERE `ID` = '".$id."'");
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			return $data->By;
+		}
 		function isset_conversation_id($id) {
 			$t = false;
 			$select = $this->mysql->prepare("SELECT `ID`, COUNT(*) AS `total` FROM `conversation` WHERE (`User_One` = :me OR `User_Two` = :me) AND `ID` = :id AND `Status` = '0'");
@@ -235,8 +240,17 @@
 					} else if($user == "One") {
 						$val = 1;
 					}
+					$serv="0";
+					if($data->ServiceFor != 0) {
+						$uu = $this->who_isserv($data->ServiceFor);
+						if($uu == $this->user->ID) {
+							$serv = "1";
+						} else {
+							$serv = "0";
+						}
+					}
 					if($data->HiddenFor != $val) {
-					$array[] = array("Name" => ucfirst($data->FirstName).' '.ucfirst($data->LastName), "For" => $data->ServiceFor, "Title" => $this->service_title($data->ServiceFor), "UserID" => $data->UserID, "ID" => $data->ID, "Status" =>$data->Status, "Count" => $this->unread_message($data->ID));
+					$array[] = array("Name" => ucfirst($data->FirstName).' '.ucfirst($data->LastName), "For" => $data->ServiceFor, "Title" => $this->service_title($data->ServiceFor), "UserID" => $data->UserID, "ID" => $data->ID, "Status" =>$data->Status, "Count" => $this->unread_message($data->ID), "Button" => $serv);
 				}
 				$i++;
 			}
@@ -341,6 +355,11 @@
 				}
 			}
 			return $arr;	
+		}
+		function modal_date($id) {
+			$html = '';
+			$html .= '<h4 class="modal-title" id="exampleModalLabel">Fixer un rendez-vous ?</h4></div><div class="modal-body"><input type="hidden" id="date"><div id="datepicker"></div>';
+return $html;
 		}
 		function prepare_popup($user, $service=false) {
 			$for = "";

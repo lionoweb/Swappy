@@ -319,10 +319,6 @@ var last_m = false;
 var ajax_c = false;
 $(document).ready(function(e) {
     load_list();
-	$("#message_send button").on("click", function(e) {
-		e.preventDefault();
-		//SHOW POPUP
-	});
 	$("#message_send").validationEngine({
 		ajaxFormValidation: true,
 		ajaxFormValidationMethod: 'post',
@@ -386,7 +382,7 @@ function load_list(search_) {
 				if(value.ID == last_m) {
 					active = " active";
 				}
-				$("#list_m").append('<div data-state="'+value.Status+'" data-id="'+value.ID+'" class="mess_t'+active+'"><a href="profil.php?id='+value.UserID+'">'+value.Name+'</a><br><span class="m_for">Pour : '+for_+'</span>'+count+'<a title="Supprimer cette conversation" class="delete_m">X</a></div>');
+				$("#list_m").append('<div data-b="'+value.Button+'" data-state="'+value.Status+'" data-id="'+value.ID+'" class="mess_t'+active+'"><a href="profil.php?id='+value.UserID+'">'+value.Name+'</a><br><span class="m_for">Pour : '+for_+'</span>'+count+'<a title="Supprimer cette conversation" class="delete_m">X</a></div>');
 		});
 		delete_click();
 		event_click();
@@ -436,6 +432,7 @@ function load_content(id, title, sc) {
 		mess_count(0, id);
 	} else {
 		var state = $(".mess_t[data-id='"+id+"']").attr("data-state");
+		var serv = $(".mess_t[data-id='"+id+"']").attr("data-b");
 		$(".form_m, .header_m").css("display", "");
 		$(".inner_m").html('<center>Chargement...</center>');
 		$.getJSON("inc/send_mess.php?get_message="+id, function(data) {
@@ -459,13 +456,23 @@ function load_content(id, title, sc) {
 			}
 		});
 	}
+	$(".form_m button").off("click");
+	if(serv == 1) {
 	if(state == "0") {
 		$(".form_m button").html("FIXER UN RENDEZ-VOUS");
 		$(".form_m button").css("display", "");
+		$(".form_m button").on("click", function(e) {
+			e.preventDefault();
+			make_date($(this));
+		});
 	}
 	if(state == "1") {
 		$(".form_m button").html("CHANGER LE RENDEZ-VOUS");
 		$(".form_m button").css("display", "");
+		$(".form_m button").on("click", function(e) {
+			e.preventDefault();
+			make_date($(this));
+		});
 	}
 	if(state == "2") {
 		$(".form_m button").html("");
@@ -473,6 +480,11 @@ function load_content(id, title, sc) {
 		$(".form_m button").css("display", "none");
 	}
 	if(state == "3") {
+		$(".form_m button").html("");
+		$(".form_m button").attr("disabled");
+		$(".form_m button").css("display", "none");
+	}
+	} else {
 		$(".form_m button").html("");
 		$(".form_m button").attr("disabled");
 		$(".form_m button").css("display", "none");
@@ -509,6 +521,29 @@ function event_click() {
 			load_content($(this).attr("data-id"), $(this).html());
 		}
 });
+}
+function make_date(e) {
+	var id = $("input[name='ID_Converse']").val();
+	var $lis = $(".mess_t[data-id='"+id+"']");
+	if($lis.attr("data-b") == "1" && ($lis.attr("data-state") == "0" || $lis.attr("data-state") == "1")) {
+		$("#modal_date").remove();
+		$.ajax({
+			url : 'inc/send_mess.php',
+			type : 'GET',
+			dataType : 'html',
+			data : 'make_date='+id, 
+			success : function(data){ 
+				$("body").append('<div id="modal_date" data-id="'+id+'" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-md"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+data+'</div></div></div></div>');
+				$('#modal_date').modal('show');
+				$("#modal_date").on("hidden.bs.modal", function(e) {
+					$(this).remove();
+				});
+				 $("#datepicker").datepicker({altField: "#date",minDate: 0, maxDate: "+1Y"});
+           }
+    });	
+	} else {
+		$("#modal_date").remove();
+	}
 }
 function delete_click() {
 	$(".delete_m").on("click", function(e) {
