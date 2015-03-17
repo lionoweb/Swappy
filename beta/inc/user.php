@@ -168,6 +168,36 @@
 			} else {
 				$this->load_user_data($id, $this->crypt_sess($id), false);
 			}
+			$this->auto_();
+		}
+		function auto_() {
+			//RDV
+			$select = $this->mysql->query("SELECT * FROM `appointment` WHERE `Date` <= '".date("Y-m-d H:i:s", strtotime("-1 hour"))."' AND `State` = '1' LIMIT 0, 8");
+			if($select->rowCount() > 0) {
+				if(file_exists("inc/chat.php")) {
+				@require_once("inc/chat.php");	
+				} else if(file_exists("chat.php")) {
+				@require_once("chat.php");	
+				} else if(file_exists("../inc/chat.php")) {
+				@require_once("../inc/chat.php");
+				}
+				$chat = new chat($this->mysql, $this);
+			}
+			while($data = $select->fetch(PDO::FETCH_OBJ)) {
+				$other = $data->User;
+				if($other == $this->ID) {
+					$other = $data->Owner_Service;
+				}
+				$cc = $chat->isset_conversation($other, $data->Service);
+				if($cc != false) {
+					$this->mysql->query("UPDATE `appointment` SET `State` = '2' WHERE `ID` = '".$data->ID."'");
+					$mess = 'La date du rendez-vous est passé. Confirmez-vous que votre rendez-vous à eu lieu ?.<br><i><a data-id="'.$data->ID.'" class="valid-this-date">Oui</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$data->ID.'" class="refuse-this-date">Non</a>';
+					$chat->send_reply($mess, $cc, $data->User);
+					$this->mysql->query("UPDATE `conversation` SET `Status` = '2' WHERE `ID` = '".$cc."'");
+				}
+			}
+			//USER NON ACTIVE DEPUIS 4 MOIS
+			
 		}
 		function getAge($date) {
   			return (int) ((time() - strtotime($date)) / 3600 / 24 / 365);
@@ -235,7 +265,7 @@
 		}
 		function list_messages() {
 			$t = 0;
-			$select = $this->mysql->prepare("SELECT `conversation_reply`.`ID` FROM `conversation_reply` INNER JOIN `conversation` ON `conversation_reply`.`C_ID` = `conversation`.`ID` WHERE (`conversation`.`User_One` = :id OR `conversation`.`User_Two` = :id) AND `conversation_reply`.`Author` != :id AND `conversation_reply`.`Seen` = '0'");	
+			$select = $this->mysql->prepare("SELECT `conversation_reply`.`ID` FROM `conversation_reply` INNER JOIN `conversation` ON `conversation_reply`.`C_ID` = `conversation`.`ID` WHERE (`conversation`.`User_One` = :id OR `conversation`.`User_Two` = :id) AND `conversation_reply`.`Author` != :id AND `conversation_reply`.`Seen` = '0' AND (`conversation_reply`.`BotTo` = '0' OR `conversation_reply`.`BotTo` = '".$this->ID."')");	
 			$select->execute(array(":id" => $this->ID));
 			$t = $select->rowCount();
 			return $t;

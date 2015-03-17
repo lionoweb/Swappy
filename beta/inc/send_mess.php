@@ -19,8 +19,17 @@
 	if(isset($_GET['list_message'])) {
 		$arr = $chat->list_message(@$_GET['search']);
 	}
+	if(isset($_POST['date'])) {
+		$arr = $chat->make_date($_POST);
+	}
 	if(isset($_GET['make_date'])) {
 		$arr = $chat->modal_date(@$_GET['make_date']);
+	}
+	if(isset($_GET['valid'])) {
+		$arr = $chat->valid_a(@$_GET['valid'], @$_GET['cc']);
+	}
+	if(isset($_GET['refuse'])) {
+		$arr = $chat->refuse_a(@$_GET['refuse'], @$_GET['cc']);
 	}
 	if(isset($_GET['get_message']) && !empty($_GET['get_message'])) {
 		$arr = $chat->content_conv($_GET['get_message']);

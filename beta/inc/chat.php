@@ -45,7 +45,7 @@
 		}
 		function who_ami($id) {
 			$return = "null";
-			$select = $this->mysql->prepare("SELECT `User_One`, `User_Two` FROM `conversation` WHERE (`User_One` = :me OR `User_Two` = :me) AND `ID` = :id AND `Status` = '0'");
+			$select = $this->mysql->prepare("SELECT `User_One`, `User_Two` FROM `conversation` WHERE (`User_One` = :me OR `User_Two` = :me) AND `ID` = :id");
 			
 			$select->execute(array(":me" => $this->user->ID, ":id" => $id));
 			$data = $select->fetch(PDO::FETCH_OBJ);
@@ -57,6 +57,20 @@
 			}
 			return $return;	
 		}
+		function who_iso($id) {
+			$return = "null";
+			$select = $this->mysql->prepare("SELECT `User_One`, `User_Two` FROM `conversation` WHERE (`User_One` = :me OR `User_Two` = :me) AND `ID` = :id");
+			
+			$select->execute(array(":me" => $this->user->ID, ":id" => $id));
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			if($data->User_One == $this->user->ID && $data->User_Two != $this->user->ID) {
+				$return = $data->User_Two;
+			}
+			if($data->User_One != $this->user->ID && $data->User_Two == $this->user->ID) {
+				$return = $data->User_One;
+			}
+			return $return;	
+		}
 		function who_isserv($id) {
 			$select = $this->mysql->query("SELECT `By` FROM `services` WHERE `ID` = '".$id."'");
 			$data = $select->fetch(PDO::FETCH_OBJ);
@@ -64,7 +78,7 @@
 		}
 		function isset_conversation_id($id) {
 			$t = false;
-			$select = $this->mysql->prepare("SELECT `ID`, COUNT(*) AS `total` FROM `conversation` WHERE (`User_One` = :me OR `User_Two` = :me) AND `ID` = :id AND `Status` = '0'");
+			$select = $this->mysql->prepare("SELECT `ID`, COUNT(*) AS `total` FROM `conversation` WHERE (`User_One` = :me OR `User_Two` = :me) AND `ID` = :id");
 			$select->execute(array(":me" => $this->user->ID, ":id" => $id));
 			$data = $select->fetch(PDO::FETCH_OBJ);
 			if($data->total > 0) {
@@ -100,8 +114,14 @@
 			}
 			return $i;	
 		}
-		function send_reply($message, $id) {
+		function send_reply($message, $id, $bot=false) {
 			$r = false;
+			$me = $this->user->ID;
+			$bott = "0";
+			if($bot != false) {
+				$me = 0;
+				$bott = "'".$bot."'";
+			}
 			if(!empty($message)) {
 				$l = $this->getHidden($id);
 				$who = $this->who_ami($id);
@@ -113,8 +133,8 @@
 						$this->mysql->query("UPDATE `conversation` SET `HiddenFor` = '0' WHERE `ID` = '".$id."'");
 					} 
 				}
-				$select = $this->mysql->prepare("INSERT INTO `conversation_reply` (`ID`, `C_ID`, `Author`, `Time`, `Message`, `Seen`, `HiddenFor`) VALUES (NULL, :conversation, :me, :time, :message, '0', '0');");
-				if($select->execute(array(":me" => $this->user->ID, ":conversation" => $id, ":message" => $message, ":time" => time()))) {
+				$select = $this->mysql->prepare("INSERT INTO `conversation_reply` (`ID`, `C_ID`, `Author`, `Time`, `Message`, `Seen`, `HiddenFor`, `BotTo`) VALUES (NULL, :conversation, :me, :time, :message, '0', '0', ".$bott.");");
+				if($select->execute(array(":me" => $me, ":conversation" => $id, ":message" => $message, ":time" => time()))) {
 					$r = true;
 				}
 			}
@@ -137,12 +157,12 @@
 			return $title;
 		}
 		function set_read($id) {
-			$select = $this->mysql->prepare("UPDATE `conversation_reply` INNER JOIN `conversation` ON `conversation_reply`.`C_ID` = `conversation`.`ID` SET `Seen` = '1' WHERE (`conversation`.`User_One` = :me OR `conversation`.`User_Two` = :me) AND `conversation_reply`.`Seen` = '0' AND `conversation_reply`.`Author` != :me AND `conversation`.`ID` = :id");	
+			$select = $this->mysql->prepare("UPDATE `conversation_reply` INNER JOIN `conversation` ON `conversation_reply`.`C_ID` = `conversation`.`ID` SET `Seen` = '1' WHERE (`conversation`.`User_One` = :me OR `conversation`.`User_Two` = :me) AND `conversation_reply`.`Seen` = '0' AND `conversation_reply`.`Author` != :me AND `conversation`.`ID` = :id AND (`conversation_reply`.`BotTo` = '0' OR `conversation_reply`.`BotTo` = :me)");	
 			$select->execute(array(":me" => $this->user->ID, ":id" => $id));
 		}
 		function unread_message($id) {
 			$t = 0;
-			$select = $this->mysql->prepare("SELECT `ID` FROM `conversation_reply` WHERE `Author` != :id AND `Seen` = '0' AND `C_ID` = :idc");	
+			$select = $this->mysql->prepare("SELECT `ID` FROM `conversation_reply` WHERE `Author` != :id AND `Seen` = '0' AND `C_ID` = :idc AND (`BotTo` = '0' OR `BotTo` = '".$this->user->ID."')");	
 			$select->execute(array(":id" => $this->user->ID, ":idc" => $id));
 			$t = $select->rowCount();
 			return $t;	
@@ -261,16 +281,18 @@
 			$user = $this->who_ami($id);
 			$and = "";
 			if($user == "Two") {
-				$and = " AND ( `HiddenFor` = '0' OR `HiddenFor` = '1' ) ";
+				$and = " AND ( `HiddenFor` = '0' OR `HiddenFor` = '1' )";
 			} else if($user == "One") {
-				$and = " AND ( `HiddenFor` = '0' OR `HiddenFor` = '2' ) ";
+				$and = " AND ( `HiddenFor` = '0' OR `HiddenFor` = '2' )";
 			}
-			$select = $this->mysql->prepare("SELECT * FROM `conversation_reply` WHERE `C_ID` = :id".$and." ORDER BY `Time` ASC");
+			$select = $this->mysql->prepare("SELECT * FROM `conversation_reply` WHERE `C_ID` = :id".$and." AND (`BotTo` = '0' OR `BotTo` = '".$this->user->ID."') ORDER BY `Time` ASC");
 			$select->execute(array(":id" => $id));
 			while($data = $select->fetch(PDO::FETCH_OBJ)) {
 				$me = $data->Author;
 				if($data->Author == $this->user->ID) {
 					$me = "ME";
+				} else if($data->Author == 0) {
+					$me = "BOT";
 				}
 				$array[] = array("ID" => $data->ID, "Message" => $data->Message, "Author" => $me, "Time" => $data->Time, "TimeText" => "Le ".date("d/m/y \à H:i", $data->Time));
 			}
@@ -356,9 +378,183 @@
 			}
 			return $arr;	
 		}
+		function serv_infos($id) {
+			$select = $this->mysql->query("SELECT `services`.`By`, `services`.`ID` FROM `conversation` INNER JOIN `services` ON `conversation`.`ServiceFor` = `services`.`ID` WHERE `conversation`.`ID` = '".$id."'");
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			$arr = array("By" => $data->By, "ID" => $data->ID);
+			return $arr;
+		}
+		function valid_a($id, $cc) {
+			$a = false;
+			$id = trim($id);
+			$cc = trim($cc);
+			$select = $this->mysql->prepare("SELECT *,COUNT(*) AS `nb` FROM `appointment` WHERE `ID` = :id");
+			$select->execute(array(":id" => $id));
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			if($data->nb > 0 && $this->isset_conversation_id($cc) != false) {
+				$other = $this->who_iso($cc);
+				$infos = $this->serv_infos($cc);
+				if($other_ == $infos["By"]) {
+					$other = $this->user->ID;
+				}
+				if($data->State == 0) {
+					$a = true;
+					$ss = $this->mysql->prepare("UPDATE `appointment` SET `State` = '1' WHERE `ID` = :id");
+					$ss->execute(array(":id" => $id));
+					//SEND TO OTHER
+					$mess = $this->user->login.' a accepté la date du rendez-vous.<br><i>Vous ne pouvez plus changer la date à moins d\'<a data-id="'.$id.'" class="refuse-this-date">Annuler</a>.</i>';
+					$this->send_reply($mess, $cc, $other);
+					//SEND TO ME
+					$mess = 'Vous avez accepté la date du rendez-vous.<br><i>Vous pouvez toujours <a data-id="'.$id.'" class="refuse-this-date">Annuler</a> si vous le souhaitez.';
+					$this->send_reply($mess, $cc, $this->user->ID);
+					//EDIT STATUS
+					$ss = $this->mysql->prepare("UPDATE `conversation` SET `Status` = '2' WHERE `ID` = :id");
+					$ss->execute(array(":id" => $cc));
+					//SEND MAIL
+				}
+			}
+			return $a;
+		}
+		function refuse_a($id, $cc) {
+			$a = false;
+			$id = trim($id);
+			$cc = trim($cc);
+			$select = $this->mysql->prepare("SELECT *,COUNT(*) AS `nb` FROM `appointment` WHERE `ID` = :id");
+			$select->execute(array(":id" => $id));
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			if($data->nb > 0 && $this->isset_conversation_id($cc) != false) {
+				$other = $this->who_iso($cc);
+				$infos = $this->serv_infos($cc);
+				if($other_ == $infos["By"]) {
+					$other = $this->user->ID;
+				}
+				if($data->State == 0) {
+					$a = true;
+					$ss = $this->mysql->prepare("DELETE FROM `appointment` WHERE `ID` = :id");
+					$ss->execute(array(":id" => $id));
+					//SEND TO OTHER
+					$mess = $this->user->login.' a refuser la date du rendez-vous.';
+					$this->send_reply($mess, $cc, $other);
+					//SEND TO ME
+					$mess = 'Vous avez refusé le rendez-vous';
+					$this->send_reply($mess, $cc, $this->user->ID);
+					//EDIT STATUS
+					$ss = $this->mysql->prepare("UPDATE `conversation` SET `Status` = '0' WHERE `ID` = :id");
+					$ss->execute(array(":id" => $cc));
+				}
+				if($data->State == 1) {
+					$a = true;
+					$ss = $this->mysql->prepare("DELETE FROM `appointment` WHERE `ID` = :id");
+					$ss->execute(array(":id" => $id));
+					//SEND TO OTHER
+					$mess = $this->user->login.' a annulé le rendez-vous.';
+					$this->send_reply($mess, $cc, $other);
+					//SEND TO ME
+					$mess = 'Vous avez annulé le rendez-vous';
+					$this->send_reply($mess, $cc, $this->user->ID);
+					//EDIT STATUS
+					$ss = $this->mysql->prepare("UPDATE `conversation` SET `Status` = '0' WHERE `ID` = :id");
+					$ss->execute(array(":id" => $cc));
+				}
+			}
+			return $a;
+		}
+		function make_date($POST) {
+			$arr = array(false);
+			$id = $POST['ID_C'];
+			$date = $POST['date'];
+			$hour = $POST['hour'];
+			$a_date = date("Y-m-d");
+			$a_hour = date("H:i");
+			$sah = preg_split("/\:/", $a_hour);
+			$sh = preg_split("/\:/", $hour);
+			$infos = $this->serv_infos($id);
+			$other = $this->who_iso($id);
+			$other_ = $other;
+			if($other_ == $infos["By"]) {
+				$other_ = $this->user->ID;
+			}
+			$st = $this->getstatus($id);
+			if($a_date == $date && (($sh[0] < $sah[0]) || ($sh[0] == $sah[0] && $sh[1] <= $sah[1]))) {
+				$arr = array(false, "Vous ne pouvez pas prendre de rendez-vous dans le passé !");
+			} else {
+				$w = $this->who_ami($id);
+				if($w == "null") {
+					$arr = array(false, "Vous ne faites pas partie de cette conversation !");
+				} else if($infos["By"] != $this->user->ID) {
+					$arr = array(false, "Vous n'êtes pas le propriétaire du service !");
+				} else if($st == "3" || $st == "2") {
+					$arr = array(false, "La prise de rendez-vous est actuellement impossible pour cette conversation/service.");
+				} else {
+					$isa = $this->isset_appoint($id, $infos['ID'], $other_);
+					if($isa == "null") {
+						$select = $this->mysql->prepare("INSERT INTO `appointment` (`ID`, `User`, `Service`, `Owner_Service`, `Date`, `State`) VALUES (NULL, '".$other."', '".$infos["ID"]."', '".$infos["By"]."', :date, '0');");
+						$select->execute(array(":date" => $date." ".$hour.":00"));
+						$last_id = $this->mysql->lastInsertId();
+						//SEND TO OTHER
+						$mess = $this->user->login.' a enregistré un rendez-vous avec vous le : '.date("d/m/Y", strtotime($date)). " à ".$hour.'<br><a data-id="'.$last_id.'" class="valid-this-date">Valider</a>&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$last_id.'" class="refuse-this-date">Refuser</a>';
+						$this->send_reply($mess, $id, $other);
+						//SEND TO ME
+						$mess = 'Vous avez enregistré un rendez-vous pour le : '.date("d/m/Y", strtotime($date)). " à ".$hour.'<br><i>Vous devez maintenant attendre la confirmation de votre interlocuteur...</i>';
+						$this->send_reply($mess, $id, $this->user->ID);
+						//EDIT STATUS
+						$this->mysql->query("UPDATE `conversation` SET `Status` = '1' WHERE `ID` = '".$id."'");
+						$arr = array(true);
+					} else {
+						$select = $this->mysql->prepare("UPDATE `appointment` SET `Date` = :date WHERE `ID` = '".$isa."'");
+						$select->execute(array(":date" => $date." ".$hour.":00"));
+						//SEND TO OTHER
+						$mess = $this->user->login.' a modifié le rendez-vous avec vous, il est maintenant pour le : '.date("d/m/Y", strtotime($date)). " à ".$hour.'<br><a data-id="'.$isa.'" class="valid-this-date">Valider</a>&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$isa.'" class="refuse-this-date">Refuser</a>';
+						$this->send_reply($mess, $id, $other);
+						//SEND TO ME
+						$mess = 'Vous avez modifié le rendez-vous pour le : '.date("d/m/Y", strtotime($date)). " à ".$hour.'<br><i>Vous devez maintenant attendre la confirmation de votre interlocuteur...</i>';
+						$this->send_reply($mess, $id, $this->user->ID);
+						//EDIT STATUS
+						$this->mysql->query("UPDATE `conversation` SET `Status` = '1' WHERE `ID` = '".$id."'");
+						$arr = array(true);
+					}
+				}
+			}
+			return $arr;
+		}
+		function isset_appoint($id, $for, $user) {
+			$o = "null";
+			$select = $this->mysql->query("SELECT `ID`, COUNT(*) AS `nb` FROM `appointment` WHERE `Service` = '".$for."' AND `User` = '".$user."' AND (`State` = '0' OR `State` = '1' )");
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			if($data->nb > 0) {
+				$o = $data->ID;
+			}
+			return $o;
+		}
 		function modal_date($id) {
+			$w = $this->who_ami($id);
+			if($w == "One") {
+				$ww = "Two";
+			} else {
+				$ww = "One";
+			}
+			$select = $this->mysql->query("SELECT `conversation`.`ServiceFor`, `users`.`FirstName`, `users`.`LastName`, `users`.`login` FROM `conversation` INNER JOIN `users` ON `conversation`.`User_".$ww."` = `users`.`ID` WHERE `conversation`.`ID` = '".$id."'");
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			$with = $data->FirstName." ".$data->LastName;
+			$for = $this->service_title($data->ServiceFor);
+			$other = $this->who_iso($id);
+			$infos = $this->serv_infos($id);
+			if($other_ == $infos["By"]) {
+				$other = $this->user->ID;
+			}
+			$isa = $this->isset_appoint($id, $data->ServiceFor, $other);
+			$time = "15:00";
+			$date = date("Y-m-d");
+			if($isa != "null") {
+				$sel = $this->mysql->query("SELECT * FROM `appointment` WHERE `ID` = '".$isa."'");
+				$dat = $sel->fetch(PDO::FETCH_OBJ);
+				$tt = preg_split("/ /",$dat->Date);
+				$date = $tt[0];
+				$timt = preg_split("/\:/", $tt[1]);
+				$time = $timt[0].":".$timt[1];
+			}
 			$html = '';
-			$html .= '<h4 class="modal-title" id="exampleModalLabel">Fixer un rendez-vous ?</h4></div><div class="modal-body"><input type="hidden" id="date"><div id="datepicker"></div>';
+			$html .= '<h4 class="modal-title" id="exampleModalLabel">Fixer un rendez-vous ?</h4></div><div class="modal-body"><form method="post" id="m_date_modal" action="inc/send_mess.php"><div class="col-sm-12 tit">Vous souhaitez fixer un rendez-vous avec '.$with.' pour : '.$for.'</div><div class="col-sm-6"><input name="date" type="hidden" value="'.$date.'" id="date"><label for="datepicker" class="label-control">Selectionnez le jour :</label><div id="datepicker"></div></div><div class="col-sm-6"><label class="label-control" for="hour">A quel heure : </label> <input type="hidden" name="ID_C" value="'.$id.'"> <input id="hour" name="hour" class="form-control validate[required] time" value="'.$time.'" type="text"><input type="submit" class="btn" value="Envoyer"></div><div class="clear"></div></form>';
 return $html;
 		}
 		function prepare_popup($user, $service=false) {

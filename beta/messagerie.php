@@ -27,6 +27,7 @@
       <script src="js/jquery-ui.js"></script>
       <script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js"></script>
       <script src="js/ValidationEngine/jquery.validationEngine.js"></script>
+      <script src="js/jquery.datetimepicker.js"></script>
       <script src="js/bootstrap.min.js"></script>
       <script src="js/main.js"></script>
       <style>
@@ -74,6 +75,21 @@
 			margin-top:8px;
 			margin-bottom:8px;
 			margin-right:8px;
+		}
+		.bot {
+			background:#FFC862;
+			display:block; 
+			width:100%; 
+			padding:6px;
+			padding-left:40px;
+			padding-right:9%;
+			border-radius:0px;
+			margin-top:8px;
+			margin-bottom:8px;
+			margin-left:0px;
+			margin-right:0px;
+			clear:both;
+			float:left;
 		}
 		.message_box {
 			margin-top:40px;
@@ -190,6 +206,9 @@
 			border:1px solid #262626;
 			border-radius:50%;
 		}
+		.valid-this-date:hover, .refuse-this-date:hover {
+			cursor:pointer;
+		}
 		@media (max-width:381px){
 			.message_box {
 				height:530px;
@@ -234,7 +253,7 @@
 				display:none;	
 			}
 		}
-		#modal_delete .delete_m {
+		#modal_delete .delete_m, .header_m .delete_m {
 			display:none !important;	
 		}
 		#modal_delete a {
@@ -351,10 +370,28 @@ function message_send_function(status, form, json, options) {
 		$("#loader_ajax").remove();
 		$form_b = $(form);
 		$form_b.find("textarea[name='message_r']").val("");
-		load_content($form_b.find("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false);
-		load_list();
+		if(load_content($form_b.find("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false)) {
+			load_list();
+		}
 		return true;
 	} else{
+		$("#loader_ajax").remove();
+		return false;	
+	}
+}
+function date_send_function(status, form, json, options) {
+	$form_b = $(form);
+	if(json[0] == true) {
+		$("#loader_ajax").remove();
+		$('#m_date_modal').validationEngine('detach');
+		$("#modal_date").modal("hide");
+		if(load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false)) {
+			load_list();
+		}
+		return true;
+	} else{
+		$("#loader_ajax").remove();
+		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
 		return false;	
 	}
 }
@@ -435,6 +472,7 @@ function load_content(id, title, sc) {
 		var serv = $(".mess_t[data-id='"+id+"']").attr("data-b");
 		$(".form_m, .header_m").css("display", "");
 		$(".inner_m").html('<center>Chargement...</center>');
+		$.ajaxSetup({'async': false});
 		$.getJSON("inc/send_mess.php?get_message="+id, function(data) {
 			$(".inner_m").html('');
 			$(".header_m span").html(title);
@@ -454,6 +492,25 @@ function load_content(id, title, sc) {
 			if(sc == false) {
 				$(".inner_m").scrollTop($(".inner_m")[0].scrollHeight);
 			}
+		});
+		$.ajaxSetup({'async': true});
+		$(".valid-this-date").each(function() {
+			$(this).on("click", function(e) {
+				$.ajax({url:"inc/send_mess.php", data:"valid="+$(this).attr("data-id")+"&cc="+$("input[name='ID_Converse']").val(), method: "GET", success: function(data) {
+					if(data == "true") { if(load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false)) {
+						load_list();
+					} }
+				}});
+			});
+		});
+		$(".refuse-this-date").each(function() {
+			$(this).on("click", function(e) {
+				$.ajax({url:"inc/send_mess.php", data:"refuse="+$(this).attr("data-id")+"&cc="+$("input[name='ID_Converse']").val(), method: "GET", success: function(data) {
+					if(data == "true") { if(load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false)) {
+						load_list();
+					} }
+				}});
+			});
 		});
 	}
 	$(".form_m button").off("click");
@@ -490,6 +547,7 @@ function load_content(id, title, sc) {
 		$(".form_m button").css("display", "none");
 	}
 	$("input[name='ID_Converse']").val(id);
+	return true;
 }
 function mess_count(data, id) {
 	if(data != "false") {
@@ -525,6 +583,7 @@ function event_click() {
 function make_date(e) {
 	var id = $("input[name='ID_Converse']").val();
 	var $lis = $(".mess_t[data-id='"+id+"']");
+	$('#m_date_modal').validationEngine('detach');
 	if($lis.attr("data-b") == "1" && ($lis.attr("data-state") == "0" || $lis.attr("data-state") == "1")) {
 		$("#modal_date").remove();
 		$.ajax({
@@ -536,9 +595,26 @@ function make_date(e) {
 				$("body").append('<div id="modal_date" data-id="'+id+'" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-md"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+data+'</div></div></div></div>');
 				$('#modal_date').modal('show');
 				$("#modal_date").on("hidden.bs.modal", function(e) {
+					$('#m_date_modal').validationEngine('detach');
 					$(this).remove();
 				});
-				 $("#datepicker").datepicker({altField: "#date",minDate: 0, maxDate: "+1Y"});
+				var date_s = $("#date").val();
+				$("#datepicker").datepicker({altField: "#date",minDate: 0, maxDate: "+1Y"});
+				$("#datepicker").datepicker('setDate', date_s);
+				 $('#hour').datetimepicker({
+					datepicker:false,
+					format:'H:i',
+					lang: "fr",
+					value: $("#hour").val()
+				});
+				$("#m_date_modal").validationEngine({
+					ajaxFormValidation: true,
+					ajaxFormValidationMethod: 'post',
+					onAjaxFormComplete: date_send_function,
+					onBeforeAjaxFormValidation: load_ajax_d,
+					showOneMessage: true,
+					promptPosition : "topLeft"
+				});
            }
     });	
 	} else {

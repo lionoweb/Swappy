@@ -744,10 +744,17 @@ input.space-button {
 	display: inline;
 	width:80px;
 }
-.greyback .time {
+.greyback .time, form .time {
 	display: inline;
 	width:70px;
 	height:32px;
+}
+#modal_date .tit {
+	text-decoration:underline;
+	margin-bottom:8px;	
+}
+#modal_date input[type="submit"] {
+	margin-top:12px;	
 }
 .greyback .zipcode, form .zipcode {
 	display: inline;
