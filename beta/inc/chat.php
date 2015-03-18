@@ -100,6 +100,16 @@
 			}
 			return $t;	
 		}
+		function has_voted($id, $owner) {
+			$select = $this->mysql->prepare("SELECT COUNT(*) AS `nb` FROM `notations` WHERE `By` = :id AND `Service` = :serv AND `Owner_Service` = :oserv ");
+			$select->execute(array(":id" => $this->user->ID, ":serv" => $id, ":oserv" => $owner));
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			if($data->nb < 1) {
+				return false;
+			} else {
+				return true;
+			}
+		}
 		function make_conversation($id, $for) {
 			$i = 0;
 			$status = 0;
@@ -389,9 +399,13 @@
 			$arr = array("By" => $data->By, "ID" => $data->ID);
 			return $arr;
 		}
-		function ask_for_com($id, $cc, $user) {
-			$mess = 'Nous espèrons que ce service fût satisfaisant.<br>Vous pouvez dès à présent noté l\'utilisateur ainsi que son service en <a data-id="'.$id.'" class="note-this-date">cliquant ici</a>';
+		function ask_for_com($id, $cc, $user, $hash) {
+			$mess = 'Nous espèrons que ce service fût satisfaisant.<br>Vous pouvez dès à présent noté l\'utilisateur ainsi que son service en <a href="annonce.php?vote='.$hash.'" class="note-this-date">cliquant ici</a>';
 			$this->send_reply($mess, $cc, $user);
+		}
+		function make_vote_h($id, $date) {
+			$h = base64_encode($id."///".$date);
+			return $h;
 		}
 		function valid_a($id, $cc) {
 			$a = false;
@@ -420,7 +434,19 @@
 					$ss = $this->mysql->prepare("UPDATE `conversation` SET `Status` = '2' WHERE `ID` = :id");
 					$ss->execute(array(":id" => $cc));
 					//SEND MAIL
-				}
+					if(file_exists("inc/mail.php")) {
+						@require_once("inc/mail.php");	
+					} else if(file_exists("mail.php")) {
+						@require_once("mail.php");	
+					} else if(file_exists("../inc/mail.php")) {
+						@require_once("../inc/mail.php");
+					}
+
+						$mail = new mailer();
+						$oo = new user($this->mysql, $data->Owner_Service);
+						$mm = new user($this->mysql, $data->User);
+						$mail->send_validation_rdv($oo, $mm, $infos['ID'], $this->service_title($infos['ID']),$data->Date,$cc);
+					}
 				if($data->State == 2) {
 					$a = true;
 					$ss = $this->mysql->prepare("UPDATE `appointment` SET `State` = '4' WHERE `ID` = :id");
@@ -432,7 +458,6 @@
 					$mess = 'Vous avez confirmé que le rendez-vous à bien eu lieu.';
 					$this->send_reply($mess, $cc, $this->user->ID);
 					//EDIT STATUS
-					//SEND MAIL
 				}
 				if($data->State == 3) {
 					$a = true;
@@ -461,7 +486,9 @@
 					//EDIT STATUS
 					$ss = $this->mysql->prepare("UPDATE `conversation` SET `Status` = '0' WHERE `ID` = :id");
 					$ss->execute(array(":id" => $cc));
-					$this->ask_for_com($id, $cc, $data->User);
+					if(!$this->has_voted($data->Service, $data->Owner_Service)) {
+						$this->ask_for_com($id, $cc, $data->User, $this->make_vote_h($cc, $data->Date));
+					}
 				}
 			}
 			return $a;
@@ -508,8 +535,8 @@
 					$mess = 'Vous avez annulé le rendez-vous';
 					$this->send_reply($mess, $cc, $this->user->ID);
 					//EDIT STATUS
-					$ss = $this->mysql->prepare("UPDATE `conversation` SET `Status` = '0' WHERE `ID` = :id");
-					$ss->execute(array(":id" => $cc));
+					$ssi = $this->mysql->prepare("UPDATE `conversation` SET `Status` = '0' WHERE `ID` = :id");
+					$ssi->execute(array(":id" => $cc));
 				}
 				if($data->State == 2) {
 					$a = true;

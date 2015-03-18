@@ -1,10 +1,11 @@
 <?php
+
 require('class.html2text.inc');
 require('swift/swift_required.php');
 class mailer {
 	public $noreply = "no-reply@swappy.fr";
 	public $contact = "contact@swappy.fr";
-	
+	private $folderb = "beta/";
 	function txt_mail($msg) {
 		$txt = "";
 		
@@ -20,15 +21,15 @@ class mailer {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>'.$title.'</title><style type="text/css"> a { color: #218cb9; } </style></head>
 <body style="width:100% !important; background-color:#FFFFFF; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; height:100%;">';
-		$html .= '<table border="0" cellspacing="0" cellpadding="0" width="100%" style="font-family: Arial, Helvetica, sans-serif;" align="center"><tr><td align="center"><table border="0" cellspacing="0" cellpadding="0" width="100%" align="center"><tr style="background-color:#df755c;"><td align="left" width="126"><img src="http://swappy.fr/beta/img/mail/logo.jpg" height="60" width="126"></td><td align="right" width="264"><img src="http://swappy.fr/beta/img/mail/header.jpg" height="60" width="264"></td></tr>';
+		$html .= '<table border="0" cellspacing="0" cellpadding="0" width="100%" style="font-family: Arial, Helvetica, sans-serif;" align="center"><tr><td align="center"><table border="0" cellspacing="0" cellpadding="0" width="100%" align="center"><tr style="background-color:#df755c;"><td align="left" width="126"><img src="http://swappy.fr/'.$this->folderb.'img/mail/logo.jpg" height="60" width="126"></td><td align="right" width="264"><img src="http://swappy.fr/'.$this->folderb.'img/mail/header.jpg" height="60" width="264"></td></tr>';
 		$html .= '<tr style="background-color:#FFFFFF;"><td colspan="2" style="word-break:break-all; word-wrap:break-word;  padding:25px 20px 0px 20px; text-align:left;" align="left">'.$htmli.'<br><br>L\'équipe Swappy.'.$rep.'</td></tr>';
-		$html .= '<tr style="background-color:#FFFFFF;"><td style=" padding:5px 0px 0px 0px;" colspan="2" align="center"><hr><img src="http://swappy.fr/beta/img/mail/follow.jpg" height="26" width="248"></td></tr><tr style="background-color:#FFFFFF; padding:10px 0px 0px 0px;"><td align="center" colspan="2"><a href="https://www.facebook.com/SwappyLaPlateforme" style="color: #218cb9; "><img border="0" src="http://swappy.fr/beta/img/mail/fb.jpg" height="40" width="55"></a><a href="https://twitter.com/_Swappy" style="color: #218cb9;"><img src="http://swappy.fr/beta/img/mail/tw.jpg" border="0" height="40" width="55"></a></td></tr>';
+		$html .= '<tr style="background-color:#FFFFFF;"><td style=" padding:5px 0px 0px 0px;" colspan="2" align="center"><hr><img src="http://swappy.fr/'.$this->folderb.'img/mail/follow.jpg" height="26" width="248"></td></tr><tr style="background-color:#FFFFFF; padding:10px 0px 0px 0px;"><td align="center" colspan="2"><a href="https://www.facebook.com/SwappyLaPlateforme" style="color: #218cb9; "><img border="0" src="http://swappy.fr/'.$this->folderb.'img/mail/fb.jpg" height="40" width="55"></a><a href="https://twitter.com/_Swappy" style="color: #218cb9;"><img src="http://swappy.fr/'.$this->folderb.'img/mail/tw.jpg" border="0" height="40" width="55"></a></td></tr>';
 		$html .= '</table></td></tr></table></body></html>';
 		return $html;
 	}
 	function sendmail($to, $from, $fromname="Swappy.fr", $subject, $html) {
 		if(!preg_match("/\@swappy\.fr/", $from)) {
-			$h2t = new html2text($html);
+			$h2t = @new html2text($html);
 			// Simply call the get_text() method for the class to convert
 			// the HTML to the plain text. Store it into the variable.
 			$text = $h2t->get_text();
@@ -60,7 +61,7 @@ class mailer {
 			} else {
 				$html = $this->bodytext($html, false, $subject);
 			}
-			$h2t = new html2text($html);
+			$h2t = @new html2text($html);
 			// Simply call the get_text() method for the class to convert
 			// the HTML to the plain text. Store it into the variable.
 			$text = $h2t->get_text();
@@ -99,7 +100,7 @@ class mailer {
 		$subject = 'Changement du mot de passe sur Swappy.fr';
 		
 		$html .= '';
-		$html .= 'Bonjour '.$cname.' ('.$name.')<br><br>Merci de bien vouloir changer le mot de passe de votre compte en cliquant sur ce lien :<br><a href="http://swappy.fr/beta/inscription.php?remind='.$hash.'" target="_blank">http://swappy.fr/beta/inscription.php?remind='.$hash.'</a><br><br><i>Si vous ne pouvez pas cliquer sur ce lien, copiez le et collez-le lien dans votre navigateur.</i></p>';
+		$html .= 'Bonjour '.$cname.' ('.$name.')<br><br>Merci de bien vouloir changer le mot de passe de votre compte en cliquant sur ce lien :<br><a href="http://swappy.fr/'.$this->folderb.'inscription.php?remind='.$hash.'" target="_blank">http://swappy.fr/'.$this->folderb.'inscription.php?remind='.$hash.'</a><br><br><i>Si vous ne pouvez pas cliquer sur ce lien, copiez le et collez-le lien dans votre navigateur.</i></p>';
 		
 		if($this->sendmail($to, $this->noreply, "Swappy.fr", $subject, $html)) {
 			return array(true);
@@ -112,13 +113,39 @@ class mailer {
 		$subject = 'Inscription sur Swappy.fr';
 		
 		$message = '<h4>Bonjour '.$cname.'</h4>';
-		$message .= '<p>Nous vous remercions pour votre inscription et vous souhaitons la bienvenue au sein de la communauté Swappy. Vous pouvez dorénavant échanger des services avec d\'autres utilisateurs qui, comme vous, ont l\'envie de trouver un contact sincère d’entraide.<br><br>Cliquez dès maintenant sur le lien suivant afin de confirmer votre adresse mail ainsi que votre inscription :<br><a href="http://swappy.fr/beta/inscription.php?validation='.$hash.'" target="_blank">http://swappy.fr/beta/inscription.php?validation='.$hash.'</a><br><br>Une fois votre compte activé vous pourrez vous connecter sur notre site !<br><br>Identifiant : '.$name.'<br>Mot de passe : *******<br><br><i>Si vous ne pouvez pas cliquer sur ce lien, copiez le et collez-le lien dans votre navigateur.</i></p><br><br>À tout de suite sur Swappy !';
+		$message .= '<p>Nous vous remercions pour votre inscription et vous souhaitons la bienvenue au sein de la communauté Swappy. Vous pouvez dorénavant échanger des services avec d\'autres utilisateurs qui, comme vous, ont l\'envie de trouver un contact sincère d’entraide.<br><br>Cliquez dès maintenant sur le lien suivant afin de confirmer votre adresse mail ainsi que votre inscription :<br><a href="http://swappy.fr/'.$this->folderb.'inscription.php?validation='.$hash.'" target="_blank">http://swappy.fr/'.$this->folderb.'inscription.php?validation='.$hash.'</a><br><br>Une fois votre compte activé vous pourrez vous connecter sur notre site !<br><br>Identifiant : '.$name.'<br>Mot de passe : *******<br><br><i>Si vous ne pouvez pas cliquer sur ce lien, copiez le et collez-le lien dans votre navigateur.</i></p><br><br>À tout de suite sur Swappy !';
 		
 		if($this->sendmail($to, $this->noreply, "Swappy.fr", $subject, $message)) {
 			return true;
 		} else {
 			return false;
 		}
+	}
+	function send_validation_rdv($owner, $user, $servid, $servname, $date, $cc) {
+		$to = $email;
+		$subject = 'Votre rendez-vous';
+		
+		$message = '<h4>Bonjour {CNAME}</h4>';
+		$message .= '<p>Votre rendez-vous a été validé auprès de vous et de votre interlocuteur.<br><br><u>Voici donc le récupitulatif :</u><br>Il s\'agit d\'un rendez-vous avec <a href="http://swappy.fr/'.$this->folderb.'profil.php?id={OID}">{ONAME}</a>  pour {YOUR} service \'<a href="http://swappy.fr/'.$this->folderb.'annonce.php?id={SERVID}">{SERVNAME}</a>\'.<br> Ce rendez-vous est prévu pour le {DATE}.<br><br><i>Vous pouvez toujour annuler ce rendez-vous en cliquant sur lien envoyé dans votre <a href="http://swappy.fr/'.$this->folderb.'messagerie.php#select-{IDCONV}">messagerie</a></i>';
+		$first = preg_replace("/\{CNAME\}/", $owner->firstname." ".$owner->lastname, $message);
+		$first = preg_replace("/\{OID\}/", $user->ID, $first);
+		$first = preg_replace("/\{ONAME\}/", $user->firstname." ".$user->lastname, $first);
+		$first = preg_replace("/\{YOUR\}/", "votre", $first);
+		$first = preg_replace("/\{SERVID\}/", $servid, $first);
+		$first = preg_replace("/\{SERVNAME\}/", $servname, $first);
+		$first = preg_replace("/\{DATE\}/", date("d/m/Y \à H:i", strtotime($date)), $first);
+		$first = preg_replace("/\{IDCONV\}/", $cc, $first);
+		$this->sendmail($owner->email, $this->noreply, "Swappy.fr", $subject, $first);
+		
+		$first = preg_replace("/\{CNAME\}/", $user->firstname." ".$user->lastname, $message);
+		$first = preg_replace("/\{OID\}/", $owner->ID, $first);
+		$first = preg_replace("/\{ONAME\}/", $owner->firstname." ".$owner->lastname, $first);
+		$first = preg_replace("/\{YOUR\}/", "le", $first);
+		$first = preg_replace("/\{SERVID\}/", $servid, $first);
+		$first = preg_replace("/\{SERVNAME\}/", $servname, $first);
+		$first = preg_replace("/\{DATE\}/", date("d/m/Y \à H:i", strtotime($date)), $first);
+		$first = preg_replace("/\{IDCONV\}/", $cc, $first);
+		$this->sendmail($user->email, $this->noreply, "Swappy.fr", $subject, $first);
 	}
 	function send_contact_form($POST) {
 		$to = $this->contact;

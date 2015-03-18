@@ -1,6 +1,9 @@
 //timeout variable
 var wait;
 var requestajax = null;
+var fst_l = 1;
+var last_m = false;
+var ajax_c = false;
 $(document).ready(function(e) {
 	$.ajaxSetup({ cache: false });
 	$(window).on("orientationchange", function() {
@@ -8,6 +11,12 @@ $(document).ready(function(e) {
 	});
 	$(window).on("resize", function() {
 		navbar_padding();
+	});
+	$(".badge_").on("click", function(e) {
+		$('.badge_:not([data-id="'+$(this).attr("data-id")+'"])').removeClass("glow");
+		$('.listing-s:not([data-s="'+$(this).attr("data-id")+'"])').hide();
+		$('.listing-s[data-s="'+$(this).attr("data-id")+'"]').toggle();
+		$(this).toggleClass("glow");
 	});
 	$(".popup_message, .talk-button").on("click", function(e) {
 		e.preventDefault();
@@ -100,6 +109,14 @@ $(document).ready(function(e) {
 		ajaxFormValidation: true,
 		ajaxFormValidationMethod: 'post',
 		onAjaxFormComplete: edit_user_function,
+		onBeforeAjaxFormValidation: load_ajax_d,
+		showOneMessage: true,
+		promptPosition : "topLeft"
+	});
+	$("#note_form").validationEngine({
+		ajaxFormValidation: true,
+		ajaxFormValidationMethod: 'post',
+		onAjaxFormComplete: vote_function,
 		onBeforeAjaxFormValidation: load_ajax_d,
 		showOneMessage: true,
 		promptPosition : "topLeft"
@@ -200,6 +217,33 @@ $(document).ready(function(e) {
 		window.location.hash = "";
 		$("#modal_chat").modal("show");	
 	}
+	load_list();
+	$("#message_send").validationEngine({
+		ajaxFormValidation: true,
+		ajaxFormValidationMethod: 'post',
+		onAjaxFormComplete: message_send_function,
+		onBeforeAjaxFormValidation: load_ajax_d,
+		showOneMessage: true,
+		promptPosition : "topLeft"
+	});
+	$(".return_list").on("click", function(e) {
+		e.preventDefault();
+		$("#list_m.cache").removeClass("cache");	
+		$("#content_m.montre").removeClass("montre");
+	});
+	$("#list_m input").on("keyup", function(e) {
+		var va = $(this).val();
+		if(va.length >= 3) {
+			$(this).addClass("onsearch");
+			load_list(va);
+		} else if(va == "") {
+			$(this).removeClass("onsearch");
+			load_list("");
+		} else if($(this).hasClass("onsearch")) {
+			$(this).removeClass("onsearch");
+			load_list("");
+		}
+	});
 });
 function load_ajax_d(form, options) {
 	$form_b = $(form);
@@ -222,6 +266,17 @@ function add_user_function(status, form, json, options) {
 	$form_b = $(form);
 	if(json[0] == true) {
 	$form_b.html('<div id="message_ajax"><p>Bienvenue au sein de la communauté Swappy, vous êtes enfin inscrit ! Vous allez recevoir un mail afin de confirmer votre inscription.<br><br>Vérifiez dans vos indésirables en cas de non réception.</p></div>');
+	$(document).scrollTop(0);
+	return true;
+	} else {
+		$form_b.find("#loader_ajax").remove();
+		return false;
+	}
+}
+function vote_function(status, form, json, options) {
+	$form_b = $(form);
+	if(json[0] == true) {
+	$form_b.parent().html('<div id="message_ajax"><p>Merci. Nous vous remercions d\'avoir pris le soin de noter ce service</p></div>');
 	$(document).scrollTop(0);
 	return true;
 	} else {
@@ -425,5 +480,314 @@ function modal_prevent() {
 				$("#modal_chat .inner_form").show();
 			});
 	});
+	}
+}
+function message_send_function(status, form, json, options) {
+	if(json[0] == true) {
+		$("#loader_ajax").remove();
+		$form_b = $(form);
+		$form_b.find("textarea[name='message_r']").val("");
+		if(load_content($form_b.find("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false)) {
+			load_list();
+		}
+		return true;
+	} else{
+		$("#loader_ajax").remove();
+		return false;	
+	}
+}
+function date_send_function(status, form, json, options) {
+	$form_b = $(form);
+	if(json[0] == true) {
+		$("#loader_ajax").remove();
+		$('#m_date_modal').validationEngine('detach');
+		$("#modal_date").modal("hide");
+		if(load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false)) {
+			load_list("load_with_reset_button");
+		}
+		return true;
+	} else{
+		$("#loader_ajax").remove();
+		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
+		return false;	
+	}
+}
+function load_list(search_) {
+	if(typeof(search_) == "undefined") {
+		var search_ = "";
+	} 
+	var button = false;
+	if(search_ == "load_with_reset_button") {
+		search_ = "";
+		button = true;
+	}
+	if(typeof(ajax_call) == "object") { ajax_call.abort(); }
+	$.ajaxSetup({'async': false});
+	ajax_call = $.getJSON("inc/send_mess.php?list_message=&search="+search_, function(data) {
+		var for_ = "";
+		var active = "";
+		var count = '<span class="mess_count"></span>';
+		$(".mess_t").remove();
+		$.each(data, function(index, value) {
+			active = "";
+			count = "";
+				if(value.For > 0) {
+					for_ = '<a target="_blank" href="annonce.php?id='+value.For+'">'+value.Title+'</a>';	
+				} else {
+					for_ = '<i>discuter</i>';
+				}
+				if(value.Count > 0) {
+					count = '<span class="mess_count red">'+value.Count+'</span>';
+				}
+				if(value.ID == last_m) {
+					active = " active";
+				}
+				$("#list_m").append('<div data-b="'+value.Button+'" data-state="'+value.Status+'" data-id="'+value.ID+'" class="mess_t'+active+'"><a href="profil.php?id='+value.UserID+'">'+value.Name+'</a><br><span class="m_for">Pour : '+for_+'</span>'+count+'<a title="Supprimer cette conversation" class="delete_m">X</a></div>');
+		});
+		delete_click();
+		event_click();
+		if(fst_l == 1) {
+			load_content();
+			fst_l = 0;	
+		}
+	});
+	$.ajaxSetup({'async': true});
+	if(button == true) {
+		button_f(0, true);
+	}
+}
+
+function load_content(id, title, sc) {
+	if(typeof(sc) == "undefined") {
+		var sc = false;
+	}
+	if(typeof(id) == "undefined" || id == "") {
+		var hash = window.location.hash;
+		if(hash.match(/\#select\-/)) {
+			window.location.hash = "";
+			var id = hash.replace(/\#select\-/, "");
+			if($(".mess_t[data-id='"+id+"']").length > 0) {
+				last_m = id;
+				var title = $(".mess_t[data-id='"+id+"']").html();
+				$(".mess_t[data-id='"+id+"']").addClass("active");
+			} else {
+				var id = $(".mess_t:first").attr("data-ID");
+				last_m = id;
+				var title = $(".mess_t:first").html();
+				$(".mess_t:first").addClass("active");
+			}
+		} else {
+			var id = $(".mess_t:first").attr("data-ID");
+			last_m = id;
+			var title = $(".mess_t:first").html();
+			$(".mess_t:first").addClass("active");
+		}
+	} else {
+		$("#list_m:not(.cache)").addClass("cache");	
+		$("#content_m:not(.montre)").addClass("montre");	
+		last_m = id;
+	}
+	if($(".mess_t").length < 1) {
+		$(".inner_m").html('<center><br>Vous n\'avez aucun message</center>');
+		$(".header_m span").html('');
+		$(".form_m, .header_m").css("display", "none");
+		var id = 0;
+		mess_count(0, id);
+	} else {
+		var state = $(".mess_t[data-id='"+id+"']").attr("data-state");
+		var serv = $(".mess_t[data-id='"+id+"']").attr("data-b");
+		$(".form_m, .header_m").css("display", "");
+		$(".inner_m").html('<center>Chargement...</center>');
+		$.ajaxSetup({'async': false});
+		$.getJSON("inc/send_mess.php?get_message="+id, function(data) {
+			$(".inner_m").html('');
+			$(".header_m span").html(title);
+			mess_count(data.count, id);
+			$.each(data, function(index, value) {
+				if(typeof(value.Message) != "undefined") {
+					var c = 'other';
+					if(value.Author == "ME") {
+						c = 'me';
+					}
+					if(value.Author == "BOT") {
+						c = 'bot';
+					}
+					$(".inner_m").append('<div class="'+c+' msg">'+value.Message+'<span class="time">'+value.TimeText+'</span></div>');
+				}
+			});
+			if(sc == false) {
+				$(".inner_m").scrollTop($(".inner_m")[0].scrollHeight);
+			}
+		});
+		$.ajaxSetup({'async': true});
+		$(".valid-this-date").each(function() {
+			$(this).on("click", function(e) {
+				$.ajax({url:"inc/send_mess.php", data:"valid="+$(this).attr("data-id")+"&cc="+$("input[name='ID_Converse']").val(), method: "GET", success: function(data) {
+					if(data == "true") { if(load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false)) {
+						load_list("load_with_reset_button");
+					} }
+				}});
+			});
+		});
+		$(".refuse-this-date").each(function() {
+			$(this).on("click", function(e) {
+				$.ajax({url:"inc/send_mess.php", data:"refuse="+$(this).attr("data-id")+"&cc="+$("input[name='ID_Converse']").val(), method: "GET", success: function(data) {
+					if(data == "true") { if(load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false)) {
+						load_list("load_with_reset_button");
+					} }
+				}});
+			});
+		});
+		
+	}
+	$(".form_m button").off("click");
+	if(serv == 1) {
+		button_f(state, false, id);
+	} else {
+		$(".form_m button").html("");
+		$(".form_m button").attr("disabled");
+		$(".form_m button").css("display", "none");
+	}
+	$("input[name='ID_Converse']").val(id);
+	return true;
+}
+function mess_count(data, id) {
+	if(data != "false") {
+		$('div[data-id="'+id+'"] .mess_count').removeClass("red");
+		$("input[name='message_r']").val("");
+		if(data == 0) {
+			$(".nav-h .mess_count").removeClass("red").html("0");
+			$(".dropdown-toggle .mess_count").remove();
+		} else {
+			$(".nav-h .mess_count:not(.red)").addClass("red");
+			$(".nav-h .mess_count").html(data);
+			if($(".dropdown-toggle .mess_count").length < 1) {
+				$("<span class=''>"+data+"</span>").insertBefore(".dropdown-toggle .caret");
+			} else {
+				$(".dropdown-toggle .mess_count").html(data);
+			}
+		}
+	}
+}
+function event_click() {
+	$(".mess_t").off("click");
+	$(".mess_t").on("click", function(e) {
+		 var target  = $(e.target);
+		if( target.is('a') ) {
+			return true;
+		} else {
+			$(".mess_t.active").removeClass("active");
+			$(this).addClass("active");
+			load_content($(this).attr("data-id"), $(this).html());
+			load_list("load_with_reset_button");
+		}
+});
+}
+function make_date(e) {
+	var id = $("input[name='ID_Converse']").val();
+	var $lis = $(".mess_t[data-id='"+id+"']");
+	$('#m_date_modal').validationEngine('detach');
+	if($lis.attr("data-b") == "1" && ($lis.attr("data-state") == "0" || $lis.attr("data-state") == "1")) {
+		$("#modal_date").remove();
+		$.ajax({
+			url : 'inc/send_mess.php',
+			type : 'GET',
+			dataType : 'html',
+			data : 'make_date='+id, 
+			success : function(data){ 
+				$("body").append('<div id="modal_date" data-id="'+id+'" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-md"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+data+'</div></div></div></div>');
+				$('#modal_date').modal('show');
+				$("#modal_date").on("hidden.bs.modal", function(e) {
+					$('#m_date_modal').validationEngine('detach');
+					$(this).remove();
+				});
+				var date_s = $("#date").val();
+				$("#datepicker").datepicker({altField: "#date",minDate: 0, maxDate: "+1Y"});
+				$("#datepicker").datepicker('setDate', date_s);
+				 $('#hour').datetimepicker({
+					datepicker:false,
+					format:'H:i',
+					lang: "fr",
+					value: $("#hour").val()
+				});
+				$("#m_date_modal").validationEngine({
+					ajaxFormValidation: true,
+					ajaxFormValidationMethod: 'post',
+					onAjaxFormComplete: date_send_function,
+					onBeforeAjaxFormValidation: load_ajax_d,
+					showOneMessage: true,
+					promptPosition : "topLeft"
+				});
+           }
+    });	
+	} else {
+		$("#modal_date").remove();
+	}
+}
+function delete_click() {
+	$(".delete_m").on("click", function(e) {
+		var id = $(this).parent().attr("data-id");
+		e.preventDefault();
+		$("#modal_delete").remove();
+		$("body").append('<div id="modal_delete" data-id="'+id+'" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-md"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="exampleModalLabel">Supprimer cette conversation ?</h4></div><div class="modal-body"><center><u>Êtes-vous sûr de vouloir effacer la conversation :</u> <br><br>'+$(this).parent().html()+'<br><button class="btn btn-success valid_modal">Oui</button> <button class="cancel_modal btn btn-danger">Non</button></center></div></div></div></div>');
+		$('#modal_delete .valid_modal').on("click", function(e) {
+			e.preventDefault();
+			var id = $(this).parents("#modal_delete").attr("data-id");
+			$.getJSON("inc/send_mess.php?delete="+id, function(data) {
+				if(data == "true") {
+					$("#modal_delete").remove();
+					fst_l = 1;
+					load_list();
+				} else {
+					$("#modal_delete").remove();
+				}
+			});
+		});
+		$("#modal_delete .cancel_modal").on("click", function(e) {
+			e.preventDefault();
+			$('#modal_delete').modal('hide');
+			$('#modal_delete').remove();
+		});
+		$('#modal_delete').modal('show');
+		$("#modal_delete").on("hidden.bs.modal", function(e) {
+			$(this).remove();
+		});
+	});
+}
+function button_f(state, dd, id) {
+	if(dd == true) {
+		state = $(".mess_t.active").attr("data-state");
+	}
+	if(typeof(id) == "undefined") {
+		var id = $(".mess_t.active").attr("data-id");
+	}
+	var serv = $(".mess_t[data-id='"+id+"']").attr("data-b");
+	if(serv == "1") {
+		if(state == "0") {
+			$(".form_m button").html("FIXER UN RENDEZ-VOUS");
+			$(".form_m button").css("display", "");
+			$(".form_m button").on("click", function(e) {
+				e.preventDefault();
+				make_date($(this));
+			});
+		}
+		if(state == "1") {
+			$(".form_m button").html("CHANGER LE RENDEZ-VOUS");
+			$(".form_m button").css("display", "");
+			$(".form_m button").on("click", function(e) {
+				e.preventDefault();
+				make_date($(this));
+			});
+		}
+		if(state == "2") {
+			$(".form_m button").html("");
+			$(".form_m button").attr("disabled");
+			$(".form_m button").css("display", "none");
+		}
+		if(state == "3") {
+			$(".form_m button").html("");
+			$(".form_m button").attr("disabled");
+			$(".form_m button").css("display", "none");
+		}
 	}
 }

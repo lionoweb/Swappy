@@ -8,10 +8,19 @@
    if(isset($_GET['logout'])) {
    	$user->logout();
    }
+   if(isset($_GET['vote'])) {
+	   $user->onlyUsers();
+	   $hash = @$_GET['vote'];
+	   $hash = trim($hash);
+	   $services = new services($mysql);
+	   $vote = $services->page_vote(@$_GET['vote'], $user->ID);
+	   $user_ = new user($mysql, $services->by);
+   } else {
    $ID_service = @$_GET['id'];
    $services = new	services($mysql, $ID_service);
    $user_ = new user($mysql, $services->by);
-   $chat = new chat($mysql, $user); ?>
+   $chat = new chat($mysql, $user); 
+   }?>
 <!doctype html>
 <html>
    <head>
@@ -24,12 +33,14 @@
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
       <link rel="stylesheet" href="css/template.css" type="text/css"/>
       <link href="css/bootstrap.min.css" rel="stylesheet">
+     <?php if(isset($_GET['vote'])) { ?><link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"><?php } ?>
       <link rel="stylesheet" href="css/main.css">
       <script src="js/jquery.js"></script>
       <script src="js/jquery-ui.js"></script>
       <script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js"></script>
       <script src="js/ValidationEngine/jquery.validationEngine.js"></script>
       <script src="js/bootstrap.min.js"></script>
+      <?php if(isset($_GET['vote'])) { ?><script src="js/rate.js"></script><?php } ?>
       <script src="js/main.js"></script>
    </head>
    <body role="document">
@@ -82,11 +93,11 @@
                   <div class="info loc"><img src="img/annonce/location.png" width="18" height="28"><?php echo $services->city; ?>, jusqu'à <?php echo $services->distance; ?> km de déplacement</div>
                </div>
                <div class="interesse">
-               		<?php if($user->ID != $user_->ID) { ?>
+               		<?php if(!isset($_GET['vote'])) { if($user->ID != $user_->ID) { ?>
                   <button class="popup_message">Je suis interessé(e)</button>
                   <?php } else { ?>
                   <a href="propose.php?edit=<?php echo $services->ID; ?>" class="btn">Modifier ce service</a>
-                  <?php } ?>
+                  <?php } } else { echo "<br>"; } ?>
                </div>
             </div>
             <div class="servicepropose">
@@ -96,14 +107,16 @@
                </div>
             </div>
             <div class="greyback row">
-               <?php if(isset($_GET['r']) && !empty($_GET['r'])) {
+               <?php if(!isset($_GET['vote'])) { if(isset($_GET['r']) && !empty($_GET['r'])) {
                   $r = '<a href="services.php?'.base64_decode($_GET['r']).'" class="col-md-3"><img src="img/annonce/back.png">Retours aux résultats précédents</a>';
                   } else {
                   $r = '<a href="services.php" class="col-md-3"><img src="img/annonce/back.png">Retour à la page des services</a>';
                   } ?>
                <p class="col-md-8 col-md-offset-2 description"><?php echo ucfirst($services->description); ?></p>
                <?php echo $r; ?>
+               <?php } else { echo '<div class="col-md-6 col-md-offset-3 voting">'.$vote.'</div>'; }; ?>
             </div>
+            
          </div>
       </div>
       <footer id="footer">
@@ -114,7 +127,7 @@
             <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
          </div>
       </footer>
-      <?php $chat->prepare_popup($user_, $services); ?>
+      <?php if(!isset($_GET['vote'])) { $chat->prepare_popup($user_, $services); } ?>
 
    </body>
 </html>

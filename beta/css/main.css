@@ -339,7 +339,7 @@ select, input, textarea {
     display: inline;
     display: inline-block;
     vertical-align: middle;
-    padding: 5px;
+    padding: 5px !important;
     font-weight: bold;
     text-align: center;
   height:auto;
@@ -1353,10 +1353,34 @@ form .liketext {
 	text-align: center;
 	font-size: 1.5em;
 }
-#profil .notes div {
+#profil .notes > div {
 	color: white;
 	border-radius: 10px;
 	padding-bottom: -23px;
+}
+#profil .notes .rating-stars {
+	color:#FFF !important;	
+}
+#profil .notes center {
+	padding:12px;	
+}
+#profil .notes .title {
+	font-size:1.2em;
+	margin-top:4px;	
+}
+#profil .notes .title a {
+	color:#FFF !important;	
+	text-decoration:underline !important;
+}
+#profil .notes p {
+	padding:4px 10px 4px 10px;	
+	font-style:italic;
+	font-size:1.1em;
+}
+#profil .notes i {
+	font-size:0.9em;
+	float:right;
+	text-align:right;
 }
 #profil .form-group {
 	text-align:left !important;
@@ -1364,7 +1388,6 @@ form .liketext {
 #profil .notes div.note:nth-child(odd) {
 	/*background-clip: content-box;*/
 	background-color: #53c1dd; /*bleu*/
-	/*background-image: url(img/profil/notesDown.png);*/
 	margin-bottom: 20px;
 }
 #profil .notes div.note:nth-child(even) {
@@ -1482,6 +1505,15 @@ td {
 	font-size:1.5em;
 	z-index:2;	
 }
+.voting {
+	margin-top:10px;
+	font-size:1.2em;
+	font-weight:bold;	
+}
+.voting input, .voting label, .voting textarea {
+	font-weight:normal;
+	font-size:0.94em;
+}
 .shortage{
 	display:none;
 	height:39px; 
@@ -1497,6 +1529,267 @@ td {
 }
 .navbar-header img.min {
 	display:none;
+}
+.listing-s {
+	display:none;	
+}
+.listing-s.visible {
+	display:block;	
+}
+/* MESSAGERIE */
+.mess_t:hover {
+	cursor:pointer;
+	background:#DFDFDF;
+}
+.mess_t {
+	background:#E4E4E4;	
+	padding:3px;
+	border-bottom:1px solid #FFF;
+	position:relative;
+}
+.mess_t.active {
+	background:#54C0DD;
+}
+.other {
+	background:#54C0DD; 
+	display:block; 
+	width:78%; 
+	padding:6px;
+	padding-left:40px;
+	padding-right:9%;
+	border-radius:10px;
+	margin-top:8px;
+	margin-bottom:8px;
+	margin-left:8px;
+	margin-right:16%;
+	clear:both;
+	float:left;
+}
+.me {
+	clear:both;
+	float:right;
+	 background:#FFF; 
+	 display:block; 
+	width:78%; 
+	padding:6px;
+	padding-left:9%;
+	padding-right:40px;
+	text-align:right;
+	background:#CCC;
+	border-radius:10px;
+	margin-left:16%;
+	margin-top:8px;
+	margin-bottom:8px;
+	margin-right:8px;
+}
+.bot {
+	background:#FFC862;
+	display:block; 
+	width:100%; 
+	padding:6px;
+	padding-left:40px;
+	padding-right:9%;
+	border-radius:0px;
+	margin-top:8px;
+	margin-bottom:8px;
+	margin-left:0px;
+	margin-right:0px;
+	clear:both;
+	float:left;
+}
+.message_box {
+	margin-top:40px;
+	height:490px;
+	min-height:490px;
+	border:1px solid #CCC;	
+	padding-top:0px !important;
+}
+#list_m input, #list_m button {
+	margin-top:0px !important;	
+	margin-bottom:0px !important;
+	margin-left:0px !important;	
+	margin-right:0px !important;
+}
+#list_m {
+	width:220px; 
+	min-width:220px; 
+	display:inline-block;
+	height:100%;
+	min-height:100%;
+	overflow:auto;
+	border-right:1px solid #CCC;
+	position:relative;
+	z-index:2;
+}
+#content_m {
+	width:100%; 
+	margin-left:-221px;
+	display:inline-block;
+	height:100%;
+	min-height:100%;
+	position:relative;
+	padding-left:221px;
+	vertical-align:top;
+}
+.msg:first-child {
+	margin-top:0px !important;	
+}
+.inner_m {
+	height:240px; 
+	overflow:auto; 
+	max-height:240px;
+	min-height:240px;
+}
+.header_m {
+	color:#54C0DD;
+	font-size:20px;
+	border-bottom:1px solid #CCC;
+	height:auto;
+	min-height:86px;
+	position:relative;
+}
+.header_m .return_list {
+	display:none;	
+	position:absolute;
+	left:0px;
+	top:0px;
+}
+.header_m > span {
+	padding:14px;
+	padding-left:30px;
+	display:inline-block;	
+}
+.header_m .m_for {
+	color:#000;
+	font-size:14px;
+	padding-left:15px;
+	display:inline-block;
+}
+.header_m .mess_count {
+	display:none !important;	
+}
+.message_box textarea {
+	margin-bottom:6px;
+}
+.message_box button, .message_box input {
+	margin-right:8px;
+	margin-top:4px;	
+	margin-bottom:3px;
+}
+#list_m .input-group {
+	border:1px solid #CCC;	
+	border-bottom:2px solid #CCC;	
+}
+.mess_t .mess_count {
+	position:absolute;
+	right:4px;
+	top:50%;
+	margin-top:-9px;
+	display:none;
+}
+.mess_t .mess_count.red {
+	display:block !important;
+}
+.msg .time {
+	font-size:10px;
+	font-style:italic;
+	display:block;	
+}
+.delete_m {
+	position:absolute;
+	top:2px;
+	right:3px;
+	font-size:11px;
+	color:#000;
+	width:15px;
+	height:15px;
+	text-align:center;
+	line-height:15px;
+}
+.modal .mess_count {
+	display:none;	
+}
+.delete_m:hover {
+	color:#000;
+	text-decoration:none !important;
+	border:1px solid #262626;
+	border-radius:50%;
+}
+.valid-this-date:hover, .refuse-this-date:hover, .note-this-date:hover {
+	cursor:pointer;
+}
+#modal_delete .delete_m, .header_m .delete_m {
+	display:none !important;	
+}
+#modal_delete a {
+	text-decoration:none;	
+}
+.cancel_modal, .valid_modal {
+	margin-left:45px;
+	margin-right:45px;
+	margin-top:14px;
+	display:inline-block;	
+}
+.badge_:hover {
+	cursor:pointer;
+}
+.badge_.glow {
+	border:2px solid #466DE9;	
+}
+.listing-s {
+	margin:4px auto 10px auto;
+	width:auto;
+	max-width:430px;
+	text-align:left;
+}
+.listing-s a {
+	display:inline-block;
+	margin:2px 0px 2px 0px;
+	font-size:1.16em;
+}
+@media (max-width:381px){
+	.message_box {
+		height:530px;
+		min-height:530px;		
+	}
+}
+@media (max-width:701px){
+  .header_m .return_list {
+	  display:inline-block;	
+	  width:60px;
+	  height:100%;
+	  background:#1864EB;
+	  
+	  font-size:16px;
+	  text-align:center;
+	  color:#FFF;
+  }
+  .header_m .return_list:hover {
+	  cursor:pointer;	
+  }
+  .header_m > span {
+	  padding:14px;
+	  padding-left:74px !important;
+	  display:inline-block;	
+  }
+  #content_m {
+	  display:none;	
+	  margin-left:0px !important;
+	  padding-left:0px !important;
+  }
+  #content_m.montre {
+	  display:inline-block;	
+  }
+  #list_m {
+	  width:100%;	
+	  min-width:100%;
+  }
+  .mess_t.active {
+	  background:#E4E4E4 !important;
+  }
+  #list_m.cache {
+	  display:none;	
+  }
 }
 @media (min-width:768px){
 .nav-h {

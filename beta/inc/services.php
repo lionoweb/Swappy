@@ -21,7 +21,7 @@
 			$this->mysql = $mysql;
 			if(!empty($ids)) {
 				$this->load_service($ids);
-			} else if(preg_match("/annonce\.php/", $_SERVER['PHP_SELF'])) {
+			} else if(preg_match("/annonce\.php/", $_SERVER['PHP_SELF']) && !preg_match("/vote\=/", $_SERVER['QUERY_STRING'])) {
 				header("Location: services.php");	
 			}
 		}
@@ -60,6 +60,84 @@
 				$this->lon = $data->Lon;
 				$this->dispo_ = $data->Disponibility;
 			}
+		}
+		function decrypt_vote_h($hash) {
+			$h = base64_decode($hash);
+			$c = preg_split("/\/\/\//", $h);	
+			$id_a = $c[0];
+			$date_a = $c[1];
+			return array("ID" => $id_a, "Date" => $date_a);
+		}
+		function has_voted($id, $owner, $user) {
+			$select = $this->mysql->prepare("SELECT COUNT(*) AS `nb` FROM `notations` WHERE `By` = :id AND `Service` = :serv AND `Owner_Service` = :oserv ");
+			$select->execute(array(":id" => $user, ":serv" => $id, ":oserv" => $owner));
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			if($data->nb < 1) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+		function add_note($POST, $user, $chat) {
+			$arr = array(false);
+			$h = $this->decrypt_vote_h($POST['hash']);
+			$select = $this->mysql->prepare("SELECT *, COUNT(*) AS `nb` FROM `appointment` WHERE `ID` = :id AND `State` = '5'");
+			$select->execute(array(":id" => $h['ID']));
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			if($data->nb < 1) {
+				//PAS DE RDV ENREGISTRE
+				$arr = array(false,"Vous n'avez pas eu de rendez-vous pour ce service. Vous ne pouvez donc pas le noter.");
+			} else {
+				if($data->User != $user->ID) {
+					//PAS LE MEMBRE
+					$arr = array(false, "Désolé, mais vous n'êtes pas autorisé à noter ce service.");
+				} else if($data->Date != $h['Date']) {
+					//SECURITE
+					$arr = array(false, "Désolé, mais votre lien est incorrecte.");
+				} else if($this->has_voted($data->Service,$data->Owner_Service, $user->ID)) {
+					//DEJA VOTE
+					$arr = array(false, "Vous avez déjà noté pour ce service.");
+				} else {
+					//OK
+					$select = $this->mysql->prepare("INSERT INTO `notations` (`ID`, `By`, `Service`, `Owner_Service`, `Note`, `Message`, `Date`) VALUES (NULL, :by, :serv, :owner, :note, :com, :date);");
+					$select->execute(array(":by" => $user->ID, ":serv" => $data->Service, ":owner" => $data->Owner_Service, ":note" => trim($POST['note']), ":com" => trim($POST['com']), ":date" => date("Y-m-d H:i:s")));
+					$cc = $chat->isset_conversation($data->Owner_Service, $data->Service);
+					if($cc == false) {
+						$cc = $this->make_conversation($user->ID, $data->Service);
+					}
+					$mess = $user->login.' a noté votre service :<br>Note : '.trim($POST['note']).'/5<br>Commentaire : '.nl2br(trim($POST['com']));
+					$chat->send_reply($mess, $cc, $data->Owner_Service);
+					$arr = array(true);
+				}
+			}
+			return $arr;
+		}
+		function page_vote($hash, $user) {
+			$html = "";
+			$h = $this->decrypt_vote_h($hash);
+			$select = $this->mysql->prepare("SELECT *, COUNT(*) AS `nb` FROM `appointment` WHERE `ID` = :id AND `State` = '5'");
+			$select->execute(array(":id" => $h['ID']));
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			$this->load_service($data->Service);
+			if($data->nb < 1) {
+				//PAS DE RDV ENREGISTRE
+				$html = "Vous n'avez pas eu de rendez-vous pour ce service...<br>Vous ne pouvez donc pas le noter.";
+			} else {
+				if($data->User != $user) {
+					//PAS LE MEMBRE
+					$html = "Désolé, mais vous n'êtes pas autorisé à noter ce service.";
+				} else if($data->Date != $h['Date']) {
+					//SECURITE
+					$html = "Désolé, mais votre lien est incorrecte.";
+				} else if($this->has_voted($data->Service,$data->Owner_Service, $user)) {
+					//DEJA VOTE
+					$html = "Vous avez déjà noté pour ce service.";
+				} else {
+					//OK
+					$html = 'Veuillez attribuer une note à ce service ainsi qu\'un commentaire (optionel) :<br><br><form  id="note_form" action="inc/add_services.php" method="post"><label class="label-control" for="rate">Votre note :</label><input id="input-5" name="note" class="rating validate[required]" data-size="xs" data-show-clear="false" data-step="1" value="1" data-max="5" data-min="0"><label for="com" class="label-control">Votre commentaire :</label><textarea class="form-control" id="com" name="com"></textarea><input type="hidden" name="hash" value="'.$hash.'"><input type="submit" value="Envoyer"></form>';
+				}
+			}
+			return $html;
 		}
 		function format_city($zipcode, $city="") {
 			$return = "";
