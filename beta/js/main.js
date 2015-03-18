@@ -4,8 +4,10 @@ var requestajax = null;
 var fst_l = 1;
 var last_m = false;
 var ajax_c = false;
+var time_out_m;
 $(document).ready(function(e) {
 	$.ajaxSetup({ cache: false });
+	time_out_m = setTimeout(function() { update_mess_count() }, 89999);
 	$(window).on("orientationchange", function() {
 		navbar_padding();
 	});
@@ -550,7 +552,9 @@ function load_list(search_) {
 		button = true;
 	}
 	if(typeof(ajax_call) == "object") { ajax_call.abort(); }
-	$.ajaxSetup({'async': false});
+	if(search_ == "") {
+		$.ajaxSetup({'async': false});
+	}
 	ajax_call = $.getJSON("inc/send_mess.php?list_message=&search="+search_, function(data) {
 		var for_ = "";
 		var active = "";
@@ -650,8 +654,11 @@ function load_content(id, title, sc) {
 		$.ajaxSetup({'async': true});
 		$(".valid-this-date").each(function() {
 			$(this).on("click", function(e) {
+				$(this).prepend('<img class="loader_link_m" src="css/images/loading.gif">');
 				$.ajax({url:"inc/send_mess.php", data:"valid="+$(this).attr("data-id")+"&cc="+$("input[name='ID_Converse']").val(), method: "GET", success: function(data) {
+					$(".loader_link_m").remove();
 					if(data == "true") { if(load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false)) {
+						
 						load_list("load_with_reset_button");
 					} }
 				}});
@@ -659,8 +666,10 @@ function load_content(id, title, sc) {
 		});
 		$(".refuse-this-date").each(function() {
 			$(this).on("click", function(e) {
+				$(this).prepend('<img class="loader_link_m" src="css/images/loading.gif">');
 				$.ajax({url:"inc/send_mess.php", data:"refuse="+$(this).attr("data-id")+"&cc="+$("input[name='ID_Converse']").val(), method: "GET", success: function(data) {
-					if(data == "true") { if(load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false)) {
+					$(".loader_link_m").remove();
+					if(data == "true") { if(load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false)) {					
 						load_list("load_with_reset_button");
 					} }
 				}});
@@ -817,5 +826,32 @@ function button_f(state, dd, id) {
 			$(".form_m button").attr("disabled");
 			$(".form_m button").css("display", "none");
 		}
+	}
+}
+function update_mess_count() {
+	clearTimeout(time_out_m);
+	if($(".login_form").length < 1) {
+		//LOGGED
+		$.getJSON("inc/add_user.php?count_mess", function(data) {
+			if(parseInt(data) < 1) {
+				$(".nav-h .mess_count").removeClass("red");
+				$(".dropdown-toggle > .mess_count").remove();
+			} else {
+				$(".nav-h .mess_count").addClass("red");
+				if($("nav .dropdown-toggle > .mess_count").length < 1) {
+					$("<span class='mess_count red'>"+data+"</span>").insertBefore("nav .dropdown-toggle > .caret");
+				} else {
+					$("nav .dropdown-toggle > .mess_count").html(data);
+				}
+			}
+			time_out_m = setTimeout(function() { update_mess_count() }, 50000);
+			$(".nav-h .mess_count").html(data);
+			var tt = ""+window.location.href;
+			if(tt.match(/messagerie\.php/)) {
+				if(load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false)) {
+						load_list("load_with_reset_button");
+				} 
+			}
+		});
 	}
 }

@@ -27,5 +27,8 @@ if(isset($_POST['fieldId'])) {
 		$arr = $user->issetZipCode($_POST['fieldValue'], $_POST['fieldId']);
 	}
 }
+if(isset($_GET['count_mess'])) {
+	$arr = $user->list_messages();
+}
 echo json_encode($arr);
 ?>

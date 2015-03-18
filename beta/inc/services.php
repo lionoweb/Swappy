@@ -31,7 +31,7 @@
 			$data = $select->fetch(PDO::FETCH_OBJ);
 			$total = $select->rowCount();
 			if($total < 1) {
-				if(!preg_match("/inc\//", $_SERVER['PHP_SELF'])) {
+				if(!preg_match("/inc\//", $_SERVER['PHP_SELF']) && !preg_match("/vote\=/", $_SERVER['QUERY_STRING'])) {
 					header("Location: 404.php");
 				}
 			} else {
@@ -129,7 +129,7 @@
 					if($cc == false) {
 						$cc = $this->make_conversation($user->ID, $data->Service);
 					}
-					$mess = $user->login.' a noté votre service :<br>Note : '.trim($POST['note']).'/5<br>Commentaire : '.nl2br(trim($POST['com']));
+					$mess = '<b>'.$user->login.' a noté votre service :</b><br>Note : '.trim($POST['note']).'/5<br>Commentaire : '.nl2br(trim($POST['com']));
 					$chat->send_reply($mess, $cc, $data->Owner_Service);
 					$arr = array(true);
 				}
@@ -158,7 +158,7 @@
 					$html = "Vous avez déjà noté pour ce service.";
 				} else {
 					//OK
-					$html = 'Veuillez attribuer une note à ce service ainsi qu\'un commentaire (optionel) :<br><br><form  id="note_form" action="inc/add_services.php" method="post"><label class="label-control" for="rate">Votre note :</label><input id="input-5" name="note" class="rating validate[required]" data-size="xs" data-show-clear="false" data-step="1" value="1" data-max="5" data-min="0"><label for="com" class="label-control">Votre commentaire :</label><textarea class="form-control" id="com" name="com"></textarea><input type="hidden" name="hash" value="'.$hash.'"><input type="submit" value="Envoyer"></form>';
+					$html = 'Veuillez attribuer une note à ce service ainsi qu\'un commentaire (optionnel) :<br><br><form  id="note_form" action="inc/add_services.php" method="post"><label class="label-control" for="rate">Votre note :</label><input id="input-5" name="note" class="rating validate[required]" data-size="xs" data-show-clear="false" data-step="1" value="1" data-max="5" data-min="0"><label for="com" class="label-control">Votre commentaire :</label><textarea class="form-control" id="com" name="com"></textarea><input type="hidden" name="hash" value="'.$hash.'"><input type="submit" value="Envoyer"></form>';
 				}
 			}
 			return $html;

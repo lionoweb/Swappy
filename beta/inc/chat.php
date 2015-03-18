@@ -452,7 +452,7 @@
 					$ss = $this->mysql->prepare("UPDATE `appointment` SET `State` = '4' WHERE `ID` = :id");
 					$ss->execute(array(":id" => $id));
 					//SEND TO OTHER
-					$mess = $this->user->login.' a confirmé que le rendez-vous e eu lieu. Confirmer ?<br><a data-id="'.$id.'" class="valid-this-date">Oui</a>&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$id.'" class="refuse-this-date">Non</a>';
+					$mess = $this->user->login.' a confirmé que le rendez-vous a eu lieu. Confirmer ?<br><a data-id="'.$id.'" class="valid-this-date">Oui</a>&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$id.'" class="refuse-this-date">Non</a>';
 					$this->send_reply($mess, $cc, $other);
 					//SEND TO ME
 					$mess = 'Vous avez confirmé que le rendez-vous à bien eu lieu.';
@@ -487,7 +487,7 @@
 					$ss = $this->mysql->prepare("UPDATE `conversation` SET `Status` = '0' WHERE `ID` = :id");
 					$ss->execute(array(":id" => $cc));
 					if(!$this->has_voted($data->Service, $data->Owner_Service)) {
-						$this->ask_for_com($id, $cc, $data->User, $this->make_vote_h($cc, $data->Date));
+						$this->ask_for_com($id, $cc, $data->User, $this->make_vote_h($id, $data->Date));
 					}
 				}
 			}
