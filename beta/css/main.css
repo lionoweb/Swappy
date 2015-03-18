@@ -686,6 +686,10 @@ input.space-button {
 }
 .header_propose .bot{
 	text-align: center;
+	background:transparent !important;
+}
+.list_serv {
+	margin-top:12px;	
 }
 .title_propose {
 	width:100%;

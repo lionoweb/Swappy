@@ -61,6 +61,30 @@
 				$this->dispo_ = $data->Disponibility;
 			}
 		}
+		function delete_serv($id, $user) {
+			$array = array(false);
+			if($this->own_s($id) != $user) {
+				//PAS Proprio
+			} else {
+				//RDV
+				//MESSAGE
+				//NOTATION
+				//SERVICE
+				//REPORT ?
+				$ss = $this->mysql->prepare("DELETE FROM `appointment` WHERE `Service` = :id");
+				$ss->execute(array(":id" => $id));
+				$ss = $this->mysql->prepare("DELETE FROM `conversation_reply` INNER JOIN `conversation` ON `conversation_reply`.`C_ID` = `conversation`.`ID` WHERE `conversation`.`ServiceFor` = :id");
+				$ss->execute(array(":id" => $id));
+				$ss = $this->mysql->prepare("DELETE FROM `conversation` WHERE `ServiceFor` = :id");
+				$ss->execute(array(":id" => $id));
+				$ss = $this->mysql->prepare("DELETE FROM `notations` WHERE `Service` = :id");
+				$ss->execute(array(":id" => $id));
+				$ss = $this->mysql->prepare("DELETE FROM `services` WHERE `ID` = :id");
+				$ss->execute(array(":id" => $id));
+				$array = array(true);
+			}
+			return $array;
+		}
 		function decrypt_vote_h($hash) {
 			$h = base64_decode($hash);
 			$c = preg_split("/\/\/\//", $h);	

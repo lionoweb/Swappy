@@ -18,5 +18,9 @@ if(isset($_POST['note'])) {
 	$services = new services($mysql);
 	$arr = $services->add_note($_POST, $user, $chat);
 }
+if(isset($_GET['delete'])) {
+	$services = new services($mysql);
+	$arr = $services->delete_serv(@$_GET['delete'], $user->ID);
+}
 echo json_encode($arr);
 ?>

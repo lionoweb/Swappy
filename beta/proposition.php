@@ -71,7 +71,7 @@
          </nav>
          <div class="container-fluid main" role="main" id="proposition">
          	<div class="col-md-10 col-md-offset-1 col-sm-12 table-responsive noborder">
-         		<table class="fulltable table">
+         		<table class="fulltable table list_serv">
                   <thead>
                      <tr>
                         <td colspan="4" class="header_search">Mes propositions</td>
@@ -81,12 +81,12 @@
                      <?php $boucle = $user->list_services_edit();
 					 for($i=0;$i<count($boucle);$i++) {
 						 // A PARTIR D'EN DESSOUS C'EST LE HTML  ?>
-                    <tr class="bloc_services">
+                    <tr class="bloc_services" data-ids="<?php echo $boucle[$i]['ID']; ?>">
                       <td class="picto"><img class="fullfit" src="<?php echo $boucle[$i]['Image']; ?>"></td>
                       <td class="desc_services">
                         <a href="annonce.php?id=<?php echo $boucle[$i]['ID']; ?>">
                           <div class="fullfit">
-                            <h1><?php echo $boucle[$i]['Title']; ?></h1>
+                            <h1 class="serv_title"><?php echo $boucle[$i]['Title']; ?></h1>
                             <p>
                               <?php if($boucle[$i]['Description'] != "Pas de description...") {echo $boucle[$i]['Description'];} ?></p>
                             <div class="location"><?php echo $boucle[$i]['CityName']; ?></div>
@@ -94,7 +94,7 @@
                         </a>
                       </td>
                       <td class="delete">
-                        <a href="#">
+                        <a class="delete_serv" data-id="<?php echo $boucle[$i]['ID']; ?>" href="#">
                           <img src="img/proposition/delete.png" width="25">
                         </a>
                       </td>
@@ -106,7 +106,12 @@
                     </tr>
                     
                      <?php //FIN
-					  } ?>
+					  }
+					  if($i == 0) { ?>
+                      <tr class="bloc_services">
+                      	<td colspan="4"><center>Vous n'avez pas de services</center></td>
+                      </tr>
+                      <?php } ?>
                   </tbody>
                </table>
          	</div>

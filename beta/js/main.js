@@ -12,6 +12,34 @@ $(document).ready(function(e) {
 	$(window).on("resize", function() {
 		navbar_padding();
 	});
+	$(".delete_serv").on("click", function(e) {
+		e.preventDefault();
+		var id = $(this).attr("data-id");
+		$("#modal_delete").remove();
+		$("body").append('<div id="modal_delete" data-id="'+id+'" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-md"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="exampleModalLabel">Supprimer cette conversation ?</h4></div><div class="modal-body"><center>Êtes-vous sûr de vouloir effacer le service : <b>'+$(this).parents("tr").find(".serv_title").html()+'</b><br><button class="btn btn-success valid_modal">Oui</button> <button class="cancel_modal btn btn-danger">Non</button></center></div></div></div></div>');
+		$('#modal_delete .valid_modal').on("click", function(e) {
+			e.preventDefault();
+			$.getJSON("inc/add_services.php?delete="+id, function(data) {
+				if(data == "true") {
+					$('#modal_delete').modal('hide');
+					$('tr[data-ids="'+id+'"]').remove();
+					if($("tr.bloc_services").length < 1) {
+						$(".list_serv tbody").append('<tr class="bloc_services"><td colspan="4"><center>Vous n\'avez pas de services</center></td></tr>');
+					}
+				} else {
+					$('#modal_delete').modal('hide');
+				}
+			});
+		});
+		$("#modal_delete .cancel_modal").on("click", function(e) {
+			e.preventDefault();
+			$('#modal_delete').modal('hide');
+		});
+		$('#modal_delete').modal('show');
+		$("#modal_delete").on("hidden.bs.modal", function(e) {
+			$(this).remove();
+		});
+	});
 	$(".badge_").on("click", function(e) {
 		$('.badge_:not([data-id="'+$(this).attr("data-id")+'"])').removeClass("glow");
 		$('.listing-s:not([data-s="'+$(this).attr("data-id")+'"])').hide();
@@ -721,7 +749,7 @@ function make_date(e) {
            }
     });	
 	} else {
-		$("#modal_date").remove();
+		$('#modal_date').modal('hide');
 	}
 }
 function delete_click() {
@@ -735,18 +763,17 @@ function delete_click() {
 			var id = $(this).parents("#modal_delete").attr("data-id");
 			$.getJSON("inc/send_mess.php?delete="+id, function(data) {
 				if(data == "true") {
-					$("#modal_delete").remove();
+					$('#modal_delete').modal('hide');
 					fst_l = 1;
 					load_list();
 				} else {
-					$("#modal_delete").remove();
+					$('#modal_delete').modal('hide');
 				}
 			});
 		});
 		$("#modal_delete .cancel_modal").on("click", function(e) {
 			e.preventDefault();
 			$('#modal_delete').modal('hide');
-			$('#modal_delete').remove();
 		});
 		$('#modal_delete').modal('show');
 		$("#modal_delete").on("hidden.bs.modal", function(e) {
@@ -755,6 +782,7 @@ function delete_click() {
 	});
 }
 function button_f(state, dd, id) {
+	$(".form_m button").off("click");
 	if(dd == true) {
 		state = $(".mess_t.active").attr("data-state");
 	}
