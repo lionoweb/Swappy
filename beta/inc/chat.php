@@ -455,7 +455,7 @@
 					$mess = $this->user->login.' a confirmé que le rendez-vous a eu lieu. Confirmer ?<br><a data-id="'.$id.'" class="valid-this-date">Oui</a>&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$id.'" class="refuse-this-date">Non</a>';
 					$this->send_reply($mess, $cc, $other);
 					//SEND TO ME
-					$mess = 'Vous avez confirmé que le rendez-vous à bien eu lieu.';
+					$mess = 'Vous avez confirmé que le rendez-vous a bien eu lieu.';
 					$this->send_reply($mess, $cc, $this->user->ID);
 					//EDIT STATUS
 				}
