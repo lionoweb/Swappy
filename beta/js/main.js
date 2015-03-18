@@ -550,7 +550,7 @@ function load_list(search_) {
 	if(search_ == "load_with_reset_button") {
 		search_ = "";
 		button = true;
-	}
+	} 
 	if(typeof(ajax_call) == "object") { ajax_call.abort(); }
 	if(search_ == "") {
 		$.ajaxSetup({'async': false});
@@ -589,9 +589,12 @@ function load_list(search_) {
 	}
 }
 
-function load_content(id, title, sc) {
+function load_content(id, title, sc, nl) {
 	if(typeof(sc) == "undefined") {
 		var sc = false;
+	}
+	if(typeof(nl) == "undefined") {
+		var nl = false;
 	}
 	if(typeof(id) == "undefined" || id == "") {
 		var hash = window.location.hash;
@@ -629,7 +632,7 @@ function load_content(id, title, sc) {
 		var state = $(".mess_t[data-id='"+id+"']").attr("data-state");
 		var serv = $(".mess_t[data-id='"+id+"']").attr("data-b");
 		$(".form_m, .header_m").css("display", "");
-		$(".inner_m").html('<center>Chargement...</center>');
+		if(nl == true) { $(".inner_m").html('<center>Chargement...</center>'); }
 		$.ajaxSetup({'async': false});
 		$.getJSON("inc/send_mess.php?get_message="+id, function(data) {
 			$(".inner_m").html('');
@@ -848,7 +851,7 @@ function update_mess_count() {
 			$(".nav-h .mess_count").html(data);
 			var tt = ""+window.location.href;
 			if(tt.match(/messagerie\.php/)) {
-				if(load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false)) {
+				if(load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false, true)) {
 						load_list("load_with_reset_button");
 				} 
 			}
