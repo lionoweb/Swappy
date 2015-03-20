@@ -168,6 +168,7 @@
 			$globalnote,
 			$globalvote,
 		$lon;
+		public $chat_;
 		private $mysql, 
 			$cookies,
 			$password;
@@ -237,6 +238,7 @@
 					$this->mysql->query("DELETE `appointment` WHERE `ID` = '".$data->ID."'");
 					$mess = 'Suite a aucune réponse sur ce rendez-vous depuis 2mois... Nous l\'annulons.';
 					$chat->send_reply($mess, $cc, $data->User);
+					$chat->send_reply($mess, $cc, $data->Owner_Service);
 					$this->mysql->query("UPDATE `conversation` SET `Status` = '0' WHERE `ID` = '".$cc."'");
 				}
 			}
@@ -991,4 +993,131 @@
 			}
 			return $arr;
 		} 
+		function get_name($id) {
+			$name = "";
+			$select = $this->mysql->prepare("SELECT `FirstName`, `LastName` FROM `users` WHERE `ID`= :id");
+			$select->execute(array(":id" => $id));
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			$name = $data->FirstName." ".$data->LastName;
+			return $name;
+		}
+		function state_m($state,$name,$whoami) {
+			$ret = "";
+			if($whoami == 0) {
+				$b = " votre";
+				$c = "";	
+			} else {
+				$b = "";
+				$c = " de ".$name;	
+			}
+			if($state == "1") {
+				$ret = "En attente du rendez-vous.";	
+			}
+			if($state == "2") {
+				$ret = "En attente de".$b." confirmation que le rendez-vous a eu lieu".$c.".";	
+			}
+			if($state == "3") {
+				$ret = "En attente de".$b." confirmation que le rendez-vous a eu lieu".$c.".";	
+			}
+			if($state == "4") {
+				$ret = "En attente de".$b." confirmation que le rendez-vous a eu lieu".$c.".";	
+			}
+			if($state == "5") {
+				$ret = "Rendez-vous terminé et finalisé.";	
+			}
+			return $ret;
+		}
+		function list_rdv($past) {
+			if($past == true) {
+				$sh = "= '1'";	
+			} else {
+				$sh = "> 1";	
+			}
+			if(file_exists("inc/chat.php")) {
+				@require_once("inc/chat.php");	
+				} else if(file_exists("chat.php")) {
+				@require_once("chat.php");	
+				} else if(file_exists("../inc/chat.php")) {
+				@require_once("../inc/chat.php");
+				}
+				$this->chat_ = new chat($this->mysql, $this);
+				$month = date("m", strtotime($date));
+			$year = date("Y", strtotime($date));
+			$day = date("d", strtotime($date));
+			$html = '';
+			$select = $this->mysql->prepare("SELECT * FROM `appointment` WHERE (`User` = :id OR `Owner_Service` = :id) AND `State` ".$sh."");
+			$select->execute(array( ":id" => $this->ID));
+			while($data = $select->fetch(PDO::FETCH_OBJ)) {
+				$serv = $this->chat_->service_title($data->Service);
+				$other = $data->User; 
+				$whoask = 'C\'est vous qui proposez ce service.';
+				$who = 1;
+				if($other == $this->ID) {
+					$other = $data->Owner_Service;
+					$whoask = 'Vous avez demandez ce service.';
+					$who = 0;
+				}
+				$ss = $this->mysql->prepare("SELECT `french_city`.`Real_Name` FROM `services` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` WHERE `services`.`ID` = '".$data->Service."'");
+				$ss->execute();
+				$city = $ss->fetch(PDO::FETCH_OBJ);
+				$nom = $this->get_name($other);
+				$state = $this->state_m($data->State,$nom,$who);
+				$conv = $this->chat_->isset_conversation($other, $data->Service);
+				$this->state_m($data->Service, $this->ID, $other);
+				$html .= '<tr><td ><a href="annonce.php?id='.$data->Service.'">'.$serv.'</a><br><i>'.$whoask.'</i></td><td> avec <a href="profil.php?id='.$other.'">'.$nom.'</a><br><i><a href="messagerie.php#select-'.$conv.'">'.$state.'</a></i></td><td>'.date("d/m/Y \à H:i", strtotime($data->Date)).'</td></tr>';
+			}
+			if($html == "") {
+				$html = "<tr><td colspan='3'><center>Pas de rendez-vous...</center></td></tr>";	
+			}
+			return $html;
+		}
+		function list_mod_cal($date) {
+			if(file_exists("inc/chat.php")) {
+				@require_once("inc/chat.php");	
+				} else if(file_exists("chat.php")) {
+				@require_once("chat.php");	
+				} else if(file_exists("../inc/chat.php")) {
+				@require_once("../inc/chat.php");
+				}
+				$this->chat_ = new chat($this->mysql,$this);
+			$month = date("m", strtotime($date));
+			$year = date("Y", strtotime($date));
+			$day = date("d", strtotime($date));
+			$html = '';
+			$select = $this->mysql->prepare("SELECT * FROM `appointment` WHERE EXTRACT(MONTH FROM `Date`) = :month AND EXTRACT(DAY FROM `Date`) = :day AND EXTRACT(YEAR FROM `Date`) = :year AND (`User` = :id OR `Owner_Service` = :id) AND `State` > 0");
+			$select->execute(array(":month" => $month, ":day" => $day, ":year" => $year, ":id" => $this->ID));
+			while($data = $select->fetch(PDO::FETCH_OBJ)) {
+				$serv = $this->chat_->service_title($data->Service);
+				$other = $data->User; 
+				$whoask = 'C\'est vous qui proposez ce service.';
+				$who = 1;
+				if($other == $this->ID) {
+					$other = $data->Owner_Service;
+					$whoask = 'Vous avez demandez ce service.';
+					$who = 0;
+				}
+				$nom = $this->get_name($other);
+				$state = $this->state_m($data->State,$nom,$who);
+				$conv = $this->chat_->isset_conversation($other, $data->Service);
+				$this->state_m($data->Service, $this->ID, $other);
+				if($html != "") {
+					$html .= "<hr>";
+				}
+				$html .= 'Le '.date("d/m/Y \à H:i", strtotime($data->Date))." avec <a href='profil.php?id=".$other."'>".$nom."</a> pour <a href='annonce.php?id=".$data->Service."'>".$serv."</a><br><i>".$whoask."</i><br><b>Statut :</b> ".$state." - <a href='messagerie.php#select-".$conv."'>Voir la conversation</a>";
+			}
+			return $html;
+		}
+		function json_calendar($year, $month) {
+			$arr = array();
+			if($month<10) {
+				$month = "0".$month;	
+			}
+			
+			$select = $this->mysql->prepare("SELECT * FROM `appointment` WHERE EXTRACT(MONTH FROM `Date`) = :month AND EXTRACT(YEAR FROM `Date`) = :year AND (`User` = :id OR `Owner_Service` = :id) AND `State` > 0");
+			$select->execute(array(":month" => $month, ":year" => $year, ":id" => $this->ID));
+			while($data = $select->fetch(PDO::FETCH_OBJ)) {
+				$arr[] = array("date"=> date("Y-m-d", strtotime($data->Date)), "badge" => false, "title" => "Mes rendez-vous pour le ".date("d/m/Y", strtotime($data->Date)), "body"=>$this->list_mod_cal($data->Date));	
+			}
+			return $arr;
+		}
 	}  ?>

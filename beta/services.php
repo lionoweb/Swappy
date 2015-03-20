@@ -179,7 +179,7 @@
             <?php } ?>
 
             <div class="col-md-6 col-md-offset-3">
-               <img src="img/pub.jpg" class="img-responsive">
+               <img src="img/pub.jpg" height="180" alt="" width="750" class="img-responsive">
             </div>
 
          </div>

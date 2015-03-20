@@ -2,14 +2,11 @@
    session_start();
    require_once("inc/user.php");
    require_once("inc/mysql.php");
-   require("inc/services.php");
-   require("inc/searches.php");
    $user = new user($mysql);
-   $services = new services($mysql);
-   $search = new search($mysql);
    if(isset($_GET['logout'])) {
    	$user->logout();
-   }	?>
+   }	
+   $user->onlyUsers(); ?>
 <!doctype html>
 <html lang="fr">
    <head>
@@ -21,12 +18,14 @@
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
       <link href="css/bootstrap.min.css" rel="stylesheet">
+       <link href="css/calendar.css" rel="stylesheet">
       <link rel="stylesheet" href="css/main.css">
       <script src="js/jquery.js"></script>
       <script src="js/jquery-ui.js"></script>
       <script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js"></script>
       <script src="js/ValidationEngine/jquery.validationEngine.js"></script>
       <script src="js/bootstrap.min.js"></script>
+      <script src="js/calendar.js"></script>
       <script src="js/main.js"></script>
       <!--[if lt IE 9]>
       <script src="//cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -59,7 +58,7 @@
                <!-- Collect the nav links, forms, and other content for toggling -->
                <div class="collapse navbar-collapse" id="navbar">
                   <ul class="nav navbar-nav">
-                     <li class="active"><a  href="services.php">Services <span class="sr-only">(current)</span></a></li>
+                     <li><a  href="services.php">Services</a></li>
                      <li><a href="propose.php">Je propose</a></li>
                      <li><a href="ccm.php">Comment ça marche ?</a></li>
                      <li><a href="apropos.php">A propos</a></li>
@@ -72,10 +71,40 @@
             </div>
             <!-- /.container-fluid -->
          </nav>
-         <div class="container main" role="main">
-
-		</div>
-	</div>
+         <div id="rdv" class="container-fluid main" role="main">
+			<div class="header_rdv">
+            <p class="col-md-10 col-md-offset-1 top">Retrouver la liste complète de vos rendez-vous</p>
+				<div class="col-md-12">
+						<div id="my-calendar"></div>
+				</div>
+                <div class="clear"></div>
+			</div>
+            <div class="col-md-10 col-md-offset-1 col-sm-12 table-responsive noborder">
+         		<table class="fulltable table list_rdv_">
+                  <thead>
+                     <tr>
+                        <td colspan="3" class="header_search">Rendez-vous à venir</td>
+                     </tr>
+                  </thead>
+                  <tbody>
+                  	<?php echo $user->list_rdv(true); ?>
+                  </tbody>
+                  </table>
+                  </div>
+                  <div class="col-md-10 col-md-offset-1 col-sm-12 table-responsive noborder">
+         		<table class="fulltable table list_rdv_">
+                  <thead>
+                     <tr>
+                        <td colspan="3" class="header_search">Historique des rendez-vous</td>
+                     </tr>
+                  </thead>
+                  <tbody>
+                  		<?php echo $user->list_rdv(false); ?>
+                  </tbody>
+                  </table>
+                  </div>
+      	</div>
+    </div>
     <footer id="footer">
        <img src="img/footer.png" width="30" height="18" alt="">
        <div class="container-fluid">
@@ -84,5 +113,13 @@
           <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
        </div>
     </footer>
+    <script>
+	$("#my-calendar").zabuto_calendar({
+		ajax: {
+			url: "inc/add_user.php?json_cal",
+			modal: true
+		}
+	});
+	</script>
 </body>
 </html>

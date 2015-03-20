@@ -481,6 +481,31 @@ input.space-button {
 .bloc_services:nth-child(even) {
 	background:#53c1dd;	
 }
+#rdv .table-responsive:last-child {
+	margin-bottom:32px;	
+	padding-top:15px;
+}
+.list_rdv_ tbody tr, .list_rdv_ tbody tr td {
+	color:#FFF !important;	
+	vertical-align:middle;
+}
+.list_rdv_ tbody td:last-child {
+	text-align:right;	
+}
+.list_rdv_ tbody td:nth-of-type(2) {
+	text-align:left;	
+	width:40%;
+}
+.list_rdv_ tbody td:first-child {
+	text-align:left;	
+	width:40%;
+}
+.list_rdv_ tr:nth-child(odd) {
+	background:#74cce2;	
+}
+.list_rdv_ tr::nth-child(even) {
+	background:#53c1dd;	
+}
 .picto {
 	margin: 0px; 
 	padding: 0px !important; 
@@ -682,7 +707,7 @@ input.space-button {
 	color: white;
 	padding-bottom: 30px;
 }
-.header_propose .top{
+.header_propose .top, .header_rdv .top  {
 	text-align: center;
 	font-size: 38px;
 	margin-bottom: 28px;
@@ -1274,7 +1299,11 @@ form .liketext {
 #profil.mon_profil{
 	padding:0px;
 }
-#profil .header_profil{
+#rdv {
+	width:100% !important;
+	padding:0px !important;	
+}
+#profil .header_profil, #rdv .header_rdv{
 	color: white;
 	background-color: #323232;
 	padding:50px 0px 20px 0px;
@@ -1938,6 +1967,23 @@ td {
 }
 }	
 @media (max-width:767px){
+	.list_rdv_ tbody td {
+		display:block;
+		border-top:none !important;	
+		font-size:1.1em;
+	}
+	.list_rdv_ tbody td:last-child {
+		border-bottom:1px solid #ccc !important;
+		margin-top:-10px;
+	}
+	.list_rdv_ tbody td:nth-of-type(2) {
+		margin-top:-12px;
+		width:100%;
+		text-align:center;
+	}
+	.list_rdv_ tbody td:first-child {
+		width:100%;
+	}
 	.avatan {
 		text-align:center;	
 	}

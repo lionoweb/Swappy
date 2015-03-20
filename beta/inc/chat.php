@@ -17,6 +17,7 @@
 	class chat {
 		private $mysql;
 		private $user;
+		
 		function __construct($mysql, $user) {
 			$this->mysql = $mysql;
 			$this->user = $user;

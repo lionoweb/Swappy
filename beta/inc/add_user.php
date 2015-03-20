@@ -34,5 +34,8 @@ if(isset($_FILES['file-avatar'])) {
 if(isset($_GET['count_mess'])) {
 	$arr = $user->list_messages();
 }
+if(isset($_GET['json_cal'])) {
+	$arr = $user->json_calendar($_GET['year'], $_GET['month']);
+}
 echo json_encode($arr);
 ?>
