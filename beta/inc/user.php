@@ -278,7 +278,7 @@
 				}
 				$html .= '</span>';
 				$c = 20 * $data->Note;
-				$html .= '<br><div class="star-rating rating-xs rating-active"><div class="rating-container rating-gly-star" data-content=""><div class="rating-stars" data-content="" style="width: '.$c.'%;"></div><input data-step="1" data-max="5" data-min="0" class="rating form-control hide" id="input-1"></div></div>';
+				$html .= '<br><div title="'.$data->Note.' étoile(s)" class="star-rating rating-xs rating-active"><div class="rating-container rating-gly-star" data-content=""><div class="rating-stars" data-content="" style="width: '.$c.'%;"></div><input data-step="1" data-max="5" data-min="0" class="rating form-control hide" id="input-1"></div></div>';
 				$html .= '<p>'.ucfirst($com).'</p>';
 				$html .= '<i>le '.date("d/m/Y \à H:i", strtotime($data->Date)).'</i>';
 				$html .= '<div class="clear"></div></div>';
@@ -688,14 +688,14 @@
 			while($data = $select->fetch(PDO::FETCH_OBJ)) {
 				if(!in_array($data->CatID, $list)) {
 					$list[] = $data->CatID;	
-					$html .= '<div data-id="'.$data->CatID.'" class="badge_"><img src="img/services/'.$data->CatID.'.jpg" alt="'.$data->Name.'" ></div>';
+					$html .= '<div title="Voir les annonces pour ce type de service" data-id="'.$data->CatID.'" class="badge_"><img src="img/services/'.$data->CatID.'.jpg" alt="'.$data->Name.'" ></div>';
 					$htm[$data->CatID.""] = '';
 				}
 				$title = $data->Title;
 				if($title == "") {
 					$title = $data->TypeName;
 				}
-				$htm[$data->CatID.""] .= '- <a href="annonce.php?id='.$data->ID.'">'.$title.'</a><br>';
+				$htm[$data->CatID.""] .= '- <a title="Voir ce service" href="annonce.php?id='.$data->ID.'">'.$title.'</a><br>';
 			}
 			foreach(array_keys($htm) as $key){
     			$html .= '<div class="listing-s" data-s="'.$key.'">'.$htm[$key].'</div>';

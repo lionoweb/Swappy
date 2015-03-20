@@ -640,7 +640,7 @@ function load_list(search_) {
 			active = "";
 			count = "";
 				if(value.For > 0) {
-					for_ = '<a target="_blank" href="annonce.php?id='+value.For+'">'+value.Title+'</a>';	
+					for_ = '<a title="Voir l\'annonce" target="_blank" href="annonce.php?id='+value.For+'">'+value.Title+'</a>';	
 				} else {
 					for_ = '<i>discuter</i>';
 				}
@@ -708,7 +708,7 @@ function load_content(id, title, sc, nl) {
 		var state = $(".mess_t[data-id='"+id+"']").attr("data-state");
 		var serv = $(".mess_t[data-id='"+id+"']").attr("data-b");
 		$(".form_m, .header_m").css("display", "");
-		if(nl == false) { $(".inner_m").html('<center><img src="css/images/loading.gif" alt="Chargement"> Chargement...</center>'); }
+		if(nl == false) { $(".inner_m").html('<center><img src="css/images/loading.gif" alt=""> Chargement...</center>'); }
 		$.ajaxSetup({'async': false});
 		$.getJSON("inc/send_mess.php?get_message="+id, function(data) {
 			$(".inner_m").html('');
@@ -734,7 +734,7 @@ function load_content(id, title, sc, nl) {
 		$(".bot:last .valid-this-date").each(function() {
 			$(this).addClass("actived");
 			$(this).on("click", function(e) {
-				$(this).prepend('<img class="loader_link_m" src="css/images/loading.gif">');
+				$(this).prepend('<img class="loader_link_m" alt="" src="css/images/loading.gif">');
 				$.ajax({url:"inc/send_mess.php", data:"valid="+$(this).attr("data-id")+"&cc="+$("input[name='ID_Converse']").val(), method: "GET", success: function(data) {
 					$(".loader_link_m").remove();
 					if(data == "true") { if(load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false)) {
@@ -747,7 +747,7 @@ function load_content(id, title, sc, nl) {
 		$(".bot:last .refuse-this-date").each(function() {
 			$(this).addClass("actived");
 			$(this).on("click", function(e) {
-				$(this).prepend('<img class="loader_link_m" src="css/images/loading.gif">');
+				$(this).prepend('<img alt="" class="loader_link_m" src="css/images/loading.gif">');
 				$.ajax({url:"inc/send_mess.php", data:"refuse="+$(this).attr("data-id")+"&cc="+$("input[name='ID_Converse']").val(), method: "GET", success: function(data) {
 					$(".loader_link_m").remove();
 					if(data == "true") { if(load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false)) {					

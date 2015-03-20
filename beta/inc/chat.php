@@ -703,7 +703,7 @@ return $html;
 				$for_ = '<input type="hidden" name="for" value="'.$service->ID.'" >'.$for.'';
 				$conv = $this->isset_conversation($user->ID, $service->ID);
 				if($conv != false) {
-					$isset = " - <a href='messagerie.php#select-".$conv."'>Cette conversation a déjà commencé</a>";
+					$isset = " - <a title='Voir cette conversation' href='messagerie.php#select-".$conv."'>Cette conversation a déjà commencé</a>";
 				}
 			} else {
 				$stxt = "Salut, ";
@@ -711,7 +711,7 @@ return $html;
 				$for_ = '<input type="hidden" name="for" value="talk" >'.$for.'';
 				$conv = $this->isset_conversation($user->ID, 'talk');
 				if($conv != false) {
-					$isset = " - <a href='messagerie.php#select-".$conv."'>Cette conversation a déjà commencé</a>";
+					$isset = " - <a title='Voir cette conversation' href='messagerie.php#select-".$conv."'>Cette conversation a déjà commencé</a>";
 				}
 			}
 			$html = '';

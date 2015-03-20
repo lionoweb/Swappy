@@ -41,7 +41,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="127" height="47" src="img/logonav.png" class="max"><img width="50" height="47" src="img/logo_min.png" class="min"></a>
+                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img alt="" width="127" height="47" src="img/logonav.png" class="max"><img alt="" width="50" height="47" src="img/logo_min.png" class="min"></a>
                   <span class="brand-title">Contact</span>
                </div>
                <form class="navbar-form navbar-left search_navbar" action="services.php" method="get" role="search">
@@ -74,11 +74,11 @@
                <p class="bot col-md-8 col-md-offset-2">Une équipe professionnelle et réactive : si vous rencontrez un problème nous saurons vous guider.</p>
                <div class="row small">
                   <div class="getintouch col-md-2 col-md-offset-4 col-xs-4 col-xs-offset-1">
-                     <img src="img/contact/phone.png">
+                     <img alt="Téléphone" src="img/contact/phone.png">
                      <p>06.27.75.49.05</p>
                   </div>
                   <div class="getintouch col-md-2 col-md-offset-0 col-xs-5 col-xs-offset-1">
-                     <img src="img/contact/mail.png">
+                     <img alt="Mail" src="img/contact/mail.png">
                      <p>swappy@contact.fr</p>
                   </div>
                </div>
@@ -127,7 +127,7 @@
          </div>
       </div>
       <footer id="footer">
-         <img src="img/footer.png" width="30" height="18">
+         <img src="img/footer.png" width="30" alt="" height="18">
          <div class="container-fluid">
             <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php" class="active">Contact</a>
             <hr>

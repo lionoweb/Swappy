@@ -2,7 +2,7 @@
 <div class="row">
 <div class="top edit">
 <div class="col-md-2 col-md-offset-3">
-<img src="<?php echo $user_->avatar; ?>">
+<img alt="Avatar de <?php echo ucfirst($user_->firstname); ?> <?php echo ucfirst($user_->lastname); ?>" src="<?php echo $user_->avatar; ?>">
 </div>
 <div class="infos col-md-4">
   	<p class="nom">

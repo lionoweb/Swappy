@@ -3,7 +3,7 @@
 		<div class="top edit">
         	<form method="post" action="inc/add_user.php" id="edit_user">
                 <div class="col-md-2 col-md-offset-3 col-sm-3 col-sm-offset-2 uploader-controls">
-                    <img id="avatar_u" alt="mon avatar" src="<?php echo $user_->avatar; ?>">
+                    <img id="avatar_u" alt="Mon avatar" src="<?php echo $user_->avatar; ?>">
                     <div class="uploader-side">
             <button type="button" id="upload_ba" class="btn uploader-button">Changer avatar</button>
             <div class="uploader-file-input">

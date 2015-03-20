@@ -180,7 +180,7 @@
       <footer id="footer">
          <img src="img/footer.png" alt="" width="30" height="18">
          <div class="container-fluid">
-            <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php" class="active">Contact</a>
+            <a href="cgu.php" class="active">CGU - Mentions légales</a> | <a href="contact.php">Contact</a>
             <hr>
             <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
          </div>

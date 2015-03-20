@@ -46,7 +46,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="127" height="47" src="img/logonav.png" class="max"><img width="50" height="47" src="img/logo_min.png" class="min"></a>
+                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img alt="" width="127" height="47" src="img/logonav.png" class="max"><img alt="" width="50" height="47" src="img/logo_min.png" class="min"></a>
                   <span class="brand-title">Mes propositions</span>
                </div>
                <form class="navbar-form navbar-left search_navbar" action="services.php" method="get" role="search">
@@ -86,9 +86,9 @@
 					 for($i=0;$i<count($boucle);$i++) {
 						 // A PARTIR D'EN DESSOUS C'EST LE HTML  ?>
                     <tr class="bloc_services" data-ids="<?php echo $boucle[$i]['ID']; ?>">
-                      <td class="picto"><img class="fullfit" src="<?php echo $boucle[$i]['Image']; ?>"></td>
+                      <td class="picto"><a title="<?php echo $boucle[$i]['Title']; ?>" href="annonce.php?id=<?php echo $boucle[$i]['ID']; ?>"><img alt="" class="fullfit" src="<?php echo $boucle[$i]['Image']; ?>"></a></td>
                       <td class="desc_services">
-                        <a href="annonce.php?id=<?php echo $boucle[$i]['ID']; ?>">
+                        <a title="<?php echo $boucle[$i]['Title']; ?>" href="annonce.php?id=<?php echo $boucle[$i]['ID']; ?>">
                           <div class="fullfit">
                             <h1 class="serv_title"><?php echo $boucle[$i]['Title']; ?></h1>
                             <p>
@@ -98,13 +98,13 @@
                         </a>
                       </td>
                       <td class="delete">
-                        <a class="delete_serv" data-id="<?php echo $boucle[$i]['ID']; ?>" href="#">
-                          <img src="img/proposition/delete.png" width="25">
+                        <a title="Supprimer ce service" class="delete_serv" data-id="<?php echo $boucle[$i]['ID']; ?>" href="#">
+                          <img src="img/proposition/delete.png" alt="" width="25">
                         </a>
                       </td>
                       <td class="edit">
-                        <a href="propose.php?edit=<?php echo $boucle[$i]['ID']; ?>">
-                          <img src="img/proposition/edit.png" width="25">
+                        <a title="Modifier ce service" href="propose.php?edit=<?php echo $boucle[$i]['ID']; ?>">
+                          <img src="img/proposition/edit.png" alt="" width="25">
                         </a>
                       </td>
                     </tr>
@@ -124,9 +124,9 @@
       </div>
       <!-- ### END WRAP ### -->
     <footer id="footer">
-         <img src="img/footer.png" width="30" height="18">
+         <img src="img/footer.png" width="30" alt="" height="18">
          <div class="container-fluid">
-            <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php" class="active">Contact</a>
+            <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php">Contact</a>
             <hr>
             <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
          </div>

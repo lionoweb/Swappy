@@ -92,7 +92,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="127" height="47" src="img/logonav.png" class="max"><img width="50" height="47" src="img/logo_min.png" class="min"></a>
+                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img alt="" width="127" height="47" src="img/logonav.png" class="max"><img alt="" width="50" height="47" src="img/logo_min.png" class="min"></a>
                   <span class="brand-title"><?php echo $htitle; ?></span>
                </div>
                <form class="navbar-form navbar-left search_navbar" action="services.php" method="get" role="search">
@@ -179,9 +179,9 @@
       </div>
       <!-- END DIV ID WRAP-->
       <footer id="footer">
-         <img src="img/footer.png" width="30" height="18">
+         <img src="img/footer.png" alt="" width="30" height="18">
          <div class="container-fluid">
-            <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php" class="active">Contact</a>
+            <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php">Contact</a>
             <hr>
             <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
          </div>

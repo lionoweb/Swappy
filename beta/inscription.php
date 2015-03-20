@@ -42,7 +42,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="127" height="47" src="img/logonav.png" class="max"><img width="50" height="47" src="img/logo_min.png" class="min"></a>
+                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img alt="" width="127" height="47" src="img/logonav.png" class="max"><img alt="" width="50" height="47" src="img/logo_min.png" class="min"></a>
                   <span class="brand-title">Inscription</span>
                </div>
                <form class="navbar-form navbar-left search_navbar" action="services.php" method="get" role="search">
@@ -210,7 +210,7 @@
                   </div>
                   <div class="form-group">
                      <input id="accept" data-validation-engine="validate[required]" type="checkbox" name="accept">
-                     <label for="accept" class="col-md-10 col-md-offset-1 lu inline-xs">J'ai lu et j'accepte les <a target="_blank" href="cgu.php">conditions générales d'utilisation</a> et les <a target="_blank" href="mentions-legales.php">mentions légales</a> du site Swappy</label>
+                     <label for="accept" class="col-md-10 col-md-offset-1 lu inline-xs">J'ai lu et j'accepte les <a target="_blank" href="cgu.php">conditions générales d'utilisation et les mentions légales</a> du site Swappy</label>
                   </div>
                   <div class="form-group col-sm-4 col-sm-offset-8 col-xs-12">
                      <input type="submit" class="form-control col-md-4" value="S'enregistrer">
@@ -222,9 +222,9 @@
       </div>
       <!-- END WRAP -->
       <footer id="footer">
-         <img src="img/footer.png" width="30" height="18">
+         <img src="img/footer.png" alt="" width="30" height="18">
          <div class="container-fluid">
-            <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php" class="active">Contact</a>
+            <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php">Contact</a>
             <hr>
             <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
          </div>

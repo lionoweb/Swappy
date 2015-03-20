@@ -41,7 +41,7 @@ $user->logout();
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="127" height="47" src="img/logonav.png" class="max"><img width="50" height="47" src="img/logo_min.png" class="min"></a>
+                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img alt="" width="127" height="47" src="img/logonav.png" class="max"><img alt="" width="50" height="47" src="img/logo_min.png" class="min"></a>
                   <span class="brand-title">Accueil</span>
                </div>
                <form class="navbar-form navbar-left search_navbar" action="services.php" method="get" role="search">
@@ -105,22 +105,22 @@ $user->logout();
               </div>
 
                <!-- Controls -->
-               <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+               <a class="left carousel-control" title="Précedent" href="#carousel-example-generic" role="button" data-slide="prev">
                  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                 <span class="sr-only">Previous</span>
+                 <span class="sr-only">Précedent</span>
                </a>
-               <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+               <a title="Suivant" class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
                  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                 <span class="sr-only">Next</span>
+                 <span class="sr-only">Suivant</span>
                </a>
              </div>
              <iframe src="https://player.vimeo.com/video/119140474" class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12" width="700" height="401" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         </div>
       </div>
     <footer id="footer">
-      <img src="img/footer.png" width="30" height="18">
+      <img src="img/footer.png" width="30" alt="" height="18">
         <div class="container-fluid">
-          <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php" class="active">Contact</a>
+          <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php">Contact</a>
           <hr>
           <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
         </div>
