@@ -177,6 +177,11 @@
                </table>
             </div>
             <?php } ?>
+
+            <div class="col-md-6 col-md-offset-3">
+               <img src="img/pub.jpg" class="img-responsive">
+            </div>
+
          </div>
       </div>
       <footer id="footer">

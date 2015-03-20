@@ -77,23 +77,15 @@
                   <ul class="row list_view">
                      <li class="view">
                         <img src="img/ccm/1etape.jpg" width="250" height="250" alt="Inscrivez-vous">
-                        <h2>Calypso Redor</h2>
-                        <p>Chef de projet, chargée de communication et marketing. Elle mène à bien le projet et entoure son équipe dans la bonne humeur</p>
                      </li>
                      <li class="view">
                         <img src="img/ccm/2etape.jpg" width="250" height="250" alt="Proposez/demandez">
-                        <h2>Calypso Redor</h2>
-                        <p>Chef de projet, chargée de communication et marketing. Elle mène à bien le projet et entoure son équipe dans la bonne humeur</p>
                      </li>
                      <li class="view">
                         <img src="img/ccm/3etape.jpg" width="250" height="250" alt="Echangez">
-                        <h2>Calypso Redor</h2>
-                        <p>Chef de projet, chargée de communication et marketing. Elle mène à bien le projet et entoure son équipe dans la bonne humeur</p>
                      </li>
                      <li class="view">
                         <img src="img/ccm/4etape.jpg" width="250" height="250" alt="À vous de jouer">
-                        <h2>Calypso Redor</h2>
-                        <p>Chef de projet, chargée de communication et marketing. Elle mène à bien le projet et entoure son équipe dans la bonne humeur</p>
                      </li>
                   </ul>
                </div>
