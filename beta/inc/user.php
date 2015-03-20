@@ -854,7 +854,7 @@
                             </div>
                         </div>';
                  } else { 
-				 	$p_bl = array("profil", "messagerie", "date", "proposition");
+				 	$p_bl = array("profil", "messagerie", "rendez-vous", "proposition");
 					$fixed_n = array("false", "", "");
 					if(preg_grep("/".preg_replace("/\.php/", "", basename($_SERVER['PHP_SELF']))."/", $p_bl)) {
 						if(preg_match('/profil\.php(.*?)id\=(.*?)/', basename($_SERVER['PHP_SELF']).$_SERVER['QUERY_STRING'])) {
