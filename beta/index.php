@@ -7,7 +7,7 @@ if(isset($_GET['logout'])) {
 $user->logout();
 } ?>
 <!doctype html>
-<html>
+<html lang="fr">
 	<head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,7 +16,6 @@ $user->logout();
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
-      <link rel="stylesheet" href="css/template.css" type="text/css"/>
       <link href="css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="css/main.css">
       <script src="js/jquery.js"></script>
@@ -25,6 +24,10 @@ $user->logout();
       <script src="js/ValidationEngine/jquery.validationEngine.js"></script>
       <script src="js/bootstrap.min.js"></script>
       <script src="js/main.js"></script>
+      <!--[if lt IE 9]>
+      <script src="//cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 	</head>
 	<body role="document">
       <div id="wrap">

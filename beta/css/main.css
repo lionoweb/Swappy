@@ -3,6 +3,7 @@ html, body {
     padding: 0;
     height: 100%;
 	width:100%;
+	-ms-overflow-style: scrollbar;
 }
 @font-face {
     font-family : "Overlock";
@@ -118,6 +119,9 @@ td.center {
 form#user_add .greyback label, form#user_remind .greyback label {
     line-height: 28px;
     text-align: right;
+}
+.link_mail:hover {
+	cursor:pointer;	
 }
 .list_type_ option[disabled="disabled"] {
 	font-weight:bold;	
@@ -684,7 +688,7 @@ input.space-button {
 	margin-bottom: 28px;
 	font-family: "Pacifico";
 }
-.header_propose .bot{
+.header_propose .bot, .header_contact .bot{
 	text-align: center;
 	background:transparent !important;
 }
@@ -1318,6 +1322,28 @@ form .liketext {
 	display:inline-block;	
 	margin:8px;
 }
+.bot a.refuse-this-date, .bot a.valid-this-date{
+	text-decoration:none;
+	color:#666666;
+	font-style:italic;
+	font-weight:bold;
+}
+.bot a.refuse-this-date:hover , .bot a.valid-this-date:hover{
+	text-decoration:none;
+	color:#666666;	
+	cursor:default;
+}
+.bot a.actived, .bot a.note-this-date {
+	font-style:normal;
+	text-decoration:none;
+	color:#4A52EF !important;
+	font-weight:bold;
+}
+.bot a.actived:hover, .bot a.note-this-date:hover {
+	text-decoration:underline;
+	color:#254CDF;
+	cursor:pointer;
+}
 .description_ {
 	margin-top:15px;
 	margin-bottom:8px;	
@@ -1357,31 +1383,30 @@ form .liketext {
 	text-align: center;
 	font-size: 1.5em;
 }
-#profil .notes > div {
+.notes > div {
 	color: white;
 	border-radius: 10px;
-	padding-bottom: -23px;
 }
-#profil .notes .rating-stars {
+.notes .rating-stars {
 	color:#FFF !important;	
 }
-#profil .notes center {
+.notes center {
 	padding:12px;	
 }
-#profil .notes .title {
+.notes .title {
 	font-size:1.2em;
 	margin-top:4px;	
 }
-#profil .notes .title a {
+.notes .title a {
 	color:#FFF !important;	
 	text-decoration:underline !important;
 }
-#profil .notes p {
+.notes p {
 	padding:4px 10px 4px 10px;	
 	font-style:italic;
 	font-size:1.1em;
 }
-#profil .notes i {
+.notes i {
 	font-size:0.9em;
 	float:right;
 	text-align:right;
@@ -1389,16 +1414,30 @@ form .liketext {
 #profil .form-group {
 	text-align:left !important;
 }
-#profil .notes div.note:nth-child(odd) {
+.notes div.note:nth-child(odd) {
 	/*background-clip: content-box;*/
 	background-color: #53c1dd; /*bleu*/
-	margin-bottom: 20px;
+	margin-bottom: 10px;
+	margin-top:10px;
 }
-#profil .notes div.note:nth-child(even) {
+.notes div.note:nth-child(even) {
 	background-color: #c495bf; /*violet*/
-	margin-bottom: 20px;
+	margin-bottom: 10px;
+	margin-top:10px;
 }
-
+.notes {
+	margin-bottom:20px;
+}
+#spec_annonce .profiltitle {
+	background:#74cce2;
+	margin-top:15px;
+}
+.checkbox {
+	margin-top:0px;	
+}
+input#mail {
+	margin-left:0px !important;	
+}
 /* ### PROPOSITION ### */
 
 #proposition table tr.bloc_services:nth-child(odd) {
@@ -1587,7 +1626,7 @@ td {
 	margin-right:8px;
 }
 .bot {
-	background:#FFC862;
+	background:#F8CF82;
 	display:block; 
 	width:100%; 
 	padding:6px;
@@ -1601,6 +1640,8 @@ td {
 	clear:both;
 	float:left;
 }
+
+
 .message_box {
 	margin-top:40px;
 	height:490px;
@@ -1751,6 +1792,23 @@ td {
 	margin:2px 0px 2px 0px;
 	font-size:1.16em;
 }
+.open-all-com:hover {
+	cursor:pointer;	
+}
+#modal_coms .modal-body {
+	max-height:360px;
+	height:360px;
+	overflow:auto;	
+}
+#modal_coms .notes {
+	margin-bottom:0px;	
+}
+#modal_coms .note {
+	width:92% !important;
+	padding:5px;
+	margin-left:auto;
+	margin-right:auto;
+}
 @media (max-width:381px){
 	.message_box {
 		height:530px;
@@ -1796,6 +1854,9 @@ td {
   }
 }
 @media (min-width:768px){
+	.navbar-header .mess_count {
+		display:none;
+	}
 .nav-h {
 	background:#eca694;
 	left:0;
@@ -1873,7 +1934,15 @@ td {
 }
 }	
 @media (max-width:767px){
-	
+	.navbar-header .mess_count {
+	display:none;
+	}
+	.navbar-header .mess_count.red {
+	position:absolute;
+	right:10px;
+	top:30px;
+	display:block !important;
+	}
 	.bloc_services {
 		border-bottom:1px solid #FFF;	
 	}
@@ -2080,11 +2149,11 @@ td {
      margin-right: 0px;
  }*/
  #tags > .tag {
-	margin:3px; 
+	margin:3px;
  }
-@-moz-document url-prefix() {
-  fieldset { display: table-cell; }
-
+#tags .tag {
+	font-family:sans-serif !important;
+}
 .bootstrap-tagsinput {
   background-color: #fff;
   border: 1px solid #ccc;
@@ -2132,3 +2201,91 @@ td {
 .bootstrap-tagsinput .tag [data-role="remove"]:hover:active {
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
+
+
+.uploader-controls .uploader-preview {
+  display: inline-block;
+  float: left;
+  font-size: 12px;
+  margin-right: 10px;
+}
+
+.uploader-controls .uploader-preview img {
+  max-width: 120px;
+  border: 1px solid #ccc;
+  vertical-align: top;
+}
+
+.uploader-controls .uploader-error {
+  color: #bb3636;
+  font-size: 12px;
+}
+.uploader-controls .uploader-side {
+  display: inline-block;
+  max-width: 130px;
+  position: relative;
+  position:absolute; 
+ top:96px;
+ left:50%;
+ margin-left:-65px;
+ opacity:0.7;
+}
+.uploader-controls .uploader-side:hover {
+	opacity:1;
+	cursor:pointer;
+	}
+.uploader-controls .uploader-side .uploader-progress {
+  display: inline-block;
+  vertical-align: middle;
+  width: 110px;
+  margin-top: 7px;
+  margin-bottom: 5px;
+  position:absolute;
+  height:20px;
+  top:-45px;
+  left:50%;
+  margin-left:10px;
+}
+.uploader-controls .uploader-side div:hover, .uploader-controls .uploader-side button:hover, .uploader-controls .uploader-side input:hover {
+	cursor:pointer;
+}
+.uploader-controls .uploader-side .uploader-help {
+  margin-top: 5px;
+  color: #999;
+  font-size: 12px;
+}
+.uploader-controls .uploader-side .uploader-file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  cursor: pointer;
+}
+.uploader-controls .uploader-side .uploader-file-input input[type="file"] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  font-size: 50px;
+  cursor: pointer;
+  opacity: 0;
+}
+.uploader-controls .uploader-button {
+	margin-top:0px;
+	margin-bottom:0px;	
+	width:130px;
+  min-width:130px;
+
+}
+
+.uploader-controls .uploader-input {
+  padding-top: 10px;
+  clear: left;
+}
+@-moz-document url-prefix() {
+  fieldset { display: table-cell; }

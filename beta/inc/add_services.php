@@ -22,5 +22,12 @@ if(isset($_GET['delete'])) {
 	$services = new services($mysql);
 	$arr = $services->delete_serv(@$_GET['delete'], $user->ID);
 }
-echo json_encode($arr);
+if(isset($_GET['list_coms'])) {
+	$arr = $user->list_com(@$_GET['list_coms'], false);
+}
+if(isset($_GET['list_coms'])) {
+		echo $arr;
+	} else {
+		echo json_encode($arr);
+	}
 ?>

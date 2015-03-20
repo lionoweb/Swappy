@@ -22,7 +22,7 @@
    $chat = new chat($mysql, $user); 
    }?>
 <!doctype html>
-<html>
+<html lang="fr">
    <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,7 +31,6 @@
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
-      <link rel="stylesheet" href="css/template.css" type="text/css"/>
       <link href="css/bootstrap.min.css" rel="stylesheet">
      <?php if(isset($_GET['vote'])) { ?><link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"><?php } ?>
       <link rel="stylesheet" href="css/main.css">
@@ -42,6 +41,10 @@
       <script src="js/bootstrap.min.js"></script>
       <?php if(isset($_GET['vote'])) { ?><script src="js/rate.js"></script><?php } ?>
       <script src="js/main.js"></script>
+      <!--[if lt IE 9]>
+      <script src="//cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
    </head>
    <body role="document">
       <div id="wrap" class="color-grey">
@@ -55,7 +58,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="127" height="47" src="img/logonav.png" class="max"><img width="50" height="47" src="img/logo_min.png" class="min"></a>
+                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="127" height="47" alt="" src="img/logonav.png" class="max"><img alt="" width="50" height="47" src="img/logo_min.png" class="min"></a>
                   <span class="brand-title">Annonce : <?php echo $services->title; ?></span>
                </div>
                <form class="navbar-form navbar-left search_navbar" action="services.php" method="get" role="search">
@@ -85,12 +88,12 @@
          <div id="spec_annonce" class="container main" role="main">
             <div class="profil row">
                <div class="col-md-1 col-md-offset-2 col-sm-1 col-sm-offset-1 col-xs-1 col-xs-offset-0">
-                  <img src="<?php echo $user_->avatar; ?>" width="130" height="130">
+                  <img src="<?php echo $user_->avatar; ?>" alt="Avatar de <?php echo $user_->firstname." ".$user_->lastname; ?>" width="130" height="130">
                </div>
                <div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-1 dispo">
-                  <div class="name"><a class="link-profil" href="profil.php?id=<?php echo $user_->ID; ?>"><?php echo $user_->firstname." ".$user_->lastname; ?> (<?php echo $user_->login; ?>)</a> propose</div>
-                  <div class="info"><img src="img/annonce/clock.png"><?php echo $services->disponibility; ?></div>
-                  <div class="info loc"><img src="img/annonce/location.png" width="18" height="28"><?php echo $services->city; ?>, jusqu'à <?php echo $services->distance; ?> km de déplacement</div>
+                  <div class="name"><a title="Voir le profil de <?php echo $user_->firstname." ".$user_->lastname; ?>" class="link-profil" href="profil.php?id=<?php echo $user_->ID; ?>"><?php echo $user_->firstname." ".$user_->lastname; ?> (<?php echo $user_->login; ?>)</a> propose</div>
+                  <div class="info"><img alt="" src="img/annonce/clock.png"><?php echo $services->disponibility; ?></div>
+                  <div class="info loc"><img alt="" src="img/annonce/location.png" width="18" height="28"><?php echo $services->city; ?>, jusqu'à <?php echo $services->distance; ?> km de déplacement</div>
                </div>
                <div class="interesse">
                		<?php if(!isset($_GET['vote'])) { if($user->ID != $user_->ID) { ?>
@@ -102,7 +105,7 @@
             </div>
             <div class="servicepropose">
                <div class="row">
-                  <img width="85" height="85" src="img/services/<?php echo $services->cattype; ?>.jpg">
+                  <img width="85" alt="<?php echo $services->catname; ?>" height="85" src="img/services/<?php echo $services->cattype; ?>.jpg">
                   <div class="header_annonce"><?php echo ucfirst($services->title); ?></div>
                </div>
             </div>
@@ -117,10 +120,18 @@
                <?php } else { echo '<div class="col-md-6 col-md-offset-3 voting">'.$vote.'</div>'; }; ?>
             </div>
             
-         </div>
-      </div>
+         
+       	<div class="profiltitle">
+<p>Notes et commentaires</p>
+</div>
+<div class="pictodown">
+<img src="img/annonce/down.png" alt="" class="down">
+</div>
+<div class="notes">
+<?php echo $user_->list_com($services->ID); ?>
+</div></div></div>
       <footer id="footer">
-         <img src="img/footer.png" width="30" height="18">
+         <img src="img/footer.png" width="30" alt="" height="18">
          <div class="container-fluid">
             <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php" class="active">Contact</a>
             <hr>
@@ -128,6 +139,5 @@
          </div>
       </footer>
       <?php if(!isset($_GET['vote'])) { $chat->prepare_popup($user_, $services); } ?>
-
    </body>
 </html>

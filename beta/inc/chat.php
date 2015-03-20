@@ -143,9 +143,28 @@
 						$this->mysql->query("UPDATE `conversation` SET `HiddenFor` = '0' WHERE `ID` = '".$id."'");
 					} 
 				}
+				$time = time();
 				$select = $this->mysql->prepare("INSERT INTO `conversation_reply` (`ID`, `C_ID`, `Author`, `Time`, `Message`, `Seen`, `HiddenFor`, `BotTo`) VALUES (NULL, :conversation, :me, :time, :message, '0', '0', ".$bott.");");
-				if($select->execute(array(":me" => $me, ":conversation" => $id, ":message" => $message, ":time" => time()))) {
+				if($select->execute(array(":me" => $me, ":conversation" => $id, ":message" => $message, ":time" => $time))) {
 					$r = true;
+					$other_m =  $this->who_iso($id);
+					if($bot != false) {
+						$other_m = $bot;
+					}
+					if($bot != $this->user->ID) {
+						$uu = new user($this->mysql, $other_m);
+						if($uu->mailoption == 1) {
+						if(file_exists("inc/mail.php")) {
+						@require_once("inc/mail.php");	
+					} else if(file_exists("mail.php")) {
+						@require_once("mail.php");	
+					} else if(file_exists("../inc/mail.php")) {
+						@require_once("../inc/mail.php");
+					}
+						$mail = new mailer();
+						@$mail->newmessage($uu->email,$time,$id,$uu->firstname." ".$uu->lastname, $this->user->firstname." ".$this->user->lastname, $this->user->ID);
+					}
+					}
 				}
 			}
 			return $r;
@@ -221,11 +240,11 @@
 				$value = 0;
 				$oppo = 0;
 				if($user == "One") {
-					$value = 1;
-					$oppo = 2;
-				} else if($user == "Two") {
 					$value = 2;
 					$oppo = 1;
+				} else if($user == "Two") {
+					$value = 1;
+					$oppo = 2;
 				}
 				$status = $this->getstatus($id);
 				if($status == "0" || $status == "3") {
@@ -248,10 +267,10 @@
 				}
 				$array = array(true);
 				} else {
-					$array = array(false, "Un rendez-vous est en cours...");
+					$array = array(false,"Un rendez-vous est en cours... Vous ne pouvez pas effacer cette conversation");
 				}
 			} else {
-				$array = array(false, "Vous ne semblez faire partie de cette conversation.");
+				$array = array(false, "Vous ne semblez pas faire partie de cette conversation.");
 			}
 			return $array;
 		}
@@ -271,9 +290,9 @@
 					$user = $this->who_ami($data->ID);
 					$val = "";
 					if($user == "Two") {
-						$val = 2;
-					} else if($user == "One") {
 						$val = 1;
+					} else if($user == "One") {
+						$val = 2;
 					}
 					$serv="0";
 					if($data->ServiceFor != 0) {
@@ -296,9 +315,9 @@
 			$user = $this->who_ami($id);
 			$and = "";
 			if($user == "Two") {
-				$and = " AND ( `HiddenFor` = '0' OR `HiddenFor` = '1' )";
-			} else if($user == "One") {
 				$and = " AND ( `HiddenFor` = '0' OR `HiddenFor` = '2' )";
+			} else if($user == "One") {
+				$and = " AND ( `HiddenFor` = '0' OR `HiddenFor` = '1' )";
 			}
 			$select = $this->mysql->prepare("SELECT * FROM `conversation_reply` WHERE `C_ID` = :id".$and." AND (`BotTo` = '0' OR `BotTo` = '".$this->user->ID."') ORDER BY `Time` ASC");
 			$select->execute(array(":id" => $id));
@@ -445,7 +464,7 @@
 						$mail = new mailer();
 						$oo = new user($this->mysql, $data->Owner_Service);
 						$mm = new user($this->mysql, $data->User);
-						$mail->send_validation_rdv($oo, $mm, $infos['ID'], $this->service_title($infos['ID']),$data->Date,$cc);
+						@$mail->send_validation_rdv($oo, $mm, $infos['ID'], $this->service_title($infos['ID']),$data->Date,$cc);
 					}
 				if($data->State == 2) {
 					$a = true;

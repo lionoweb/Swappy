@@ -27,6 +27,10 @@ if(isset($_POST['fieldId'])) {
 		$arr = $user->issetZipCode($_POST['fieldValue'], $_POST['fieldId']);
 	}
 }
+if(isset($_FILES['file-avatar'])) {
+	require_once("class.upload.php");
+	$arr = $user->change_avatar($_FILES['file-avatar']);
+}
 if(isset($_GET['count_mess'])) {
 	$arr = $user->list_messages();
 }

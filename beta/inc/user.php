@@ -1,4 +1,12 @@
 <?php 
+	function encode_mail($mail, $n) {
+		$r = array("ASC" => "", "UTF" => "");
+		for($i=0;$i<strlen($mail);$i++) {
+			$r['ASC'] .= "&#".ord($mail[$i]).";";
+			$r['UTF'] .= "%".dechex(ord($mail[$i]));	
+		}
+		return $r[$n];
+	}
 	//CITY CLASS
 	class city {
 		private $mysql;
@@ -172,8 +180,11 @@
 		}
 		function auto_() {
 			//RDV
-			$select = $this->mysql->query("SELECT * FROM `appointment` WHERE `Date` <= '".date("Y-m-d H:i:s", strtotime("-1 hour"))."' AND `State` = '1' LIMIT 0, 8");
-			if($select->rowCount() > 0) {
+			$select = @$this->mysql->prepare("SELECT * FROM `appointment` WHERE `Date` <= '".date("Y-m-d H:i:s", strtotime("-1 hour"))."' AND `State` = '1' LIMIT 0, 8");
+			@$select->execute();
+			$r = @$select->rowCount();
+			if(!is_numeric($r)) { $r = 0; }
+			if($r > 0) {
 				if(file_exists("inc/chat.php")) {
 				@require_once("inc/chat.php");	
 				} else if(file_exists("chat.php")) {
@@ -197,21 +208,60 @@
 				}
 			}
 			//USER NON ACTIVE DEPUIS 4 MOIS
-			
+			$select = @$this->mysql->prepare("DELETE FROM `users` WHERE `Created` <= '".date("Y-m-d H:i:s", strtotime("-4 month"))."' AND `Validation` = '0' ORDER BY `Created` ASC LIMIT 20");
+			@$select->execute();
 			//RENDEZ-VOUS OUBLIE
+			$select = @$this->mysql->prepare("SELECT * FROM `appointment` WHERE `Date` <= '".date("Y-m-d H:i:s", strtotime("-2 month"))."' AND `State` != '5' LIMIT 0, 8");
+			@$select->execute();
+			$r = @$select->rowCount();
+			if(!is_numeric($r)) { $r = 0; }
+			if($r > 0) {
+				if(file_exists("inc/chat.php")) {
+				@require_once("inc/chat.php");	
+				} else if(file_exists("chat.php")) {
+				@require_once("chat.php");	
+				} else if(file_exists("../inc/chat.php")) {
+				@require_once("../inc/chat.php");
+				}
+				$chat = new chat($this->mysql, $this);
+			}
+			while($data = $select->fetch(PDO::FETCH_OBJ)) {
+				$other = $data->User;
+				if($other == $this->ID) {
+					$other = $data->Owner_Service;
+				}
+				$cc = $chat->isset_conversation($other, $data->Service);
+				if($cc != false) {
+					$this->mysql->query("DELETE `appointment` WHERE `ID` = '".$data->ID."'");
+					$mess = 'Suite a aucune réponse sur ce rendez-vous depuis 2mois... Nous l\'annulons.';
+					$chat->send_reply($mess, $cc, $data->User);
+					$this->mysql->query("UPDATE `conversation` SET `Status` = '0' WHERE `ID` = '".$cc."'");
+				}
+			}
 		}
 		function getAge($date) {
   			return (int) ((time() - strtotime($date)) / 3600 / 24 / 365);
 		}
-		function list_com($for="") {
-			if($for == "") {
-				$ad = " ORDER BY `notations`.`Date` DESC LIMIT 0, 6";	
+		function list_com($for="",$limit=true) {
+			if($limit != true) {
+				$lim =	' LIMIT 0, 7';
 			} else {
-				$ad = " AND `Service` = '".$for."' ORDER BY `notations`.`Date` DESC";
+				$lim = '';
+			}
+			if($for == "") {
+				$ad = " ORDER BY `notations`.`Date` DESC".$lim;	
+			} else {
+				$ad = " AND `Service` = '".$for."' ORDER BY `notations`.`Date` DESC".$lim;
 			}
 			$html = '';
 			$select = $this->mysql->query("SELECT `users`.`ID` AS `UserID`, `users`.`LastName`, `users`.`FirstName`, `services`.`ID`, `notations`.`Date`, `services`.`Title`, `type`.`Name`, `notations`.`Message`, `notations`.`Note` FROM `notations` INNER JOIN `users` ON `notations`.`By` = `users`.`ID` INNER JOIN `services` ON `notations`.`Service` = `services`.`ID` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` WHERE `Owner_Service` = '".$this->ID."'".$ad);
+			$i = 0;
+			$class = "col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-xs-10 col-xs-offset-1";
+			if($limit == false) {
+				$class = "";
+			}
 			while($data = $select->fetch(PDO::FETCH_OBJ)) {
+				if($i<6) {
 				$title = $com = "";
 				$title = $data->Title;
 				$com = $data->Message;
@@ -221,7 +271,7 @@
 				if($title == "") {
 					$title = $data->Name;
 				}
-				$html .= '<div class="text-justify col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-xs-10 col-xs-offset-1 note">';
+				$html .= '<div class="'.$class.' note">';
 				$html .= '<span class="title">Critique de <a href="profil.php?id='.$data->UserID.'">'.ucfirst($data->FirstName).' '.ucfirst($data->LastName).'</a> ';
 				if($for == "") {
 					$html .= 'pour <a href="annonce.php?id='.$data->ID.'">'.$title.'</a>';
@@ -232,9 +282,17 @@
 				$html .= '<p>'.ucfirst($com).'</p>';
 				$html .= '<i>le '.date("d/m/Y \à H:i", strtotime($data->Date)).'</i>';
 				$html .= '<div class="clear"></div></div>';
+				} else {
+					break;	
+				}
+				$i++;
 			}
 			if($html == "") {
 				$html = "<center>Pas de notes & commentaires...</center>";
+			} else {
+			if($select->rowCount() == 7 && $limit == true) {
+				$html .= '<center><a class="open-all-com col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-xs-10 col-xs-offset-1">Voir tous les commentaires</a></center>';
+			}
 			}
 			return $html;
 		}
@@ -531,10 +589,20 @@
 				$set .= ' `FirstName` = :prenom,';
 				$replace[':prenom'] = trim($POST['prenom']);
 			}
+			if(isset($_POST['mail'])) {
+				$mailo = trim($_POST['mail']);
+				if($mailo == "on") { $mailo = 1; } else { $mailo = 0; }
+			} else {
+				$mailo = 0;
+			}
+			if($mailo != $this->mailoption) {
+				$set .= ' `MailOption` = :mailopt,';
+				$replace[':mailopt'] = trim($mailo);
+			}
 			if(trim($POST['gender']) != $this->gender) {
 				$set .= ' `Gender` = :gender,';
 				$replace[':gender'] = trim($POST['gender']);
-				if(preg_match('/\/(M|F)\.jpg/', $avatar)) {
+				if(preg_match('/\/(user\/M|user\/F)\.jpg/', $avatar)) {
 					$avatar = "img/user/".trim($POST['gender']).".jpg";
 					$set .= ' `Avatar` = :avatar,';
 					$replace[':avatar'] = $avatar;
@@ -883,4 +951,31 @@
 			}
 			return $return;
 		}
+		function change_avatar($file) {
+			$arr = array(false,"Une erreur a eu lieu...");
+			$handle = new Upload($file);
+
+			if ($handle->uploaded) {
+				$handle->image_resize            = true;
+				$handle->image_x                 = 130;
+				$handle->image_y                 = 130;
+				$handle->image_ratio_crop      = true;
+				$dir_dest = '../img/user/upload/';
+				$dir_pics = 'img/user/upload/';
+				$handle->Process($dir_dest);
+		
+				if ($handle->processed) {
+					$arr = array(true, ''.$dir_pics.'' . $handle->file_dst_name . '');
+					//
+					if(!preg_match("/(user\/M|user\/F)\.jpg/", $this->avatar)) {
+						unlink("../".$this->avatar);
+					}
+					$this->mysql->query("UPDATE `users` SET `avatar` = '".$dir_pics.'' . $handle->file_dst_name . "' WHERE `ID` = '".$this->ID."'");
+				} else {
+					$arr = array(false, 'Une erreur a eu lieu...');
+					
+				}
+			}
+			return $arr;
+		} 
 	}  ?>

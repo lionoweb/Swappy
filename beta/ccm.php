@@ -7,7 +7,7 @@
    	$user->logout();
    }	?>
 <!doctype html>
-<html>
+<html lang="fr">
    <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,7 +16,6 @@
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
-      <link rel="stylesheet" href="css/template.css" type="text/css"/>
       <link href="css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="css/main.css">
       <script src="js/jquery.js"></script>
@@ -25,6 +24,10 @@
       <script src="js/ValidationEngine/jquery.validationEngine.js"></script>
       <script src="js/bootstrap.min.js"></script>
       <script src="js/main.js"></script>
+      <!--[if lt IE 9]>
+      <script src="//cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
    </head>
    <body role="document">
       <div id="wrap">
@@ -38,7 +41,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="127" height="47" src="img/logonav.png" class="max"><img width="50" height="47" src="img/logo_min.png" class="min"></a>
+                  <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img width="127" height="47" alt="" src="img/logonav.png" class="max"><img alt="" width="50" height="47" src="img/logo_min.png" class="min"></a>
                   <span class="brand-title">Comment ça marche ?</span>
                </div>
                <form class="navbar-form navbar-left search_navbar" action="services.php" method="get" role="search">
@@ -106,7 +109,7 @@
          </div>
       </div>
       <footer id="footer">
-         <img src="img/footer.png" width="30" height="18">
+         <img src="img/footer.png" alt="" width="30" height="18">
          <div class="container-fluid">
             <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php">Contact</a>
             <hr>

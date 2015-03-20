@@ -2,8 +2,17 @@
 	<div class="row">
 		<div class="top edit">
         	<form method="post" action="inc/add_user.php" id="edit_user">
-                <div class="col-md-2 col-md-offset-3 col-sm-3 col-sm-offset-2">
+                <div class="col-md-2 col-md-offset-3 col-sm-3 col-sm-offset-2 uploader-controls">
                     <img id="avatar_u" alt="mon avatar" src="<?php echo $user_->avatar; ?>">
+                    <div class="uploader-side">
+            <button type="button" id="upload_ba" class="btn uploader-button">Changer avatar</button>
+            <div class="uploader-file-input">
+              <input type="file" id="upload_b" accept="image/*">
+            </div>
+            <div style="display: none;" class="progress uploader-progress ">
+              <div style="width: 0%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" role="progressbar" class="progress-bar active progress-bar-striped">0%</div>
+            </div>
+          </div>
                     <a class="see_profile" alt="Voir ma page profil" href="profil.php?id=<?php echo $user_->ID; ?>">Voir ma page profil</a>
                 </div>
                 <div class="infos col-sm-4">
@@ -73,6 +82,10 @@
   					<div id="tags" class="col-sm-8 form-group">
                     	<label for="tags" class="control-label">Tags : </label>
      					<input id="tags" name="tags" autocomplete="off" value="<?php echo $user_->tags; ?>" type="text" class="form-control tags-input">
+  					</div>
+                    <div class="col-sm-8 form-group checkbox">
+                    	
+     					<input <?php if($user_->mailoption == 1) { ?> checked <?php } ?> id="mail" name="mail" autocomplete="off" type="checkbox"><label for="mail" class="control-label">Recevoir un mail à chaque nouveau message</label>
   					</div>
                     <div class="col-sm-12 border-hr">&nbsp;</div>
                     <div class="col-sm-6 form-group">
