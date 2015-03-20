@@ -17,6 +17,8 @@
 		public $lon = "";
 		public $zip = "";
 		public $dispo_ = "";
+		public $globalnote = 0;
+		public $globalvote = 0;
 		function __construct($mysql, $ids="") {
 			$this->mysql = $mysql;
 			if(!empty($ids)) {
@@ -59,7 +61,17 @@
 				$this->lat = $data->Lat;
 				$this->lon = $data->Lon;
 				$this->dispo_ = $data->Disponibility;
+				$vote = $this->getglnote($data->ID);
+				$this->globalnote = $vote[0];
+				$this->globalvote = $vote[1];
 			}
+		}
+		function getglnote($id) {
+			$select = $this->mysql->query("SELECT SUM(`Note`) AS `total`, COUNT(*) AS `nb` FROM `notations` WHERE `Service` = '".$id."'");
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			$total = @round($data->total/$data->nb);
+			
+			return array($total, $data->nb);
 		}
 		function delete_serv($id, $user) {
 			$array = array(false);

@@ -72,22 +72,21 @@
 		</nav>
 		<div id="spec_annonce" class="container main" role="main">
 			<div class="profil row">
-				<div class="col-md-1 col-md-offset-2 col-sm-1 col-sm-offset-1 col-xs-1 col-xs-offset-0">
+				<div class="col-md-1 col-md-offset-2 col-sm-1 col-sm-offset-1 col-xs-12 avatan">
 					<img src="<?php echo $user_->avatar; ?>" alt="Avatar de <?php echo $user_->firstname." ".$user_->lastname; ?>" width="130" height="130">
 				</div>
 				<div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-1 dispo">
 					<div class="name">
 						<a title="Voir le profil de <?php echo $user_->firstname." ".$user_->lastname; ?>" class="link-profil" href="profil.php?id=<?php echo $user_->ID; ?>">
-							<?php echo $user_->firstname." ".$user_->lastname; ?> (
-							<?php echo $user_->login; ?>)</a>propose</div>
+							<?php echo $user_->firstname." ".$user_->lastname; ?> (<?php echo $user_->login; ?>)</a> propose</div>
 					<div class="info">
-						<img alt="" src="img/annonce/clock.png">
-						<?php echo $services->disponibility; ?></div>
+						<img alt="" src="img/annonce/clock.png"><?php echo $services->disponibility; ?></div>
 					<div class="info loc">
-						<img alt="" src="img/annonce/location.png" width="18" height="28">
-						<?php echo $services->city; ?>, jusqu'à
-						<?php echo $services->distance; ?> km de déplacement</div>
-				</div>
+						<img alt="" src="img/annonce/location.png" width="18" height="28"><?php echo $services->city; ?>, jusqu'à <?php echo $services->distance; ?> km de déplacement</div>
+				
+                	<div class="info rate">
+                    	Note moyenne : <div class="star-rating rating-xs rating-active" title="<?php echo $services->globalnote; ?> étoile(s)"><div data-content="" class="rating-container rating-gly-star"><div style="width: <?php echo ($services->globalnote*20); ?>%;" data-content="" class="rating-stars"></div><input id="input-1" class="rating form-control hide" data-min="0" data-max="5" data-step="1"></div> <span>[<?php echo $services->globalvote; ?> vote(s)]</span></div>
+                    </div></div>
 				<div class="interesse">
 					<?php if(!isset($_GET[ 'vote'])) { if($user->ID != $user_->ID) { ?>
 					<button class="popup_message">Je suis interessé(e)</button>

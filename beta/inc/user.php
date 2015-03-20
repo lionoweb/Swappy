@@ -165,6 +165,8 @@
 			$age,
 			$description,
 			$tags,
+			$globalnote,
+			$globalvote,
 		$lon;
 		private $mysql, 
 			$cookies,
@@ -241,6 +243,12 @@
 		}
 		function getAge($date) {
   			return (int) ((time() - strtotime($date)) / 3600 / 24 / 365);
+		}
+		function getglnote($id) {
+			$select = $this->mysql->query("SELECT SUM(`Note`) AS `total`, COUNT(*) AS `nb` FROM `notations` WHERE `Owner_Service` = '".$id."'");
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			$total = @round($data->total/$data->nb);
+			return array($total, $data->nb);
 		}
 		function list_com($for="",$limit=true) {
 			if($limit != true) {
@@ -544,6 +552,9 @@
 				$this->lat = $data->Lat;
 				$this->tags = $data->Tags;
 				$this->description = $data->Desc;
+				$vote = $this->getglnote($ID);
+				$this->globalnote = $vote[0];
+				$this->globalvote = $vote[1];
 				if($me == true) {
 					$this->logged = true;
 				} else {
@@ -574,6 +585,8 @@
 			$this->logged = false;
 			$this->description = false;
 			$this->tags = false;
+			$this->globalnote = false;
+			$this->globalvote = false;
 		}
 		function edit_user($POST) {
 			$avatar = $this->avatar;

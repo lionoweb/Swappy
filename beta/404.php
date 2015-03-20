@@ -27,6 +27,6 @@ session_start();
             <p>Il semblerait que le lien que vous avez saisi est incorrect.</p>
             <p>Voici le lien vers la <a href="index.php">page d'accueil</a></p>
         </div>
-    </div>
+	</div>
 </body>
 </html>

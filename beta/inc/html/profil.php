@@ -3,7 +3,7 @@
 		<div class="top edit">
         	<form method="post" action="inc/add_user.php" id="edit_user">
                 <div class="col-md-2 col-md-offset-3 col-sm-3 col-sm-offset-2 uploader-controls">
-                    <img id="avatar_u" alt="Mon avatar" src="<?php echo $user_->avatar; ?>">
+                    <img width="130" height="130" id="avatar_u" alt="Mon avatar" src="<?php echo $user_->avatar; ?>">
                     <div class="uploader-side">
             <button type="button" id="upload_ba" class="btn uploader-button">Changer avatar</button>
             <div class="uploader-file-input">
@@ -134,5 +134,6 @@
 <img src="img/profil/down.png" alt="" class="down">
 </div>
 <div class="row notes">
+<div class="col-lg-6 info text-center rate col-lg-offset-3 col-md-8 col-md-offset-2 col-xs-10 col-xs-offset-1 note">Note moyenne : <div class="star-rating rating-xs rating-active" title="<?php echo $user_->globalnote; ?> étoile(s)"><div data-content="" class="rating-container rating-gly-star"><div style="width: <?php echo ($user_->globalnote*20); ?>%;" data-content="" class="rating-stars"></div><input id="input-1" class="rating form-control hide" data-min="0" data-max="5" data-step="1"></div> <span>[<?php echo $user_->globalvote; ?> vote(s)]</span></div></div>
 <?php echo $user_->list_com(); ?>
 </div>

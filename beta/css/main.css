@@ -1464,6 +1464,10 @@ input#mail {
 	padding-right:0px;
 	padding-top: 30px;
 }
+.nopadd {
+	padding-left:0px !important;
+	padding-right:0px !important;
+}
 td {
 	white-space:normal !important;	
 }
@@ -1644,10 +1648,11 @@ td {
 
 .message_box {
 	margin-top:40px;
-	height:490px;
-	min-height:490px;
+	height:auto;
+	min-height:475px;
 	border:1px solid #CCC;	
 	padding-top:0px !important;
+	padding-bottom:5px;
 }
 #list_m input, #list_m button {
 	margin-top:0px !important;	
@@ -1811,8 +1816,7 @@ td {
 }
 @media (max-width:381px){
 	.message_box {
-		height:530px;
-		min-height:530px;		
+		height:auto;		
 	}
 }
 @media (max-width:701px){
@@ -1934,6 +1938,23 @@ td {
 }
 }	
 @media (max-width:767px){
+	.avatan {
+		text-align:center;	
+	}
+	#spec_annonce .dispo {
+    margin-left: 0px !important;
+	margin-top:6px;
+}
+.interesse a, .interesse button {
+	margin-top:25px;
+}
+	.cgu_wrap .pic {
+		display:none;	
+	}
+	.header_cgu { 
+	margin-top:0px !important;
+		margin-left:0px !important;
+	}
 	.navbar-header .mess_count {
 	display:none;
 	}
@@ -1995,6 +2016,13 @@ td {
 	}
 	.brand-title {
 		display:inline-block; 
+		padding-left:63px;
+		padding-right:63px;
+		 overflow: hidden;
+  -o-text-overflow: ellipsis; /* pour Opera 9 */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width:100%;
 	}
 	.shrink{
 		display: inline-block;
@@ -2018,6 +2046,9 @@ td {
 		margin-left:6px !important;
 		margin-right:6px !important;
 
+	}
+	#spec_annonce .interesse {
+		text-align:center;
 	}
 	.greyback.row .description {
 		padding-left:8px !important;
@@ -2103,7 +2134,9 @@ td {
 	position: relative;
 	top: 6px;
 	left: 24px;
-	font-size: 1.4em;
+	font-size: 1.6em;
+	height:85px;
+	line-height:85px;
 	}
 	.greyback label {
 	padding-right:10px;
@@ -2154,6 +2187,9 @@ td {
 #tags .tag {
 	font-family:sans-serif !important;
 }
+.infos #tags {
+	margin-bottom:6px;
+}
 .bootstrap-tagsinput {
   background-color: #fff;
   border: 1px solid #ccc;
@@ -2201,7 +2237,22 @@ td {
 .bootstrap-tagsinput .tag [data-role="remove"]:hover:active {
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
-
+.info .rating-container .rating-stars {
+	color:#FFF !important;
+}
+.info .star-rating {
+	display:inline-block;
+	font-size:1.3em !important;
+}
+.info .star-rating span {
+	font-size:0.64em !important;
+}
+.info.rate {
+	font-size:1.25em;	
+}
+.info.rate.note {
+	background:#323232 !important;	
+}
 
 .uploader-controls .uploader-preview {
   display: inline-block;
