@@ -573,8 +573,9 @@ if (typeof jQuery === 'undefined') {
   }
 
   Collapse.prototype.show = function () {
+	  $("body").addClass("nav-open");
     if (this.transitioning || this.$element.hasClass('in')) return
-
+	
     var activesData
     var actives = this.$parent && this.$parent.find('> .panel').children('.in, .collapsing')
 
@@ -606,12 +607,16 @@ if (typeof jQuery === 'undefined') {
     this.transitioning = 1
 
     var complete = function () {
+		var headerheight = $(".navbar-header").height() + $(".search_navbar").height() + 20 + 16;
       this.$element
         .removeClass('collapsing')
         .addClass('collapse in')[dimension]('')
+		.css("max-height", ($(window).height() - headerheight)+"px")
       this.transitioning = 0
       this.$element
         .trigger('shown.bs.collapse')
+		
+		 navbar_padding();
     }
 
     if (!$.support.transition) return complete.call(this)
@@ -624,6 +629,7 @@ if (typeof jQuery === 'undefined') {
   }
 
   Collapse.prototype.hide = function () {
+	  $("body").removeClass("nav-open");
     if (this.transitioning || !this.$element.hasClass('in')) return
 
     var startEvent = $.Event('hide.bs.collapse')
@@ -646,11 +652,15 @@ if (typeof jQuery === 'undefined') {
     this.transitioning = 1
 
     var complete = function () {
+		
       this.transitioning = 0
       this.$element
         .removeClass('collapsing')
         .addClass('collapse')
         .trigger('hidden.bs.collapse')
+		.css("max-height", "")
+		
+		 navbar_padding();
     }
 
     if (!$.support.transition) return complete.call(this)
@@ -1130,9 +1140,10 @@ if (typeof jQuery === 'undefined') {
   }
 
   Modal.prototype.adjustBackdrop = function () {
-    this.$backdrop
+    /*this.$backdrop
       .css('height', 0)
       .css('height', this.$element[0].scrollHeight)
+	  */
   }
 
   Modal.prototype.adjustDialog = function () {
@@ -1731,6 +1742,7 @@ if (typeof jQuery === 'undefined') {
 
   Popover.DEFAULTS = $.extend({}, $.fn.tooltip.Constructor.DEFAULTS, {
     placement: 'right',
+
     trigger: 'click',
     content: '',
     template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'

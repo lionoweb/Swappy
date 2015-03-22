@@ -11,7 +11,8 @@
    <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no
+">
       <title>Swappy.fr - CGU & Mentions légales</title>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
@@ -78,7 +79,7 @@
                   <ul class="box">
                      <li>
                         <div class="row">
-                           <img src="img/cgu/objet.png" alt="">
+                           <img src="img/cgu/objet.png" class="pic" alt="">
                            <div class="header_cgu"><p class="short">Acceptation des Conditions Générales d'Utilisation</p>
                               <span class="shortage">Acceptation des CGU</span>
                            </div>
@@ -181,6 +182,9 @@
          <img src="img/footer.png" alt="" width="30" height="18">
          <div class="container-fluid">
             <a href="cgu.php" class="active">CGU - Mentions légales</a> | <a href="contact.php">Contact</a>
+            <hr>
+            <a target="_blank" class="social" title="Voir notre page Facebook" href="https://www.facebook.com/SwappyLaPlateforme"><img height="30" width="30" alt="Facebook" src="img/social/facebook.png"></a>
+            <a target="_blank" class="social" title="Voir notre page Twitter" href="https://twitter.com/_Swappy"><img height="30" width="30" alt="Twitter" src="img/social/twitter.png"></a>
             <hr>
             <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
          </div>

@@ -298,7 +298,7 @@
 				$i++;
 			}
 			if($html == "") {
-				$html = "<center>Pas de notes & commentaires...</center>";
+				$html = "<div class='col-xs-12 black-text text-center'>Pas de notes & commentaires...</div>";
 			} else {
 			if($select->rowCount() == 7 && $limit == true) {
 				$html .= '<center><a class="open-all-com col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-xs-10 col-xs-offset-1">Voir tous les commentaires</a></center>';
@@ -715,6 +715,9 @@
 			foreach(array_keys($htm) as $key){
     			$html .= '<div class="listing-s" data-s="'.$key.'">'.$htm[$key].'</div>';
 			}
+			if($html == "") {
+				$html = '<div class="black-text text-center nobadge">Cet utilisateur ne propose pas de service...</div>';	
+			}
 			return $html;
 		}
 		function add_user($POST) {
@@ -1062,12 +1065,16 @@
 				$city = $ss->fetch(PDO::FETCH_OBJ);
 				$nom = $this->get_name($other);
 				$state = $this->state_m($data->State,$nom,$who);
-				$conv = $this->chat_->isset_conversation($other, $data->Service);
+				if($data->State < 5) {
+					$conv = '<a href="messagerie.php#select-'.$this->chat_->isset_conversation($other, $data->Service).'">'.$state.'</a>';
+				} else {
+					$conv = $state;
+				}
 				$this->state_m($data->Service, $this->ID, $other);
-				$html .= '<tr><td ><a href="annonce.php?id='.$data->Service.'">'.$serv.'</a><br><i>'.$whoask.'</i></td><td> avec <a href="profil.php?id='.$other.'">'.$nom.'</a><br><i><a href="messagerie.php#select-'.$conv.'">'.$state.'</a></i></td><td>'.date("d/m/Y \à H:i", strtotime($data->Date)).'</td></tr>';
+				$html .= '<tr><td ><a href="annonce.php?id='.$data->Service.'">'.$serv.'</a><br><i>'.$whoask.'</i></td><td> avec <a href="profil.php?id='.$other.'">'.$nom.'</a><br><i>'.$conv.'</i></td><td>'.date("d/m/Y \à H:i", strtotime($data->Date)).'</td></tr>';
 			}
 			if($html == "") {
-				$html = "<tr><td colspan='3'><center>Pas de rendez-vous...</center></td></tr>";	
+				$html = "<tr><td class='nordv' colspan='3'><center>Pas de rendez-vous...</center></td></tr>";	
 			}
 			return $html;
 		}

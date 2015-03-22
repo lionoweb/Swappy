@@ -11,7 +11,8 @@
    <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no
+">
       <title>Swappy.fr - Contact</title>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
@@ -79,7 +80,7 @@
                   </div>
                   <div class="getintouch col-md-2 col-md-offset-0 col-xs-5 col-xs-offset-1">
                      <img alt="Mail" src="img/contact/mail.png">
-                     <p>swappy@contact.fr</p>
+                     <p><a class="link_mail" data-hash="<?php echo encode_mail("swappy@contact.fr","UTF"); ?>"><?php echo encode_mail("swappy@contact.fr","ASC"); ?></a></p>
                   </div>
                </div>
             </div>
@@ -130,6 +131,9 @@
          <img src="img/footer.png" width="30" alt="" height="18">
          <div class="container-fluid">
             <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php" class="active">Contact</a>
+            <hr>
+            <a target="_blank" class="social" title="Voir notre page Facebook" href="https://www.facebook.com/SwappyLaPlateforme"><img height="30" width="30" alt="Facebook" src="img/social/facebook.png"></a>
+            <a target="_blank" class="social" title="Voir notre page Twitter" href="https://twitter.com/_Swappy"><img height="30" width="30" alt="Twitter" src="img/social/twitter.png"></a>
             <hr>
             <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
          </div>

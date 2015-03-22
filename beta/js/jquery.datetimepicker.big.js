@@ -27,9 +27,9 @@
 		startDate:	false, // new Date(), '1986/12/08', '-1970/01/05','-1970/01/05',
 		step: 30,
 		monthChangeSpinner: true,
-
+		closeOnFocusOut: true,
 		closeOnDateSelect: true,
-		closeOnTimeSelect: false,
+		closeOnTimeSelect: true,
 		closeOnWithoutClick: true,
 		closeOnInputClick: true,
 
@@ -986,6 +986,10 @@
 							classes.push('xdsoft_date');
 
 							if (options.beforeShowDay && $.isFunction(options.beforeShowDay.call)) {
+
+
+
+
 								customDateSettings = options.beforeShowDay.call(datetimepicker, start);
 							} else {
 								customDateSettings = null;
@@ -1203,6 +1207,7 @@
 					datetimepicker.data('input').val(_xdsoft_datetime.str());
 
                     if (options.inline !== true && options.closeOnTimeSelect === true) {
+						input.trigger("focusout");
                         datetimepicker.trigger('close.xdsoft');
                     }
 
@@ -1284,6 +1289,9 @@
 					left -= $(window).scrollLeft();
 					position = "fixed";
 				} else {
+					if($(window).width() < 766) {
+						top = offset.top - datetimepicker[0].offsetHeight + 1;
+					}
 					if (top + datetimepicker[0].offsetHeight > $(window).height() + $(window).scrollTop()) {
 						top = offset.top - datetimepicker[0].offsetHeight + 1;
 					}
@@ -1323,6 +1331,7 @@
 				})
 				.on('close.xdsoft', function (event) {
 					var onClose = true;
+					input.blur();
 					mounth_picker
 						.find('.xdsoft_month,.xdsoft_year')
 							.find('.xdsoft_select')
@@ -1383,6 +1392,11 @@
 
 			input
 				.data('xdsoft_datetimepicker', datetimepicker)
+				.on("focusout.xdsoft", function(e) {
+					if (options.inline !== true && options.closeOnFocusOut === true) {
+                        datetimepicker.trigger('close.xdsoft');
+                    }	
+				})
 				.on('open.xdsoft focusin.xdsoft mousedown.xdsoft', function (event) {
 					if (input.is(':disabled') || (input.data('xdsoft_datetimepicker').is(':visible') && options.closeOnInputClick)) {
 						return;
@@ -1424,6 +1438,7 @@
 					.off('.xdsoft');
 				$(window).off('resize.xdsoft');
 				$([window, document.body]).off('mousedown.xdsoft');
+
 				if (input.unmousewheel) {
 					input.unmousewheel();
 				}

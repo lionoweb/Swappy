@@ -692,7 +692,7 @@
 				$time = $timt[0].":".$timt[1];
 			}
 			$html = '';
-			$html .= '<h4 class="modal-title" id="exampleModalLabel">Fixer un rendez-vous ?</h4></div><div class="modal-body"><form method="post" id="m_date_modal" action="inc/send_mess.php"><div class="col-sm-12 tit">Vous souhaitez fixer un rendez-vous avec '.$with.' pour : '.$for.'</div><div class="col-sm-6"><input name="date" type="hidden" value="'.$date.'" id="date"><label for="datepicker" class="label-control">Selectionnez le jour :</label><div id="datepicker"></div></div><div class="col-sm-6"><label class="label-control" for="hour">A quel heure : </label> <input type="hidden" name="ID_C" value="'.$id.'"> <input id="hour" name="hour" class="form-control validate[required] time" value="'.$time.'" type="text"><input type="submit" class="btn" value="Envoyer"></div><div class="clear"></div></form>';
+			$html .= '<h4 class="modal-title" id="exampleModalLabel">Fixer un rendez-vous ?</h4></div><div class="modal-body"><form method="post" id="m_date_modal" action="inc/send_mess.php"><div class="col-sm-12 tit">Vous souhaitez fixer un rendez-vous avec '.$with.' pour : '.$for.'</div><div class="col-sm-6"><input name="date" type="hidden" value="'.$date.'" id="date"><label for="datepicker" class="label-control">Selectionnez le jour :</label><div id="datepicker"></div></div><div class="col-sm-6"><label class="label-control" for="hour">A quel heure : </label> <input type="hidden" name="ID_C" value="'.$id.'"> <input id="hour" name="hour" class="form-control validate[required] time" value="'.$time.'" type="text"><input type="submit" class="btn btn-primary" value="Envoyer"></div><div class="clear"></div></form>';
 return $html;
 		}
 		function prepare_popup($user, $service=false) {
@@ -739,6 +739,81 @@ return $html;
   </div>
 </div>';
 			echo $html; 
+		}
+		function isset_report($user, $for, $type) {
+			$select = $this->mysql->prepare("SELECT COUNT(*) AS `nb` FROM `report` WHERE `By` = :by AND `For` = :for AND `Type` = :type");
+			$select->execute(array(":by" => $user, ":for" => $for, ":type" => strtoupper($type)));
+			$data = $select->fetch(PDO::FETCH_OBJ);
+			if($data->nb > 0) {
+				return true;	
+			} else {
+				return false;	
+			}
+		}
+		function prepare_popup_report($user, $service=false) {
+			$for = "";
+			$title = "";
+			if($service != false) {
+				$ff = $service->ID;
+				$type="s";
+				$err = "membre";
+				$stxt = "";
+				$for = "le service : <i>\"".$service->title."\"</i> de <i>".$user->firstname.' '.$user->lastname."</i>";
+				$title = "un service";
+				$for_ = '<input type="hidden" name="for_report" value="'.$ff.'" >'.$for.'';
+			} else {
+				$ff = $user->ID;
+				$err = "service";
+				$stxt = "";
+				$title = "un membre";
+				$for = 'le membre : <i>'.$user->firstname.' '.$user->lastname.'</i>';	
+				$for_ = '<input type="hidden" name="for_report" value="'.$ff.'" >'.$for.'';
+				$type = "m";
+			}
+			$texta = '<textarea id="message_report" rows="4" name="message" class="form-control validate[required]">'.$stxt.'</textarea>
+			<input type="submit" class="form-control" value="Envoyer">';
+			if($this->isset_report($this->user->ID, $ff, $type)) {
+				$texta = '<center><i>Vous avez déjà signalé ce '.$err.'.</i></center>';	
+			}
+			$html = '';
+			$html = '<div id="modal_report" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+	<form id="send_report" action="inc/send_mess.php" method="post">
+	<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">Signaler '.$title.'<input type="hidden" value="'.$type.'" name="type"><span class="chat_title">'.$for_.'</span></h4>
+      </div>
+      <div class="modal-body">
+      	<div class="inner_form">
+			<label class="label-control" for="message_report">Pour quel(s) motif(s) ?</label>
+			'.$texta.'
+		</div>
+		<div class="clear"></div>
+		<div class="result_form">
+		
+		</div>
+	  </div>
+	  </form>
+    </div>
+  </div>
+</div>';
+			echo $html; 
+		}
+		function send_report($by, $for, $type, $message) {
+			$arr = array(false);
+			if(!$this->isset_report($by, $for, $type)) {
+				$select = $this->mysql->prepare("INSERT INTO `report` (`ID`, `Type`, `By`, `For`, `Message`, `Created`) VALUES (NULL, :type, :by, :for, :message, :date);");
+				$select->execute(array(":type" => strtoupper($type), ":by" => $by, ":for" => $for, ":message" => $message, ":date" => date("Y-m-d H:i:s")));
+				$arr = array(true);
+			} else {
+				if($type == "s") {
+					$arr = array(false, "Vous avez déjà signalé ce service !");
+				} else {
+					$arr = array(false, "Vous avez déjà signalé ce membre !");
+				}
+			}
+			return $arr;
 		}
 	}
 ?>

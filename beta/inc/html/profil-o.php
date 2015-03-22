@@ -26,6 +26,9 @@
 <div class="text-left col-lg-2">
 	<p class="btn talk-button">Envoyer un message</p>
 </div>
+<div class="text-left report_div col-lg-2">
+	<p class="btn report-button">Signaler ce profil</p>
+</div>
 <?php } else if(isset($_GET['id']) && $_GET['id'] == $user->ID) { ?>
 <div class="text-left col-lg-2">
 	<a href="profil.php" class="btn">Modifier mon profil</a>

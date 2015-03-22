@@ -15,7 +15,7 @@
    <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
       <title>Swappy.fr - Services</title>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
@@ -100,14 +100,14 @@
                ?>
             <div id="spec_services">
                <form class="col-md-6 col-md-offset-3 form-horizontal nonullpad" id="spec_search" action="services.php" method="get">
-                  <div class="form-group">
+                  <div  class="form-group">
                      <label for="searchbar_" class="control-label col-xs-12 col-sm-2 left-text grey_text">Rechercher</label>
                      <div class="col-xs-12 col-sm-10 input-group">
                         <input id="searchbar_" name="searchbar" value="<?php echo $title; ?>" class="form-control" type="text">
                      </div>
                   </div>
                   <div class="blueback">
-                     <div class="form-group">
+                     <div  class="form-group">
                         <label for="type" class="control-label col-xs-12 col-sm-2">Catégorie</label>
                         <div class="col-xs-12 col-sm-10">
                            <?php
@@ -164,7 +164,7 @@
             <?php
                } else { //SERVICES RECENTS?>
             <?php $result = $search->recent_services($user); ?>
-            <div class="col-md-10 col-md-offset-1 col-sm-12  table-responsive noborder">
+            <div class="col-md-10 col-md-offset-1 col-sm-12  table-responsive noborder"  >
                <table class="fulltable table">
                   <thead>
                      <tr>
@@ -179,7 +179,7 @@
             <?php } ?>
 
             <div class="col-md-6 col-md-offset-3">
-               <img src="img/pub.jpg" height="180" alt="" width="750" class="img-responsive">
+               <img src="img/pub.jpg" height="120" alt="" width="750" class="img-responsive">
             </div>
 
          </div>
@@ -188,6 +188,9 @@
          <img src="img/footer.png" width="30" height="18" alt="">
          <div class="container-fluid">
             <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php">Contact</a>
+            <hr>
+            <a target="_blank" class="social" title="Voir notre page Facebook" href="https://www.facebook.com/SwappyLaPlateforme"><img height="30" width="30" alt="Facebook" src="img/social/facebook.png"></a>
+            <a target="_blank" class="social" title="Voir notre page Twitter" href="https://twitter.com/_Swappy"><img height="30" width="30" alt="Twitter" src="img/social/twitter.png"></a>
             <hr>
             <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
          </div>

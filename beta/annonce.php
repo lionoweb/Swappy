@@ -5,7 +5,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no
+">
 	<title>Swappy.fr - Annonce :
 		<?php echo $services->title; ?></title>
 	<link rel="icon" href="img/favicon.png">
@@ -85,7 +86,7 @@
 						<img alt="" src="img/annonce/location.png" width="18" height="28"><?php echo $services->city; ?>, jusqu'à <?php echo $services->distance; ?> km de déplacement</div>
 				
                 	<div class="info rate">
-                    	Note moyenne : <div class="star-rating rating-xs rating-active" title="<?php echo $services->globalnote; ?> étoile(s)"><div data-content="" class="rating-container rating-gly-star"><div style="width: <?php echo ($services->globalnote*20); ?>%;" data-content="" class="rating-stars"></div><input id="input-1" class="rating form-control hide" data-min="0" data-max="5" data-step="1"></div> <span>[<?php echo $services->globalvote; ?> vote(s)]</span></div>
+                    	Note moyenne : <div class="star-rating rating-xs rating-active" title="<?php echo $services->globalnote; ?> étoile(s)"><div data-content="" class="rating-container rating-gly-star"><div style="width: <?php echo ($services->globalnote*20); ?>%;" data-content="" class="rating-stars"></div><input id="input-1" class="rating_ form-control hide" data-min="0" data-max="5" data-step="1"></div> <span>[<?php echo $services->globalvote; ?> vote(s)]</span></div>
                     </div></div>
 				<div class="interesse">
 					<?php if(!isset($_GET[ 'vote'])) { if($user->ID != $user_->ID) { ?>
@@ -93,6 +94,9 @@
 					<?php } else { ?> <a href="propose.php?edit=<?php echo $services->ID; ?>" class="btn">Modifier ce service</a>
 					<?php } } else { echo "<br>"; } ?>
 				</div>
+                <div class="interesse">
+                	<button class="popup_report">Signaler ce service</button>
+                </div>
 			</div>
 			<div class="servicepropose">
 				<div class="row">
@@ -120,9 +124,12 @@
 	<footer id="footer">
 		<img src="img/footer.png" width="30" alt="" height="18">
 		<div class="container-fluid"> <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php">Contact</a>
-			<hr>
-			<p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
+            <hr>
+            <a target="_blank" class="social" title="Voir notre page Facebook" href="https://www.facebook.com/SwappyLaPlateforme"><img height="30" width="30" alt="Facebook" src="img/social/facebook.png"></a>
+            <a target="_blank" class="social" title="Voir notre page Twitter" href="https://twitter.com/_Swappy"><img height="30" width="30" alt="Twitter" src="img/social/twitter.png"></a>
+            <hr>
+            <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
 		</div>
 	</footer>
-	<?php if(!isset($_GET[ 'vote'])) { $chat->prepare_popup($user_, $services); } ?></body>
+	<?php if(!isset($_GET['vote']) && $user->logged) { $chat->prepare_popup($user_, $services); $chat->prepare_popup_report($user_, $services); } ?></body>
 </html>

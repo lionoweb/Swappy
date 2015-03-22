@@ -16,6 +16,9 @@
 		$user_ = new user($mysql, $user->uncrypt_sess($_POST['to']));
 		$arr = $chat->send($user_, $_POST, $service);
 	}
+	if(isset($_POST['for_report']) && isset($_POST['type'])) {
+		$arr = $chat->send_report($user->ID, trim($_POST['for_report']), trim($_POST['type']), trim($_POST['message']));
+	}
 	if(isset($_GET['list_message'])) {
 		$arr = $chat->list_message(@$_GET['search']);
 	}
