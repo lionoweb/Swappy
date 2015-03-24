@@ -990,6 +990,8 @@
 
 
 
+
+
 								customDateSettings = options.beforeShowDay.call(datetimepicker, start);
 							} else {
 								customDateSettings = null;
@@ -1207,7 +1209,6 @@
 					datetimepicker.data('input').val(_xdsoft_datetime.str());
 
                     if (options.inline !== true && options.closeOnTimeSelect === true) {
-						input.trigger("focusout");
                         datetimepicker.trigger('close.xdsoft');
                     }
 
@@ -1392,11 +1393,6 @@
 
 			input
 				.data('xdsoft_datetimepicker', datetimepicker)
-				.on("focusout.xdsoft", function(e) {
-					if (options.inline !== true && options.closeOnFocusOut === true) {
-                        datetimepicker.trigger('close.xdsoft');
-                    }	
-				})
 				.on('open.xdsoft focusin.xdsoft mousedown.xdsoft', function (event) {
 					if (input.is(':disabled') || (input.data('xdsoft_datetimepicker').is(':visible') && options.closeOnInputClick)) {
 						return;
@@ -1413,9 +1409,13 @@
 						datetimepicker.trigger('open.xdsoft');
 					}, 100);
 				})
-				.on('keydown.xdsoft', function (event) {
+				.on('keydown.xdsoft focusout.xdsoft', function (event) {
 					var val = this.value, elementSelector,
 						key = event.which;
+					if(key == 0) {
+						datetimepicker.trigger('close.xdsoft');
+						return true;
+					}
 					if ([ENTER].indexOf(key) !== -1 && options.enterLikeTab) {
 						elementSelector = $("input:visible,textarea:visible");
 						datetimepicker.trigger('close.xdsoft');

@@ -420,7 +420,7 @@
 			return $arr;
 		}
 		function ask_for_com($id, $cc, $user, $hash) {
-			$mess = 'Nous espèrons que ce service fût satisfaisant.<br>Vous pouvez dès à présent noté l\'utilisateur ainsi que son service en <a href="annonce.php?vote='.$hash.'" class="note-this-date">cliquant ici</a>';
+			$mess = 'Nous espèrons que ce service fût satisfaisant.<br>Vous pouvez dès à présent noter l\'utilisateur ainsi que son service en <a href="annonce.php?vote='.$hash.'" class="note-this-date">cliquant ici</a>';
 			$this->send_reply($mess, $cc, $user);
 		}
 		function make_vote_h($id, $date) {

@@ -8,6 +8,7 @@
    if(isset($_GET['logout'])) {
     $user->logout();
    }
+   $user->onlyUsers();
  ?>
 <!doctype html>
 <html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">

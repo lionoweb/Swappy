@@ -1084,9 +1084,10 @@
 			var hourstart = ss_[0];
 			var minstart = ss_[1];
 			if(hourstart <= hourend) {
-				if((hourstart == hourend) && (minend <= minstart)) {
+				if(((hourstart == hourend) && (minend <= minstart))) {
 					return options.allrules.timeCheck.alertText;
 				} else {
+					if(hourstart >= 0 && hourstart <=23 && minstart >=0 && minstart <= 59 && hourend >= 0 && hourend <=23 && minend >=0 && minend <= 59) {
 					var n; var hours; var houre; var mins; var mine;
 					var num = equalsField.replace("dispostart", "");
 					var result = true;
@@ -1185,7 +1186,10 @@
 					if(result == false) {
 						return "* Cette plage horaire entre en conflit avec d'autres plages";
 					}
+				} else {
+					return "* Les heures doivent être comprises entre 00:00 et 23:59";
 				}
+				} 
 			} else {
 				return options.allrules.timeCheck.alertText;
 			}
