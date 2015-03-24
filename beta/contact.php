@@ -7,13 +7,14 @@
    	$user->logout();
    }	?>
 <!doctype html>
-<html lang="fr">
+<html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
    <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no
+      <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
       <title>Swappy.fr - Contact</title>
+      <?php echo meta_tag("", "", "", "Contact", "contact, message, mail, email, telephone, numero, envoyer, contacter"); ?>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
@@ -57,7 +58,7 @@
                <div class="collapse navbar-collapse" id="navbar">
                   <ul class="nav navbar-nav">
                      <li><a  href="services.php">Services <span class="sr-only">(current)</span></a></li>
-                     <li><a href="propose.php">Je propose</a></li>
+                     <li><a rel="nofollow" href="propose.php">Je propose</a></li>
                      <li><a href="ccm.php">Comment ça marche ?</a></li>
                      <li><a href="apropos.php">A propos</a></li>
                   </ul>
@@ -76,7 +77,7 @@
                <div class="row small">
                   <div class="getintouch col-md-2 col-md-offset-4 col-xs-4 col-xs-offset-1">
                      <img alt="Téléphone" src="img/contact/phone.png">
-                     <p>06.27.75.49.05</p>
+                     <p itemprop="telephone">06.27.75.49.05</p>
                   </div>
                   <div class="getintouch col-md-2 col-md-offset-0 col-xs-5 col-xs-offset-1">
                      <img alt="Mail" src="img/contact/mail.png">

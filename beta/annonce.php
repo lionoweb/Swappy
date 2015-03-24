@@ -1,14 +1,33 @@
-<?php session_start(); require_once( "inc/mysql.php"); require_once( "inc/user.php"); require_once( "inc/services.php"); require_once( "inc/chat.php"); $user=new user($mysql); if(isset($_GET[ 'logout'])) { $user->logout(); } if(isset($_GET['vote'])) { $user->onlyUsers(); $hash = @$_GET['vote']; $hash = trim($hash); $services = new services($mysql); $vote = $services->page_vote(@$_GET['vote'], $user->ID); $user_ = new user($mysql, $services->by); } else { $ID_service = @$_GET['id']; $services = new services($mysql, $ID_service); $user_ = new user($mysql, $services->by); $chat = new chat($mysql, $user); }?>
+<?php 
+session_start(); 
+require_once( "inc/mysql.php"); 
+require_once( "inc/user.php"); 
+require_once( "inc/services.php"); 
+require_once( "inc/chat.php"); 
+$user=new user($mysql); 
+if(isset($_GET[ 'logout'])) { $user->logout(); } 
+if(isset($_GET['vote'])) { 
+	$user->onlyUsers(); 
+	$hash = @$_GET['vote']; 
+	$hash = trim($hash); 
+	$services = new services($mysql); 
+	$vote = $services->page_vote(@$_GET['vote'], $user->ID); 
+	$user_ = new user($mysql, $services->by); 
+} else { 
+	$ID_service = @$_GET['id']; 
+	$services = new services($mysql, $ID_service); 
+	$user_ = new user($mysql, $services->by); 
+	$chat = new chat($mysql, $user); 
+} ?>
 <!doctype html>
-<html lang="fr">
-
+<html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
-	<title>Swappy.fr - Annonce :
-		<?php echo $services->title; ?></title>
+	<title>Swappy.fr - Annonce : <?php echo $services->title; ?></title>
+    <?php echo meta_tag($services->cattype.".jpg", ucfirst($services->description), "", "Annonce : ".$services->title, trim($services->description) == "L'utilisateur n'a pas fourni de description..." ? "" : ucfirst($services->description).", ".$services->city.", ".$services->zip.", annonce, ".$services->typename); ?>
 	<link rel="icon" href="img/favicon.png">
 	<link rel="stylesheet" href="css/jquery-ui.css">
 	<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css" />
@@ -22,7 +41,7 @@
 	<script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js"></script>
 	<script src="js/ValidationEngine/jquery.validationEngine.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	<?php if(isset($_GET[ 'vote'])) { ?>
+	<?php if(isset($_GET['vote'])) { ?>
 	<script src="js/rate.js"></script>
 	<?php } ?>
 	<script src="js/main.js"></script>
@@ -31,7 +50,6 @@
       <script src="//cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-
 <body role="document">
 	<div id="wrap" class="color-grey">
 		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -55,13 +73,17 @@
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="navbar">
 					<ul class="nav navbar-nav">
-						<li><a href="services.php">Services</span></a> 
+						<li>
+                        	<a href="services.php">Services</a> 
 						</li>
-						<li><a href="propose.php">Je propose</a> 
+						<li>
+                        	<a rel="nofollow" href="propose.php">Je propose</a> 
 						</li>
-						<li><a href="ccm.php">Comment ça marche ?</a> 
+						<li>
+                        	<a href="ccm.php">Comment ça marche ?</a> 
 						</li>
-						<li><a href="apropos.php">A propos</a> 
+						<li>
+                        	<a href="apropos.php">A propos</a> 
 						</li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
@@ -74,24 +96,35 @@
 		<div id="spec_annonce" class="container main" role="main">
 			<div class="profil row">
 				<div class="col-md-1 col-md-offset-2 col-sm-1 col-sm-offset-1 col-xs-12 avatan">
-					<img src="<?php echo $user_->avatar; ?>" alt="Avatar de <?php echo $user_->firstname." ".$user_->lastname; ?>" width="130" height="130">
+                	<a title="Voir le profil de <?php echo $user_->firstname." ".$user_->lastname; ?>" class="link-profil" href="profil-<?php echo $user_->ID; ?>.php">
+						<img src="<?php echo $user_->avatar; ?>" alt="Avatar de <?php echo $user_->firstname." ".$user_->lastname; ?>" width="130" height="130">
+                 	</a>
 				</div>
 				<div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-1 dispo">
 					<div class="name">
-						<a title="Voir le profil de <?php echo $user_->firstname." ".$user_->lastname; ?>" class="link-profil" href="profil.php?id=<?php echo $user_->ID; ?>">
-							<?php echo $user_->firstname." ".$user_->lastname; ?> (<?php echo $user_->login; ?>)</a> propose</div>
+						<a title="Voir le profil de <?php echo $user_->firstname." ".$user_->lastname; ?>" class="link-profil" href="profil-<?php echo $user_->ID; ?>.php"><?php echo $user_->firstname." ".$user_->lastname; ?></a> propose
+                    </div>
 					<div class="info">
-						<img alt="" src="img/annonce/clock.png"><?php echo $services->disponibility; ?></div>
+						<img alt="" src="img/annonce/clock.png"><?php echo $services->disponibility; ?>
+                   	</div>
 					<div class="info loc">
 						<img alt="" src="img/annonce/location.png" width="18" height="28"><?php echo $services->city; ?>, jusqu'à <?php echo $services->distance; ?> km de déplacement</div>
 				
                 	<div class="info rate">
-                    	Note moyenne : <div class="star-rating rating-xs rating-active" title="<?php echo $services->globalnote; ?> étoile(s)"><div data-content="" class="rating-container rating-gly-star"><div style="width: <?php echo ($services->globalnote*20); ?>%;" data-content="" class="rating-stars"></div><input id="input-1" class="rating_ form-control hide" data-min="0" data-max="5" data-step="1"></div> <span>[<?php echo $services->globalvote; ?> vote(s)]</span></div>
-                    </div></div>
+                    	Note moyenne : 
+                        <div class="star-rating rating-xs rating-active" title="<?php echo $services->globalnote; ?> étoile(s)">
+                        	<div data-content="" class="rating-container rating-gly-star">
+                            	<div style="width: <?php echo ($services->globalnote*20); ?>%;" data-content="" class="rating-stars">
+                                </div>
+                                <input id="input-1" class="rating_ form-control hide" data-min="0" data-max="5" data-step="1">
+                          	</div> <span>[<?php echo $services->globalvote; ?> vote(s)]</span>
+                      	</div>
+                    </div>
+               	</div>
 				<div class="interesse">
 					<?php if(!isset($_GET[ 'vote'])) { if($user->ID != $user_->ID) { ?>
 					<button class="popup_message">Je suis interessé(e)</button>
-					<?php } else { ?> <a href="propose.php?edit=<?php echo $services->ID; ?>" class="btn">Modifier ce service</a>
+					<?php } else { ?><a href="propose.php?edit=<?php echo $services->ID; ?>" class="btn edit_serv_a">Modifier ce service</a>
 					<?php } } else { echo "<br>"; } ?>
 				</div>
                 <div class="interesse">
@@ -102,15 +135,18 @@
 				<div class="row">
 					<img width="85" alt="<?php echo $services->catname; ?>" height="85" src="img/services/<?php echo $services->cattype; ?>.jpg">
 					<div class="header_annonce">
-						<?php echo ucfirst($services->title); ?></div>
+						<?php echo ucfirst($services->title); ?>
+                  	</div>
 				</div>
 			</div>
 			<div class="greyback row">
 				<?php if(!isset($_GET[ 'vote'])) { if(isset($_GET[ 'r']) && !empty($_GET[ 'r'])) { $r='<a href="services.php?' .base64_decode($_GET[ 'r']). '" class="col-md-3"><img src="img/annonce/back.png">Retours aux résultats précédents</a>'; } else { $r='<a href="services.php" class="col-md-3"><img src="img/annonce/back.png">Retour à la page des services</a>' ; } ?>
 				<p class="col-md-8 col-md-offset-2 description">
-					<?php echo ucfirst($services->description); ?></p>
+					<?php echo ucfirst($services->description); ?>
+                </p>
 				<?php echo $r; ?>
-				<?php } else { echo '<div class="col-md-6 col-md-offset-3 voting">'.$vote. '</div>'; }; ?></div>
+				<?php } else { echo '<div class="col-md-6 col-md-offset-3 voting">'.$vote. '</div>'; }; ?>
+            </div>
 			<div class="profiltitle">
 				<p>Notes et commentaires</p>
 			</div>
@@ -118,7 +154,8 @@
 				<img src="img/annonce/down.png" alt="" class="down">
 			</div>
 			<div class="notes">
-				<?php echo $user_->list_com($services->ID); ?></div>
+				<?php echo $user_->list_com($services->ID); ?>
+          	</div>
 		</div>
 	</div>
 	<footer id="footer">

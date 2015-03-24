@@ -10,13 +10,14 @@
    $user->onlyUsers();
    $chat = new chat($mysql, $user); ?>
 <!doctype html>
-<html lang="fr">
+<html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
    <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
       <title>Swappy.fr - Messagerie</title>
+      <?php echo meta_tag("", "", "", "Messagerie", ""); ?>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/jquery.datetimepicker.css">
@@ -62,7 +63,7 @@
                <div class="collapse navbar-collapse" id="navbar">
                   <ul class="nav navbar-nav">
                      <li><a href="services.php">Services</a></li>
-                     <li><a href="propose.php">Je propose</a></li>
+                     <li><a rel="nofollow" href="propose.php">Je propose</a></li>
                      <li><a href="ccm.php">Comment ça marche ?</a></li>
                      <li><a href="apropos.php">A propos</a></li>
                   </ul>
@@ -75,44 +76,42 @@
             <!-- /.container-fluid -->
          </nav>
          <div class="container main" role="main">
-<div class="message_box col-md-8 col-md-offset-2 col-xs-10 col-xs-offset-1"><!--
---><div id="list_m">
-<div class=" input-group">
-<span class="input-group-btn">
-                     <button class="btn btn-default bluesearch" type="submit" title="Rechercher"></button>
-                     </span>
-                     <input type="text" placeholder="Rechercher" class="form-control ui-autocomplete-input" name="searchbar" id="searchbar" autocomplete="off">
-                     
-                  </div>
-</div><!--
---><div id="content_m" style=""><!--
-	--><div class="header_m"><div class="return_list">Retour</div><span></span></div>
-    <div class="inner_m">
-    	
-    </div>
-    <div class="form_m">
-    <form id='message_send' action="inc/send_mess.php" method="post">
-    	<textarea name="message_r" placeholder="Votre message" rows="4" class="form-control validate[required]"></textarea>
-        <input type="hidden" value="" name="ID_Converse">
-        <input type="submit" value="envoyer">
-        <button>Fixer un rendez-vous</button>
-        </form>
-        <div class="clear"></div>
-    </div>
-</div>
-     </div></div>
-      </div>
-      <!-- END DIV ID WRAP-->
-      <footer id="footer">
-         <img src="img/footer.png" alt="" width="30" height="18">
-         <div class="container-fluid">
-            <a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php">Contact</a>
-            <hr>
-            <a target="_blank" class="social" title="Voir notre page Facebook" href="https://www.facebook.com/SwappyLaPlateforme"><img height="30" width="30" alt="Facebook" src="img/social/facebook.png"></a>
-            <a target="_blank" class="social" title="Voir notre page Twitter" href="https://twitter.com/_Swappy"><img height="30" width="30" alt="Twitter" src="img/social/twitter.png"></a>
-            <hr>
-            <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
-         </div>
-      </footer>
-</body>
+			<div class="message_box col-md-8 col-md-offset-2 col-xs-10 col-xs-offset-1"><!--
+			--><div id="list_m">
+					<div class=" input-group">
+						<span class="input-group-btn">
+                     		<button class="btn btn-default bluesearch" type="submit" title="Rechercher"></button>
+                     	</span>
+                     	<input type="text" placeholder="Rechercher" class="form-control ui-autocomplete-input" name="searchbar" id="searchbar" autocomplete="off">
+                 	</div>
+				</div><!--
+			--><div id="content_m" style=""><!--
+				--><div class="header_m"><div title="Retour" class="return_list"><img src="img/icon/retour.png" width="50" height="50" alt="Retour"></div><span></span></div>
+    				<div class="inner_m"></div>
+    				<div class="form_m">
+    					<form id='message_send' action="inc/send_mess.php" method="post">
+    						<textarea name="message_r" placeholder="Votre message" rows="4" class="form-control validate[required]"></textarea>
+        					<input type="hidden" value="" name="ID_Converse">
+        					<input type="submit" value="envoyer">
+        					<button>Fixer un rendez-vous</button>
+        				</form>
+        				<div class="clear"></div>
+    				</div>
+				</div>
+     		</div>
+     	</div>
+      	</div>
+      	<!-- END DIV ID WRAP-->
+      	<footer id="footer">
+         	<img src="img/footer.png" alt="" width="30" height="18">
+         	<div class="container-fluid">
+            	<a href="cgu.php">CGU - Mentions légales</a> | <a href="contact.php">Contact</a>
+            	<hr>
+            	<a target="_blank" class="social" title="Voir notre page Facebook" href="https://www.facebook.com/SwappyLaPlateforme"><img height="30" width="30" alt="Facebook" src="img/social/facebook.png"></a>
+            	<a target="_blank" class="social" title="Voir notre page Twitter" href="https://twitter.com/_Swappy"><img height="30" width="30" alt="Twitter" src="img/social/twitter.png"></a>
+            	<hr>
+            	<p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
+         	</div>
+     	</footer>
+	</body>
 </html>

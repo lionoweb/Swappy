@@ -124,7 +124,7 @@ class mailer {
 	function newmessage($email, $date, $idc, $cname, $oname, $oid) {
 		$subject = 'Nouveau message à '.date("H:i",$date);
 		$message = '<h4>Bonjour {CNAME}</h4>';
-		$message .= '<p>Vous avez reçu un nouveau message de la part de <a href="http://swappy.fr/'.$this->folderb.'profil.php?id={OID}">{ONAME}</a> le {DATE}<br><br><a href="http://swappy.fr/'.$this->folderb.'messagerie.php#select-{CID}">Cliquez ici pour le consulter</a>.<br><br><i>Vous pouvez à tout moment désactiver les notations par mail de vos messages sur votre <a href="http://swappy.fr/'.$this->folderb.'profil.php">page profil</a>.</i>';
+		$message .= '<p>Vous avez reçu un nouveau message de la part de <a href="http://swappy.fr/'.$this->folderb.'profil-{OID}.php">{ONAME}</a> le {DATE}<br><br><a href="http://swappy.fr/'.$this->folderb.'messagerie.php#select-{CID}">Cliquez ici pour le consulter</a>.<br><br><i>Vous pouvez à tout moment désactiver les notations par mail de vos messages sur votre <a href="http://swappy.fr/'.$this->folderb.'profil.php">page profil</a>.</i>';
 		$first = preg_replace("/\{CNAME\}/", $cname, $message);
 		$first = preg_replace("/\{OID\}/", $oid, $first);
 		$first = preg_replace("/\{ONAME\}/", $oname, $first);
@@ -137,7 +137,7 @@ class mailer {
 		$subject = 'Votre rendez-vous pour le '.date("d/m/Y \à H:i", strtotime($date));
 		
 		$message = '<h4>Bonjour {CNAME}</h4>';
-		$message .= '<p>Votre rendez-vous a été validé auprès de vous et de votre interlocuteur.<br><br><u>Voici donc le récupitulatif :</u><br>Il s\'agit d\'un rendez-vous avec <a href="http://swappy.fr/'.$this->folderb.'profil.php?id={OID}">{ONAME}</a>  pour {YOUR} service \'<a href="http://swappy.fr/'.$this->folderb.'annonce.php?id={SERVID}">{SERVNAME}</a>\'.<br> Ce rendez-vous est prévu pour le {DATE}.<br><br><i>Vous pouvez toujour annuler ce rendez-vous en cliquant sur lien envoyé dans votre <a href="http://swappy.fr/'.$this->folderb.'messagerie.php#select-{IDCONV}">messagerie</a></i>';
+		$message .= '<p>Votre rendez-vous a été validé auprès de vous et de votre interlocuteur.<br><br><u>Voici donc le récupitulatif :</u><br>Il s\'agit d\'un rendez-vous avec <a href="http://swappy.fr/'.$this->folderb.'profil-{OID}.php">{ONAME}</a>  pour {YOUR} service \'<a href="http://swappy.fr/'.$this->folderb.'annonce-{SERVID}.php">{SERVNAME}</a>\'.<br> Ce rendez-vous est prévu pour le {DATE}.<br><br><i>Vous pouvez toujour annuler ce rendez-vous en cliquant sur lien envoyé dans votre <a href="http://swappy.fr/'.$this->folderb.'messagerie.php#select-{IDCONV}">messagerie</a></i>';
 		$first = preg_replace("/\{CNAME\}/", $owner->firstname." ".$owner->lastname, $message);
 		$first = preg_replace("/\{OID\}/", $user->ID, $first);
 		$first = preg_replace("/\{ONAME\}/", $user->firstname." ".$user->lastname, $first);

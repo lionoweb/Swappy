@@ -10,13 +10,14 @@
    }
  ?>
 <!doctype html>
-<html lang="fr">
+<html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
 	<head>
     	<meta charset="utf-8">
     	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no
+    	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
     	<title>Swappy.fr - Mes propositions</title>
+        <?php echo meta_tag("", "", "", "Mes propositions", ""); ?>
     	<link rel="icon" href="img/favicon.png">
     	<link rel="stylesheet" href="css/jquery-ui.css">
     	<link rel="stylesheet" href="css/jquery.datetimepicker.css">
@@ -62,7 +63,7 @@
                <div class="collapse navbar-collapse" id="navbar">
                   <ul class="nav navbar-nav">
                      <li><a href="services.php">Services</a></li>
-                     <li><a href="propose.php">Je propose</a></li>
+                     <li><a rel="nofollow" href="propose.php">Je propose</a></li>
                      <li><a href="ccm.php">Comment ça marche ?</a></li>
                      <li><a href="apropos.php">A propos</a></li>
                   </ul>
@@ -87,9 +88,9 @@
 					 for($i=0;$i<count($boucle);$i++) {
 						 // A PARTIR D'EN DESSOUS C'EST LE HTML  ?>
                     <tr class="bloc_services" data-ids="<?php echo $boucle[$i]['ID']; ?>">
-                      <td class="picto"><a title="<?php echo $boucle[$i]['Title']; ?>" href="annonce.php?id=<?php echo $boucle[$i]['ID']; ?>"><img alt="" class="fullfit" src="<?php echo $boucle[$i]['Image']; ?>"></a></td>
+                      <td class="picto"><a title="<?php echo $boucle[$i]['Title']; ?>" href="annonce-<?php echo $boucle[$i]['ID']; ?>.php"><img alt="" class="fullfit" src="<?php echo $boucle[$i]['Image']; ?>"></a></td>
                       <td class="desc_services">
-                        <a title="<?php echo $boucle[$i]['Title']; ?>" href="annonce.php?id=<?php echo $boucle[$i]['ID']; ?>">
+                        <a title="<?php echo $boucle[$i]['Title']; ?>" href="annonce-<?php echo $boucle[$i]['ID']; ?>.php">
                           <div class="fullfit">
                             <h1 class="serv_title"><?php echo $boucle[$i]['Title']; ?></h1>
                             <p>

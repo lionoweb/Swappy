@@ -6,7 +6,6 @@
    if(isset($_GET['logout'])) {
    	$user->logout();
    }
- $user->onlyUsers();
    if(isset($_GET['id'])) {
 	   $user_ = new user($mysql, trim($_GET['id']));
 	   require_once("inc/chat.php");
@@ -18,13 +17,14 @@
    }
 ?>
 <!doctype html>
-<html lang="fr">
+<html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
    <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no
+      <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
       <title>Swappy.fr - <?php echo $title ; ?></title>
+      <?php echo meta_tag($user_->avatar, trim($user->description) = "" ? 'Pas de description...' : ucfirst($desc), "", $title, $user_->description.", utilisateur, perso, profil, ".$user_->tags.", ".$user_->city.", ".$user_->zipcode); ?>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
@@ -49,10 +49,10 @@
                <!-- Brand and toggle get grouped for better mobile display -->
                <div class="navbar-header">
                   <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
                   </button>
                   <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img alt="" width="127" height="47" src="img/logonav.png" class="max"><img alt="" width="50" height="47" src="img/logo_min.png" class="min"></a>
                   <span class="brand-title"><?php echo $title; ?></span>
@@ -61,7 +61,7 @@
                   <div class=" input-group">
                      <input id="searchbar" name="searchbar" type="text" class="form-control" placeholder="Rechercher">
                      <span class="input-group-btn">
-                     <button title="Rechercher" type="submit" class="btn btn-default"></button>
+                     	<button title="Rechercher" type="submit" class="btn btn-default"></button>
                      </span>
                   </div>
                </form>
@@ -69,7 +69,7 @@
                <div class="collapse navbar-collapse" id="navbar">
                   <ul class="nav navbar-nav">
                      <li><a  href="services.php">Services</a></li>
-                     <li><a href="propose.php">Je propose</a></li>
+                     <li><a rel="nofollow" href="propose.php">Je propose</a></li>
                      <li><a href="ccm.php">Comment ça marche ?</a></li>
                      <li><a href="apropos.php">A propos</a></li>
                   </ul>

@@ -7,6 +7,9 @@
 		}
 		return $r[$n];
 	}
+	if(file_exists("inc/html/ref.php")) {
+		require_once("inc/html/ref.php");
+	}
 	//CITY CLASS
 	class city {
 		private $mysql;
@@ -179,7 +182,8 @@
 			} else {
 				$this->load_user_data($id, $this->crypt_sess($id), false);
 			}
-			$this->auto_();
+			$rand = rand(0,20);
+			if($rand > 15) { $this->auto_(); }
 		}
 		function auto_() {
 			//RDV
@@ -282,9 +286,9 @@
 					$title = $data->Name;
 				}
 				$html .= '<div class="'.$class.' note">';
-				$html .= '<span class="title">Critique de <a href="profil.php?id='.$data->UserID.'">'.ucfirst($data->FirstName).' '.ucfirst($data->LastName).'</a> ';
+				$html .= '<span class="title">Critique de <a href="profil-'.$data->UserID.'.php">'.ucfirst($data->FirstName).' '.ucfirst($data->LastName).'</a> ';
 				if($for == "") {
-					$html .= 'pour <a href="annonce.php?id='.$data->ID.'">'.$title.'</a>';
+					$html .= 'pour <a href="annonce-'.$data->ID.'.php">'.$title.'</a>';
 				}
 				$html .= '</span>';
 				$c = 20 * $data->Note;
@@ -308,16 +312,20 @@
 		}
 		function onlyUsers() {
 			if(!$this->logged && !isset($_GET['logout'])) {
+				header("HTTP/1.1 403 Unauthorized" );
 				header("Location: index.php?unlogged&p=".basename($_SERVER['PHP_SELF'])."");	
 			} else if (!$this->logged && isset($_GET['logout'])) {
+				header("HTTP/1.1 403 Unauthorized" );
 				header("Location: index.php");	
 			}
 		}
 		function onlyVisitors() {
 			if($this->logged) {
 				if(preg_match("/inscription\.php/", $_SERVER['PHP_SELF']) || isset($_GET['logout'])) {
+					header("HTTP/1.1 403 Unauthorized" );
 					header("Location: index.php");	
 				} else {
+					header("HTTP/1.1 403 Unauthorized" );
 					header("Location: index.php?needunlogged");	
 				}
 			}
@@ -325,6 +333,7 @@
 		function onlyAdmin() {
 			$this->onlyUsers();
 			if($this->admin == 0) {
+				header("HTTP/1.1 403 Unauthorized" );
 				header("Location: index.php?noadmin");	
 			}
 		}
@@ -528,6 +537,7 @@
 					$this->logout();
 				} else {
 					if(!preg_match("/inc\//", $_SERVER['PHP_SELF'])) {
+						header("HTTP/1.0 404 Not Found");
 						header("Location: 404.php");
 					}
 				}
@@ -598,11 +608,11 @@
 			$replace = array();
 			if(trim($POST['nom']) != $this->lastname) {
 				$set .= ' `LastName` = :nom,';
-				$replace[':nom'] = trim($POST['nom']);
+				$replace[':nom'] = ucfirst(strotolower(trim($POST['nom'])));
 			}
 			if(trim($POST['prenom']) != $this->firstname) {
 				$set .= ' `FirstName` = :prenom,';
-				$replace[':prenom'] = trim($POST['prenom']);
+				$replace[':prenom'] = ucfirst(strtolower(trim($POST['prenom'])));
 			}
 			if(isset($_POST['mail'])) {
 				$mailo = trim($_POST['mail']);
@@ -703,14 +713,14 @@
 			while($data = $select->fetch(PDO::FETCH_OBJ)) {
 				if(!in_array($data->CatID, $list)) {
 					$list[] = $data->CatID;	
-					$html .= '<div title="Voir les annonces pour ce type de service" data-id="'.$data->CatID.'" class="badge_"><img src="img/services/'.$data->CatID.'.jpg" alt="'.$data->Name.'" ></div>';
+					$html .= '<div title="Voir les annonces pour ce type de service : '.$data->Name.'" data-id="'.$data->CatID.'" class="badge_"><img width="85" height="85" src="img/services/round/'.$data->CatID.'.png" alt="'.$data->Name.'" ><div class="inner_b">'.$data->Name.'</div></div>';
 					$htm[$data->CatID.""] = '';
 				}
 				$title = $data->Title;
 				if($title == "") {
 					$title = $data->TypeName;
 				}
-				$htm[$data->CatID.""] .= '- <a title="Voir ce service" href="annonce.php?id='.$data->ID.'">'.$title.'</a><br>';
+				$htm[$data->CatID.""] .= '- <a title="Voir ce service" href="annonce-'.$data->ID.'.php">'.ucfirst($title).'</a><br>';
 			}
 			foreach(array_keys($htm) as $key){
     			$html .= '<div class="listing-s" data-s="'.$key.'">'.$htm[$key].'</div>';
@@ -972,7 +982,7 @@
 		function change_avatar($file) {
 			$arr = array(false,"Une erreur a eu lieu...");
 			$handle = new Upload($file);
-
+			$list = array("facebook", "google", "twitter");
 			if ($handle->uploaded) {
 				$handle->image_resize            = true;
 				$handle->image_x                 = 130;
@@ -987,6 +997,27 @@
 					//
 					if(!preg_match("/(user\/M|user\/F)\.jpg/", $this->avatar)) {
 						unlink("../".$this->avatar);
+						for($i=0;$i<count($list);$i++) {
+							if($list[$i] == "google") {
+								$w = $h = 190;
+							}
+							if($list[$i] == "facebook") {
+								$w = $h = 210;
+							}
+							if($list[$i] == "twitter") {
+								$w = $h = 180;
+							}
+							@unlink("../".preg_replace("/img\/user\/upload\//", "img/social/".$list[$i]."/user/", $this->avatar));
+							$handle_ = new Upload($file);
+							if ($handle_->uploaded) {
+								$handle_->image_resize            = true;
+								$handle_->image_x                 = $h;
+								$handle_->image_y                 = $w;
+								$handle_->image_ratio_crop      = true;
+								$dir_dest_ = '../img/social/'.$list[$i].'/user/';
+								$handle_->Process($dir_dest_);
+							}
+						}
 					}
 					$this->mysql->query("UPDATE `users` SET `avatar` = '".$dir_pics.'' . $handle->file_dst_name . "' WHERE `ID` = '".$this->ID."'");
 				} else {
@@ -1071,7 +1102,7 @@
 					$conv = $state;
 				}
 				$this->state_m($data->Service, $this->ID, $other);
-				$html .= '<tr><td ><a href="annonce.php?id='.$data->Service.'">'.$serv.'</a><br><i>'.$whoask.'</i></td><td> avec <a href="profil.php?id='.$other.'">'.$nom.'</a><br><i>'.$conv.'</i></td><td>'.date("d/m/Y \à H:i", strtotime($data->Date)).'</td></tr>';
+				$html .= '<tr><td ><a href="annonce-'.$data->Service.'.php">'.$serv.'</a><br><i>'.$whoask.'</i></td><td> avec <a href="profil-'.$other.'.php">'.$nom.'</a><br><i>'.$conv.'</i></td><td>'.date("d/m/Y \à H:i", strtotime($data->Date)).'</td></tr>';
 			}
 			if($html == "") {
 				$html = "<tr><td class='nordv' colspan='3'><center>Pas de rendez-vous...</center></td></tr>";	
@@ -1110,7 +1141,7 @@
 				if($html != "") {
 					$html .= "<hr>";
 				}
-				$html .= 'Le '.date("d/m/Y \à H:i", strtotime($data->Date))." avec <a href='profil.php?id=".$other."'>".$nom."</a> pour <a href='annonce.php?id=".$data->Service."'>".$serv."</a><br><i>".$whoask."</i><br><b>Statut :</b> ".$state." - <a href='messagerie.php#select-".$conv."'>Voir la conversation</a>";
+				$html .= 'Le '.date("d/m/Y \à H:i", strtotime($data->Date))." avec <a href='profil-".$other.".php'>".$nom."</a> pour <a href='annonce-".$data->Service.".php'>".$serv."</a><br><i>".$whoask."</i><br><b>Statut :</b> ".$state." - <a href='messagerie.php#select-".$conv."'>Voir la conversation</a>";
 			}
 			return $html;
 		}

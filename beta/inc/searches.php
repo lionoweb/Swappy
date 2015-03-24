@@ -59,6 +59,27 @@ class search {
 		$out = 'WHERE '.$where.' GROUP BY `type`.`ID`  ORDER BY '.$order. ' DESC, `type`.`Name` DESC LIMIT 0, 5';
 		return array($out, $replace);
 	}
+	function clause_searchbar_name($input) {
+		$replace = array();
+		$out = '';
+		$where = '';
+		$order = '';
+		$input = preg_replace("/ |\-|\'/", "{}" , $input);
+		$l = explode("{}", $input);
+		for($i=0;$i<count($l);$i++) {
+			$prpn = ":value".$i;
+			$w = $this->preg_accent($l[$i]);
+			if(strlen($w) > 1) {
+				$replace[$prpn] = $w;
+				$where .= ' OR (UPPER(`LastName`) REGEXP '.$prpn.') OR (UPPER(`FirstName`) REGEXP '.$prpn.')  OR (UPPER(`Login`) REGEXP '.$prpn.')';
+				$order .= ' + (CASE WHEN UPPER(`LastName`) REGEXP '.$prpn.' THEN 1.1 ELSE 0 END) + (CASE WHEN UPPER(`FirstName`) REGEXP '.$prpn.' THEN 1.2 ELSE 0 END)  + (CASE WHEN UPPER(`Login`) REGEXP '.$prpn.' THEN 0.9 ELSE 0 END)';
+			}
+		}
+		if(!empty($where)) { $where = substr($where, 4, (strlen($where)-1)); }
+		if(!empty($order)) { $order = substr($order, 3, (strlen($order))); }
+		$out = 'WHERE '.$where.' GROUP BY `ID` ORDER BY '.$order. ' DESC, `FirstName` DESC';
+		return array($out, $replace);
+	}
 	function clause_searchcity($input) {
 		$replace = array();
 		$out = '';
@@ -95,6 +116,7 @@ class search {
 		return array($out, $replace);
 	}
 	function searchbar($input) {
+		$max = 5;
 		$replace = array();
 		$arr = array();
 		$input = $this->clean_w(strtoupper(trim($input)));
@@ -104,10 +126,14 @@ class search {
 		while($data = $select->fetch(PDO::FETCH_OBJ)) {
 			$arr[] = array("label" => "Service : ".$data->Name_t." (".$data->CatName.")", "val" => $data->ID);	
 		}
-		$selecte = $this->mysql->prepare("SELECT `Login`, `ID` FROM `users` WHERE UPPER(`Login`) LIKE :input LIMIT 0, 1");
-		$selecte->execute(array(":input" => $input."%"));
-		while($datae = $selecte->fetch(PDO::FETCH_OBJ)) {
-			$arr[] = array("label" => "Utilisateur : ".$datae->Login, "userID" => $datae->ID);	
+		$limit = $max - $select->rowCount();
+		if($limit > 1) {
+			$end_clause_ = $this->clause_searchbar_name($input);
+			$selecte = $this->mysql->prepare("SELECT `Login`, `LastName`, `FirstName`, `ID` FROM `users` ".$end_clause_[0]." LIMIT 0, ".($limit - 1)."");
+			$selecte->execute($end_clause_[1]);
+			while($datae = $selecte->fetch(PDO::FETCH_OBJ)) {
+				$arr[] = array("label" => "Utilisateur : ".$datae->FirstName." ".$datae->LastName." (".$datae->Login.")", "userID" => $datae->ID);	
+			}
 		}
 		return $arr;
 	}
@@ -306,8 +332,8 @@ class search {
 					$sername = $data[$ist]->SerName;
 					if(empty($sername)) { $sername = $data[$ist]->TypName; }
 					$final .= '	<tr class="bloc_services">
-									<td class="picto"><a title="Voir l\'annonce" href="annonce.php?id='.$data[$ist]->ID.'"><img class="fullfit" alt="'.ucfirst($sername).'" src="img/services/'.$data[$ist]->CatID.'.jpg"></a></td>
-									<td class="desc_services"><a title="Voir l\'annonce" href="annonce.php?id='.$data[$ist]->ID.'&r='.base64_encode($query_s).'"><div class="fullfit">
+									<td class="picto"><a title="Voir l\'annonce" href="annonce-'.$data[$ist]->ID.'.php?r='.base64_encode($query_s).'"><img class="fullfit" alt="'.ucfirst($sername).'" src="img/services/'.$data[$ist]->CatID.'.jpg"></a></td>
+									<td class="desc_services"><a title="Voir l\'annonce" href="annonce-'.$data[$ist]->ID.'.php?r='.base64_encode($query_s).'"><div class="fullfit">
 										<h1>'.ucfirst($sername).'</h1>
 										<p>
 											'.ucfirst($data[$ist]->Description).'
@@ -423,8 +449,8 @@ class search {
 					$sername = $data->SerName;
 					if(empty($sername)) { $sername = $data->TypName; }
 					$final[1] .= '	<tr class="bloc_services">
-									<td class="picto"><a title="Voir l\'annonce" href="annonce.php?id='.$data->ID.'"><img class="fullfit" alt="'.ucfirst($sername).'" src="img/services/'.$data->CatID.'.jpg"></a></td>
-									<td class="desc_services"><a title="Voir l\'annonce" href="annonce.php?id='.$data->ID.'"><div class="fullfit">
+									<td class="picto"><a title="Voir l\'annonce : '.ucfirst($sername).'" href="annonce-'.$data->ID.'.php"><img class="fullfit" alt="'.ucfirst($sername).'" src="img/services/'.$data->CatID.'.jpg"></a></td>
+									<td class="desc_services"><a title="Voir l\'annonce : '.ucfirst($sername).'" href="annonce-'.$data->ID.'.php"><div class="fullfit">
 										<h1>'.ucfirst($sername).'</h1>
 										<p>
 											'.ucfirst($data->Description).'
@@ -451,8 +477,8 @@ class search {
 						$sername = $data->SerName;
 						if(empty($sername)) { $sername = $data->TypName; }
 						$final[1] .= '	<tr class="bloc_services">
-										<td class="picto"><a title="Voir l\'annonce" href="annonce.php?id='.$data->ID.'"><img alt="'.ucfirst($sername).'" class="fullfit" src="img/services/'.$data->CatID.'.jpg"></a></td>
-										<td class="desc_services"><a title="Voir l\'annonce" href="annonce.php?id='.$data->ID.'"><div class="fullfit">
+										<td class="picto"><a title="Voir l\'annonce : '.ucfirst($sername).'" href="annonce-'.$data->ID.'.php"><img alt="'.ucfirst($sername).'" class="fullfit" src="img/services/'.$data->CatID.'.jpg"></a></td>
+										<td class="desc_services"><a title="Voir l\'annonce : '.ucfirst($sername).'" href="annonce-'.$data->ID.'.php"><div class="fullfit">
 											<h1>'.ucfirst($sername).'</h1>
 											<p>
 												'.ucfirst($data->Description).'

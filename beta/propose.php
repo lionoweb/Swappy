@@ -56,13 +56,14 @@
                         </span>';
 	}?>
 <!doctype html>
-<html lang="fr">
+<html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
    <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no
+      <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
       <title>Swappy.fr - <?php echo $htitle; ?></title>
+      <?php echo meta_tag("", "", "", "Je propose", ""); ?>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/jquery.datetimepicker.css">
@@ -108,7 +109,7 @@
                <div class="collapse navbar-collapse" id="navbar">
                   <ul class="nav navbar-nav">
                      <li><a  href="services.php">Services <span class="sr-only">(current)</span></a></li>
-                     <li class="active"><a href="propose.php">Je propose</a></li>
+                     <li class="active"><a rel="nofollow" href="propose.php">Je propose</a></li>
                      <li><a href="ccm.php">Comment ça marche ?</a></li>
                      <li><a href="apropos.php">A propos</a></li>
                   </ul>

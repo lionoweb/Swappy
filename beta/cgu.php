@@ -7,13 +7,14 @@
    	$user->logout();
    }	?>
 <!doctype html>
-<html lang="fr">
+<html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
    <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no
+      <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
       <title>Swappy.fr - CGU & Mentions légales</title>
+      <?php echo meta_tag("", "", "", "CGU & Mentions légales", "cgu, condition, general, utilisations, mention, legale"); ?>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
@@ -57,7 +58,7 @@
                <div class="collapse navbar-collapse" id="navbar">
                   <ul class="nav navbar-nav">
                      <li><a  href="services.php">Services</a></li>
-                     <li><a href="propose.php">Je propose</a></li>
+                     <li><a rel="nofollow" href="propose.php">Je propose</a></li>
                      <li><a href="ccm.php">Comment ça marche ?</a></li>
                      <li><a href="apropos.php">A propos</a></li>
                   </ul>
@@ -169,8 +170,8 @@
                      <p>
                         Tous les sites internet édités à titre professionnel, qu'ils proposent des ventes en ligne ou non, doivent obligatoirement indiquer les mentions légales suivantes :
                      </p>
-                        <ul>
-                           <li>Swappy.fr, 2 rue Albert Einstein 77420, Champs-sur-Marne</li>
+                        <ul itemtype="http://schema.org/PostalAddress" itemscope>
+                           <li>Swappy.fr, <span itemprop="streetAddress">2 rue Albert Einstein</span> <span itemprop="postalCode">77420</span>, <span itemprop="addressLocality">Champs-sur-Marne</span><meta itemprop="addressCountry" content="FR"></li>
                            <li><a class="link_mail" data-hash="<?php echo encode_mail("contact@swappy.fr", "UTF"); ?>"><?php echo encode_mail("contact@swappy.fr", "ASC"); ?></a><br>06.27.75.49.05</li>
                            <li>Calypso Redor</li>
                         </ul>

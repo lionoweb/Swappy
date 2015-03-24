@@ -8,13 +8,14 @@
    }	
    $user->onlyUsers(); ?>
 <!doctype html>
-<html lang="fr">
+<html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
    <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no
+      <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
       <title>Swappy.fr - Mes rendez-vous</title>
+      <?php echo meta_tag("", "", "", "Mes rendez-vous", ""); ?>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
@@ -60,7 +61,7 @@
                <div class="collapse navbar-collapse" id="navbar">
                   <ul class="nav navbar-nav">
                      <li><a  href="services.php">Services</a></li>
-                     <li><a href="propose.php">Je propose</a></li>
+                     <li><a rel="nofollow" href="propose.php">Je propose</a></li>
                      <li><a href="ccm.php">Comment ça marche ?</a></li>
                      <li><a href="apropos.php">A propos</a></li>
                   </ul>
@@ -90,9 +91,9 @@
                   <tbody>
                   	<?php echo $user->list_rdv(true); ?>
                   </tbody>
-                  </table>
-                  </div>
-                  <div class="col-md-10 col-md-offset-1 col-sm-12 table-responsive noborder">
+             	</table>
+           	</div>
+           	<div class="col-md-10 col-md-offset-1 col-sm-12 table-responsive noborder">
          		<table class="fulltable table list_rdv_">
                   <thead>
                      <tr>
@@ -102,8 +103,8 @@
                   <tbody>
                   		<?php echo $user->list_rdv(false); ?>
                   </tbody>
-                  </table>
-                  </div>
+               	</table>
+           	</div>
       	</div>
     </div>
     <footer id="footer">

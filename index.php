@@ -1,7 +1,8 @@
 <!doctype html>
-<html>
+<html lang="fr">
 <head>
 <meta charset="utf-8">
+<link rel="alternate" href="http://swappy.fr/" hreflang="FR-fr" />
 <title>Swappy - prochainement ...</title>
 <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
 <style>

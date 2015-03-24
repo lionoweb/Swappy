@@ -7,12 +7,13 @@ if(isset($_GET['logout'])) {
 $user->logout();
 } ?>
 <!doctype html>
-<html lang="fr">
+<html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
 	<head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-      <title>Swappy.fr - Accueil</title>
+      <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+      <title>Swappy.fr - Échanges de services gratuits entre particuliers</title>
+      <?php echo meta_tag("", "", "", "", ""); ?>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
@@ -56,7 +57,7 @@ $user->logout();
                <div class="collapse navbar-collapse" id="navbar">
                   <ul class="nav navbar-nav">
                      <li><a href="services.php">Services</a></li>
-                     <li><a href="propose.php">Je propose</a></li>
+                     <li><a rel="nofollow" href="propose.php">Je propose</a></li>
                      <li><a href="ccm.php">Comment ça marche ?</a></li>
                      <li><a href="apropos.php">A propos</a></li>
                   </ul>
@@ -70,14 +71,11 @@ $user->logout();
         </nav>
           <div id="spec_accueil" class="container-fluid main" role="main">
             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-               <!-- Indicators -->
               <ol class="carousel-indicators">
                 <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
                 <li data-target="#carousel-example-generic" data-slide-to="1"></li>
                 <li data-target="#carousel-example-generic" data-slide-to="2"></li>
               </ol>
-
-               <!-- Wrapper for slides -->
               <div class="carousel-inner" role="listbox">
                 <div class="item active first">
                   <img src="img/accueil/slide1.jpg" alt="Bienvenue">
@@ -103,8 +101,6 @@ $user->logout();
                       </div>
                 </div>
               </div>
-
-               <!-- Controls -->
                <a class="left carousel-control" title="Précedent" href="#carousel-example-generic" role="button" data-slide="prev">
                  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                  <span class="sr-only">Précedent</span>
@@ -115,7 +111,6 @@ $user->logout();
                </a>
              </div>
              <iframe width="560" height="315" class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12" src="https://www.youtube.com/embed/_GAukqGi8qs" frameborder="0" allowfullscreen></iframe>
-             <!-- <iframe src="https://player.vimeo.com/video/119140474" class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12" width="700" height="401" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> -->
         </div>
       </div>
     <footer id="footer">

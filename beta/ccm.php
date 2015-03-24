@@ -1,19 +1,18 @@
 <?php
-   session_start();
-   require_once("inc/user.php");
-   require_once("inc/mysql.php");
-   $user = new user($mysql);
-   if(isset($_GET['logout'])) {
-   	$user->logout();
-   }	?>
+session_start();
+require_once("inc/user.php");
+require_once("inc/mysql.php");
+$user = new user($mysql);
+if(isset($_GET['logout'])) { $user->logout(); }	?>
 <!doctype html>
-<html lang="fr">
+<html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
    <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no
+      <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
-      <title>Swappy.fr - A Propos</title>
+      <title>Swappy.fr - Comment ça marche ?</title>
+      <?php echo meta_tag("", "", "", "Comment ça marche ?", "comment, marche, tuto, utilisation, consigne"); ?>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
@@ -57,7 +56,7 @@
                <div class="collapse navbar-collapse" id="navbar">
                   <ul class="nav navbar-nav">
                      <li><a  href="services.php">Services</a></li>
-                     <li><a href="propose.php">Je propose</a></li>
+                     <li><a rel="nofollow" href="propose.php">Je propose</a></li>
                      <li  class="active"><a href="ccm.php">Comment ça marche ? <span class="sr-only">(current)</span></a></li>
                      <li><a href="apropos.php">A propos</a></li>
                   </ul>
@@ -96,8 +95,7 @@
                   </div>
                   <div class="pictodown"><img src="img/apropos/down.png" alt="" class="down"></div>
 
-                  <iframe src="https://player.vimeo.com/video/119140474" class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12" width="700" height="401" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-
+					<iframe width="560" height="315" class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12" src="https://www.youtube.com/embed/_GAukqGi8qs" frameborder="0" allowfullscreen></iframe>
                </div>
          </div>
       </div>

@@ -1,14 +1,20 @@
 <?php
 session_start();
-?>
+require_once("inc/user.php");
+require_once("inc/mysql.php");
+$user = new user($mysql);
+if(isset($_GET['logout'])) {
+$user->logout();
+} ?>
 <!doctype html>
-<html lang="fr">
+<html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no"
 >
-    <title>Swappy.fr - Page Introuvable</title>
+    <title>Swappy.fr - Page introuvable</title>
+    <?php echo meta_tag("404.jpg", "", "", "Page introuvable", "erreur, 404, introuvable"); ?>
     <link rel="icon" href="img/favicon.png">
     <link rel="stylesheet" href="css/jquery-ui.css">
     <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>

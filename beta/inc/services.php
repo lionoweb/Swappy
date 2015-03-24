@@ -24,6 +24,7 @@
 			if(!empty($ids)) {
 				$this->load_service($ids);
 			} else if(preg_match("/annonce\.php/", $_SERVER['PHP_SELF']) && !preg_match("/vote\=/", $_SERVER['QUERY_STRING'])) {
+				header("HTTP/1.1 403 Unauthorized" );
 				header("Location: services.php");	
 			}
 		}
@@ -34,6 +35,7 @@
 			$total = $select->rowCount();
 			if($total < 1) {
 				if(!preg_match("/inc\//", $_SERVER['PHP_SELF']) && !preg_match("/vote\=/", $_SERVER['QUERY_STRING'])) {
+					header("HTTP/1.0 404 Not Found");
 					header("Location: 404.php");
 				}
 			} else {
@@ -141,7 +143,7 @@
 					if($cc == false) {
 						$cc = $this->make_conversation($user->ID, $data->Service);
 					}
-					$mess = '<b>'.$user->login.' a noté votre service :</b><br>Note : '.trim($POST['note']).'/5<br>Commentaire : '.nl2br(trim($POST['com']));
+					$mess = '<b>'.$user->firstname.' '.$user->lastname.' a noté votre service :</b><br>Note : '.trim($POST['note']).'/5<br>Commentaire : '.nl2br(trim($POST['com']));
 					$chat->send_reply($mess, $cc, $data->Owner_Service);
 					$arr = array(true);
 				}
@@ -234,10 +236,10 @@
 				$lat = $ar['lat'];
 				$lon = $ar['lon'];
 			}
-			$replace = array(":title" => $POST['title'],
+			$replace = array(":title" => ucfirst($POST['title']),
 					":type" => $POST['type'],
 					":description" => $POST['description'], 
-					":distance" => $POST['distance'], 
+					":distance" => ucfirst($POST['distance']), 
 					":dispo" => $dispo,
 					":city" => $city,
 					":lat" => $lat,
@@ -264,10 +266,10 @@
 				$lat = $ar['lat'];
 				$lon = $ar['lon'];
 			}
-			$replace = array(":title" => $POST['title'],
+			$replace = array(":title" => ucfirst($POST['title']),
 					":type" => $POST['type'], 
 					":ID" => $ID, 
-					":description" => $POST['description'], 
+					":description" => ucfirst($POST['description']), 
 					":distance" => $POST['distance'], 
 					":dispo" => $dispo,
 					":city" => $city,

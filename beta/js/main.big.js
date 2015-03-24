@@ -38,7 +38,7 @@ $(document).ready(function(e) {
                 document.location.replace("services.php?searchbar=&type=" + ui.item.val);
             }
             if (ui.item.userID) {
-                document.location.replace("profil.php?id=" + ui.item.userID);
+                document.location.replace("profil-" + ui.item.userID+".php");
             }
         },
         open: function() {
@@ -192,7 +192,7 @@ $(document).ready(function(e) {
         });
     }
     //ANNONCE
-    if (url_page.match(/annonce\.php/gi)) {
+    if (url_page.match(/annonce\.php/gi) || url_page.match(/annonce(.*?)\.php/gi)) {
         $("#note_form").validationEngine({
             ajaxFormValidation: true,
             ajaxFormValidationMethod: 'post',
@@ -207,7 +207,7 @@ $(document).ready(function(e) {
     //A PROPOS
 
     //MON PROFIL/PROFIL
-    if (url_page.match(/profil\.php/gi)) {
+    if (url_page.match(/profil\.php/gi) || url_page.match(/profil(.*?)\.php/gi)) {
         $("#edit_user").validationEngine({
             ajaxFormValidation: true,
             ajaxFormValidationMethod: 'post',
@@ -242,10 +242,14 @@ $(document).ready(function(e) {
                     processData: false, // tell jQuery not to process the data
                     contentType: false, // tell jQuery not to set contentType
                     success: function(data) {
-                        c_avatar();
+                        wait_change_a();
                         var js = JSON.parse(data);
                         if (js[0] == true) {
+							$("#avatar_u").attr("src", "");
                             $("#avatar_u").attr("src", js[1]);
+							$("#avatar_u").on("load", function() {
+								c_avatar();
+							});
                             $(".dropdown-toggle > img:first-child").attr("src", js[1]);
                         } else {
                             $("#upload_ba").validationEngine('showPrompt', js[1], 'error', "topLeft", false, true);
@@ -263,7 +267,7 @@ $(document).ready(function(e) {
                             $(".progress-bar").html(c + "%");
                         };
                         xhr.upload.onload = function() {
-                            c_avatar();
+                            wait_change_a();
                         };
                         xhr.upload.onabort = function() {
                             c_avatar();
@@ -395,7 +399,7 @@ $(document).ready(function(e) {
             document.location.replace("mailto:" + $(this).attr("data-hash"));
         });
     }
-    if (url_page.match(/profil\.php/gi) || url_page.match(/annonce\.php/gi)) {
+    if (url_page.match(/profil\.php/gi) || url_page.match(/annonce\.php/gi)  || url_page.match(/annonce(.*?)\.php/gi)  || url_page.match(/profil(.*?)\.php/gi)) {
         $(".open-all-com").on("click", function(e) {
             e.preventDefault();
             open_all_coms();
@@ -676,8 +680,8 @@ function isArray(obj) {
 function modal_prevent() {
     if ($(".login_form").length > 0) {
         //NOT LOGGED
-        $('nav li a[href$="propose.php"], .interesse .popup_message, .talk_button').off();
-        $('nav li a[href$="propose.php"], .interesse .popup_message, .talk-button').on("click", function(e) {
+        $('nav li a[href$="propose.php"], .interesse .popup_message, .talk_button, .popup_report, .report-button').off();
+        $('nav li a[href$="propose.php"], .interesse .popup_message, .talk-button, .popup_report, .report-button').on("click", function(e) {
             var to = "";
             if ($(this).attr("href") && $(this).attr("href") != "") {
                 to = $(this).attr("href");
@@ -770,7 +774,7 @@ function load_list(search_) {
             active = "";
             count = "";
             if (value.For > 0) {
-                for_ = '<a title="Voir l\'annonce" target="_blank" href="annonce.php?id=' + value.For + '">' + value.Title + '</a>';
+                for_ = '<a title="Voir l\'annonce" target="_blank" href="annonce-' + value.For + '.php">' + value.Title + '</a>';
             } else {
                 for_ = '<i>discuter</i>';
             }
@@ -780,7 +784,7 @@ function load_list(search_) {
             if (value.ID == last_m) {
                 active = " active";
             }
-            $("#list_m").append('<div data-b="' + value.Button + '" data-state="' + value.Status + '" data-id="' + value.ID + '" class="mess_t' + active + '"><a href="profil.php?id=' + value.UserID + '">' + value.Name + '</a><br><span class="m_for">Pour : ' + for_ + '</span>' + count + '<a title="Supprimer cette conversation" class="delete_m">X</a></div>');
+            $("#list_m").append('<div data-b="' + value.Button + '" data-state="' + value.Status + '" data-id="' + value.ID + '" class="mess_t' + active + '"><a href="profil-' + value.UserID + '.php">' + value.Name + '</a><br><span class="m_for">Pour : ' + for_ + '</span>' + count + '<a title="Supprimer cette conversation" class="delete_m">X</a></div>');
         });
         delete_click();
         event_click();
@@ -1147,7 +1151,11 @@ function i_avatar() {
     $(".progress-bar").css("width", "0%");
     $(".progress-bar").html("0%");
 }
-
+function wait_change_a() {
+	$(".progress-bar").attr("aria-valuenow", "100");
+    $(".progress-bar").css("width", "100%");
+    $(".progress-bar").html("100%");
+}
 function c_avatar() {
     $(".uploader-button").show();
     $(".uploader-file-input").show();
@@ -1166,6 +1174,9 @@ $.fn.preload = function() {
 
 function open_all_coms() {
     var for_ = "";
+	if(url_page.match(/annonce(.*?)\.php/gi)) {
+		for_ = url_page.replace(/(.*?)annonce\-(.*?)\.php([a-z]|\?|\&|\#|)/gi, "$2");
+	}
     if (url_page.match(/annonce\.php/)) {
         for_ = url_page.replace(/(.*?)annonce\.php(.*?)id=(.*?)([a-z]|\?|\&|\#|)/gi, "$3");
     }
