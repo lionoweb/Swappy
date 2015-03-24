@@ -1,4 +1,5 @@
 <?php
+//AFFICHAGE DES META TAG DE REFERENCEMENT
 function in_array_r($reg, $arr) {
 	$return = false;
 	foreach($arr as $key => $value) {

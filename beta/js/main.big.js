@@ -1,4 +1,4 @@
-//timeout variable
+//VARIABLE GLOBAL
 var wait;
 var requestajax = null;
 var fst_l = 1;
@@ -11,13 +11,14 @@ var twinkle_;
 var focuset = true;
 var c_message = 0;
 $(document).ready(function(e) {
-    //ALL
+    //TOUTES LES PAGES
 	$.ajaxSetup({
         cache: false
     });
 	elipse_fix();
     modal_prevent();
     navbar_padding();
+	//AUTOCOMPLETION SEARCHBAR
     $("#searchbar").autocomplete({
         delay: 280,
         source: function(request, response) {
@@ -62,6 +63,7 @@ $(document).ready(function(e) {
     } else {
         //UNLOGGED
         c_message = 0;
+		//CONNEXION
         $(".login_form").validationEngine({
             ajaxFormValidation: true,
             ajaxFormValidationMethod: 'post',
@@ -70,6 +72,7 @@ $(document).ready(function(e) {
             showOneMessage: true,
             promptPosition: "topLeft"
         });
+		//MOT DE PASSE PERDU
         $(".remind_form").validationEngine({
             ajaxFormValidation: true,
             ajaxFormValidationMethod: 'post',
@@ -78,6 +81,7 @@ $(document).ready(function(e) {
             showOneMessage: true,
             promptPosition: "topLeft"
         });
+		//CHANGER DE FORMULAIRE : LOGIN/REMIND PASSWORD
         $(".remind_link").bind("click", function() {
             if ($(this).parents("#clone_login, .login-menu").find("#remind_section").css("display") == "none") {
                 $(this).parents("#clone_login, .login-menu").find("#remind_section").css("display", "block");
@@ -88,7 +92,7 @@ $(document).ready(function(e) {
             }
         });
     }
-
+	//DETECTION SI ONGLET ACTIVER OU NON
     $(document).on("focusout", function() {
         focuset = false;
     });
@@ -98,17 +102,20 @@ $(document).ready(function(e) {
         document.title = title_page_;
     });
     title_page_ = document.title;
+	//CORRECTION CSS VIA JQUERY
     $(window).on("orientationchange", function() {
         navbar_padding();
     });
     $(window).on("resize", function() {
         navbar_padding();
     });
+	//PRECHARGEMENT IMAGE
     $(['img/icon/loading.gif']).preload();
     //INDEX
 
     //SERVICES
 	if(url_page.match(/services\.php/gi)) {
+		//AUTOCOMPLETION VILLE
 		$("#zipbar").autocomplete({
             delay: 280,
             source: function(request, response) {
@@ -140,6 +147,7 @@ $(document).ready(function(e) {
 	}
     //PROPOSE
     if (url_page.match(/propose\.php/gi)) {
+		//SELECTION HEURE
         if ($('.timepicker').length > 0) {
             $('.timepicker').datetimepicker({
                 datepicker: false,
@@ -148,10 +156,12 @@ $(document).ready(function(e) {
                 value: $(this).val()
             });
         }
+		//SUPRESSION DISPONIBILITE
         $('.remove_dispo').on("click", function() {
             var i = $(this).attr("data-IDF");
             $(".dispo_field[data-IDF='" + i + "']").remove();
         });
+		//AJOUT DISPONIBILITE
         $(".add_dispo").on("click", function(e) {
             e.preventDefault();
             var lastID = $(".dispo_field:last").attr("data-IDF");
@@ -182,6 +192,7 @@ $(document).ready(function(e) {
                 $(".dispo_field[data-IDF='" + i + "']").remove();
             });
         });
+		//FORMULAIRE JE PROPOSE
         $("#spec_propose").validationEngine({
             ajaxFormValidation: true,
             ajaxFormValidationMethod: 'post',
@@ -193,6 +204,7 @@ $(document).ready(function(e) {
     }
     //ANNONCE
     if (url_page.match(/annonce\.php/gi) || url_page.match(/annonce(.*?)\.php/gi)) {
+		//FORMULAIRE POUR NOTE
         $("#note_form").validationEngine({
             ajaxFormValidation: true,
             ajaxFormValidationMethod: 'post',
@@ -208,6 +220,7 @@ $(document).ready(function(e) {
 
     //MON PROFIL/PROFIL
     if (url_page.match(/profil\.php/gi) || url_page.match(/profil(.*?)\.php/gi)) {
+		//FORMULAIRE EDITION UTILISATEUR
         $("#edit_user").validationEngine({
             ajaxFormValidation: true,
             ajaxFormValidationMethod: 'post',
@@ -216,17 +229,20 @@ $(document).ready(function(e) {
             showOneMessage: true,
             promptPosition: "topLeft"
         });
+		//AJOUT TAGS
         if ($('.tags-input').length > 0) {
             $('.tags-input').tagsinput({
                 confirmKeys: [13, 44, 32, 188]
             });
         }
+		//AFFICHAGE LISTE SERVICES
         $(".badge_").on("click", function(e) {
             $('.badge_:not([data-id="' + $(this).attr("data-id") + '"])').removeClass("glow");
             $('.listing-s:not([data-s="' + $(this).attr("data-id") + '"])').hide();
             $('.listing-s[data-s="' + $(this).attr("data-id") + '"]').toggle();
             $(this).toggleClass("glow");
         });
+		//UPLOAD AVATAR
         $("#upload_b").on("change", function(e) {
             var formData = new FormData();
             var filen = this.files[0];
@@ -284,6 +300,7 @@ $(document).ready(function(e) {
     }
     //MES PROPOSITIONS
     if (url_page.match(/proposition\.php/gi)) {
+		//SUPPRESSION SERVICES
         $(".delete_serv").on("click", function(e) {
             e.preventDefault();
             var id = $(this).attr("data-id");
@@ -315,6 +332,7 @@ $(document).ready(function(e) {
     }
     //RDV
 	if(url_page.match(/rendez\-vous\.php/gi)) {
+		//CALENDRIER DYNAMIQUE
 		$("#my-calendar").zabuto_calendar({
 			ajax: {
 				url: "inc/add_user.php?json_cal",
@@ -324,12 +342,14 @@ $(document).ready(function(e) {
 	}
     //MESSAGERIE
     if (url_page.match(/messagerie\.php/gi)) {
+		//CHARGEMENT LISTE MESSAGE + PRECHARGEMENT LOADING.GIF
         load_list();
         $(['css/images/loading.gif']).preload();
         if (window.location.hash.match(/\#chat/gi)) {
             window.location.hash = "";
             $("#modal_chat").modal("show");
         }
+		//FORMULAIRE ENVOIE MESSAGE
         $("#message_send").validationEngine({
             ajaxFormValidation: true,
             ajaxFormValidationMethod: 'post',
@@ -340,12 +360,14 @@ $(document).ready(function(e) {
             showOneMessage: true,
             promptPosition: "topLeft"
         });
+		//RETOUR A LA LISTE (MOBILE)
         $(".return_list").on("click", function(e) {
             e.preventDefault();
             $("#list_m.cache").removeClass("cache");
             $("#content_m.montre").removeClass("montre");
 			window.location.hash = "";
         });
+		//RECHERCHE DANS LISTE MESSAGES
         $("#list_m input").on("keyup", function(e) {
             var va = $(this).val();
             if (va.length >= 3) {
@@ -364,6 +386,7 @@ $(document).ready(function(e) {
 
     //CONTACT
     if (url_page.match(/contact\.php/gi)) {
+		//FORMULAIRE CONTACT
         $("#spec_contact").validationEngine({
             ajaxFormValidation: true,
             ajaxFormValidationMethod: 'post',
@@ -375,6 +398,7 @@ $(document).ready(function(e) {
     }
     //INSCRIPTION
     if (url_page.match(/inscription\.php/gi)) {
+		//FORMULAIRE CHANGEMENT MOT DE PASSE
         $("#user_remind").validationEngine({
             ajaxFormValidation: true,
             ajaxFormValidationMethod: 'post',
@@ -383,6 +407,7 @@ $(document).ready(function(e) {
             showOneMessage: true,
             promptPosition: "topLeft"
         });
+		//FORMULAIRE AJOUT UTILISATEUR
         $("#user_add").validationEngine({
             ajaxFormValidation: true,
             ajaxFormValidationMethod: 'post',
@@ -394,16 +419,19 @@ $(document).ready(function(e) {
     }
     //DIVERS
     if (url_page.match(/cgu\.php/gi) || url_page.match(/ccm\.php/gi) || url_page.match(/apropos\.php/gi) || url_page.match(/contact\.php/gi)) {
+		//REDIRECTION MAILTO: (PROTECTION SPAM AVEC LES ROBOTS)
         $(".link_mail").on("click", function(e) {
             e.preventDefault();
             document.location.replace("mailto:" + $(this).attr("data-hash"));
         });
     }
     if (url_page.match(/profil\.php/gi) || url_page.match(/annonce\.php/gi)  || url_page.match(/annonce(.*?)\.php/gi)  || url_page.match(/profil(.*?)\.php/gi)) {
+		//AFFICHER TOUT LES COMMENTAIRES + NOTES
         $(".open-all-com").on("click", function(e) {
             e.preventDefault();
             open_all_coms();
         });
+		//FORMULAIRE ENVOIE MESSAGE RAPIDE
         $("#modal_chat #send_message").validationEngine({
             ajaxFormValidation: true,
             ajaxFormValidationMethod: 'post',
@@ -420,6 +448,7 @@ $(document).ready(function(e) {
                 $("#modal_chat .inner_form").show();
             });
         });
+		//FORMULAIRE SIGNALER MEMBRE/SERVICE
 		$("#modal_report #send_report").validationEngine({
             ajaxFormValidation: true,
             ajaxFormValidationMethod: 'post',
@@ -441,6 +470,7 @@ $(document).ready(function(e) {
 });
 
 //FUNCTION
+//AFFICHAGE "ENVOI EN COUR" PENDANT ENVOIE FORMULAIRE
 function load_ajax_d(form, options) {
     $form_b = $(form);
     if ($form_b.find("#loader_ajax").length < 1) {
@@ -448,7 +478,7 @@ function load_ajax_d(form, options) {
     }
     return true;
 }
-
+//ENVOIE MESSAGE PAGE CONTACT
 function send_mail_contact(status, form, json, options) {
     if (json[0] == true) {
         $form_b = $(form);
@@ -459,7 +489,7 @@ function send_mail_contact(status, form, json, options) {
         return false;
     }
 }
-
+//AJOUT UTILISATEUR
 function add_user_function(status, form, json, options) {
     $form_b = $(form);
     if (json[0] == true) {
@@ -471,7 +501,7 @@ function add_user_function(status, form, json, options) {
         return false;
     }
 }
-
+//VOTE ET COMMENTAIRE
 function vote_function(status, form, json, options) {
     $form_b = $(form);
     if (json[0] == true) {
@@ -483,7 +513,7 @@ function vote_function(status, form, json, options) {
         return false;
     }
 }
-
+//EDITION UTILISATEUR
 function edit_user_function(status, form, json, options) {
     $form_b = $(form);
     if (json[0] == true) {
@@ -504,7 +534,7 @@ function edit_user_function(status, form, json, options) {
         return false;
     }
 }
-
+//CHANGEMENT MOT DE PASSE
 function remind_change_function(status, form, json, options) {
     $form_b = $(form);
     if (json[0] == true) {
@@ -517,7 +547,7 @@ function remind_change_function(status, form, json, options) {
     }
 
 }
-
+//AJOUT SERVICE
 function add_service_function(status, form, json, options) {
     $form_b = $(form);
     if (json[0] == true) {
@@ -535,7 +565,7 @@ function add_service_function(status, form, json, options) {
         return false;
     }
 }
-
+//ENVOIE MESSAGE RAPIDE
 function send_popup_message(status, form, json, options) {
     $form_b = $(form);
     if (json[0] == true) {
@@ -554,7 +584,7 @@ function send_popup_message(status, form, json, options) {
     }
 
 }
-
+//ENVOIE SIGNALEMENT
 function send_report_message(status, form, json, options) {
     $form_b = $(form);
     if (json[0] == true) {
@@ -573,7 +603,7 @@ function send_report_message(status, form, json, options) {
     }
 
 }
-
+//CONNEXION
 function login_user_function(status, form, json, options) {
     $form_b = $(form);
     var page = "";
@@ -595,7 +625,7 @@ function login_user_function(status, form, json, options) {
         return false;
     }
 }
-
+//MOT DE PASSE PERDU -> ENVOIE MAIL
 function remind_user_function(status, form, json, options) {
     $form_b = $(form);
     if (json[0] == true) {
@@ -613,7 +643,7 @@ function remind_user_function(status, form, json, options) {
         return false;
     }
 }
-
+//RESULTAT RECHERCHE CODE POSTAL
 function ZipFill(json) {
     var $parent;
     if (isArray(json[2])) {
@@ -635,7 +665,7 @@ function ZipFill(json) {
         $("input[name='cityname']").val(json[2]);
     }
 }
-
+//CORRECTION CSS VIA JQUERY
 function navbar_padding() {
     if ($(document).width() > 767) {
         var ww = $("#navbar").width();
@@ -671,12 +701,12 @@ function navbar_padding() {
         $("#wrap").removeAttr("style");
     }
 }
-
+//FUNCTION SI VALEUR EST DANS TABLEAU
 function isArray(obj) {
 
     return (obj.constructor.toString().indexOf("Array") != -1);
 }
-
+//AFFICHAGE MODAL SI PAS ACCEES A LA PAGE
 function modal_prevent() {
     if ($(".login_form").length > 0) {
         //NOT LOGGED
@@ -715,7 +745,7 @@ function modal_prevent() {
         });
     }
 }
-
+//ENVOIE MESSAGE 
 function message_send_function(status, form, json, options) {
     if (json[0] == true) {
         $("#loader_ajax").remove();
@@ -730,7 +760,7 @@ function message_send_function(status, form, json, options) {
         return false;
     }
 }
-
+//ENVOIE RENDEZ-VOUS
 function date_send_function(status, form, json, options) {
     $form_b = $(form);
     if (json[0] == true) {
@@ -747,7 +777,7 @@ function date_send_function(status, form, json, options) {
         return false;
     }
 }
-
+//AFFICHAGE LISTE DES CONVERSATIONS
 function load_list(search_) {
     if (typeof(search_) == "undefined") {
         var search_ = "";
@@ -801,7 +831,7 @@ function load_list(search_) {
         button_f(0, true);
     }
 }
-
+//AFFICHAGE CONTENU CONVERSATION
 function load_content(id, title, sc, nl) {
     if (typeof(sc) == "undefined") {
         var sc = false;
@@ -928,7 +958,7 @@ function load_content(id, title, sc, nl) {
 	window.location.hash = "select-"+id;
     return true;
 }
-
+//AFFICHAGE OU NON DU NOMBRE DE MESSAGE NON LU SUR LES PAGES
 function mess_count(data, id) {
     if (data != "false") {
         $('div[data-id="' + id + '"] .mess_count').removeClass("red");
@@ -950,7 +980,7 @@ function mess_count(data, id) {
         }
     }
 }
-
+//CLICK POUR AFFICHER CONTENUE CONVERSATION OU MODAL SUPPRESSION CONVERSATION
 function event_click() {
     $(".mess_t").off("click");
 	$(".mess_t a").on("click", function(e) { e.preventDefault(); });
@@ -965,7 +995,7 @@ function event_click() {
 	}
     });
 }
-
+//ENVOIE RDV
 function make_date(e) {
     var id = $("input[name='ID_Converse']").val();
     var $lis = $(".mess_t[data-id='" + id + "']");
@@ -1011,7 +1041,7 @@ function make_date(e) {
         $('#modal_date').modal('hide');
     }
 }
-
+//SUPPRESSION CONVERSATION MODAL
 function delete_click() {
     $(".delete_m").on("click", function(e) {
         var id = $(this).parent().attr("data-id");
@@ -1043,7 +1073,7 @@ function delete_click() {
         });
     });
 }
-
+//AFFICHAGE OU NON DU BOUTON DE PRISE DE RDV
 function button_f(state, dd, id) {
     $(".form_m button").off("click");
     if (dd == true) {
@@ -1083,7 +1113,7 @@ function button_f(state, dd, id) {
     }
 }
 
-
+//CLIGNOTEMENT TITRE ONGLET SI NOUVEAU MESSAGE
 function blink_p() {
     clearTimeout(twinkle_);
     var p = document.title;
@@ -1096,7 +1126,7 @@ function blink_p() {
         blink_p();
     }, 1200);
 }
-
+//MISE A JOUR AUTO DU NOMBRE DE MESSAGE NON LU
 function update_mess_count() {
     clearTimeout(time_out_m);
     if ($(".login_form").length < 1) {
@@ -1140,7 +1170,7 @@ function update_mess_count() {
         });
     }
 }
-
+//AFFICHAGE BARRE UPLOAD AVATAR
 function i_avatar() {
     $(".uploader-button").hide();
     $(".uploader-file-input").hide();
@@ -1151,11 +1181,13 @@ function i_avatar() {
     $(".progress-bar").css("width", "0%");
     $(".progress-bar").html("0%");
 }
+//ATTENTE QUE LE NOUVEL AVATAR SOIT CHARGER SUR LA PAGE
 function wait_change_a() {
 	$(".progress-bar").attr("aria-valuenow", "100");
     $(".progress-bar").css("width", "100%");
     $(".progress-bar").html("100%");
 }
+//CACHER BARRE UPLOAD AVATAR SI ERREUR
 function c_avatar() {
     $(".uploader-button").show();
     $(".uploader-file-input").show();
@@ -1166,12 +1198,13 @@ function c_avatar() {
     $(".progress-bar").css("width", "0%");
     $(".progress-bar").html("0%");
 }
+//PRECHARGEMENT IMAGES
 $.fn.preload = function() {
     this.each(function() {
         $('<img/>')[0].src = this;
     });
 }
-
+//MODAL TOUT LES COMMENTAIRES
 function open_all_coms() {
     var for_ = "";
 	if(url_page.match(/annonce(.*?)\.php/gi)) {
@@ -1196,6 +1229,7 @@ function open_all_coms() {
         }
     });
 }
+//CORRECTION DU TEXTE CENTRER AVEC ELLIPSE SI OVERFLOW SUR MOBILE
 function elipse_fix() {
 	var navh = $(".brand-title").width() - 126;
 	var gg = $(".brand-title").html();

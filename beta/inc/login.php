@@ -1,4 +1,5 @@
 <?php
+//CONNEXION ET MOT DE PASSE PERDU
 	session_start();
 	require_once("mysql.php");
 	require_once("user.php");

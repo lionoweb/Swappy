@@ -1,4 +1,5 @@
 <?php
+//REPONSE JSON DES RECHERCHES
 require("mysql.php");
 require("searches.php");
 $search = new search($mysql);

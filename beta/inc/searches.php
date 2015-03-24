@@ -1,9 +1,11 @@
 <?php
+//RECHERCHES
 class search {
 	private $mysql;
 	function __construct($mysql) {
 		$this->mysql = $mysql;
 	}
+	//CONDITIONNEMENT POUR RECHERCHE
 	function clearcity_match($input) {
 		$out_t = '';
 		$out_n = '';
@@ -23,6 +25,7 @@ class search {
 		if(!empty($out_n)) { $out_n = substr($out_n, 1, strlen($out_n)); }
 		return array($out_t, $out_n);
 	}
+	//MODIFICATION DES MOTS POUR RECHERCHE PAR EXPRESSION REGULIERE
 	function preg_accent($w) {
 		  if(preg_match("/E|É|È|Ê|Ë|e|é|è|ê|ë/", $w)) {
 			  $w = preg_replace("/E|É|È|Ê|Ë|e|é|è|ê|ë/","(E|É|È|Ê|Ë)", $w);	
@@ -35,9 +38,11 @@ class search {
 		  }
 		  return $w;
 	  }
+	  //NETTOYAGE MOT
 	function clean_w($input) {
 		return preg_replace("/\(|\)/", "", $input);	
 	}
+	//DEFINITION DU "WHERE" AND "ORDER" DANS REQUETE SQL POUR BARRE DE RECHERCHE --- SERVICES
 	function clause_searchbar($input) {
 		$replace = array();
 		$out = '';
@@ -59,6 +64,7 @@ class search {
 		$out = 'WHERE '.$where.' GROUP BY `type`.`ID`  ORDER BY '.$order. ' DESC, `type`.`Name` DESC LIMIT 0, 5';
 		return array($out, $replace);
 	}
+	//DEFINITION DU "WHERE" AND "ORDER" DANS REQUETE SQL POUR BARRE DE RECHERCHE --- PROFIL
 	function clause_searchbar_name($input) {
 		$replace = array();
 		$out = '';
@@ -80,6 +86,7 @@ class search {
 		$out = 'WHERE '.$where.' GROUP BY `ID` ORDER BY '.$order. ' DESC, `FirstName` DESC';
 		return array($out, $replace);
 	}
+	//DEFINITION DU "WHERE" AND "ORDER" DANS REQUETE SQL POUR RECHERCHE VILLE
 	function clause_searchcity($input) {
 		$replace = array();
 		$out = '';
@@ -115,6 +122,7 @@ class search {
 		$out = 'WHERE '.$where.' GROUP BY `ID` ORDER BY '.$order.' DESC LIMIT 0, 5';
 		return array($out, $replace);
 	}
+	//RECHERCHE BARRE DANS MENU
 	function searchbar($input) {
 		$max = 5;
 		$replace = array();
@@ -137,6 +145,7 @@ class search {
 		}
 		return $arr;
 	}
+	//RECHERCHE SERVICES 
 	function search($GET, $user) {
 		$replace = array();
 		$searchbar = $type = $locat = $day = $zip = $input = $where = $order = $final = $type_c = "";
@@ -396,6 +405,7 @@ class search {
 		}
 		return array($final, $pagination);
 	}
+	//RECUPERATION COORDONNEE VIA CODE POSTALE
 	function get_locatZip($zipcode, $user) {
 		$return = array("lat" => false, "lon" => false);
 		if($zipcode == $user->zipcode) {
@@ -406,6 +416,7 @@ class search {
 		}
 		return $return;
 	}
+	//RECUPERATION COORDONNEE VIA NOM VILLE
 	function get_locatCity($cityn, $user) {
 		$return = array("lat" => false, "lon" => false);
 		$city = new city($this->mysql);
@@ -419,6 +430,7 @@ class search {
 		}
 		return $return;
 	}
+	//RECHERCHE VILLE
 	function searchcity($input) {
 		$arr = array();
 		$input = strtoupper($this->clean_w(trim($input)));
@@ -430,6 +442,7 @@ class search {
 		}
 		return $arr;
 	}
+	//AFFICHAGE SERVICES RECENTS
 	function recent_services($user) {
 		$final = array("", "");
 		$nocity = false;

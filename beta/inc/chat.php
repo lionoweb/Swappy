@@ -1,4 +1,5 @@
 <?php
+//MESSAGERIE 
 /*
 	Conversation : HiddenFor
 	0 -> Visible for all
@@ -22,6 +23,7 @@
 			$this->mysql = $mysql;
 			$this->user = $user;
 		}
+		//LISTE SI CONVERSATION MASQUE OU NON
 		function getHidden($id) {
 			$return = array("MasterH"=>"false");
 			$select = $this->mysql->prepare("SELECT `conversation`.`HiddenFor` AS `MasterH`, `conversation_reply`.`HiddenFor` AS `Hidden`, `conversation_reply`.`ID` AS `ID` FROM `conversation` INNER JOIN `conversation_reply` ON `conversation`.`ID` = `conversation_reply`.`C_ID` WHERE (`conversation`.`User_One` = :me OR `conversation`.`User_Two` = :me) AND `conversation`.`ID` = :id");
@@ -36,6 +38,7 @@
 			}
 			return $return;
 		}
+		//RECUPERATION STATUT CONVERSATION
 		function getstatus($id) {
 			$return = "null";
 			$select = $this->mysql->prepare("SELECT `Status` FROM `conversation` WHERE (`User_One` = :me OR `User_Two` = :me) AND `ID` = :id");
@@ -44,6 +47,7 @@
 			$return = $data->Status;
 			return $return;
 		}
+		//RECUPERATION QUI JE SUIS DANS LA CONVERSATION
 		function who_ami($id) {
 			$return = "null";
 			$select = $this->mysql->prepare("SELECT `User_One`, `User_Two` FROM `conversation` WHERE (`User_One` = :me OR `User_Two` = :me) AND `ID` = :id");
@@ -58,6 +62,7 @@
 			}
 			return $return;	
 		}
+		//RECUPERATION QUI EST L'AUTRE DANS LA CONVERSATION
 		function who_iso($id) {
 			$return = "null";
 			$select = $this->mysql->prepare("SELECT `User_One`, `User_Two` FROM `conversation` WHERE (`User_One` = :me OR `User_Two` = :me) AND `ID` = :id");
@@ -72,11 +77,13 @@
 			}
 			return $return;	
 		}
+		//RECUPERATION SERVICE
 		function who_isserv($id) {
 			$select = $this->mysql->query("SELECT `By` FROM `services` WHERE `ID` = '".$id."'");
 			$data = $select->fetch(PDO::FETCH_OBJ);
 			return $data->By;
 		}
+		//VERIFICATION SI CONVERSATION EXISTE PAR ID
 		function isset_conversation_id($id) {
 			$t = false;
 			$select = $this->mysql->prepare("SELECT `ID`, COUNT(*) AS `total` FROM `conversation` WHERE (`User_One` = :me OR `User_Two` = :me) AND `ID` = :id");
@@ -89,6 +96,7 @@
 			}
 			return $t;	
 		}
+		//VERIFICATION SI CONVERSATION EXISTE PAR INTERLOCUTEUR ET SERVICE ID
 		function isset_conversation($id, $for) {
 			$t = false;
 			$select = $this->mysql->prepare("SELECT `ID`, COUNT(*) AS `total` FROM `conversation` WHERE ((`User_One` = :me AND `User_Two` = :id) OR (`User_Two` = :me AND `User_One` = :id)) AND `ServiceFor` = :for");
@@ -101,6 +109,7 @@
 			}
 			return $t;	
 		}
+		//VERIFICATION SI LE MEMBRE A NOTE CE SERVICE
 		function has_voted($id, $owner) {
 			$select = $this->mysql->prepare("SELECT COUNT(*) AS `nb` FROM `notations` WHERE `By` = :id AND `Service` = :serv AND `Owner_Service` = :oserv ");
 			$select->execute(array(":id" => $this->user->ID, ":serv" => $id, ":oserv" => $owner));
@@ -111,6 +120,7 @@
 				return true;
 			}
 		}
+		//CREATION CONVERSATION
 		function make_conversation($id, $for) {
 			$i = 0;
 			$status = 0;
@@ -125,6 +135,7 @@
 			}
 			return $i;	
 		}
+		//ENVOIE REPONSE
 		function send_reply($message, $id, $bot=false) {
 			$r = false;
 			$me = $this->user->ID;
@@ -170,6 +181,7 @@
 			}
 			return $r;
 		}
+		//RECUPERATION TITRE SERVICE
 		function service_title($id) {
 			$title = "";
 			if($id > 0) {
@@ -186,10 +198,12 @@
 			}
 			return $title;
 		}
+		//MARQUER MESSAGES COMME LUE
 		function set_read($id) {
 			$select = $this->mysql->prepare("UPDATE `conversation_reply` INNER JOIN `conversation` ON `conversation_reply`.`C_ID` = `conversation`.`ID` SET `Seen` = '1' WHERE (`conversation`.`User_One` = :me OR `conversation`.`User_Two` = :me) AND `conversation_reply`.`Seen` = '0' AND `conversation_reply`.`Author` != :me AND `conversation`.`ID` = :id AND (`conversation_reply`.`BotTo` = '0' OR `conversation_reply`.`BotTo` = :me)");	
 			$select->execute(array(":me" => $this->user->ID, ":id" => $id));
 		}
+		//COMPTER MESSAGES NON LU
 		function unread_message($id) {
 			$t = 0;
 			$select = $this->mysql->prepare("SELECT `ID` FROM `conversation_reply` WHERE `Author` != :id AND `Seen` = '0' AND `C_ID` = :idc AND (`BotTo` = '0' OR `BotTo` = '".$this->user->ID."')");	
@@ -197,6 +211,7 @@
 			$t = $select->rowCount();
 			return $t;	
 		}
+		//MODIFICATION DES MOTS POUR EXPRESSION REGULIERE
 		function preg_accent($w) {
 			if(preg_match("/E|É|È|Ê|Ë|e|é|è|ê|ë/", $w)) {
 				$w = preg_replace("/E|É|È|Ê|Ë|e|é|è|ê|ë/","(E|É|È|Ê|Ë)", $w);	
@@ -209,6 +224,7 @@
 			}
 			return $w;
 		}
+		//CREATION DU WHERE POUR REQUETE SQL
 		function clause_search($input) {
 			$replace = array();
 			$out = '';
@@ -230,6 +246,7 @@
 			$out = '('.$where.') GROUP BY `type`.`ID`  ORDER BY '.$order. ' DESC, `conversation`.`Timestamp` DESC';
 			return array($out, $replace);
 		}
+		//SUPPRESION MESSAGES
 		function delete($id) {
 			$delete = "";
 			$update = "";
@@ -275,6 +292,7 @@
 			}
 			return $array;
 		}
+		//RECUPERATION LISTE DES CONVERSATIONS
 		function list_message($search="") {
 			$array = array();
 			if($search == "") {
@@ -311,6 +329,7 @@
 			}
 			return $array;
 		}
+		//RECUPERATION CONTENU CONVERSATION
 		function content_conv($id) {
 			$array = array();
 			$user = $this->who_ami($id);
@@ -335,6 +354,7 @@
 			$array["count"] = $this->user->list_messages();
 			return $array;
 		}
+		//PREPARATION ENVOIE MESSAGE
 		function send_r($user, $POST) {
 			$f_for = "";
 			$allow = 0;
@@ -366,6 +386,7 @@
 			}
 			return $arr;	
 		}
+		//ENVOIE MESSAGE RAPIDE
 		function send($user, $POST, $for) {
 			$f_for = "";
 			$allow = 0;
@@ -413,20 +434,24 @@
 			}
 			return $arr;	
 		}
+		//RECUPERATION INFO SERVICES
 		function serv_infos($id) {
 			$select = $this->mysql->query("SELECT `services`.`By`, `services`.`ID` FROM `conversation` INNER JOIN `services` ON `conversation`.`ServiceFor` = `services`.`ID` WHERE `conversation`.`ID` = '".$id."'");
 			$data = $select->fetch(PDO::FETCH_OBJ);
 			$arr = array("By" => $data->By, "ID" => $data->ID);
 			return $arr;
 		}
+		//ENVOIE DU MESSAGE POUR DEMANDER A VOTER
 		function ask_for_com($id, $cc, $user, $hash) {
 			$mess = 'Nous espèrons que ce service fût satisfaisant.<br>Vous pouvez dès à présent noter l\'utilisateur ainsi que son service en <a href="annonce.php?vote='.$hash.'" class="note-this-date">cliquant ici</a>';
 			$this->send_reply($mess, $cc, $user);
 		}
+		//CREATION DU HASH POUR LIEN DE VOTE
 		function make_vote_h($id, $date) {
 			$h = base64_encode($id."///".$date);
 			return $h;
 		}
+		//MODIFICATION STATUT ET ENVOIE MESSAGES SI CLIQUER SUR OUI|VALIDER|CONFIRMER
 		function valid_a($id, $cc) {
 			$a = false;
 			$id = trim($id);
@@ -513,10 +538,11 @@
 			}
 			return $a;
 		}
-		//State 2 : after rendez-vous
-		//State 3 : pas fait
-		//State 4 : fait 
-		//State 5 : validé
+		/*State 2 : after rendez-vous
+		State 3 : pas fait
+		State 4 : fait 
+		State 5 : validé*/
+		//MODIFICATION STATUT ET ENVOIE MESSAGES SI CLIQUER SUR NON|REFUSER|ANNULER
 		function refuse_a($id, $cc) {
 			$a = false;
 			$id = trim($id);
@@ -597,6 +623,7 @@
 			}
 			return $a;
 		}
+		//AJOUT RENDEZ-VOUS
 		function make_date($POST) {
 			$arr = array(false);
 			$id = $POST['ID_C'];
@@ -655,6 +682,7 @@
 			}
 			return $arr;
 		}
+		//VERIFICATION SI RDV EXISTE
 		function isset_appoint($id, $for, $user) {
 			$o = "null";
 			$select = $this->mysql->query("SELECT `ID`, COUNT(*) AS `nb` FROM `appointment` WHERE `Service` = '".$for."' AND `User` = '".$user."' AND (`State` = '0' OR `State` = '1' )");
@@ -664,6 +692,7 @@
 			}
 			return $o;
 		}
+		//AFFICHAGE DU MODAL POUR PRISE DE RDV
 		function modal_date($id) {
 			$w = $this->who_ami($id);
 			if($w == "One") {
@@ -695,6 +724,7 @@
 			$html .= '<h4 class="modal-title" id="exampleModalLabel">Fixer un rendez-vous ?</h4></div><div class="modal-body"><form method="post" id="m_date_modal" action="inc/send_mess.php"><div class="col-sm-12 tit">Vous souhaitez fixer un rendez-vous avec '.$with.' pour : '.$for.'</div><div class="col-sm-6"><input name="date" type="hidden" value="'.$date.'" id="date"><label for="datepicker" class="label-control">Selectionnez le jour :</label><div id="datepicker"></div></div><div class="col-sm-6"><label class="label-control" for="hour">A quel heure : </label> <input type="hidden" name="ID_C" value="'.$id.'"> <input id="hour" name="hour" class="form-control validate[required] time" value="'.$time.'" type="text"><input type="submit" class="btn btn-primary" value="Envoyer"></div><div class="clear"></div></form>';
 return $html;
 		}
+		//AFFICHAGE MODAL POUR ENVOIE MESSAGE RAPIDE
 		function prepare_popup($user, $service=false) {
 			$for = "";
 			$isset = "";
@@ -740,6 +770,7 @@ return $html;
 </div>';
 			echo $html; 
 		}
+		//VERIFICATION SI SIGNALEMENT EXISTE DEJA
 		function isset_report($user, $for, $type) {
 			$select = $this->mysql->prepare("SELECT COUNT(*) AS `nb` FROM `report` WHERE `By` = :by AND `For` = :for AND `Type` = :type");
 			$select->execute(array(":by" => $user, ":for" => $for, ":type" => strtoupper($type)));
@@ -750,6 +781,7 @@ return $html;
 				return false;	
 			}
 		}
+		//AFFICHAGE MODAL POUR SIGNALEMENT
 		function prepare_popup_report($user, $service=false) {
 			$for = "";
 			$title = "";
@@ -800,6 +832,7 @@ return $html;
 </div>';
 			echo $html; 
 		}
+		//ENVOIE SIGNALEMENT
 		function send_report($by, $for, $type, $message) {
 			$arr = array(false);
 			if(!$this->isset_report($by, $for, $type)) {

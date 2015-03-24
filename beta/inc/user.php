@@ -1,4 +1,5 @@
 <?php 
+	//ENCODER MAIL POUR PROTECTION ROBOTS SPAM
 	function encode_mail($mail, $n) {
 		$r = array("ASC" => "", "UTF" => "");
 		for($i=0;$i<strlen($mail);$i++) {
@@ -16,6 +17,7 @@
 		function __construct($mysql) {
 			$this->mysql = $mysql;
 		}
+		//SUPPRESSION ACCENT POUR RECHERCHE
 		function wd_remove_accents($str, $charset='utf-8')
 		{
 			$str = htmlentities($str, ENT_NOQUOTES, $charset);
@@ -24,6 +26,7 @@
 			$str = preg_replace('#&[^;]+;#', '', $str); // supprime les autres caractères
 			return $str;
 		}
+		//RECUPERATION VILLE VIA CODE POSTALE
 		function getCity($zip) {
 			$result = "";
 			$select = $this->mysql->prepare("SELECT `Real_Name` FROM `french_city` WHERE `ZipCode` = :zip LIMIT 0, 1");	
@@ -34,6 +37,7 @@
 			}
 			return $result;
 		}
+		//RECUPERATION COORDONNEES VIA BDD
 		function getPositionDB($zip, $name="") {
 			$name_s = "";
 			$replace = array(":zipcode" => $zip);
@@ -51,6 +55,7 @@
 			}
 			return $result;
 		}
+		//RECUPERER INFORMATIONS VILLE VIA SON NOM
 		function getLocationByName($name) {
 			$replace = array();
 			$city = preg_replace("/\|| /", "-", $name);
@@ -96,6 +101,7 @@
 				}
 			return $result;	
 		}
+		//RECUPERATION COORDONNEES ---- GOOGLE
 		function getPosition($adresse, $zip, $city="") {
 			//Initiation des variables de sortie
 			$coords['lat'] = $coords['lon'] = '';
@@ -185,6 +191,7 @@
 			$rand = rand(0,20);
 			if($rand > 15) { $this->auto_(); }
 		}
+		//SCRIPT AUTOMATIQUE
 		function auto_() {
 			//RDV
 			$select = @$this->mysql->prepare("SELECT * FROM `appointment` WHERE `Date` <= '".date("Y-m-d H:i:s", strtotime("-1 hour"))."' AND `State` = '1' LIMIT 0, 8");
@@ -247,15 +254,18 @@
 				}
 			}
 		}
+		//RECUPERATION AGE UTILISATEUR
 		function getAge($date) {
   			return (int) ((time() - strtotime($date)) / 3600 / 24 / 365);
 		}
+		//RECUPERATION NOTE GLOBAL
 		function getglnote($id) {
 			$select = $this->mysql->query("SELECT SUM(`Note`) AS `total`, COUNT(*) AS `nb` FROM `notations` WHERE `Owner_Service` = '".$id."'");
 			$data = $select->fetch(PDO::FETCH_OBJ);
 			$total = @round($data->total/$data->nb);
 			return array($total, $data->nb);
 		}
+		//RECUPERATION LISTE DES COMMENTAIRES
 		function list_com($for="",$limit=true) {
 			if($limit != true) {
 				$lim =	' LIMIT 0, 7';
@@ -310,6 +320,7 @@
 			}
 			return $html;
 		}
+		//PROTECTION PAGE JUSTE POUR UTILISATEURS
 		function onlyUsers() {
 			if(!$this->logged && !isset($_GET['logout'])) {
 				header("HTTP/1.1 403 Unauthorized" );
@@ -319,6 +330,7 @@
 				header("Location: index.php");	
 			}
 		}
+		//PROTECTION PAGE JUSTE POUR VISITEURS
 		function onlyVisitors() {
 			if($this->logged) {
 				if(preg_match("/inscription\.php/", $_SERVER['PHP_SELF']) || isset($_GET['logout'])) {
@@ -330,6 +342,7 @@
 				}
 			}
 		}
+		//PROTECTION PAGE JUSTE POUR ADMIN
 		function onlyAdmin() {
 			$this->onlyUsers();
 			if($this->admin == 0) {
@@ -337,6 +350,7 @@
 				header("Location: index.php?noadmin");	
 			}
 		}
+		//AFFICHAGE MODAL DE REDIRECTION CAR PAR ACCESS A LA PAGE
 		function modal_location_c($GET) {
 			$title = "";
 			$text = "";
@@ -376,6 +390,7 @@
 				echo $html;
 			}
 		}
+		//COMPTER MESSAGE NON LU
 		function list_messages() {
 			$t = 0;
 			$select = $this->mysql->prepare("SELECT `conversation_reply`.`ID` FROM `conversation_reply` INNER JOIN `conversation` ON `conversation_reply`.`C_ID` = `conversation`.`ID` WHERE (`conversation`.`User_One` = :id OR `conversation`.`User_Two` = :id) AND `conversation_reply`.`Author` != :id AND `conversation_reply`.`Seen` = '0' AND (`conversation_reply`.`BotTo` = '0' OR `conversation_reply`.`BotTo` = '".$this->ID."')");	
@@ -383,12 +398,14 @@
 			$t = $select->rowCount();
 			return $t;
 		}
+		//UPDATE MANUEL CHAMPS PAR CHAMPS
 		function update($variable, $field, $value) {
 			$select = $this->mysql-prepare("UPDATE FROM `users` SET `".$field."` = :value WHERE `ID` = :ID ");
 			$select->execute(array(":value" => $value, ":id" => $this->ID));
 			$this->{"".$variable.""} = $value;
 			return array(true);
 		}
+		//CRYPTER VALEUR COOKIE|SESSION
 		function crypt_sess($ID) {
 			$step = base64_encode($ID."__SWAP");
 			$total = strlen($step);
@@ -402,6 +419,7 @@
 			$output = base64_encode($mixed);
 			return $output;
 		}
+		//DECRYPTER COOKIE|SESSION
 		function uncrypt_sess($sess) {
 			$step = base64_decode($sess);
 			$step = preg_replace("/\_/", "=", $step);
@@ -416,6 +434,7 @@
 			$output = preg_replace("/\_\_SWAP/", "", $output);
 			return $output;
 		}
+		//CRYPTER LIEN DE MOT DE PASSE PERDU
 		function crypt_remind($mail, $ID, $pass) {
 			$step = base64_encode($ID."__SWAP".$mail."__SWAP".$pass);
 			$total = strlen($step);
@@ -429,6 +448,7 @@
 			$output = base64_encode($mixed);
 			return $output;
 		}
+		//DECRYPTER LIEN DE MOT DE PASSE PERDU
 		function uncrypt_remind($sess) {
 			$step = base64_decode($sess);
 			$step = preg_replace("/\_/", "=", $step);
@@ -443,6 +463,7 @@
 			$output = explode("__SWAP", $output);
 			return $output;
 		}
+		//RECHERCHE COOKIE OU SESSION
 		function find_sess() {
 			if(isset($_COOKIE['user_swappy']) && !empty($_COOKIE['user_swappy'])) {
 				$this->load_user_data($this->uncrypt_sess($_COOKIE['user_swappy']), $_COOKIE['user_swappy']);
@@ -452,6 +473,7 @@
 				$this->logged = false;	
 			}
 		}
+		//DECONNEXION
 		function logout() {
 			setcookie("user_swappy", "", time() - (60*60*60), "/");
 			$_SESSION['user_swappy'] = "";
@@ -459,6 +481,7 @@
 			unset($_SESSION['user_swappy']);
 			$this->unload_user_data();
 		}
+		//VALIDATION COMPTE
 		function validate_account($hash) {
 			$html = "";
 			$hash = base64_decode(trim($hash));
@@ -487,6 +510,7 @@
 			return $html;
 			
 		}
+		//CONNEXION
 		function flogin($POST) {
 			$arr = array();
 			$select = $this->mysql->prepare("SELECT `ID`,`Password`,`Validation` FROM `users` WHERE `Login` = :login");
@@ -513,6 +537,7 @@
 			}
 			return $arr;
 		}
+		//DECRYPTER TAGS VENANT DE LA BDD
 		function tags_uncrypt($tags) {
 			$html = "";
 			$l = preg_split('/\,/', $tags);	
@@ -527,6 +552,7 @@
 			}
 			return $html;
 		}
+		//CHARGEMENT DES INFOS DE L'UTILISATEUR DANS LA CLASS
 		function load_user_data($ID, $crypt, $me=true) {			
 			$select = $this->mysql->prepare("SELECT *, COUNT(*) AS `exist` FROM `users` WHERE `ID` = :ID");
 			$select->execute(array(":ID" => $ID));
@@ -574,6 +600,7 @@
 				}
 			}
 		}
+		//RETIRER INFORMATIONS UTILISATEURS DE LA CLASS
 		function unload_user_data() {
 			$this->ID = false;
 			$this->age = false;
@@ -600,6 +627,7 @@
 			$this->globalnote = false;
 			$this->globalvote = false;
 		}
+		//EDITION UTILISATEUR
 		function edit_user($POST) {
 			$avatar = $this->avatar;
 			$return = array(false);
@@ -705,6 +733,7 @@
 			}
 			return $return;
 		}
+		//LISTE BADGE ET SERVICES
 		function listing_badge_s() {
 			$list = array();
 			$html = "";
@@ -730,6 +759,7 @@
 			}
 			return $html;
 		}
+		//AJOUT UTILISATEUR
 		function add_user($POST) {
 			//prevenir le bug de Validation engine
 			$arr = array(false);
@@ -769,6 +799,7 @@
 			}
 			return $arr;
 			} 
+			//CREATION DU LIEN DE VALIDATION
 			function make_link_validation($email, $login) {
 				$email = strtolower($email);
 				$login = strtolower($login);
@@ -777,6 +808,7 @@
 				$hash = base64_encode($c_login."-==-".$c_email);
 				return $hash;
 			}
+			//VERIFICATION SI LOGIN EXISTE DANS BDD
 			function issetLogin($login, $id) {
 				$arr = array (false, false);
 				$select = $this->mysql->prepare("SELECT COUNT(*) AS `total` FROM `users` WHERE `Login` = :login");
@@ -797,6 +829,7 @@
 				}
 				return $arr;
 		}
+		//VERIFICATION SI EMAIL EXISTE DANS BDD
 		function issetEmail($email, $id) {
 			$select = $this->mysql->prepare("SELECT COUNT(*) AS `total` FROM `users` WHERE `Email` = :email");
 			$select->execute(array(":email" => $email));
@@ -817,6 +850,7 @@
 			}
 			return $arr;
 		}
+		//VERIFICATION SI CODE POSTALE EXISTE DANS BDD
 		function issetZipCode($zipcode, $id) {
 			$arr = array($id, true, array());
 			$select = $this->mysql->prepare("SELECT `ID`,`Real_Name` FROM `french_city` WHERE `ZipCode` = :zipcode");
@@ -834,6 +868,7 @@
 			}
 			return $arr;
 		}
+		//AFFICHAGE DE LA BAR DE MENU
 		function navbar() {
 			$html = '';
 			if(!$this->logged) {
@@ -909,6 +944,7 @@
 			$html .= "</li>";
 			return $html;
 		}
+		//ENVOIE MAIL MOT DE PASSE PERDU
 		function remind_mail($POST) {
 			$arr = array();
 			$mail = strtolower(trim($POST['email']));
@@ -928,6 +964,7 @@
 			}
 			return $arr;
 		}
+		//MODIFICATION MOT DE PASSE PERDU
 		function remind_account($POST) {
 			$arr = array();
 			$info = $this->uncrypt_remind(trim($POST['hash']));
@@ -939,6 +976,7 @@
 			}
 			return $arr;	
 		}
+		//POUR EVITER QUE LE MEME LIEN DE MOT DE PASSE PERDU SERVE A L'INFINI
 		function prevent_ex_remind($id, $pass) {
 			$select = $this->mysql->query("SELECT `Password` FROM `users` WHERE `ID` = '".$id."'");	
 			$data = $select->fetch(PDO::FETCH_OBJ);
@@ -948,6 +986,7 @@
 				return false;
 			}
 		}
+		//LISTE DES SERVICES DE L'UTILISATEURS
 		function list_services_edit() {
 			$return = array();
 			$select = $this->mysql->prepare("SELECT `services`.`ID`, `categories`.`ID` AS `CatType`, `services`.`Title`, `services`.`Type`, `type`.`Name` AS `TypeName`, `services`.`By`, `services`.`Description`, `services`.`Distance`, `services`.`Disponibility`, `services`.`Created`, `services`.`City`, `services`.`Lat`, `services`.`Lon`, `french_city`.`Real_Name` AS `CityName` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` INNER JOIN `users` ON `services`.`By` = `users`.`ID` WHERE `users`.`ID` = :ID ORDER BY `services`.`Created` DESC");
@@ -979,6 +1018,7 @@
 			}
 			return $return;
 		}
+		//UPLOAD AVATAR
 		function change_avatar($file) {
 			$arr = array(false,"Une erreur a eu lieu...");
 			$handle = new Upload($file);
@@ -1027,6 +1067,7 @@
 			}
 			return $arr;
 		} 
+		//RECUPERATION DU NOM COMPLET
 		function get_name($id) {
 			$name = "";
 			$select = $this->mysql->prepare("SELECT `FirstName`, `LastName` FROM `users` WHERE `ID`= :id");
@@ -1035,6 +1076,7 @@
 			$name = $data->FirstName." ".$data->LastName;
 			return $name;
 		}
+		//AFFICHAGE DU STATUT DES RDV
 		function state_m($state,$name,$whoami) {
 			$ret = "";
 			if($whoami == 0) {
@@ -1061,6 +1103,7 @@
 			}
 			return $ret;
 		}
+		//AFFICHAGE DE LA LISTE DES RENDEZ-VOUS
 		function list_rdv($past) {
 			if($past == true) {
 				$sh = "= '1'";	
@@ -1109,6 +1152,7 @@
 			}
 			return $html;
 		}
+		//AFFICHAGE CONTENU MODAL CALENDRIER DYNAMIQUE
 		function list_mod_cal($date) {
 			if(file_exists("inc/chat.php")) {
 				@require_once("inc/chat.php");	
@@ -1145,6 +1189,7 @@
 			}
 			return $html;
 		}
+		//CREATION DU JSON POUR LE CALENDRIER DYNAMIQUE
 		function json_calendar($year, $month) {
 			$arr = array();
 			if($month<10) {

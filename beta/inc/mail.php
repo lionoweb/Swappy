@@ -1,16 +1,17 @@
 <?php
+//ENVOIE MAIL
+//CONFIGURATION STMP PHP
 ini_set("SMTP", "ssl0.ovh.net"); 
+//CLASS POUR CONVERTIR MAIL HTML EN MAIL TEXT/PLAIN
 require('class.html2text.inc');
+//CLASS ENVOIE MAIL SWIFTMAIL
 require('swift/swift_required.php');
 class mailer {
+	//DEFINITION DE NOS BOITES MAILS
 	public $noreply = "no-reply@swappy.fr";
 	public $contact = "contact@swappy.fr";
 	private $folderb = "beta/";
-	function txt_mail($msg) {
-		$txt = "";
-		
-		return $txt;
-	}
+	//HABILLAGE DU MAIL SI ENVOIE PROVENANT DE SWAPPY
 	function bodytext($htmli, $norep, $title) {
 		$rep = "";
 		if($norep == true) {
@@ -27,7 +28,9 @@ class mailer {
 		$html .= '</table></td></tr></table></body></html>';
 		return $html;
 	}
+	//ENVOIE MAIL
 	function sendmail($to, $from, $fromname="Swappy.fr", $subject, $html) {
+		//SI EXPEDITEUR EST PAS @SWAPPY.FR
 		if(!preg_match("/\@swappy\.fr/", $from)) {
 			$h2t = @new html2text($html);
 			// Simply call the get_text() method for the class to convert
@@ -56,6 +59,7 @@ class mailer {
 			
 			return mail($to, $subject, $message, $headers);
 		} else {
+			//SI EXPEDITEUR = @SWAPPY.FR
 			if(preg_match('/no\-reply/', $from)) {
 				$html = $this->bodytext($html, true, $subject);
 			} else {
@@ -94,6 +98,7 @@ class mailer {
 			}
 		}
 	}
+	//ENVOIE MAIL CHANGEMENT MOT DE PASSE
 	function send_remind($hash, $mail, $name, $cname) {
 		
 		$to = $mail;
@@ -108,6 +113,7 @@ class mailer {
 			return array(false, "Une erreur à eu lieu lors de l'envoie du mail... Veuillez réessayer plus tard.");
 		}
 	}
+	//ENVOIE MAIL VALIDATION COMPTE
 	function send_validation($email, $name, $cname, $hash) {
 		$to = $email;
 		$subject = 'Inscription sur Swappy.fr';
@@ -121,6 +127,7 @@ class mailer {
 			return false;
 		}
 	}
+	//ENVOIE MAIL SI NOUVEAU MESSAGE
 	function newmessage($email, $date, $idc, $cname, $oname, $oid) {
 		$subject = 'Nouveau message à '.date("H:i",$date);
 		$message = '<h4>Bonjour {CNAME}</h4>';
@@ -132,6 +139,7 @@ class mailer {
 		$first = preg_replace("/\{CID\}/", $idc, $first);
 		$this->sendmail($email, $this->noreply, "Swappy.fr", $subject, $first);
 	}
+	//ENVOIE MAIL CONFIRMATION RENDEZ-VOUS
 	function send_validation_rdv($owner, $user, $servid, $servname, $date, $cc) {
 		$to = $email;
 		$subject = 'Votre rendez-vous pour le '.date("d/m/Y \à H:i", strtotime($date));
@@ -158,6 +166,7 @@ class mailer {
 		$first = preg_replace("/\{IDCONV\}/", $cc, $first);
 		$this->sendmail($user->email, $this->noreply, "Swappy.fr", $subject, $first);
 	}
+	//ENVOIE MAIL DE LA PAGE CONTACT
 	function send_contact_form($POST) {
 		$to = $this->contact;
 		$subject = 'Message de Swappy';

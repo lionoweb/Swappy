@@ -1,4 +1,5 @@
 <?php
+//ENVOIE DE MAIL
 require_once("mysql.php");
 require_once("mail.php");
 $mail = new mailer();

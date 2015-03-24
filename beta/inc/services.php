@@ -1,4 +1,5 @@
 <?php
+//SERVICES
 	class services {
 		private $mysql;
 		public $ID = "";
@@ -28,6 +29,7 @@
 				header("Location: services.php");	
 			}
 		}
+		//FAIRE CONTENIR UN SERVICE A L'OBJET
 		function load_service($ids) {
 			$select = $this->mysql->prepare("SELECT `services`.`ID`, `categories`.`ID` AS `CatType`, `services`.`Title`, `services`.`Type`, `type`.`Name` AS `TypeName`, `services`.`By`, `services`.`Description`, `services`.`Distance`, `services`.`Disponibility`, `services`.`Created`, `services`.`City`, `services`.`Lat`, `services`.`Lon`, `french_city`.`ZipCode`, `french_city`.`Real_Name` AS `CityName` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` WHERE `services`.`ID` = :ID");
 			$select->execute(array(":ID" => $ids));
@@ -68,6 +70,7 @@
 				$this->globalvote = $vote[1];
 			}
 		}
+		//CALCUL NOTE
 		function getglnote($id) {
 			$select = $this->mysql->query("SELECT SUM(`Note`) AS `total`, COUNT(*) AS `nb` FROM `notations` WHERE `Service` = '".$id."'");
 			$data = $select->fetch(PDO::FETCH_OBJ);
@@ -75,6 +78,7 @@
 			
 			return array($total, $data->nb);
 		}
+		//SUPPRESSION SERVICE
 		function delete_serv($id, $user) {
 			$array = array(false);
 			if($this->own_s($id) != $user) {
@@ -99,6 +103,7 @@
 			}
 			return $array;
 		}
+		//DECRYPTION DU HASH POUR VOTE
 		function decrypt_vote_h($hash) {
 			$h = base64_decode($hash);
 			$c = preg_split("/\/\/\//", $h);	
@@ -106,6 +111,7 @@
 			$date_a = $c[1];
 			return array("ID" => $id_a, "Date" => $date_a);
 		}
+		//VERIFICATION SI MEMBRE A DEJA VOTE
 		function has_voted($id, $owner, $user) {
 			$select = $this->mysql->prepare("SELECT COUNT(*) AS `nb` FROM `notations` WHERE `By` = :id AND `Service` = :serv AND `Owner_Service` = :oserv ");
 			$select->execute(array(":id" => $user, ":serv" => $id, ":oserv" => $owner));
@@ -116,6 +122,7 @@
 				return true;
 			}
 		}
+		//AJOUT NOTE ET COMMENTAIRE
 		function add_note($POST, $user, $chat) {
 			$arr = array(false);
 			$h = $this->decrypt_vote_h($POST['hash']);
@@ -150,6 +157,7 @@
 			}
 			return $arr;
 		}
+		//AFFICHAGE DE LA PAGE DE VOTE
 		function page_vote($hash, $user) {
 			$html = "";
 			$h = $this->decrypt_vote_h($hash);
@@ -177,6 +185,7 @@
 			}
 			return $html;
 		}
+		//AFFICHAGE DU CODE POSTAL + VILLE
 		function format_city($zipcode, $city="") {
 			$return = "";
 			$cityn = $city;
@@ -189,6 +198,7 @@
 			$return = $zipcode." (".$cityn.")";
 			return $return;	
 		}
+		//RECUPERATION DES COORDONNEE VIA CODE POSTALE
 		function get_coord($zip) {
 			$array = array("lon" => false, "lat" => false);
 			$select = $this->mysql->prepare("SELECT `Lat`, `Lon`, COUNT(*) AS `total` FROM `french_city` WHERE `ZipCode` = :zipcode");
@@ -200,6 +210,7 @@
 			}
 			return $array;
 		}
+		//RECUPERATION ID VILLE VIA CODE POSTALE
 		function get_cityID($zip) {
 			$ID = false;
 			$select = $this->mysql->prepare("SELECT `ID`, COUNT(*) AS `total` FROM `french_city` WHERE `ZipCode` = :zipcode");
@@ -210,12 +221,14 @@
 			}
 			return $ID;
 		}
+		//RECUPERATION DU PROPRIETAIRE DU SERVICE
 		function own_s($id) {
 			$select = $this->mysql->prepare("SELECT `By` FROM `services` WHERE `ID` = :id");
 			$select->execute(array(":id" => $id));
 			$data = $select->fetch(PDO::FETCH_OBJ);
 			return $data->By;
 		}
+		//EDITIONS SERVICES
 		function edit_services($POST, $user) {
 			$id_s = trim($POST['ID_EDIT']);
 			$prop = $this->own_s($id_s);
@@ -251,6 +264,7 @@
 			return array(true);
 			}
 		}
+		//AJOUT SERVICES
 		function add_services($POST, $user) {
 			//DISPONIBILITE		
 			$dispo = $this->dispo_crypt($POST['dispoday'], $POST['dispostart'], $POST['dispoend']);
@@ -280,6 +294,7 @@
 			$select->execute($replace);
 			return array(true);
 		}
+		//CRYPTER DISPONIBILITE POUR BDD
 		function dispo_crypt($day, $start, $end) {
 			$txt = "";
 			foreach ($day as $name => $val) {
@@ -287,6 +302,7 @@
 			}
 			return substr($txt, 0, strlen($txt)-2);
 		}
+		//DECRYPTER DISPONIBILITE VENANT DE LA BDD
 		function dispo_uncrypt($txt) {
 			$out = "";
 			$sp = explode("||", $txt);
@@ -298,6 +314,7 @@
 			}
 			return $out;
 		}
+		//DECRYPTER DISPONIBILITE VENANT DE LA BDD POUR PAGE EDITION SERVICE
 		function dispo_uncrypt_edit($txt) {
 			$html = '<span data-IDF="{ID}" class="dispo_field">
                         <select id="dispoday[{ID}]" name="dispoday[{ID}]" class="form-control days">';
@@ -327,6 +344,7 @@
 			}
 			return $out;
 		}
+		//DECRYPTER DISPONIBILITE POUR PROFIL
 		function dispo_uncrypt_an($txt) {
 			$out = "";
 			$sp = explode("||", $txt);
@@ -338,12 +356,14 @@
 			}
 			return $out;
 		}
+		//RECUPERATION DU NOM DU TYPE DE SERVICE
 		function type_name($id) {
 			$select = $this->mysql->prepare("SELECT `Name` FROM `type` WHERE `ID` = :ID");
 			$select->execute(array(":ID" => $id));
 			$data = $select->fetch(PDO::FETCH_OBJ);
 			return $data->Name;
 		}
+		//LISTING DES CATEGORIES DE SERVICE ET TYPES
 		function list_categories($required=false, $selected="") {
 			$req = "";
 			if($required) {

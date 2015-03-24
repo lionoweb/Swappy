@@ -1,4 +1,5 @@
 <?php
+//ENVOIE ET RECEPTION JSON POUR UTILISATEURS
 require_once("mysql.php");
 $arr = array();
 require_once("mail.php");
