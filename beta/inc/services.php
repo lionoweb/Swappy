@@ -52,7 +52,7 @@
 				if(empty($data->Description)) {
 					$this->description = "L'utilisateur n'a pas fourni de description...";
 				} else {
-					$this->description = $data->Description;
+					$this->description = trim($data->Description);
 				}
 				$this->image = $data->Image;
 				$this->distance = $data->Distance;

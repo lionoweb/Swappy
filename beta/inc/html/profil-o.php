@@ -29,7 +29,7 @@
 		</div>
         <div class="col-md-6 col-md-offset-3">
 			<p id="description" class="text-justify description_">
-  			<?php $desc = trim($user_->description); echo $desc = "" ? 'Pas de description' : ucfirst($desc); ?>
+  			<?php $desc = trim($user_->description); echo $desc == "" ? 'Pas de description' : ucfirst($desc); ?>
 			</p>
 		</div>
 		<?php if(isset($_GET['id']) && $_GET['id'] != $user->ID ) { ?>

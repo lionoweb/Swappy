@@ -701,12 +701,6 @@ input.space-button {
     white-space: inherit;
     border-radius: 0px;
 }
-#spec_annonce .profil button:hover,
-.interesse a.btn:hover {
-    background-color: #74cce2;
-    color: white;
-    border: none;
-}
 .header_m, .inner_m, .form_m {
 	border-left:1px solid #CCC;	
 }
@@ -982,6 +976,49 @@ form input[type=submit]:hover {
     text-transform: uppercase;
     text-align: center;
     font-size: 1.5em;
+}
+#profil .profiltitle {
+	margin-top:15px;	
+}
+.see_profile:hover {
+	color:#337ab7;	
+}
+.list_rdv_ a, .header_contact a, .bloc_services a {
+	color:#2D679B;
+}
+.list_rdv_ {
+	font-size:1.2em;
+}
+.talk-button, .report-button, .edit-button {
+	background-color: white !important;
+    border: medium none;
+    border-radius: 0;
+    color: black;
+    display: inline-block;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 500;
+    line-height: inherit;
+    margin-top: 10px;
+    padding: 10px 16px;
+    text-indent: 0;
+    text-transform: uppercase;
+    white-space: inherit;
+	margin-left:7px;
+}
+.desc_services a {
+	display: inline-block;
+  	height: 100%;
+  	width: 100%;
+}
+.header_m a:hover {
+	text-decoration:none;	
+}
+.header_m .m_for a:hover {
+	text-decoration:underline;	
+}
+#profil .profiltitle.first {
+	margin-top:0px !important;	
 }
 #spec_apropos .down {
     margin-top: -6px;
@@ -1373,7 +1410,12 @@ form input[type=submit]:hover {
 }
 #profil .header_profil .top {
     text-align: center;
-    margin-bottom: 2px;
+    margin-bottom: 28px;
+}
+@media(min-width: 992px) {
+    #profil .header_profil .top .infos {
+        text-align: left!important;
+    }
 }
 #profil input,
 #profil textarea {
@@ -1902,17 +1944,20 @@ td {
     cursor: pointer;
 }
 .badge_:hover .inner_b {
-	display:-webkit-box;
+	display:-moz-box;
+    display:-webkit-box;
+    display:box;
+	display:-ms-flexbox;
 }
 .badge_ .inner_b {
 	position:absolute;
 	border-radius:50%;
-	border:2px solid #000; 
+	border:3px solid #000; 
 	width:85px; 
 	height:85px; 
 	left:0px; 
 	top:0px; 
-	font-size:0.9em; 
+	font-size:12.3px; 
 	color:#FFF; 
 	text-align:center; 
 	padding:15px 8px 10px 8px; 
@@ -1926,11 +1971,23 @@ td {
 	display:none;
 	-webkit-box-pack:center;
 	-webkit-box-align:center; 
+	-ms-flex-pack:center;
+	-ms-flex-align:center;
+	-moz-box-pack:center;
+	-moz-box-align:center;
+	-webkit-box-pack:center;
+	-webkit-box-align:center;
+	box-pack:center;
+	box-align:center;
 	background-color: rgba(0, 0, 0, 0.4);
 }
 .badge_.glow .inner_b {
-    border:2px solid #279DDF;
-	display:-webkit-box;
+    border:3px solid #279DDF;
+	display:-moz-box;
+    display:-webkit-box;
+    display:box;
+	display:-ms-flexbox;
+	background-color: rgba(0, 0, 0, 0.4) !important;
 }
 .listing-s {
     margin: 7px auto 6px auto;
@@ -1986,6 +2043,17 @@ td {
 	padding-top:2px !important;
 	padding-bottom:2px !important;	
 	margin-top:35px;
+}
+#spec_annonce .profil button:hover,
+.interesse a.btn:hover, .talk-button:hover, .report-button:hover, .edit-button:hover {
+    background-color: #74cce2 !important;
+    color: white;
+    border: none;
+}
+a:focus, button:focus {
+	color:inherit !important;
+	text-decoration:inherit !important;	
+	background:inherit !important;
 }
 @media (max-width: 381px) {
     .message_box {
@@ -2118,10 +2186,19 @@ td {
 	color:#000 !important;	
 }
 @media (max-width: 767px) {
+	.xs-center {
+		text-align:center !important;	
+	}
 	.mess_t .mess_count {
 		position: absolute;
 		right: 34px;
-	
+	}
+	.badge_ .inner_b {
+		display:-moz-box !important;
+		display:-webkit-box !important;
+		display:box !important;
+		display:-ms-flexbox !important;
+		background-color: rgba(0, 0, 0, 0.2) !important;
 	}
 	.delete_m {
 		color: #000;
