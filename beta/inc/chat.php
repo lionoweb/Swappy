@@ -472,7 +472,7 @@
 					$ss = $this->mysql->prepare("UPDATE `appointment` SET `State` = '4' WHERE `ID` = :id");
 					$ss->execute(array(":id" => $id));
 					//SEND TO OTHER
-					$mess = $this->user->firstname.' '.$this->user->firstname.' a confirmé que le rendez-vous a eu lieu. Confirmer ?<br><a data-id="'.$id.'" class="valid-this-date">Oui</a>&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$id.'" class="refuse-this-date">Non</a>';
+					$mess = $this->user->firstname.' '.$this->user->lastname.' a confirmé que le rendez-vous a eu lieu. Confirmer ?<br><a data-id="'.$id.'" class="valid-this-date">Oui</a>&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$id.'" class="refuse-this-date">Non</a>';
 					$this->send_reply($mess, $cc, $other);
 					//SEND TO ME
 					$mess = 'Vous avez confirmé que le rendez-vous a bien eu lieu.';
@@ -484,7 +484,7 @@
 					$ss = $this->mysql->prepare("DELETE `appointment` WHERE `ID` = :id");
 					$ss->execute(array(":id" => $id));
 					//SEND TO OTHER
-					$mess = $this->user->firstname.' '.$this->user->firstname.' a confirmé que le rendez-vous n\'a pas eu lieu.';
+					$mess = $this->user->firstname.' '.$this->user->lastname.' a confirmé que le rendez-vous n\'a pas eu lieu.';
 					$this->send_reply($mess, $cc, $other);
 					//SEND TO ME
 					$mess = 'Vous avez confirmé que le rendez-vous n\'a pas eu lieu.';
@@ -498,7 +498,7 @@
 					$ss = $this->mysql->prepare("UPDATE `appointment` SET `State` = '5' WHERE `ID` = :id");
 					$ss->execute(array(":id" => $id));
 					//SEND TO OTHER
-					$mess = $this->user->firstname.' '.$this->user->firstname.' a confirmé que le rendez-vous a bien eu lieu.';
+					$mess = $this->user->firstname.' '.$this->user->lastname.' a confirmé que le rendez-vous a bien eu lieu.';
 					$this->send_reply($mess, $cc, $other);
 					//SEND TO ME
 					$mess = 'Vous avez confirmé que le rendez-vous a bien eu lieu.';
@@ -535,7 +535,7 @@
 					$ss = $this->mysql->prepare("DELETE FROM `appointment` WHERE `ID` = :id");
 					$ss->execute(array(":id" => $id));
 					//SEND TO OTHER
-					$mess = $this->user->firstname.' '.$this->user->firstname.' a refusé la date du rendez-vous.';
+					$mess = $this->user->firstname.' '.$this->user->lastname.' a refusé la date du rendez-vous.';
 					$this->send_reply($mess, $cc, $other);
 					//SEND TO ME
 					$mess = 'Vous avez refusé le rendez-vous';
@@ -549,7 +549,7 @@
 					$ss = $this->mysql->prepare("DELETE FROM `appointment` WHERE `ID` = :id");
 					$ss->execute(array(":id" => $id));
 					//SEND TO OTHER
-					$mess = $this->user->firstname.' '.$this->user->firstname.' a annulé le rendez-vous.';
+					$mess = $this->user->firstname.' '.$this->user->lastname.' a annulé le rendez-vous.';
 					$this->send_reply($mess, $cc, $other);
 					//SEND TO ME
 					$mess = 'Vous avez annulé le rendez-vous';
@@ -561,7 +561,7 @@
 				if($data->State == 2) {
 					$a = true;
 					//SEND TO OTHER
-					$mess = $this->user->firstname.' '.$this->user->firstname.' a signalé que le rendez-vous n\'a pas eu lieu. Confirmer ?<br><a data-id="'.$id.'" class="valid-this-date">Oui</a>&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$id.'" class="refuse-this-date">Non</a>';
+					$mess = $this->user->firstname.' '.$this->user->lastname.' a signalé que le rendez-vous n\'a pas eu lieu. Confirmer ?<br><a data-id="'.$id.'" class="valid-this-date">Oui</a>&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$id.'" class="refuse-this-date">Non</a>';
 					$this->send_reply($mess, $cc, $other);
 					//SEND TO ME
 					$mess = 'Vous avez signalé que le rendez-vous n\'a pas eu lieu...';
@@ -573,7 +573,7 @@
 				if($data->State == 3) {
 					$a = true;
 					//SEND TO OTHER
-					$mess = $this->user->firstname.' '.$this->user->firstname.' a signalé que le rendez-vous a bien eu lieu. Confirmer ?<br><a data-id="'.$id.'" class="valid-this-date">Oui</a>&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$id.'" class="refuse-this-date">Non</a>';
+					$mess = $this->user->firstname.' '.$this->user->lastname.' a signalé que le rendez-vous a bien eu lieu. Confirmer ?<br><a data-id="'.$id.'" class="valid-this-date">Oui</a>&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$id.'" class="refuse-this-date">Non</a>';
 					$this->send_reply($mess, $cc, $other);
 					//SEND TO ME
 					$mess = 'Vous avez signalé que le rendez-vous a pourtant eu lieu...';
@@ -585,7 +585,7 @@
 				if($data->State == 4) {
 					$a = true;
 					//SEND TO OTHER
-					$mess = $this->user->firstname.' '.$this->user->firstname.' a signalé que le rendez-vous n\'a pas eu lieu. Confirmer ?<br><a data-id="'.$id.'" class="valid-this-date">Oui</a>&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$id.'" class="refuse-this-date">Non</a>';
+					$mess = $this->user->firstname.' '.$this->user->lastname.' a signalé que le rendez-vous n\'a pas eu lieu. Confirmer ?<br><a data-id="'.$id.'" class="valid-this-date">Oui</a>&nbsp;&nbsp;&nbsp;&nbsp;<a data-id="'.$id.'" class="refuse-this-date">Non</a>';
 					$this->send_reply($mess, $cc, $other);
 					//SEND TO ME
 					$mess = 'Vous avez signalé que le rendez-vous n\'a pourtant pas eu lieu...';

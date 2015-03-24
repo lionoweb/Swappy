@@ -342,7 +342,7 @@
 			$text = "";
 			$extra = '';
 			if(isset($_GET['needunlogged'])) {
-				$title = "Se deconnecter pour y accéder";
+				$title = "Se déconnecter pour y accéder";
 				$text = "Désolé, mais la page à laquelle vous souhaitiez accéder n'est pas accessible en tant qu'utilisateur connecté.<br><br>Veuillez vous déconnecté pour l'afficher.";
 			}
 			if(isset($_GET['unlogged'])) {
@@ -900,7 +900,7 @@
 								--><li><a href="proposition.php">Mes propositions</a></li><!--
 								--><li><a href="rendez-vous.php">Mes rendez-vous</a></li><!--
 								--><li><a href="messagerie.php">Messagerie '.$message_list.'</a></li><!--
-                                --><li><a href="'.$logout.'">Se deconnecter</a></li><!--
+                                --><li><a href="'.$logout.'">Se déconnecter</a></li><!--
                             --></ul>';
 							if($fixed_n[0] == "true") {
 								$html = preg_replace('/\<li\>\<a href\=\"'.basename($_SERVER['PHP_SELF']).'/', '<li class="active"><a href="'.basename($_SERVER['PHP_SELF']).'', $html);	

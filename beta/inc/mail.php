@@ -137,7 +137,7 @@ class mailer {
 		$subject = 'Votre rendez-vous pour le '.date("d/m/Y \à H:i", strtotime($date));
 		
 		$message = '<h4>Bonjour {CNAME}</h4>';
-		$message .= '<p>Votre rendez-vous a été validé auprès de vous et de votre interlocuteur.<br><br><u>Voici donc le récupitulatif :</u><br>Il s\'agit d\'un rendez-vous avec <a href="http://swappy.fr/'.$this->folderb.'profil-{OID}.php">{ONAME}</a>  pour {YOUR} service \'<a href="http://swappy.fr/'.$this->folderb.'annonce-{SERVID}.php">{SERVNAME}</a>\'.<br> Ce rendez-vous est prévu pour le {DATE}.<br><br><i>Vous pouvez toujour annuler ce rendez-vous en cliquant sur lien envoyé dans votre <a href="http://swappy.fr/'.$this->folderb.'messagerie.php#select-{IDCONV}">messagerie</a></i>';
+		$message .= '<p>Votre rendez-vous a été validé auprès de vous et de votre interlocuteur.<br><br><u>Voici donc le récupitulatif :</u><br>Il s\'agit d\'un rendez-vous avec <a href="http://swappy.fr/'.$this->folderb.'profil-{OID}.php">{ONAME}</a>  pour {YOUR} service \'<a href="http://swappy.fr/'.$this->folderb.'annonce-{SERVID}.php">{SERVNAME}</a>\'.<br> Ce rendez-vous est prévu pour le {DATE}.<br><br><i>Vous pouvez toujours annuler ce rendez-vous en cliquant sur lien envoyé dans votre <a href="http://swappy.fr/'.$this->folderb.'messagerie.php#select-{IDCONV}">messagerie</a></i>';
 		$first = preg_replace("/\{CNAME\}/", $owner->firstname." ".$owner->lastname, $message);
 		$first = preg_replace("/\{OID\}/", $user->ID, $first);
 		$first = preg_replace("/\{ONAME\}/", $user->firstname." ".$user->lastname, $first);

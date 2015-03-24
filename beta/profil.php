@@ -24,7 +24,7 @@
       <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
       <title>Swappy.fr - <?php echo $title ; ?></title>
-      <?php echo meta_tag($user_->avatar, $user->description = "" ? 'Pas de description...' : ucfirst($desc), "", $title, $user_->description.", utilisateur, perso, profil, ".$user_->tags.", ".$user_->city.", ".$user_->zipcode); ?>
+      <?php echo meta_tag($user_->avatar, $user_->description == "" ? 'Pas de description...' : ucfirst($user_->description), "", $title, $user_->description.", utilisateur, perso, profil, ".$user_->tags.", ".$user_->city.", ".$user_->zipcode); ?>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>

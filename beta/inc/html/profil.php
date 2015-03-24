@@ -110,7 +110,7 @@
                         </div>
                         <div class="col-sm-8 aste">* : pour changer d'adresse email ou de mot de passe vous devez entrer votre mot de passe actuel.</div>
                         <div class="form-group col-sm-4  col-xs-12">
-                     		<input type="submit" class="form-control col-md-4" value="Modifier">
+                     		<input type="submit" class="form-control col-md-4" value="Enregistrer">
                   		</div>
                     </div>
 				</div>

@@ -444,7 +444,7 @@ $(document).ready(function(e) {
 function load_ajax_d(form, options) {
     $form_b = $(form);
     if ($form_b.find("#loader_ajax").length < 1) {
-        $form_b.append('<div id="loader_ajax"><p><img src="img/icon/loading.gif" alt="" > envoie en cours...</p></div>');
+        $form_b.append('<div id="loader_ajax"><p><img src="img/icon/loading.gif" alt="" > envoi en cours...</p></div>');
     }
     return true;
 }
@@ -491,7 +491,7 @@ function edit_user_function(status, form, json, options) {
         $("#avatar_u").attr("src", json[1]);
         $(".dropdown-toggle > img:first").attr("src", json[1]);
         $ff = $form_b.find("input[type='submit']");
-        $ff.validationEngine('showPrompt', "Modifications éfféctuées !", 'pass', "topLeft", false, true);
+        $ff.validationEngine('showPrompt', "Modifications effectuées !", 'pass', "topLeft", false, true);
         return true;
     } else {
         $form_b.find("#loader_ajax").remove();
