@@ -1,8 +1,9 @@
 <?php
+	//GENERATION DU SITEMAP POUR INDEXER LES ANNONCES
   	header('Content-type: application/xml');
-	require_once("inc/mysql.php"); 
+	require_once("inc/config.php"); 
 	// configuration
-  	$url_prefix = 'http://swappy.fr/beta/';
+  	$url_prefix = URL_SITE.FOLDER_;
   	$null_sitemap = '<urlset><url><loc></loc></url></urlset>';
 	if(!isset($_GET['i'])) {
  		$i = null;

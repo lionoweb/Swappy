@@ -1,6 +1,6 @@
 <?php
 //ENVOIE ET RECEPTION JSON POUR SERVICES
-require_once("mysql.php");
+require_once("config.php");
 require_once("user.php");
 require_once("services.php");
 require_once("chat.php");

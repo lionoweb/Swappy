@@ -1,20 +1,12 @@
 <?php
-   session_start();
+   require_once("inc/config.php");
    require_once("inc/user.php");
-   require_once("inc/mysql.php");
    $user = new user($mysql);
-   if(isset($_GET['logout'])) {
-   	$user->logout();
-   }
-   if(isset($_GET['id'])) {
-	   $user_ = new user($mysql, trim($_GET['id']));
-	   require_once("inc/chat.php");
-	   	$chat = new chat($mysql, $user); 
-	   $title = "Profil de ".ucfirst($user_->firstname)." ".ucfirst($user_->lastname);
-   } else {
-		$user_ = $user;   
-		$title = "Mon profil";
-   }
+   @$_GET['id'] ?: $user->onlyUsers();
+   require_once("inc/chat.php");
+	$user_ = @$_GET['id'] ?  (new user($mysql, $_GET['id'])) : $user;
+	$chat = new chat($mysql, $user); 
+	$page = new page();
 ?>
 <!doctype html>
 <html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
@@ -23,13 +15,14 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
-      <title>Swappy.fr - <?php echo $title ; ?></title>
-      <?php echo meta_tag($user_->avatar, $user_->description == "" ? 'Pas de description...' : ucfirst($user_->description), "", $title, $user_->description.", utilisateur, perso, profil, ".$user_->tags.", ".$user_->city.", ".$user_->zipcode); ?>
+      <title>Swappy.fr - <?php echo $user_->title; ?></title>
+      <?php echo $page->meta_tag($user_->meta()); ?>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
       <link href="css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="css/main.css">
+      <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
       <script src="js/jquery.js"></script>
       <script src="js/jquery-ui.js"></script>
       <script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js"></script>
@@ -55,7 +48,7 @@
                       <span class="icon-bar"></span>
                   </button>
                   <a class="navbar-brand" href="index.php" title="Retour à l'accueil"><img alt="" width="127" height="47" src="img/logonav.png" class="max"><img alt="" width="50" height="47" src="img/logo_min.png" class="min"></a>
-                  <span class="brand-title"><?php echo $title; ?></span>
+                  <span class="brand-title"><?php echo $user_->title; ?></span>
                </div>
                <form class="navbar-form navbar-left search_navbar" action="services.php" method="get" role="search">
                   <div class=" input-group">
@@ -82,11 +75,7 @@
             <!-- /.container-fluid -->
          </nav>
          <div id="profil" class="container-fluid main mon_profil" role="main">
-				<?php if(isset($_GET['id'])) { 
-					include("inc/html/profil-o.php");
-				} else {
-					include("inc/html/profil.php");
-				} ?>
+                <?php $user_->profil_page($user->ID); ?>
          </div>
       </div>
       <footer id="footer">
@@ -100,9 +89,9 @@
             <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
          </div>
       </footer>
-      <?php if(isset($_GET['id']) && trim($_GET['id']) != $user->ID && $user->logged) {
+      <?php
 		  $chat->prepare_popup($user_, false);
 		  $chat->prepare_popup_report($user_, false);
-	  } ?>
+		?>
    </body>
 </html>

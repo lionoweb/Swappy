@@ -1,6 +1,6 @@
 <?php
 //REPONSE JSON DES RECHERCHES
-require("mysql.php");
+require("config.php");
 require("searches.php");
 $search = new search($mysql);
 if(isset($_GET['searchquery'])) {

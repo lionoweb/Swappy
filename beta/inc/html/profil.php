@@ -1,7 +1,7 @@
 <div class="header_profil">
 	<div class="row">
 		<div class="top edit">
-        	<form method="post" action="inc/add_user.php" id="edit_user">
+        	<form method="post" action="inc/user_.php" id="edit_user" class="col-xs-12">
                 <div class="col-md-2 col-md-offset-3 col-sm-3 col-sm-offset-2 uploader-controls">
                     <img width="130" height="130" id="avatar_u" alt="Mon avatar" src="<?php echo $user_->avatar; ?>">
                     <div class="uploader-side">
@@ -18,48 +18,23 @@
                 <div class="infos col-sm-5">
 					<div class="nom form-group">
      					<label for="prenom" class="control-label">Prénom : </label>
-                        <input autocomplete="off" data-validation-engine="validate[required]" type="text" class="form-control" id="prenom" name="prenom" value="<?php echo ucfirst($user_->firstname); ?>">
+                        <input autocomplete="off" data-validation-engine="validate[required]" type="text" class="form-control" id="prenom" name="prenom" value="<?php echo $user_->firstname; ?>">
      				</div>
      				<div class="nom form-group">
      					<label for="nom" class="control-label">Nom : </label>
-                        <input autocomplete="off" data-validation-engine="validate[required]" type="text" class="form-control" id="nom" name="nom" value="<?php echo ucfirst($user_->lastname); ?>">
+                        <input autocomplete="off" data-validation-engine="validate[required]" type="text" class="form-control" id="nom" name="nom" value="<?php echo $user_->lastname; ?>">
 					</div>
               	</div>
   				<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
   					<div class="form-group col-sm-8">
-  						<?php $dd= preg_split("/\-/", $user_->birthdate); ?>
                      	<label for="day" class="control-label">Date de naissance :</label><br>
-                     	<select id="day" name="day" class="form-control birthday">
-                        	<?php for($i=1;$i<32;$i++) { 
-                           		$o = $i; 
-                           		if($o < 10) $o = "0".$o;
-						   		$c = "";
-								if($i == $dd[2]) { $c="selected "; }
-                           		echo '<option '.$c.'value="'.$o.'">'.$o.'</option>'; 
-                           	} ?>
-                        </select> 
-                        <select name="month" class="form-control birthmonth">
-                        	<?php for($i=1;$i<13;$i++) { 
-                           		$o = $i; 
-                           		if($o < 10) $o = "0".$o; 
-						   		$c = "";
-								if($o == $dd[1]) { $c="selected "; }
-                           		echo '<option '.$c.'value="'.$o.'">'.$o.'</option>'; 
-                           } ?>
-                        </select> 
-                        <select name="year" class="form-control birthyear">
-							<?php for($i=(date("Y")-18);$i>1919;$i--) { 
-								$c = "";
-								if($i == $dd[0]) { $c="selected "; }
-								echo '<option '.$c.'value="'.$i.'">'.$i.'</option>'; 
-                          	} ?>
-                        </select>
+                        <?php echo $page_->birthdate(preg_split("/\-/", $user_->birthdate)); ?>
                 	</div>
 					<div class="form-group col-sm-4">
   						<label for="gender" class="control-label">Sexe : </label>
   						<select name="gender" id="gender" class="form-control">
-                        	<option <?php if($user_->gender == "M") { ?> selected <?php } ?> value="M">Homme</option>
-                           	<option <?php if($user_->gender == "F") { ?> selected <?php } ?> value="F">Femme</option>
+                        	<option <?php echo $user_->gender == "M" ? "selected" : "";  ?> value="M">Homme</option>
+                           	<option <?php echo $user_->gender == "F" ? "selected" : "";  ?> value="F">Femme</option>
                         </select>
                 	</div>
                   	<div class="form-group col-sm-8">
@@ -85,7 +60,7 @@
   					</div>
                     <div class="col-sm-8 form-group checkbox">
                     	
-     					<input <?php if($user_->mailoption == 1) { ?> checked <?php } ?> id="mail" name="mail" autocomplete="off" type="checkbox"><label for="mail" class="control-label">Recevoir un mail à chaque nouveau message</label>
+     					<input <?php echo $user_->mailoption == 1 ? "checked" : ""; ?> id="mail" name="mail" autocomplete="off" type="checkbox"><label for="mail" class="control-label">Recevoir un mail à chaque nouveau message</label>
   					</div>
                     <div class="col-sm-12 border-hr">&nbsp;</div>
                     <div class="col-sm-6 form-group">

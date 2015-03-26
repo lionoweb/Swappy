@@ -1,6 +1,6 @@
 <?php
 //ENVOIE ET RECEPTION JSON POUR MESSAGERIE
-	require_once("mysql.php");
+	require_once("config.php");
 	$arr = array();
 	require_once("mail.php");
 	require_once("user.php");
@@ -35,10 +35,10 @@
 	if(isset($_GET['refuse'])) {
 		$arr = $chat->refuse_a(@$_GET['refuse'], @$_GET['cc']);
 	}
-	if(isset($_GET['get_message']) && !empty($_GET['get_message'])) {
+	if(isset($_GET['get_message']) && !empty_($_GET['get_message'])) {
 		$arr = $chat->content_conv($_GET['get_message']);
 	}
-	if(isset($_GET['delete']) && !empty($_GET['delete'])) {
+	if(isset($_GET['delete']) && !empty_($_GET['delete'])) {
 		$arr = $chat->delete($_GET['delete']);
 	}
 	if(isset($_POST['message_r'])) {

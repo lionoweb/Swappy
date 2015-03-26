@@ -371,7 +371,7 @@
 				var gg = "";
 			}
 			if (errorFound) {
-				if (options.scroll && !gg.match(/BlackPopup/gi)) {
+				if (options.scroll && gg.match(/BlackPopup/gi)) {
 					
 					var destination=first_err.offset().top;
 					var fixleft = first_err.offset().left;
@@ -399,6 +399,7 @@
 						if($(".nav-h.visible").length > 0) {
 							pp = 30;
 						}
+						if(!isElementVisible(first_err) && options.canScroll)  {
 						var overflowDIV = $(options.overflownDIV);
 						if(!overflowDIV.length) return false;
 						var scrollContainerScroll = overflowDIV.scrollTop();
@@ -409,18 +410,20 @@
 						scrollContainer.animate({ scrollTop: destination }, 900, function(){
 							if(options.focusFirstField) first_err.focus();
 						});
-
+						}
 					} else {
 						var pp = 0;
 						if($(".nav-h.visible").length > 0) {
 							pp = 30;
 						}
+						if(!isElementVisible(first_err) && options.canScroll)  {
 						$("html, body").animate({
 							scrollTop: destination-($("nav").height() + 50 + pp)
 						}, 900, function(){
 							if(options.focusFirstField) first_err.focus();
 						});
 						$("html, body").animate({scrollLeft: fixleft},900)
+						}
 					}
 
 				} else if(options.focusFirstField)
@@ -468,10 +471,11 @@
 
 							var errorFieldId = value[0];
 							var errorField = $($("#" + errorFieldId)[0]);
-												
+							
+							
 							// make sure we found the element
 							if (errorField.length == 1) {
-
+alert("ok");
 								// promptText or selector
 								var msg = value[2];
 								// if the field is valid
@@ -487,7 +491,7 @@
 											if (txt)
 												msg = txt;
 										}
-										if (options.showPrompts) methods._showPrompt(errorField, msg, "pass", false, options, true);
+										if (options.showPrompts) methods._showPrompt(field, msg, "pass", false, options, true);
 									}
 								} else {
 									// the field is invalid, show the red error prompt
@@ -497,7 +501,7 @@
 										if (txt)
 											msg = txt;
 									}
-									if(options.showPrompts) methods._showPrompt(errorField, msg, "", false, options, true);
+									if(options.showPrompts) methods._showPrompt(field, msg, "", false, options, true);
 								}
 							}
 						}
@@ -1556,9 +1560,29 @@
 						 var errorFieldId = json[0];
 						 //var errorField = $($("#" + errorFieldId)[0]);
 						 var errorField = $("#"+ errorFieldId).eq(0);
-						if(errorField.parents(".col-xs-12").length > 0) {
-			 					errorField = errorField.parents(".col-xs-12");
-			 				} 
+						 
+						 var class_ = errorField.parent().attr("class");
+							var field = errorField;
+								if(!errorField.is("form")) {
+								 if(typeof(class_) == "undefined") { class_ = ""; }
+								 var class__ = errorField.parent().parent().attr("class");
+								 if(typeof(class__) == "undefined") { class__ = ""; }
+								 if(class__.match(/dispo\_field/gi)) {
+									 if(errorField.parents(".dispo_field").eq(0).is(":first-child")) {
+										 errorField = errorField.parents(".form-group").eq(0);
+										} else {
+											errorField = errorField.parents(".dispo_field").eq(0);
+										}
+					
+								 } else {
+									if(class_.match(/col|form\-group/gi)) {
+											errorField = errorField.parent();
+									} else if(class__.match(/col|form\-groupe/gi)) {
+											errorField = errorField.parent.parent();
+									} 
+								 }
+								}
+						 
 						 // make sure we found the element
 						 if (errorField.length == 1) {
 							 var status = json[1];
@@ -1580,7 +1604,7 @@
 								 }
 								 else
 									msg = rule.alertText;
-								 if (options.showPrompts) methods._showPrompt(errorField, msg, "", true, options);
+								 if (options.showPrompts) methods._showPrompt(field, msg, "", true, options);
 							 } else {
 								 options.ajaxValidCache[errorFieldId] = true;
 								 // resolves the msg prompt
@@ -1600,7 +1624,7 @@
 									 
 									 // see if we should display a green prompt
 									 if (msg) {
-										methods._showPrompt(errorField, msg, "pass", true, options);
+										methods._showPrompt(field, msg, "pass", true, options);
 									 } else {
 										methods._closePrompt(errorField);
 									 }
@@ -1668,18 +1692,36 @@
 		*/
 		 _showPrompt: function(field, promptText, type, ajaxed, options, ajaxform, oo) {
 			 if(typeof(oo) == "undefined") {
-				 var oo = false;
+				 var oo = "null";
 			 }
-			 if(field.parents(".col-xs-12").length > 0) {
-			 	field = field.parents(".col-xs-12");
-			 } 
+			 var origin = field;
+			 var class_ = field.parent().attr("class");
+			if(!field.is("form")) {
+			 if(typeof(class_) == "undefined") { class_ = ""; }
+			 var class__ = field.parent().parent().attr("class");
+			 if(typeof(class__) == "undefined") { class__ = ""; }
+			 if(class__.match(/dispo\_field/gi)) {
+				 if(field.parents(".dispo_field").eq(0).is(":first-child")) {
+					 field = field.parents(".form-group").eq(0);
+					} else {
+						field = field.parents(".dispo_field").eq(0);
+					}
+
+			 } else {
+				if(class_.match(/col|form\-group/gi)) {
+						field = field.parent();
+				} else if(class__.match(/col|form\-groupe/gi)) {
+						field = field.parent.parent();
+				} 
+			 }
+			}
 			 var prompt = methods._getPrompt(field);
 			 // The ajax submit errors are not see has an error in the form,
 			 // When the form errors are returned, the engine see 2 bubbles, but those are ebing closed by the engine at the same time
 			 // Because no error was found befor submitting
 			 if(ajaxform) prompt = false;
 			 // Check that there is indded text
-			 if (options.scroll && oo == true && type != "load") {
+			 if ((options.scroll && oo == true && type != "load") || ((options.scroll && oo == "null" && type != "load"))) {
 				var first_err = field;
 				var destination=first_err.offset().top;
 				var fixleft = first_err.offset().left;
@@ -1707,6 +1749,7 @@
 					if($(".nav-h.visible").length > 0) {
 						pp = 30;
 					}
+					if(!isElementVisible(origin)  && options.canScroll)  {
 					var overflowDIV = $(options.overflownDIV);
 					if(!overflowDIV.length) return false;
 					var scrollContainerScroll = overflowDIV.scrollTop();
@@ -1718,17 +1761,20 @@
 						if(options.focusFirstField) first_err.focus();
 					});
 
+					}
 				} else {
 					var pp = 0;
 					if($(".nav-h.visible").length > 0) {
 						pp = 30;
 					}
+					if(!isElementVisible(origin)  && options.canScroll)  {
 					$("html, body").animate({
 						scrollTop: destination-($("nav").height() + 50 + pp)
 					}, 900, function(){
 						if(options.focusFirstField) first_err.focus();
 					});
 					$("html, body").animate({scrollLeft: fixleft},900)
+					}
 				}
 
 			} 
@@ -1844,8 +1890,7 @@
 				"marginTop": pos.marginTopSize,
 				"opacity": 0
 			}).data("callerField", field);
-			
-
+				
 			if (options.autoHidePrompt) {
 				setTimeout(function(){
 					prompt.animate({
@@ -1974,6 +2019,9 @@
 			var promptTopPosition, promptleftPosition, marginTopSize;
 			var fieldWidth 	= field.width();
 			var fieldLeft 	= field.position().left; 
+			if(field.find(".dispo_field").length > 0) {
+				fieldLeft = (field.find("div").eq(0).position().left);
+			}
 			var fieldTop 	=  field.position().top;
 			var fieldHeight =  field.height();
 			if(promptElmt.css("position") == "absolute" && promptElmt.css("opacity") > 0) {
@@ -2001,6 +2049,9 @@
 			//   topRight:20, -15 means topRight position shifted by 20 pixels to right and 15 pixels to top
 			//You can use +pixels, - pixels. If no sign is provided than + is default.
 			var positionType=field.data("promptPosition") || options.promptPosition;
+			if(field.is("form")) {
+				positionType = "center";
+			}
 			var shift1="";
 			var shift2="";
 			var shiftX=0;
@@ -2205,6 +2256,7 @@
 		// Focus on the first input
 		focusFirstField:false,
 		// Show prompts, set to false to disable prompts
+		canScroll : true,
 		showPrompts: true,
        // Should we attempt to validate non-visible input fields contained in the form? (Useful in cases of tabbed containers, e.g. jQuery-UI tabs)
        validateNonVisibleFields: false,
@@ -2277,4 +2329,15 @@
 	$(function(){$.validationEngine.defaults.promptPosition = methods.isRTL()?'topLeft':"topRight"});
 })(jQuery);
 
-
+function isElementVisible(elementToBeChecked)
+{
+	var pp = $("nav").height() + 50;
+	if($(".nav-h.visible").length > 0) {
+			pp = pp + 30;
+	}
+    var TopView = $(window).scrollTop() + pp + 30;
+    var BotView = TopView + $(window).height() - (pp + 60);
+    var TopElement = $(elementToBeChecked).offset().top;
+    var BotElement = TopElement + $(elementToBeChecked).height() ;
+    return ((BotElement <= BotView) && (TopElement >= TopView));
+}

@@ -111,17 +111,17 @@
                     "alertText": "* Aucun caractère spécial n'est accepté"
                 },
                 "ajaxEmailCallPHP": {
-                    "url": "inc/add_user.php",
+                    "url": "inc/user_.php",
                     "alertTextLoad": "* Vérification...",
                     "alertText": "* Cette email est déjà utiliser"
                 },
                 "ajaxLoginCallPHP": {
-                    "url": "inc/add_user.php",
+                    "url": "inc/user_.php",
                     "alertText": "* Ce login est déjà utiliser",
                     "alertTextLoad": "* Vérification..."
                 },
                 "ajaxZipCodeCallPHP": {
-                    "url": "inc/add_user.php",
+                    "url": "inc/user_.php",
                     "alertTextLoad": "* Vérification...",
                     "alertText": "Code Postal non reconnu",
                     "funcCall": "ZipFill",

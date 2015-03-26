@@ -1,6 +1,6 @@
 <?php
 //ENVOIE ET RECEPTION JSON POUR UTILISATEURS
-require_once("mysql.php");
+require_once("config.php");
 $arr = array();
 require_once("mail.php");
 require_once("user.php");

@@ -1,11 +1,9 @@
 <?php
-   session_start();
+	require_once("inc/config.php");
    require_once("inc/user.php");
-   require_once("inc/mysql.php");
    $user = new user($mysql);
-   if(isset($_GET['logout'])) {
-   	$user->logout();
-   }	?>
+   $page = new page();
+?>
 <!doctype html>
 <html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
    <head>
@@ -14,12 +12,13 @@
       <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
       <title>Swappy.fr - Contact</title>
-      <?php echo meta_tag("", "", "", "Contact", "contact, message, mail, email, telephone, numero, envoyer, contacter"); ?>
+      <?php echo $page->meta_tag("", "", "", "Contact", "contact, message, mail, email, telephone, numero, envoyer, contacter"); ?>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
       <link rel="stylesheet" href="css/bootstrap.min.css">
       <link rel="stylesheet" href="css/main.css">
+      <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
       <script src="js/jquery.js"></script>
       <script src="js/jquery-ui.js"></script>
       <script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js"></script>
@@ -81,11 +80,11 @@
                   </div>
                   <div class="getintouch col-md-2 col-md-offset-0 col-xs-5 col-xs-offset-1">
                      <img alt="Mail" src="img/contact/mail.png">
-                     <p><a class="link_mail" data-hash="<?php echo encode_mail("swappy@contact.fr","UTF"); ?>"><?php echo encode_mail("swappy@contact.fr","ASC"); ?></a></p>
+                     <p><a class="link_mail" data-hash="<?php echo $page->encode_mail("swappy@contact.fr","UTF"); ?>"><?php echo encode_mail("swappy@contact.fr","ASC"); ?></a></p>
                   </div>
                </div>
             </div>
-            <form id="spec_contact" action="inc/send_mail.php" method="post">
+            <form id="spec_contact" action="inc/mail_.php" method="post">
                <div class="row">
                   <div class="left col-md-4 col-md-offset-2">
                      <div class="form-group">

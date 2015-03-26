@@ -1,15 +1,14 @@
 <?php
-   session_start();
+	require_once("inc/config.php");
    require_once("inc/user.php");
-   require_once("inc/mysql.php");
    require("inc/services.php");
    require("inc/searches.php");
    $user = new user($mysql);
    $services = new services($mysql);
    $search = new search($mysql);
-   if(isset($_GET['logout'])) {
-   	$user->logout();
-   }
+   $page = new page();
+   $rsearch = $search->fill_search($user);
+   $result = $search->search($_GET, $user);
 ?>
 <!doctype html>
 <html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
@@ -18,12 +17,13 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
       <title>Swappy.fr - Services</title>
-      <?php echo meta_tag("", "", "", "Services", "liste, recherche, chercher"); ?>
+      <?php echo $page->meta_tag("", "", "", "Services", "liste, recherche, chercher"); ?>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
       <link href="css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="css/main.css">
+      <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
       <script src="js/jquery.js"></script>
       <script src="js/jquery-ui.js"></script>
       <script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js"></script>
@@ -75,37 +75,12 @@
             <!-- /.container-fluid -->
          </nav>
          <div class="container main" role="main">
-            <?php
-               //INIT SEARCH FIELD VALUE
-               $title = "";
-               $type_s = "";
-               $day_s = "";
-               $where_s = "";
-               if($user->logged && !empty($user->zipcode)) {
-               	$where_s = $services->format_city($user->zipcode, $user->city);
-               }
-               if(isset($_GET['searchbar'])) {
-               	$title = $_GET['searchbar'];
-               }
-               if(isset($_GET['type'])) {
-               	$type_s = $_GET['type'];
-               }
-               if(isset($_GET['day'])) {
-               	$day_s = $_GET['day'];
-               }
-               if(isset($_GET['where'])) {
-               	$where_s = $_GET['where'];
-               } else if(isset($_GET['searchbar']) && $user->logged && !empty($user->zipcode)) {
-               	$where_s = $services->format_city($user->zipcode, $user->city);
-               	$_GET['where'] = $where_s;
-               }
-               ?>
             <div id="spec_services">
                <form class="col-md-6 col-md-offset-3 form-horizontal nonullpad" id="spec_search" action="services.php" method="get">
                   <div  class="form-group">
                      <label for="searchbar_" class="control-label col-xs-12 col-sm-2 left-text grey_text">Rechercher</label>
                      <div class="col-xs-12 col-sm-10 input-group">
-                        <input id="searchbar_" name="searchbar" value="<?php echo $title; ?>" class="form-control" type="text">
+                        <input id="searchbar_" name="searchbar" value="<?php echo $rsearch->title; ?>" class="form-control" type="text">
                      </div>
                   </div>
                   <div class="blueback">
@@ -113,31 +88,21 @@
                         <label for="type" class="control-label col-xs-12 col-sm-2">Catégorie</label>
                         <div class="col-xs-12 col-sm-10">
                            <?php
-                              echo preg_replace('/value\=\"'.$type_s.'\"/', 'value="'.$type_s.'" selected', $services->list_categories(false));
+                              echo $services->list_categories(false, $rsearch->type_s);
                               ?>
                         </div>
                      </div>
                      <div class="form-group">
                         <label for="zipbar" class="control-label col-xs-12 col-sm-2">Où ?</label>
                         <div class="col-xs-12 col-sm-10">
-                           <input id="zipbar" name="where" type="text" value="<?php echo $where_s; ?>" class="form-control" placeholder="Exemple : 75001 (Paris)">
+                           <input id="zipbar" name="where" type="text" value="<?php echo $rsearch->where_s; ?>" class="form-control" placeholder="Exemple : 75001 (Paris)">
                         </div>
                      </div>
                      <div class="form-group">
                         <label for="day" class="control-label col-xs-12 col-sm-2">Quand ?</label>
                         <div class="col-xs-12 col-sm-10">
                            <select id="day" name="day" class="form-control">
-                           <?php $list_days = '<option value="all">Tous les jours</option>'.
-                              '<option value="weekend">Week-end</option>'.
-                                               	'<option value="lun">Lundi</option>'.
-                                                   '<option value="mar">Mardi</option>'.
-                                                   '<option value="mer">Mercredi</option>'.
-                                                   '<option value="jeu">Jeudi</option>'.
-                                                   '<option value="ven">Vendredi</option>'.
-                                                   '<option value="sam">Samedi</option>'.
-                                                   '<option value="dim">Dimanche</option>';
-                              echo preg_replace('/value\=\"'.$day_s.'\"/', 'value="'.$day_s.'" selected', $list_days);
-                              ?>
+                           <?php echo $rsearch->day_s; ?>
                            </select>
                         </div>
                         <div class="send col-xs-12 col-sm-3 col-sm-offset-9">
@@ -147,14 +112,11 @@
                   </div>
                </form>
             </div>
-            <?php if(isset($_GET['searchbar'])) {
-               ?>
-            <?php $result = $search->search($_GET, $user); ?>
             <div class="col-md-10 col-md-offset-1 col-sm-12 table-responsive noborder">
                <table class="fulltable table">
                   <thead>
                      <tr>
-                        <td colspan="2" class="header_search">Tous les services</td>
+                        <td colspan="2" class="header_search"><?php echo $result[2]; ?></td>
                      </tr>
                   </thead>
                   <tbody>
@@ -163,23 +125,6 @@
                </table>
                <?php echo $result[1]; ?>
             </div>
-            <?php
-               } else { //SERVICES RECENTS?>
-            <?php $result = $search->recent_services($user); ?>
-            <div class="col-md-10 col-md-offset-1 col-sm-12  table-responsive noborder"  >
-               <table class="fulltable table">
-                  <thead>
-                     <tr>
-                        <td colspan="2" class="header_search"><?php echo $result[0]; ?></td>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <?php echo $result[1]; ?>
-                  </tbody>
-               </table>
-            </div>
-            <?php } ?>
-
             <div class="col-md-6 col-md-offset-3">
                <img src="img/pub.jpg" height="120" alt="" width="750" class="img-responsive">
             </div>

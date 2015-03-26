@@ -1,7 +1,8 @@
 <?php
+	//GENERATION DU ROBOTS.TXT AVEC LES LIENS VERS LES SITEMAPS POUR INDEXATIONS DES ANNONCES
   	header('Content-type: text/plain');
  
-	require_once("inc/mysql.php"); 
+	require_once("inc/config.php"); 
 	
 	$select = $mysql->prepare("SELECT COUNT(*) AS `total` FROM `services` WHERE 1"); 
 	$select->execute();
@@ -29,6 +30,6 @@ Disallow: /propose.php
 Disallow: /proposition.php
 Disallow: /rendez-vous.php
 <?php for($i=-1;$i<round($cc);$i++) {
-	echo 'Sitemap: http://swappy.fr/beta/sitemap-'.($i+1).'.xml
+	echo 'Sitemap: '.URL_SITE.FOLDER_.'sitemap-'.($i+1).'.xml
 ';
 } ?>

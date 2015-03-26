@@ -1,24 +1,13 @@
 <?php 
-session_start(); 
-require_once( "inc/mysql.php"); 
+require_once( "inc/config.php"); 
 require_once( "inc/user.php"); 
 require_once( "inc/services.php"); 
 require_once( "inc/chat.php"); 
 $user=new user($mysql); 
-if(isset($_GET[ 'logout'])) { $user->logout(); } 
-if(isset($_GET['vote'])) { 
-	$user->onlyUsers(); 
-	$hash = @$_GET['vote']; 
-	$hash = trim($hash); 
-	$services = new services($mysql); 
-	$vote = $services->page_vote(@$_GET['vote'], $user->ID); 
-	$user_ = new user($mysql, $services->by); 
-} else { 
-	$ID_service = @$_GET['id']; 
-	$services = new services($mysql, $ID_service); 
-	$user_ = new user($mysql, $services->by); 
-	$chat = new chat($mysql, $user); 
-} ?>
+$services = new services($mysql, @$_GET['id'], $user); 
+$user_ = new user($mysql, $services->by); 
+$chat = new chat($mysql, $user); 
+$page = new page(); ?>
 <!doctype html>
 <html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
 <head>
@@ -27,23 +16,20 @@ if(isset($_GET['vote'])) {
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
 	<title>Swappy.fr - Annonce : <?php echo $services->title; ?></title>
-    <?php echo meta_tag($services->cattype.".jpg", ucfirst($services->description), "", "Annonce : ".$services->title, trim($services->description) == "L'utilisateur n'a pas fourni de description..." ? "" : ucfirst($services->description).", ".$services->city.", ".$services->zip.", annonce, ".$services->typename); ?>
+    <?php echo $page->meta_tag($services->meta()); ?>
 	<link rel="icon" href="img/favicon.png">
 	<link rel="stylesheet" href="css/jquery-ui.css">
 	<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css" />
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<?php if(isset($_GET['vote'])) { ?>
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-	<?php } ?>
+	<?php @$_GET['vote'] ? '<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">' : ''; ?>
 	<link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
 	<script src="js/jquery.js"></script>
 	<script src="js/jquery-ui.js"></script>
 	<script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js"></script>
 	<script src="js/ValidationEngine/jquery.validationEngine.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	<?php if(isset($_GET['vote'])) { ?>
-	<script src="js/rate.js"></script>
-	<?php } ?>
+	<?php @$_GET['vote'] ? '<script src="js/rate.js"></script>' : ''; ?>
 	<script src="js/main.js"></script>
 	<!--[if lt IE 9]>
       <script src="//cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -96,13 +82,13 @@ if(isset($_GET['vote'])) {
 		<div id="spec_annonce" class="container main" role="main">
 			<div class="profil row">
 				<div class="col-md-1 col-md-offset-2 col-sm-1 col-sm-offset-1 col-xs-12 avatan">
-                	<a title="Voir le profil de <?php echo $user_->firstname." ".$user_->lastname; ?>" class="link-profil" href="profil-<?php echo $user_->ID; ?>.php">
-						<img src="<?php echo $user_->avatar; ?>" alt="Avatar de <?php echo $user_->firstname." ".$user_->lastname; ?>" width="130" height="130">
+                	<a title="Voir le profil de <?php echo $user_->fullname; ?>" class="link-profil" href="profil-<?php echo $user_->ID; ?>.php">
+						<img src="<?php echo $user_->avatar; ?>" alt="Avatar de <?php echo $user_->fullname; ?>" width="130" height="130">
                  	</a>
 				</div>
 				<div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-1 dispo">
 					<div class="name">
-						<a title="Voir le profil de <?php echo $user_->firstname." ".$user_->lastname; ?>" class="link-profil" href="profil-<?php echo $user_->ID; ?>.php"><?php echo $user_->firstname." ".$user_->lastname; ?></a> propose
+						<a title="Voir le profil de <?php echo $user_->fullname; ?>" class="link-profil" href="profil-<?php echo $user_->ID; ?>.php"><?php echo $user_->fullname; ?></a> propose
                     </div>
 					<div class="info">
 						<img alt="" src="img/annonce/clock.png"><?php echo $services->disponibility; ?>
@@ -121,15 +107,7 @@ if(isset($_GET['vote'])) {
                       	</div>
                     </div>
                	</div>
-				<div class="interesse">
-					<?php if(!isset($_GET[ 'vote'])) { if($user->ID != $user_->ID) { ?>
-					<button class="popup_message">Je suis interessé(e)</button>
-					<?php } else { ?><a href="propose.php?edit=<?php echo $services->ID; ?>" class="btn edit_serv_a">Modifier ce service</a>
-					<?php } } else { echo "<br>"; } ?>
-				</div>
-                <div class="interesse">
-                	<button class="popup_report">Signaler ce service</button>
-                </div>
+				<?php echo $services->button($services->ID, $user_->ID, $user->ID); ?>
 			</div>
 			<div class="servicepropose">
 				<div class="row">
@@ -140,12 +118,7 @@ if(isset($_GET['vote'])) {
 				</div>
 			</div>
 			<div class="greyback row">
-				<?php if(!isset($_GET[ 'vote'])) { if(isset($_GET[ 'r']) && !empty($_GET[ 'r'])) { $r='<a href="services.php?' .base64_decode($_GET[ 'r']). '" class="col-md-3"><img src="img/annonce/back.png">Retours aux résultats précédents</a>'; } else { $r='<a href="services.php" class="col-md-3"><img src="img/annonce/back.png">Retour à la page des services</a>' ; } ?>
-				<p class="col-md-8 col-md-offset-2 description">
-					<?php echo ucfirst($services->description); ?>
-                </p>
-				<?php echo $r; ?>
-				<?php } else { echo '<div class="col-md-6 col-md-offset-3 voting">'.$vote. '</div>'; }; ?>
+				<?php echo $services->annonces($user->ID); ?>
             </div>
 			<div class="profiltitle">
 				<p>Notes et commentaires</p>
@@ -168,5 +141,7 @@ if(isset($_GET['vote'])) {
             <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
 		</div>
 	</footer>
-	<?php if(!isset($_GET['vote']) && $user->logged) { $chat->prepare_popup($user_, $services); $chat->prepare_popup_report($user_, $services); } ?></body>
+	<?php  $chat->prepare_popup($user_, $services); 
+	$chat->prepare_popup_report($user_, $services);  ?>
+</body>
 </html>

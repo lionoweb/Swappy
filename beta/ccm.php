@@ -1,9 +1,9 @@
 <?php
-session_start();
+require_once("inc/config.php");
 require_once("inc/user.php");
-require_once("inc/mysql.php");
 $user = new user($mysql);
-if(isset($_GET['logout'])) { $user->logout(); }	?>
+$page = new page();
+?>
 <!doctype html>
 <html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
    <head>
@@ -12,12 +12,13 @@ if(isset($_GET['logout'])) { $user->logout(); }	?>
       <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
       <title>Swappy.fr - Comment ça marche ?</title>
-      <?php echo meta_tag("", "", "", "Comment ça marche ?", "comment, marche, tuto, utilisation, consigne"); ?>
+      <?php echo $page->meta_tag("", "", "", "Comment ça marche ?", "comment, marche, tuto, utilisation, consigne"); ?>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
       <link href="css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="css/main.css">
+      <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
       <script src="js/jquery.js"></script>
       <script src="js/jquery-ui.js"></script>
       <script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js"></script>

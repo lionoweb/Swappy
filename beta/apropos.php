@@ -1,9 +1,9 @@
 <?php
-session_start();
+require_once("inc/config.php");
 require_once("inc/user.php");
-require_once("inc/mysql.php");
 $user = new user($mysql);
-if(isset($_GET['logout'])) { $user->logout(); }	?>
+$page = new page();
+?>
 <!doctype html>
 <html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
 <head>
@@ -11,12 +11,13 @@ if(isset($_GET['logout'])) { $user->logout(); }	?>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
 	<title>Swappy.fr - A Propos</title>
-	<?php echo meta_tag("", "", "", "A propos", "équipe, nous, propos, information, projet"); ?>
+	<?php echo $page->meta_tag("", "", "", "A propos", "équipe, nous, propos, information, projet"); ?>
 	<link rel="icon" href="img/favicon.png">
 	<link rel="stylesheet" href="css/jquery-ui.css">
 	<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
 	<script src="js/jquery.js"></script>
 	<script src="js/jquery-ui.js"></script>
 	<script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js"></script>
@@ -77,7 +78,7 @@ if(isset($_GET['logout'])) { $user->logout(); }	?>
           				<div class="mask">
             				<h2 itemprop="givenName">Calypso Redor</h2>
             				<p itemprop="description"><span itemprop="jobTitle">Chef de projet, chargée de communication et marketing</span>. Elle mène à bien le projet et entoure son équipe dans la bonne humeur</p>
-            				<a data-hash="<?php echo encode_mail("calypso.redor@swappy.fr", "UTF"); ?>" class="more link_mail">Contactez-la</a>
+            				<a data-hash="<?php echo $page->encode_mail("calypso.redor@swappy.fr", "UTF"); ?>" class="more link_mail">Contactez-la</a>
                     	</div>
        			 	</li>
         			<li itemscope itemtype="http://schema.org/Person" itemprop="employees" class="view view-sixth"> 
@@ -85,7 +86,7 @@ if(isset($_GET['logout'])) { $user->logout(); }	?>
           				<div class="mask">
             				<h2 itemprop="givenName">Lionel Jeronimo</h2>
             				<p itemprop="description"><span itemprop="jobTitle">Développeur</span> en chef de l’agence. Aussitôt dit aussitôt fait, Lionel est professionnel et très réactif.</p>
-            				<a data-hash="<?php echo encode_mail("lionel.jeronimo@swappy.fr", "UTF"); ?>" class="more link_mail">Contactez-le</a> 
+            				<a data-hash="<?php echo $page->encode_mail("lionel.jeronimo@swappy.fr", "UTF"); ?>" class="more link_mail">Contactez-le</a> 
                       	</div>
         			</li>
         			<li itemscope itemtype="http://schema.org/Person" itemprop="employees" class="view view-sixth"> 
@@ -93,7 +94,7 @@ if(isset($_GET['logout'])) { $user->logout(); }	?>
           				<div class="mask">
             				<h2 itemprop="givenName">Océane Perret</h2>
             				<p itemprop="description"><span itemprop="jobTitle">Intégratrice et développeuse</span>, elle est sérieuse et impliquée. Elle est toujours disponible avec des idées novatrices.</p>
-            				<a data-hash="<?php echo encode_mail("oceane.perret@swappy.fr", "UTF"); ?>" class="more link_mail">Contactez-la</a> 
+            				<a data-hash="<?php echo $page->encode_mail("oceane.perret@swappy.fr", "UTF"); ?>" class="more link_mail">Contactez-la</a> 
                     	</div>
         			</li>
       			</ul>
@@ -103,7 +104,7 @@ if(isset($_GET['logout'])) { $user->logout(); }	?>
           				<div class="mask">
             				<h2 itemprop="givenName">Line Bui</h2>
             				<p itemprop="description"><span itemprop="jobTitle">Intégratrice et développeuse</span>. Elle est motivée et prête à passer des heures sur un problème pour le résoudre.</p>
-            				<a data-hash="<?php echo encode_mail("line.bui@swappy.fr", "UTF"); ?>" class="more link_mail">Contactez-la</a> 
+            				<a data-hash="<?php echo $page->encode_mail("line.bui@swappy.fr", "UTF"); ?>" class="more link_mail">Contactez-la</a> 
                    		</div>
         			</li>
         			<li itemscope itemtype="http://schema.org/Person" itemprop="employees" class="view view-sixth"> 
@@ -111,7 +112,7 @@ if(isset($_GET['logout'])) { $user->logout(); }	?>
           				<div class="mask">
             				<h2 itemprop="givenName">Brice Olivrie</h2>
             				<p itemprop="description"><span itemprop="jobTitle">Vidéaste</span>, il est en charge de la production complète de la vidéo. Entre le graphisme et le montage, Brice travaille sur tous les fronts.</p>
-            				<a data-hash="<?php echo encode_mail("mailto:brice.olivrie@swappy.fr", "UTF"); ?>" class="more link_mail">Contactez-le</a>
+            				<a data-hash="<?php echo $page->encode_mail("mailto:brice.olivrie@swappy.fr", "UTF"); ?>" class="more link_mail">Contactez-le</a>
                      	</div>
         			</li>
         			<li itemscope itemtype="http://schema.org/Person" itemprop="employees" class="view view-sixth"> 
@@ -119,7 +120,7 @@ if(isset($_GET['logout'])) { $user->logout(); }	?>
           				<div class="mask">
             				<h2 itemprop="givenName">Margot Gillodes</h2>
             				<p itemprop="description"><span itemprop="jobTitle">Graphiste</span> à plein temps. Passionnée, elle a su trouver des solutions graphiques à nos envies les plus complexes.</p>
-            				<a data-hash="<?php echo encode_mail("mailto:margot.gillodes@swappy.fr", "UTF"); ?>" class="more link_mail">Contactez-le</a> </div>
+            				<a data-hash="<?php echo $page->encode_mail("mailto:margot.gillodes@swappy.fr", "UTF"); ?>" class="more link_mail">Contactez-le</a> </div>
         			</li>
       			</ul>
     		</div>

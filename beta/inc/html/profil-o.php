@@ -2,20 +2,19 @@
 	<div class="row">
 		<div class="top edit">
 			<div class="col-md-2 col-sm-3 col-md-offset-3">
-				<img width="130" height="130" alt="Avatar de <?php echo ucfirst($user_->firstname); ?> <?php echo ucfirst($user_->lastname); ?>" src="<?php echo $user_->avatar; ?>">
+				<img width="130" height="130" alt="Avatar de <?php echo $user_->fullname; ?>" src="<?php echo $user_->avatar; ?>">
 			</div>
 			<div class="infos col-md-4 col-sm-4 text-left xs-center">
   				<p class="nom">
-     				<span class="field" id="prenom"><?php echo ucfirst($user_->firstname); ?></span>&nbsp;
-     				<span class="field" id="nom"> <?php echo ucfirst($user_->lastname); ?></span>
+     				<span class="field" id="prenom"><?php echo $user_->firstname; ?></span>&nbsp;
+     				<span class="field" id="nom"> <?php echo $user_->lastname; ?></span>
 				</p>
   				<p class="">
      				<?php echo $user_->age." ans "; ?>
      				<span class="field" id="city"><img src="img/profil/location.png" alt=""><?php echo $user_->city;?></span>
   				</p>
   				<div id="tags" class="col-lg-8 col-md-8 col-sm-8 tags nopadd">
-     				<?php $tags = $user_->tags_uncrypt($user_->tags);
-	 				echo empty($tags) ? 'Pas de tags...' : $tags; ?>
+     				<?php echo empty_($user_->tags_uncrypt($user_->tags)) ? 'Pas de tags...' : $tags; ?>
   				</div>
     			<div class="info col-lg-12 col-sm-12 col-md-12 nopadd rate">
     				Note moyenne : 
@@ -29,21 +28,10 @@
 		</div>
         <div class="col-md-6 col-md-offset-3">
 			<p id="description" class="text-justify description_">
-  			<?php $desc = trim($user_->description); echo $desc == "" ? 'Pas de description' : ucfirst($desc); ?>
+  			<?php echo $user_->description == "" ? 'Pas de description' : ucfirst($desc); ?>
 			</p>
 		</div>
-		<?php if(isset($_GET['id']) && $_GET['id'] != $user->ID ) { ?>
-		<div class="text-left xs-center">
-			<p class="btn talk-button">Envoyer un message</p>
-		</div>
-		<div class="text-left report_div xs-center">
-			<p class="btn report-button">Signaler ce profil</p>
-		</div>
-		<?php } else if(isset($_GET['id']) && $_GET['id'] == $user->ID) { ?>
-		<div class="text-left xs-center">
-			<a href="profil.php" class="btn edit-button">Modifier mon profil</a>
-		</div>
-		<?php } ?>
+		<?php echo $user_->button($user); ?>
 	</div>
 </div>
 <div class="profiltitle first">

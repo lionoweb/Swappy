@@ -1,13 +1,9 @@
 <?php
-   session_start();
-   require_once("inc/mysql.php");
+   require_once("inc/config.php");
    require_once("inc/user.php");
    require_once("inc/services.php");
    require_once("inc/chat.php");
    $user = new user($mysql);
-   if(isset($_GET['logout'])) {
-    $user->logout();
-   }
    $user->onlyUsers();
  ?>
 <!doctype html>
@@ -18,7 +14,6 @@
     	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
     	<title>Swappy.fr - Mes propositions</title>
-        <?php echo meta_tag("", "", "", "Mes propositions", ""); ?>
     	<link rel="icon" href="img/favicon.png">
     	<link rel="stylesheet" href="css/jquery-ui.css">
     	<link rel="stylesheet" href="css/jquery.datetimepicker.css">
@@ -26,6 +21,7 @@
     	<link rel="stylesheet" href="css/template.css" type="text/css"/>
     	<link rel="stylesheet" href="css/bootstrap.min.css">
     	<link rel="stylesheet" href="css/main.css">
+        <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
     	<script src="js/jquery.js"></script>
     	<script src="js/jquery-ui.js"></script>
     	<script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js"></script>
@@ -85,41 +81,8 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <?php $boucle = $user->list_services_edit();
-					 for($i=0;$i<count($boucle);$i++) {
-						 // A PARTIR D'EN DESSOUS C'EST LE HTML  ?>
-                    <tr class="bloc_services" data-ids="<?php echo $boucle[$i]['ID']; ?>">
-                      <td class="picto"><a title="<?php echo $boucle[$i]['Title']; ?>" href="annonce-<?php echo $boucle[$i]['ID']; ?>.php"><img alt="" class="fullfit" src="<?php echo $boucle[$i]['Image']; ?>"></a></td>
-                      <td class="desc_services">
-                        <a title="<?php echo $boucle[$i]['Title']; ?>" href="annonce-<?php echo $boucle[$i]['ID']; ?>.php">
-                          <div class="fullfit">
-                            <h1 class="serv_title"><?php echo $boucle[$i]['Title']; ?></h1>
-                            <p>
-                              <?php if($boucle[$i]['Description'] != "Pas de description...") {echo $boucle[$i]['Description'];} ?></p>
-                            <div class="location"><?php echo $boucle[$i]['CityName']; ?></div>
-                          </div>
-                        </a>
-                      </td>
-                      <td class="delete">
-                        <a title="Supprimer ce service" class="delete_serv" data-id="<?php echo $boucle[$i]['ID']; ?>" href="#">
-                          <img src="img/proposition/delete.png" alt="" width="25">
-                        </a>
-                      </td>
-                      <td class="edit">
-                        <a title="Modifier ce service" href="propose.php?edit=<?php echo $boucle[$i]['ID']; ?>">
-                          <img src="img/proposition/edit.png" alt="" width="25">
-                        </a>
-                      </td>
-                    </tr>
-                    
-                     <?php //FIN
-					  }
-					  if($i == 0) { ?>
-                      <tr class="bloc_services">
-                      	<td colspan="4"><center>Vous n'avez pas de services</center></td>
-                      </tr>
-                      <?php } ?>
-                  </tbody>
+                     <?php echo $user->list_services_edit(); ?>
+				  </tbody>
                </table>
          	</div>
          	

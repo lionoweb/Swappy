@@ -17,13 +17,12 @@ $(document).ready(function(e) {
     });
 	elipse_fix();
     modal_prevent();
-    navbar_padding();
 	//AUTOCOMPLETION SEARCHBAR
     $("#searchbar").autocomplete({
         delay: 280,
         source: function(request, response) {
             $.ajax({
-                url: "inc/search.php",
+                url: "inc/search_.php",
                 dataType: "jsonp",
                 data: {
                     searchquery: request.term
@@ -70,7 +69,8 @@ $(document).ready(function(e) {
             onAjaxFormComplete: login_user_function,
             onBeforeAjaxFormValidation: load_ajax_d,
             showOneMessage: true,
-            promptPosition: "topLeft"
+            promptPosition: "topLeft",
+			canScroll: false
         });
 		//MOT DE PASSE PERDU
         $(".remind_form").validationEngine({
@@ -79,7 +79,8 @@ $(document).ready(function(e) {
             onAjaxFormComplete: remind_user_function,
             onBeforeAjaxFormValidation: load_ajax_d,
             showOneMessage: true,
-            promptPosition: "topLeft"
+            promptPosition: "topLeft",
+			canScroll: false
         });
 		//CHANGER DE FORMULAIRE : LOGIN/REMIND PASSWORD
         $(".remind_link").bind("click", function() {
@@ -120,7 +121,7 @@ $(document).ready(function(e) {
             delay: 280,
             source: function(request, response) {
                 $.ajax({
-                    url: "inc/search.php",
+                    url: "inc/search_.php",
                     dataType: "jsonp",
                     data: {
                         zipquery: request.term,
@@ -252,7 +253,7 @@ $(document).ready(function(e) {
             } else {
                 formData.append('file-avatar', filen);
                 $.ajax({
-                    url: 'inc/add_user.php',
+                    url: 'inc/user_.php',
                     type: 'POST',
                     data: formData,
                     processData: false, // tell jQuery not to process the data
@@ -268,7 +269,9 @@ $(document).ready(function(e) {
 							});
                             $(".dropdown-toggle > img:first-child").attr("src", js[1]);
                         } else {
-                            $("#upload_ba").validationEngine('showPrompt', js[1], 'error', "topLeft", false, true);
+							if(typeof(js[1]) != "undefined") {
+                            	$("#upload_ba").validationEngine('showPrompt', js[1], 'error', "topLeft", false, true);
+							}
                         }
                     },
                     xhr: function() {
@@ -308,7 +311,7 @@ $(document).ready(function(e) {
             $("body").append('<div id="modal_delete" data-id="' + id + '" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"><div class="modal-dialog modal-md"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="exampleModalLabel">Supprimer cette conversation ?</h4></div><div class="modal-body"><center>Êtes-vous sûr de vouloir effacer le service : <b>' + $(this).parents("tr").find(".serv_title").html() + '</b><br><button class="btn btn-success valid_modal">Oui</button> <button class="cancel_modal btn btn-danger">Non</button></center></div></div></div></div>');
             $('#modal_delete .valid_modal').on("click", function(e) {
                 e.preventDefault();
-                $.getJSON("inc/add_services.php?delete=" + id, function(data) {
+                $.getJSON("inc/services_.php?delete=" + id, function(data) {
                     if (data == "true") {
                         $('#modal_delete').modal('hide');
                         $('tr[data-ids="' + id + '"]').remove();
@@ -335,7 +338,7 @@ $(document).ready(function(e) {
 		//CALENDRIER DYNAMIQUE
 		$("#my-calendar").zabuto_calendar({
 			ajax: {
-				url: "inc/add_user.php?json_cal",
+				url: "inc/user_.php?json_cal",
 				modal: true
 			}
 		});
@@ -466,6 +469,7 @@ $(document).ready(function(e) {
             });
         });
     }
+	navbar_padding();
 //END DOCUMENT READY
 });
 
@@ -486,6 +490,9 @@ function send_mail_contact(status, form, json, options) {
         $(document).scrollTop(0);
         return true;
     } else {
+		if(typeof(json[1]) != "undefined") {
+			$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
+		}
         return false;
     }
 }
@@ -498,6 +505,9 @@ function add_user_function(status, form, json, options) {
         return true;
     } else {
         $form_b.find("#loader_ajax").remove();
+		if(typeof(json[1]) != "undefined") {
+			$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
+		}
         return false;
     }
 }
@@ -510,6 +520,9 @@ function vote_function(status, form, json, options) {
         return true;
     } else {
         $form_b.find("#loader_ajax").remove();
+		if(typeof(json[1]) != "undefined") {
+			$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
+		}
         return false;
     }
 }
@@ -520,16 +533,12 @@ function edit_user_function(status, form, json, options) {
         $form_b.find("#loader_ajax").remove();
         $("#avatar_u").attr("src", json[1]);
         $(".dropdown-toggle > img:first").attr("src", json[1]);
-        $ff = $form_b.find("input[type='submit']");
-        $ff.validationEngine('showPrompt', "Modifications effectuées !", 'pass', "topLeft", false, true);
+        $form_b.validationEngine('showPrompt', "Modifications effectuées !", 'pass', "topLeft", false, true);
         return true;
     } else {
         $form_b.find("#loader_ajax").remove();
-        if (typeof(json[2]) != "undefined") {
-            $ff = $form_b.find("#" + json[2] + "");
-            $ff.validationEngine('showPrompt', json[1], 'error', "topLeft", true, true);
-        } else {
-            $form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
+		if(typeof(json[1]) != "undefined") {
+           	 $form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
         }
         return false;
     }
@@ -542,7 +551,9 @@ function remind_change_function(status, form, json, options) {
         return true;
     } else {
         $form_b.find("#loader_ajax").remove();
-        $form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
+		if(typeof(json[1]) != "undefined") {
+        	$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
+		}
         return false;
     }
 
@@ -560,8 +571,10 @@ function add_service_function(status, form, json, options) {
         return true;
     } else {
         $form_b.find("#loader_ajax").remove();
-        $form_b.find('input[type="submit"]').validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
-        $(document).scrollTop(0);
+		if(typeof(json[1]) != "undefined") {
+        	$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
+		}
+		$(document).scrollTop(0);
         return false;
     }
 }
@@ -579,8 +592,10 @@ function send_popup_message(status, form, json, options) {
         return true;
     } else {
         $form_b.find("#loader_ajax").remove();
-        $form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
-        return false;
+		if(typeof(json[1]) != "undefined") {
+        	$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
+		}
+		return false;
     }
 
 }
@@ -598,7 +613,9 @@ function send_report_message(status, form, json, options) {
         return true;
     } else {
         $form_b.find("#loader_ajax").remove();
-        $form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
+		if(typeof(json[1]) != "undefined") {
+        	$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
+		}
         return false;
     }
 
@@ -621,7 +638,9 @@ function login_user_function(status, form, json, options) {
         return true;
     } else {
         $form_b.find("#loader_ajax").remove();
-        $form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
+		if(typeof(json[1]) != "undefined") {
+        	$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
+		}
         return false;
     }
 }
@@ -639,7 +658,9 @@ function remind_user_function(status, form, json, options) {
         return true;
     } else {
         $form_b.find("#loader_ajax").remove();
-        $form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
+		if(typeof(json[1]) != "undefined") {
+       		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
+		}
         return false;
     }
 }
@@ -685,7 +706,7 @@ function navbar_padding() {
         }
     } else {
 		var headerheight = $(".navbar-header").height() + $(".search_navbar").height() + 20 + 16;
-		$(".navbar-collapse.collapse.in").css("max-height", ($(window).height() - headerheight)+"px");
+		$(".navbar-collapse.collapse.in").css("max-height", ($(window).height() - headerheight - 30)+"px");
         if ($(".search_navbar.moved-group").length > 0) {
             $(".search_navbar.moved-group").removeClass("moved-group");
             $("nav").css("height", "");
@@ -747,9 +768,9 @@ function modal_prevent() {
 }
 //ENVOIE MESSAGE 
 function message_send_function(status, form, json, options) {
+	$form_b = $(form);
     if (json[0] == true) {
         $("#loader_ajax").remove();
-        $form_b = $(form);
         $form_b.find("textarea[name='message_r']").val("");
         if (load_content($form_b.find("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false, true)) {
             load_list();
@@ -757,6 +778,9 @@ function message_send_function(status, form, json, options) {
         return true;
     } else {
         $("#loader_ajax").remove();
+		if(typeof(json[1]) != "undefined") {
+			$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
+		}
         return false;
     }
 }
@@ -773,7 +797,9 @@ function date_send_function(status, form, json, options) {
         return true;
     } else {
         $("#loader_ajax").remove();
-        $form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
+		if(typeof(json[1]) != "undefined") {
+        	$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
+		}
         return false;
     }
 }
@@ -795,7 +821,7 @@ function load_list(search_) {
             'async': false
         });
     }
-    ajax_call = $.getJSON("inc/send_mess.php?list_message=&search=" + search_, function(data) {
+    ajax_call = $.getJSON("inc/msg_.php?list_message=&search=" + search_, function(data) {
         var for_ = "";
         var active = "";
         var count = '<span class="mess_count"></span>';
@@ -882,7 +908,7 @@ function load_content(id, title, sc, nl) {
         $.ajaxSetup({
             'async': false
         });
-        $.getJSON("inc/send_mess.php?get_message=" + id, function(data) {
+        $.getJSON("inc/msg_.php?get_message=" + id, function(data) {
             $(".inner_m").html('');
             $(".header_m span").html(title);
             mess_count(data.count, id);
@@ -910,7 +936,7 @@ function load_content(id, title, sc, nl) {
             $(this).on("click", function(e) {
                 $(this).prepend('<img class="loader_link_m" alt="" src="css/images/loading.gif">');
                 $.ajax({
-                    url: "inc/send_mess.php",
+                    url: "inc/msg_.php",
                     data: "valid=" + $(this).attr("data-id") + "&cc=" + $("input[name='ID_Converse']").val(),
                     method: "GET",
                     success: function(data) {
@@ -930,7 +956,7 @@ function load_content(id, title, sc, nl) {
             $(this).on("click", function(e) {
                 $(this).prepend('<img alt="" class="loader_link_m" src="css/images/loading.gif">');
                 $.ajax({
-                    url: "inc/send_mess.php",
+                    url: "inc/msg_.php",
                     data: "refuse=" + $(this).attr("data-id") + "&cc=" + $("input[name='ID_Converse']").val(),
                     method: "GET",
                     success: function(data) {
@@ -1003,7 +1029,7 @@ function make_date(e) {
     if ($lis.attr("data-b") == "1" && ($lis.attr("data-state") == "0" || $lis.attr("data-state") == "1")) {
         $("#modal_date").remove();
         $.ajax({
-            url: 'inc/send_mess.php',
+            url: 'inc/msg_.php',
             type: 'GET',
             dataType: 'html',
             data: 'make_date=' + id,
@@ -1051,7 +1077,7 @@ function delete_click() {
         $('#modal_delete .valid_modal').on("click", function(e) {
             e.preventDefault();
             var id = $(this).parents("#modal_delete").attr("data-id");
-            $.getJSON("inc/send_mess.php?delete=" + id, function(data) {
+            $.getJSON("inc/msg_.php?delete=" + id, function(data) {
                 if (data == "true") {
                     $('#modal_delete').modal('hide');
                     fst_l = 1;
@@ -1059,7 +1085,9 @@ function delete_click() {
                 } else {
                     var js = JSON.parse(JSON.stringify(data));
                     $('#modal_delete').modal('hide');
-                    $("#message_send").validationEngine('showPrompt', js[1], 'error', "topLeft", false, true);
+					if(typeof(js[1]) != "undefined") {
+                    	$("#message_send").validationEngine('showPrompt', js[1], 'error', "topLeft", false, true);
+					}
                 }
             });
         });
@@ -1131,7 +1159,7 @@ function update_mess_count() {
     clearTimeout(time_out_m);
     if ($(".login_form").length < 1) {
         //LOGGED
-        $.getJSON("inc/add_user.php?count_mess", function(data) {
+        $.getJSON("inc/user_.php?count_mess", function(data) {
             if (parseInt(data) < 1) {
                 $(".nav-h .mess_count").removeClass("red");
                 $(".navbar-header .mess_count").removeClass("red");
@@ -1215,7 +1243,7 @@ function open_all_coms() {
     }
     $("#modal_coms").remove();
     $.ajax({
-        url: 'inc/add_services.php',
+        url: 'inc/services_.php',
         type: 'GET',
         dataType: 'html',
         data: 'list_coms=' + for_,

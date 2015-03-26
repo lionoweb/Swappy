@@ -1,7 +1,6 @@
 <?php
 //CONNEXION ET MOT DE PASSE PERDU
-	session_start();
-	require_once("mysql.php");
+	require_once("config.php");
 	require_once("user.php");
 	$arr = array();
 	if(isset($_POST['login_form_'])) {
