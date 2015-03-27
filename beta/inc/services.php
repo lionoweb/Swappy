@@ -320,7 +320,8 @@
             $data = $select->fetch(PDO::FETCH_OBJ);
             return $data->Name;
         }
-        // ###### HTML ##### //
+        // ######################################### HTML ############################################ //
+		
         //DECRYPTER DISPONIBILITE VENANT DE LA BDD POUR PAGE EDITION SERVICE
         function dispo_uncrypt_edit($txt) {
             $html = '<span data-IDF="{ID}" class="dispo_field">
@@ -401,6 +402,7 @@
             }
             return $html;
         }
+		//AFFICHAGE DU BUTTON PAGE ANNONCE SELON MEMBRE PROPRIETAIRE DU SERVICE OU NON
         function button($services, $user, $me) {
             $html_one = "<br>";
             $html_two = "<br>";
@@ -415,6 +417,7 @@
             $html = '<div class="interesse">'.$html_one.'</div><div class="interesse">'.$html_two.'</div>';
             return $html;
            }
+		   //AFFICHAGE DESCRIPTION ANNONCE OU FORMULAIRE DE NOTE
         function annonces($user) {
             $swith = false;
             $html = '<p class="col-md-8 col-md-offset-2 description">'.ucfirst($this->description).'</p>';
@@ -434,6 +437,7 @@
             }
             return $html;
         }
+		//REMPLISSAGE DE LA PAGE PROPOSE SI EDIT
         function edit_page($user) {
             $var = (object)array("title", "htitle", "ntitle", "field", "zipcode", "city", "distance", "description", "selected", "button", "dispo");
             if($this->by != $user->ID && isset($_GET['edit'])) {
@@ -470,7 +474,7 @@
             }
             return $var;
         }
-        //AFFICHAGE DE LA PAGE DE VOTE
+        //AFFICHAGE DE LA PAGE DE NOTE
         function page_vote($hash="", $user) {
             $html = "";
             if(!empty_($hash)) {

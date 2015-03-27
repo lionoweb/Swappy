@@ -40,7 +40,11 @@ class mailer {
     
             $message .= "\n--".$boundary."--\n";
             
-            return mail($to, $subject, $message, $headers);
+			if(DISABLE_MAIL == false) {
+            	return mail($to, $subject, $message, $headers);
+			} else {
+				return true;
+			}
         } else {
             //SI EXPEDITEUR = @SWAPPY.FR
             if(preg_match('/no\-reply/', $from)) {
@@ -74,11 +78,15 @@ class mailer {
             $message->setCharset("utf-8");
             $message->setBody($html, 'text/html');
             $message->addPart($text, 'text/plain');
-            if (!$mailer->send($message)) {
-                return false;
-            } else {
-                return true;
-            }
+			if(DISABLE_MAIL == false) {
+				if (!$mailer->send($message)) {
+					return false;
+				} else {
+					return true;
+				}
+			} else {
+				return true;	
+			}
         }
     }
     // ##### HTML ###### //

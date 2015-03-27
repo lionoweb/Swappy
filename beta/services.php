@@ -17,7 +17,7 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
       <title>Swappy.fr - Services</title>
-      <?php echo $page->meta_tag("", "", "", "Services", "liste, recherche, chercher"); ?>
+      <?php /* user.php | line 68 */ echo $page->meta_tag("", "", "", "Services", "liste, recherche, chercher"); ?>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
@@ -67,7 +67,7 @@
                      <li><a href="apropos.php">A propos</a></li>
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
-                     <?php echo $user->navbar(); ?>
+                     <?php /* user.php | line 1125 */  echo $user->navbar(); ?>
                   </ul>
                </div>
                <!-- /.navbar-collapse -->
@@ -88,7 +88,7 @@
                         <label for="type" class="control-label col-xs-12 col-sm-2">Catégorie</label>
                         <div class="col-xs-12 col-sm-10">
                            <?php
-                              echo $services->list_categories(false, $rsearch->type_s);
+                             /* services.php | line 368 */ echo $services->list_categories(false, $rsearch->type_s);
                               ?>
                         </div>
                      </div>
@@ -102,7 +102,7 @@
                         <label for="day" class="control-label col-xs-12 col-sm-2">Quand ?</label>
                         <div class="col-xs-12 col-sm-10">
                            <select id="day" name="day" class="form-control">
-                           <?php echo $rsearch->day_s; ?>
+                           <?php /* searches.php | line 561 */ echo $rsearch->day_s; ?>
                            </select>
                         </div>
                         <div class="send col-xs-12 col-sm-3 col-sm-offset-9">
@@ -120,10 +120,10 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <?php echo $result[0]; ?>
+                     <?php /* searches.php | line 527 - line 410 */ echo $result[0]; ?>
                   </tbody>
                </table>
-               <?php echo $result[1]; ?>
+               <?php /* searches.php | line 444 */ echo $result[1]; ?>
             </div>
             <div class="col-md-6 col-md-offset-3">
                <img src="img/pub.jpg" height="120" alt="" width="750" class="img-responsive">

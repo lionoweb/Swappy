@@ -16,7 +16,7 @@ $page = new page(); ?>
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
 	<title>Swappy.fr - Annonce : <?php echo $services->title; ?></title>
-    <?php echo $page->meta_tag($services->meta()); ?>
+    <?php /* user.php | line 68 */ echo $page->meta_tag($services->meta()); ?>
 	<link rel="icon" href="img/favicon.png">
 	<link rel="stylesheet" href="css/jquery-ui.css">
 	<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css" />
@@ -73,7 +73,7 @@ $page = new page(); ?>
 						</li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<?php echo $user->navbar(); ?></ul>
+						<?php /* user.php | line 1125 */ echo $user->navbar(); ?></ul>
 				</div>
 				<!-- /.navbar-collapse -->
 			</div>
@@ -91,7 +91,7 @@ $page = new page(); ?>
 						<a title="Voir le profil de <?php echo $user_->fullname; ?>" class="link-profil" href="profil-<?php echo $user_->ID; ?>.php"><?php echo $user_->fullname; ?></a> propose
                     </div>
 					<div class="info">
-						<img alt="" src="img/annonce/clock.png"><?php echo $services->disponibility; ?>
+						<img alt="" src="img/annonce/clock.png"><?php /* services.php | line 356 */ echo $services->disponibility; ?>
                    	</div>
 					<div class="info loc">
 						<img alt="" src="img/annonce/location.png" width="18" height="28"><?php echo $services->city; ?>, jusqu'à <?php echo $services->distance; ?> km de déplacement</div>
@@ -107,7 +107,7 @@ $page = new page(); ?>
                       	</div>
                     </div>
                	</div>
-				<?php echo $services->button($services->ID, $user_->ID, $user->ID); ?>
+				<?php /* services.php | line 406 */ echo $services->button($services->ID, $user_->ID, $user->ID); ?>
 			</div>
 			<div class="servicepropose">
 				<div class="row">
@@ -118,7 +118,7 @@ $page = new page(); ?>
 				</div>
 			</div>
 			<div class="greyback row">
-				<?php echo $services->annonces($user->ID); ?>
+				<?php /* services.php | line 421 */ echo $services->annonces($user->ID); ?>
             </div>
 			<div class="profiltitle">
 				<p>Notes et commentaires</p>
@@ -127,7 +127,7 @@ $page = new page(); ?>
 				<img src="img/annonce/down.png" alt="" class="down">
 			</div>
 			<div class="notes">
-				<?php echo $user_->list_com($services->ID); ?>
+				<?php /* user.php | line 1197 */ echo $user_->list_com($services->ID); ?>
           	</div>
 		</div>
 	</div>
@@ -141,7 +141,7 @@ $page = new page(); ?>
             <p>Copyright &copy; Swappy.fr. Tous droits réservés</p>
 		</div>
 	</footer>
-	<?php  $chat->prepare_popup($user_, $services); 
-	$chat->prepare_popup_report($user_, $services);  ?>
+	<?php /* chat.php | line 566 */  $chat->prepare_popup($user_, $services); 
+	/* chat.php | line 511 */ $chat->prepare_popup_report($user_, $services);  ?>
 </body>
 </html>

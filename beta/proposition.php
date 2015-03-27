@@ -65,7 +65,7 @@
                      <li><a href="apropos.php">A propos</a></li>
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
-                     <?php echo $user->navbar(); ?>
+                     <?php /* user.php | line 1125 */  echo $user->navbar(); ?>
                   </ul>
                </div>
                <!-- /.navbar-collapse -->
@@ -81,7 +81,7 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <?php echo $user->list_services_edit(); ?>
+                     <?php /* user.php || line 1514 */  echo $user->list_services_edit(); ?>
 				  </tbody>
                </table>
          	</div>

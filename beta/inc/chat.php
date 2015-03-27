@@ -141,6 +141,7 @@
             $r = false;
             $me = $this->user->ID;
             $bott = "0";
+			//ON DETECT SI LE MESSAGE EST UN MESSAGE DIT "ROBOT"
             if($bot != false) {
                 $me = 0;
                 $bott = "'".$bot."'";
@@ -148,6 +149,7 @@
             if(!empty_($message) && !empty_($id)) {
                 $l = $this->getHidden($id);
                 $who = $this->who_ami($id);
+				//Si la conversation a été masqué, on la rend a nouveau visible
                 if($l['MasterH'] != 0) {
                     if($l['MasterH'] == 2 && $who == "Two") {
                         $select = $this->mysql->prepare("UPDATE `conversation` SET `HiddenFor` = '0' WHERE `ID` = '".$id."'");
@@ -163,6 +165,7 @@
                 if($bot == false) {
                     $message = strip_tags($message);
                 }
+				//envoie du message
                 $select = $this->mysql->prepare("INSERT INTO `conversation_reply` (`ID`, `C_ID`, `Author`, `Time`, `Message`, `Seen`, `HiddenFor`, `BotTo`) VALUES (NULL, :conversation, :me, :time, :message, '0', '0', ".$bott.");");
                 if($select->execute(array(":me" => $me, ":conversation" => $id, ":message" => $message, ":time" => $time))) {
                     $r = true;
@@ -170,6 +173,7 @@
                     if($bot != false) {
                         $other_m = $bot;
                     }
+					//envoie d'un mail de notification si option activé dans page profil
                     if($bot != $this->user->ID) {
                         $uu = new user($this->mysql, $other_m);
                         if($uu->mailoption == 1) {
@@ -235,6 +239,8 @@
         }
         //CREATION DU WHERE POUR REQUETE SQL
         function clause_search($input) {
+			//On formatte les mots de la recherche en expression réguliere
+			//On génere un classement via les occurences basés sur l'importante du champs dans lequel le mot à été trouver
             $replace = array();
             $out = '';
             $where = '';
@@ -274,22 +280,27 @@
                     $oppo = 2;
                 }
                 $status = $this->getstatus($id);
+				//on verifie si un un rendez-vous est un cours...
                 if($status == "0" || $status == "3") {
                 while (($val = current($list)) !== FALSE) {
                     if(key($list) == "MasterH") { 
                         if($val == 0) {
+							//On masque la conversation pour l'utilisateur qui la demandé
                             $select = $this->mysql->prepare("UPDATE `conversation` SET `HiddenFor` = '".$value."' WHERE `ID` = '".$id."'");
                             $select->execute();
                         } else if($val == $oppo) {
                             $dlt = 1;
+							//Si elle est déjà masqué par l'autre utilisateur on supprime la conversation
                             $select = $this->mysql->prepare("DELETE FROM `conversation` WHERE `ID` = '".$id."'");
                             $select->execute();
                         }
                     } else {
                         if($val == 0 && $dlt == 0) {
+							//on masque si visible pour l'autre
                             $select = $this->mysql->prepare("UPDATE `conversation_reply` SET `HiddenFor` = '".$value."' WHERE `ID` = '".key($list) ."'");
                             $select->execute();
                         } else if($val == $oppo || $dlt == 1) {
+							//sinon on supprime
                             $select = $this->mysql->prepare("DELETE FROM `conversation_reply` WHERE `ID` = '".key($list) ."'");
                             $select->execute();
                         }
@@ -308,10 +319,12 @@
         //RECUPERATION LISTE DES CONVERSATIONS
         function list_message($search="") {
             $array = array();
+			//liste complete des messages
             if($search == "") {
                 $select = $this->mysql->prepare("SELECT `conversation`.`ID`, MAX(`conversation_reply`.`Time`) AS `LastTime`, `conversation`.`ServiceFor`, `conversation`.`HiddenFor`, `users`.`LastName`, `users`.`FirstName`, `users`.`ID` AS `UserID`, `conversation`.`Status` FROM `conversation` INNER JOIN `conversation_reply` ON `conversation`.`ID` = `conversation_reply`.`C_ID` INNER JOIN `users` ON CASE WHEN `conversation`.`User_One` != :me THEN `conversation`.`User_One` = `users`.`ID` ELSE `conversation`.`User_Two` = `users`.`ID` END WHERE (`conversation`.`User_One` = :me OR `conversation`.`User_Two` = :me) GROUP BY `conversation`.`ID` ORDER BY `LastTime` DESC, `conversation`.`Timestamp` DESC ");
                 $select->execute(array(":me" => $this->user->ID));
             } else {
+				//liste avec une recherche
                 $clause = $this->clause_search($search);
                 $select = $this->mysql->prepare("SELECT `conversation`.`ID`, `conversation`.`ServiceFor`, `users`.`LastName`, `users`.`FirstName`, `conversation`.`HiddenFor`, `users`.`ID` AS `UserID`, `conversation`.`Status` FROM `conversation` INNER JOIN `users` ON CASE WHEN `conversation`.`User_One` != :me THEN `conversation`.`User_One` = `users`.`ID` ELSE `conversation`.`User_Two` = `users`.`ID` END INNER JOIN `services` ON `conversation`.`ServiceFor` = `services`.`ID` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` WHERE (`conversation`.`User_One` = :me OR `conversation`.`User_Two` = :me) AND ".$clause[0]."");
                 $clause[1][":me"] = $this->user->ID;
@@ -492,7 +505,7 @@
             return $arr;
         }
         
-        // ####### HTML ######### //
+        // ################################################ HTML ############################################## //
         
         //AFFICHAGE MODAL POUR SIGNALEMENT
         function prepare_popup_report($user, $service=false) {

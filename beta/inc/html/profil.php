@@ -100,7 +100,7 @@
 	<img src="img/profil/down.png" alt="" class="down">
 </div>
 <div class="text-center">
-	<?php echo $user_->listing_badge_s(); ?>
+	<?php /* user.php | line 1353 */ echo $user_->listing_badge_s(); ?>
 </div>
 <div class="profiltitle">
 	<p>Notes et commentaires</p>
@@ -118,5 +118,5 @@
             </div> <span>[<?php echo $user_->globalvote; ?> vote(s)]</span>
         </div>
     </div>
-	<?php echo $user_->list_com(); ?>
+	<?php /* user.php | line 1197 */ echo $user_->list_com(); ?>
 </div>

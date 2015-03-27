@@ -29,7 +29,7 @@
             $str = preg_replace('#&[^;]+;#', '', $str);
             return $str;
         }
-        // ###### HTML ####### //
+        // ####################################### HTML ############################################ //
         
         //AFFICHAGE SELECT DATE DE NAISSANCE
         function birthdate($selectd="",$selectm="",$selecty="") {
@@ -76,6 +76,7 @@
         $description_g = preg_replace('/[\s]+/', ' ',  $description_g);
         $description = preg_replace("/[\s]+/", " ", $description);
          $tag = 'absences, vacances, arroser, jardin, effectuer, rondes, nourrir, animaux, aide, menagere, nettoyage, repassage, garde, promenade, toilettage, automobile, changement, pieces,  reparations, vidange, accompagnement, ecole, activite, enfant, bricolage, monter, meuble, travaux, manuels, reparations, coaching, conseils, cuisine, decoration, jeux, sport, conseils, cours, particuliers, langues, matieres, scientifiques, musique, courses, demarches, administratives, faire, demenagement, festivites, preparation , fete, animation, musicale, bar, restauration, informatique, assistance, maintenance, reparation, redaction, documents, soins, beaute, coiffure, epilation, manucure, massage, entretien, habitat, electricite, jardinage, maconnerie, peinture, plomberie, swappy, echange, gratuit, services, sel, bricolage, baby-sitting, troc, partage, entraide, communaute, utilisateur, swappeur, non-lucratif, generosite, entre-aide, amitie, temps, rencontre, competences, particuliers, entraide, annonce, garder';
+		 //AJOUT DE MOT CLES
         if(!empty_($more_tags)) {
             $more = preg_split("/( |\'|\,|\.|\-|[\s]|[\s+])/", strtolower($this->stripAccents(trim($more_tags))));
             $al = preg_split("/\, /", $tag);
@@ -103,6 +104,7 @@
                 for($i=0;$i<count($list);$i++) {
                     $file = preg_replace("/\{TYPE\}/", $list[$i], $dir.$base);
                     $im = $img_ = "";
+					//CREATION MINIATURE SI INEXISTANTE
                     if(!file_exists($file)) {
                         $im = imagecreatefromstring(file_get_contents($img));
                         if ($im !== false) {
@@ -354,7 +356,7 @@
             $rand = rand(0,11);
             if($rand > 8) { $this->auto_(); }
         }
-        //SCRIPT AUTOMATIQUE
+        //AUTOMATISATION
         function auto_() {
             //RDV
             $select = @$this->mysql->prepare("SELECT * FROM `appointment` WHERE `Date` <= '".date("Y-m-d H:i:s", strtotime("-1 hour"))."' AND `State` = '1' LIMIT 0, 8");
@@ -865,8 +867,12 @@
                 $birthdate = $POST['year']."-".$POST['month']."-".$POST['day'];
                 //Creation de la position Lat/Lon
                 $city = new city($this->mysql);
+				$valid = 0;
+				if(DISABLE_MAIL == true) {
+					$valid = 1;
+				}
                 $c = $city->getPosition($POST['street'], $POST['zipcode'], $POST['cityname']);
-                $select = $this->mysql->prepare("INSERT INTO `users` (`ID`, `Login`, `Password`, `Email`, `Created`, `Avatar`, `LastName`, `FirstName`, `Gender`, `Birthdate`, `Street`, `ZipCode`, `City`, `Lat`, `Lon`, `Phone`, `Desc`, `Tags`, `Admin`, `MailOption`, `Validation`) VALUES (NULL, :login, :password, :email, CURRENT_TIMESTAMP, :avatar, :lastname, :firstname, :gender, :birthdate, :street, :zipcode, :city, :lat, :lon, :phone, '', '', '0', '0', '0');");
+                $select = $this->mysql->prepare("INSERT INTO `users` (`ID`, `Login`, `Password`, `Email`, `Created`, `Avatar`, `LastName`, `FirstName`, `Gender`, `Birthdate`, `Street`, `ZipCode`, `City`, `Lat`, `Lon`, `Phone`, `Desc`, `Tags`, `Admin`, `MailOption`, `Validation`) VALUES (NULL, :login, :password, :email, CURRENT_TIMESTAMP, :avatar, :lastname, :firstname, :gender, :birthdate, :street, :zipcode, :city, :lat, :lon, :phone, '', '', '0', '0', :valid);");
 
                 $replace = array(":login" => strtolower($POST['login']),
                     ":password" => md5(trim($POST['password'])), 
@@ -881,7 +887,8 @@
                     ":lat" => $c['lat'],
                     ":lon" => $c['lon'],
                     ":phone" => trim($POST['phone']),
-                    ":avatar" => "img/user/".strtoupper($POST['gender']).".jpg"
+                    ":avatar" => "img/user/".strtoupper($POST['gender']).".jpg",
+					":valid" => $valid
                 );
                 if(!$select->execute($replace)) {
                     $arr = array(false);
@@ -1112,7 +1119,7 @@
             return $ret;
         }
         
-        // #### HTML #### //
+        // ############################################## HTML ############################################# //
         
         //AFFICHAGE DE LA BAR DE MENU
         function navbar() {
@@ -1152,7 +1159,7 @@
                  } else { 
                      $p_bl = array("profil", "messagerie", "rendez-vous", "proposition");
                     $fixed_n = array("false", "", "");
-                    if(preg_grep("/".preg_replace("/(.*?)\.php.*/", "$1", basename($_SERVER['REQUEST_URI']))."/", $p_bl)) {
+                    if(preg_grep("/".preg_replace("/(.*?)\.php.*/", "$1", basename($_SERVER['REQUEST_URI']))."/", $p_bl)) {				//AFFICHAGE DU SOUS MENU SI ON EST DANS LA PAGE
                         $fixed_n = array("true", " visible"," open");
                     }
                      $html .= '<li class="dropdown hf'.$fixed_n[2].'">';

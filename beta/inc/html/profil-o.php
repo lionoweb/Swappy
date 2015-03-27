@@ -31,7 +31,7 @@
   			<?php echo $user_->description == "" ? 'Pas de description' : ucfirst($desc); ?>
 			</p>
 		</div>
-		<?php echo $user_->button($user); ?>
+		<?php /* user.php | line 1498 */ echo $user_->button($user); ?>
 	</div>
 </div>
 <div class="profiltitle first">
@@ -41,7 +41,7 @@
 	<img src="img/profil/down.png" alt="" class="down">
 </div>
 <div class="text-center">
-	<?php echo $user_->listing_badge_s(); ?>
+	<?php /* user.php | line 1353 */ echo $user_->listing_badge_s(); ?>
 </div>
 <div class="profiltitle">
 	<p>Notes et commentaires</p>
@@ -50,5 +50,5 @@
 	<img src="img/profil/down.png" alt="" class="down">
 </div>
 <div class="row notes">
-	<?php echo $user_->list_com(); ?>
+	<?php /* user.php | line 1197 */ echo $user_->list_com(); ?>
 </div>

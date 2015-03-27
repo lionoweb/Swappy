@@ -1,8 +1,6 @@
 <?php 
 //SESSION START
 session_start();
-//HIDE ERROR
-ini_set('display_errors', 0);
 //MYSQL VARIABLE
 define("HOST_PROD","swappyfraa0.mysql.db");
 define("DBNAME_PROD","swappyfraa0");
@@ -13,6 +11,8 @@ define("HOST_DEV","localhost");
 define("DBNAME_DEV","swappyfraa0");
 define("USER_DEV","root");
 define("PASSWORD_DEV","root");
+//DISABLE SEND MAIL IF LOCAL DOESNT SUPPORT
+define("DISABLE_MAIL", false);
 //WEBSITE VARIABLE
 define("URL_SITE",'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . "{$_SERVER['HTTP_HOST']}/");
 define("FOLDER_", preg_replace("/([a-zA-Z0-9])$/", "$1/", preg_replace("/^\/|inc|\/$/", "", dirname($_SERVER['REQUEST_URI'])."/")));
@@ -26,6 +26,8 @@ if(preg_match("/localhost|127\.0\.0\.1/", $_SERVER['HTTP_HOST'])) {
 	PASSWORD_PROD);
 }
 $mysql->query("SET NAMES 'utf8'"); 
+//HIDE ERROR
+ini_set('display_errors', 0);
 //OVERRIDE EMPTY FUNCTION
 function empty_($val){
 	if(!is_array($val)) {

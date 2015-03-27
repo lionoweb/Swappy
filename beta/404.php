@@ -11,7 +11,7 @@ $page = new page();
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no"
 >
     <title>Swappy.fr - Page introuvable</title>
-    <?php echo $page->meta_tag("404.jpg", "", "", "Page introuvable", "erreur, 404, introuvable"); ?>
+    <?php /* user.php | line 68 */ echo $page->meta_tag("404.jpg", "", "", "Page introuvable", "erreur, 404, introuvable"); ?>
     <link rel="icon" href="img/favicon.png">
     <link rel="stylesheet" href="css/jquery-ui.css">
     <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>

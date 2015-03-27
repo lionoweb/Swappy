@@ -66,7 +66,7 @@
                      <li><a href="apropos.php">A propos</a></li>
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
-                     <?php echo $user->navbar(); ?>
+                     <?php /* user.php | line 1125 */  echo $user->navbar(); ?>
                   </ul>
                </div>
                <!-- /.navbar-collapse -->
@@ -93,7 +93,7 @@
                      <label for="type" class="control-label col-xs-12 col-sm-3">Catégorie</label>
                      <div class="col-xs-12 col-sm-8">
                         <?php
-                           echo $services->list_categories(true, $edit->selected);
+                          /* services.php || line 368 */ echo $services->list_categories(true, $edit->selected);
                            ?>
                      </div>
                   </div>
@@ -120,7 +120,7 @@
                   <div class="form-group">
                      <label for="day" class="control-label col-xs-12 col-sm-3">Disponibilités</label>
                      <div class="col-xs-12 col-sm-8">
-                        <?php echo $edit->dispo; ?>
+                        <?php /* services.php || line 456 */  echo $edit->dispo; ?>
                         <button class="add_dispo">+ Ajouter une disponibilité</button>
                      </div>
                   </div>

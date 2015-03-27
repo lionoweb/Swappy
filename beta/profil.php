@@ -16,7 +16,7 @@
       <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
       <title>Swappy.fr - <?php echo $user_->title; ?></title>
-      <?php echo $page->meta_tag($user_->meta()); ?>
+      <?php /* user.php | line 68 */ echo $page->meta_tag($user_->meta()); ?>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
@@ -67,7 +67,7 @@
                      <li><a href="apropos.php">A propos</a></li>
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
-                     <?php echo $user->navbar(); ?>
+                     <?php /* user.php | line 1125 */  echo $user->navbar(); ?>
                   </ul>
                </div>
                <!-- /.navbar-collapse -->
@@ -75,7 +75,7 @@
             <!-- /.container-fluid -->
          </nav>
          <div id="profil" class="container-fluid main mon_profil" role="main">
-                <?php $user_->profil_page($user->ID); ?>
+                <?php /* inc/html/profil.php || inc/html/profil-o.php */ $user_->profil_page($user->ID); ?>
          </div>
       </div>
       <footer id="footer">
@@ -90,8 +90,8 @@
          </div>
       </footer>
       <?php
-		  $chat->prepare_popup($user_, false);
-		  $chat->prepare_popup_report($user_, false);
+		 /* chat.php | line 566 */ $chat->prepare_popup($user_, false);
+		 /* chat.php | line 511 */ $chat->prepare_popup_report($user_, false);
 		?>
    </body>
 </html>

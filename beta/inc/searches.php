@@ -44,6 +44,8 @@ class search {
     }
     //DEFINITION DU "WHERE" AND "ORDER" DANS REQUETE SQL POUR BARRE DE RECHERCHE --- SERVICES
     function clause_searchbar($input) {
+		//On formatte les mots de la recherche en expression réguliere
+		//On génere un classement via les occurences basés sur l'importante du champs dans lequel le mot à été trouver
         $replace = array();
         $out = '';
         $where = '';
@@ -66,6 +68,8 @@ class search {
     }
     //DEFINITION DU "WHERE" AND "ORDER" DANS REQUETE SQL POUR BARRE DE RECHERCHE --- PROFIL
     function clause_searchbar_name($input) {
+		//On formatte les mots de la recherche en expression réguliere
+		//On génere un classement via les occurences basés sur l'importante du champs dans lequel le mot à été trouver
         $replace = array();
         $out = '';
         $where = '';
@@ -88,6 +92,8 @@ class search {
     }
     //DEFINITION DU "WHERE" AND "ORDER" DANS REQUETE SQL POUR RECHERCHE VILLE
     function clause_searchcity($input) {
+		//On formatte les mots de la recherche en expression réguliere
+		//On génere un classement via les occurences basés sur l'importante du champs dans lequel le mot à été trouver
         $replace = array();
         $out = '';
         $where = '';
@@ -195,7 +201,7 @@ class search {
         }
         return $arr;
     }
-    // ###### HTML ###### //
+    // ################################################## HTML ################################################ //
     
     //RECHERCHE SERVICES 
     function search($GET, $user) {
@@ -221,6 +227,7 @@ class search {
             $zip = @$GET['zip'];
             $input = preg_replace("/ |\-|\'/", "{}" , $this->clean_w(strtoupper($GET['searchbar'])));
             $l = explode("{}", $input);
+			//recherche juste avec un mot
             if(!empty_($searchbar) && empty_($type) && empty_($locat) && empty_($day) && empty_($zip)) {
                 for($i=0;$i<count($l);$i++) {
                     $prpn = ":value".$i;
@@ -248,6 +255,7 @@ class search {
                     }
                 }
             } else {
+				//Avec un type de service seléctionné
                 if(!empty_($type)) {
                     $type_c = ' AND (`services`.`Type` = :type0)';    
                     $replace[":type0"] = $type;
@@ -269,6 +277,7 @@ class search {
                     }
                     $where .= ' OR 0)';
                 }
+				//Avec des disponibilité précises
                 if(!empty_($day)) {
                     $where .= ' AND (`services`.`Disponibility` REGEXP :day0';
                     $replace[":day0"] = $day;
@@ -283,6 +292,7 @@ class search {
                     }
                     $where .= ')';
                 }
+				//Avec une ville
                 if(!empty_($locat)) {
                     $allow = 1;
                     if(preg_match("/[0-9]{5}/", $locat)) {
@@ -297,7 +307,7 @@ class search {
                         }
                     } else {
                         //MATCH WITH LOCATION/DISTANCE --> CityName
-                        //PUTTING SPACE BETWEEN LETTERS ANS NUMBERS
+                        //PUTTING SPACE BETWEEN LETTERS AND NUMBERS
                         $locat_ = strtoupper(trim(preg_replace("/ |\-|\'/", "|", preg_replace("/([0-9])([a-z|A-Z])/", "$1 $2", preg_replace("/([a-z|A-Z])([0-9])/", "$1 $2", $locat)))));
                         $position = $this->get_locatCity($locat_, $user);
                         if($position['lat'] != false && $position['lon'] != false) {
@@ -306,6 +316,7 @@ class search {
                             $allow = 1;
                         }
                     }
+					//Si on a bien detecter une ville
                     if($allow == 1) {
                         $where .= ' AND (';
                         $input_w = preg_replace("/ |\-|\'/", "{}" , $this->clean_w(strtoupper($locat)));
@@ -356,6 +367,7 @@ class search {
                 }
                 $where .= ' OR 0)';
             }
+			//Nettoyage du WHERE et du ORDER apres de multiple boucle
             if(!empty_($where)) { $where = substr($where, 4, (strlen($where)-1)); }
             if(!empty_($order)) { $order = substr($order, 3, (strlen($order))); }
             $where = preg_replace("/AND \( OR/", "AND (", $where);
@@ -425,6 +437,7 @@ class search {
                         } else {
                             $l_next = ' href="?'.$query_sp.'&p='.($page+1).'"';
                         }
+						//PAGINATION
                         for($o=0;$o<$nb_page;$o++) {
                             $pp = $o + 1;
                             if($pp == $page) {
@@ -465,6 +478,7 @@ class search {
     function recent_services($user) {
         $final = array("", "", "");
         $nocity = false;
+		//SI ON EST CONNECTER ON CE BASE SUR SA VILLE
         if(!empty_($user->zipcode)) {
             $final[2] = "Tous les services récents près de : ".$user->city;
             $select = $this->mysql->prepare("SELECT `services`.`ID`, `categories`.`Name` AS `CatName`, `categories`.`ID` AS `CatID`, `services`.`Title` AS `SerName`, `french_city`.`Real_Name` AS `CityName`, `services`.`City`, `services`.`Distance`, `services`.`By`, `services`.`Type`, `type`.`Name` AS `TypName`, `services`.`Description`,  `services`.`Lat`, `services`.`Lon` , `services`.`Image`, `services`.`Disponibility`, 111.045* DEGREES(ACOS(COS(RADIANS(latpoint))
@@ -501,6 +515,7 @@ class search {
                 $nocity = true;    
                 $final[2] = "Tous les services récents en France";
             }
+			//SI PAS DE SERVICES AVEC LA VILLE OU SI PAS CONNECTER
             if($nocity == true) {
                 $select = $this->mysql->prepare("SELECT `services`.`ID`, `categories`.`Name` AS `CatName`,  `categories`.`ID` AS `CatID`,`services`.`Title` AS `SerName`, `french_city`.`Real_Name` AS `CityName`, `services`.`City`, `services`.`Distance`, `services`.`By`, `services`.`Type`, `type`.`Name` AS `TypName`, `services`.`Description`,  `services`.`Lat`, `services`.`Lon` , `services`.`Image`, `services`.`Disponibility` FROM `services` INNER JOIN `type` ON `services`.`Type` = `type`.`ID` INNER JOIN `categories` ON `type`.`Categorie` = `categories`.`ID` INNER JOIN `french_city` ON `services`.`City` = `french_city`.`ID` GROUP BY `ID` ORDER BY `services`.`Created` DESC LIMIT 0, 15");
                 $select->execute();
@@ -523,11 +538,12 @@ class search {
                     }
                 }
             }
-            if(empty_($final)) {
+            if(empty_($final[0])) {
                 $final[0] = "<tr><td>Aucun résultat trouvé</td></tr>";
             }
             return $final;
     }
+	//MODIFICATION DES CHAMPS APRES RECHERCHES
     function fill_search($user) {
         $where_s = "";
         if($user->logged && !empty_($user->zipcode)) {

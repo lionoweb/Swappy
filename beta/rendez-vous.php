@@ -62,7 +62,7 @@
                      <li><a href="apropos.php">A propos</a></li>
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
-                     <?php echo $user->navbar(); ?>
+                     <?php /* user.php | line 1125 */  echo $user->navbar(); ?>
                   </ul>
                </div>
                <!-- /.navbar-collapse -->
@@ -85,7 +85,7 @@
                      </tr>
                   </thead>
                   <tbody>
-                  	<?php echo $user->list_rdv(true); ?>
+                  	<?php /* user.php || line 1253 */  echo $user->list_rdv(true); ?>
                   </tbody>
              	</table>
            	</div>
@@ -97,7 +97,7 @@
                      </tr>
                   </thead>
                   <tbody>
-                  		<?php echo $user->list_rdv(false); ?>
+                  		<?php /* user.php || line 1253 */ echo $user->list_rdv(false); ?>
                   </tbody>
                	</table>
            	</div>

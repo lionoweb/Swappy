@@ -59,7 +59,7 @@
 	<div class="form-group">
 		<label for="day" class="control-label col-xs-12 col-sm-2 col-md-4">Date de naissance* :</label>
 		<div class="col-xs-12 col-sm-10 col-md-8">
-			<?php echo $page_->birthdate(); ?>
+			<?php /* user.php | line 35 */  echo $page_->birthdate(); ?>
 		</div>
 	</div>
 	<div class="form-group">

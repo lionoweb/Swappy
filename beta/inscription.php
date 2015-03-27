@@ -12,7 +12,7 @@
       <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
       <title>Swappy.fr - Inscription</title>
-      <?php echo $page->meta_tag("", "Swappy, la plateforme d’échanges de services gratuits entre particuliers ! Rejoignez la communauté dès maintenant et échangez vos services !", "", "Inscription", "inscription"); ?>
+      <?php /* user.php | line 68 */ echo $page->meta_tag("", "Swappy, la plateforme d’échanges de services gratuits entre particuliers ! Rejoignez la communauté dès maintenant et échangez vos services !", "", "Inscription", "inscription"); ?>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
@@ -61,7 +61,7 @@
                      <li><a href="apropos.php">A propos</a></li>
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
-                     <?php echo $user->navbar(); ?>
+                     <?php /* user.php | line 1125 */  echo $user->navbar(); ?>
                   </ul>
                </div>
                <!-- /.navbar-collapse -->
@@ -69,7 +69,7 @@
             <!-- /.container-fluid -->
          </nav>
          <div class="container main" role="main">
-            <?php $user->inscription_page(); ?>   
+            <?php /* inc/html/inscription.php || inc/html/remind.php */ $user->inscription_page(); ?>   
             </div>
          </div>
       </div>
