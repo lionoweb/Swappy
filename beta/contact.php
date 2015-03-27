@@ -80,7 +80,7 @@
                   </div>
                   <div class="getintouch col-md-2 col-md-offset-0 col-xs-5 col-xs-offset-1">
                      <img alt="Mail" src="img/contact/mail.png">
-                     <p><a class="link_mail" data-hash="<?php echo $page->encode_mail("swappy@contact.fr","UTF"); ?>"><?php echo $page->encode_mail("swappy@contact.fr","ASC"); ?></a></p>
+                     <p><a class="link_mail" data-hash="<?php echo $page->encode_mail("swappy@contact.fr","UTF"); ?>"><?php echo encode_mail("swappy@contact.fr","ASC"); ?></a></p>
                   </div>
                </div>
             </div>
