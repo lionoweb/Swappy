@@ -186,6 +186,10 @@ nav {
 #remind_section {
     display: none;
 }
+.remind_link {
+	padding-top: 8px;
+	display:block;
+}
 .remind_link:hover {
     cursor: pointer;
 }
@@ -2339,7 +2343,6 @@ button:focus {
         color: #000 !important;
     }
     .remind_link {
-        padding-top: 8px;
         color: #FFF;
         display: block;
     }

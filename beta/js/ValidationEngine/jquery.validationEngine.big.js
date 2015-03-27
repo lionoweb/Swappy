@@ -403,7 +403,7 @@
 						var overflowDIV = $(options.overflownDIV);
 						if(!overflowDIV.length) return false;
 						var scrollContainerScroll = overflowDIV.scrollTop();
-						var scrollContainerPos = -parseInt(overflowDIV.offset().top) - ($("nav").height() + 50 + pp);
+						var scrollContainerPos = -parseInt(overflowDIV.offset().top) - ($("nav").height() + 30 + pp);
 						destination += scrollContainerScroll + scrollContainerPos - 5;
 						var scrollContainer = $(options.overflownDIV + ":not(:animated)");
 
@@ -418,7 +418,7 @@
 						}
 						if(!isElementVisible(first_err) && options.canScroll)  {
 						$("html, body").animate({
-							scrollTop: destination-($("nav").height() + 50 + pp)
+							scrollTop: destination-($("nav").height() + 30 + pp)
 						}, 900, function(){
 							if(options.focusFirstField) first_err.focus();
 						});
@@ -475,7 +475,6 @@
 							
 							// make sure we found the element
 							if (errorField.length == 1) {
-alert("ok");
 								// promptText or selector
 								var msg = value[2];
 								// if the field is valid
@@ -1716,6 +1715,7 @@ alert("ok");
 			 }
 			}
 			 var prompt = methods._getPrompt(field);
+			 
 			 // The ajax submit errors are not see has an error in the form,
 			 // When the form errors are returned, the engine see 2 bubbles, but those are ebing closed by the engine at the same time
 			 // Because no error was found befor submitting
@@ -1753,7 +1753,7 @@ alert("ok");
 					var overflowDIV = $(options.overflownDIV);
 					if(!overflowDIV.length) return false;
 					var scrollContainerScroll = overflowDIV.scrollTop();
-					var scrollContainerPos = -parseInt(overflowDIV.offset().top) - ($("nav").height() + 50 + pp);
+					var scrollContainerPos = -parseInt(overflowDIV.offset().top) - ($("nav").height() + 30 + pp);
 					destination += scrollContainerScroll + scrollContainerPos - 5;
 					var scrollContainer = $(options.overflownDIV + ":not(:animated)");
 
@@ -1769,7 +1769,7 @@ alert("ok");
 					}
 					if(!isElementVisible(origin)  && options.canScroll)  {
 					$("html, body").animate({
-						scrollTop: destination-($("nav").height() + 50 + pp)
+						scrollTop: destination-($("nav").height() + 30 + pp)
 					}, 900, function(){
 						if(options.focusFirstField) first_err.focus();
 					});
@@ -1781,10 +1781,13 @@ alert("ok");
 				
 			
 			 if($.trim(promptText)){ 
-				 if (prompt)
+			 
+				 if (prompt) {
+					 
 					methods._updatePrompt(field, prompt, promptText, type, ajaxed, options);
-				 else
+				 } else {
 					methods._buildPrompt(field, promptText, type, ajaxed, options);
+				 }
 			}
 		 },
 		/**
@@ -1799,7 +1802,8 @@ alert("ok");
 		_buildPrompt: function(field, promptText, type, ajaxed, options) {
 			// create the prompt
 			var prompt = $('<div>');
-			prompt.addClass(methods._getClassName(field.attr("id")) + "formError");
+			//prompt.addClass(methods._getClassName(field.attr("id")) + "formError");
+			prompt.addClass("undefined" + "formError");
 			// add a class name to identify the parent form of the prompt
 			prompt.addClass("parentForm"+methods._getClassName(field.closest('form, .validationEngineContainer').attr("id")));
 			prompt.addClass("formError");
@@ -1971,8 +1975,11 @@ alert("ok");
 		*/
 		_getPrompt: function(field) {
 				var formId = $(field).closest('form, .validationEngineContainer').attr('id');
-			var className = methods._getClassName(field.attr("id")) + "formError";
+			//var className = methods._getClassName(field.attr("id")) + "formError";
+			var className = "undefined" + "formError";
+			console.log(className);
 				var match = $("." + methods._escapeExpression(className) + '.parentForm' + formId)[0];
+				
 			if (match)
 			return $(match);
 		},
