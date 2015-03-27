@@ -1136,7 +1136,7 @@
                  $html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Connexion <span class="caret"></span></a>
                         <div class="dropdown-menu login-menu">
                             <div id="login_section">
-                                <form action="inc/login_.php" method="post" class="login_form">
+                                <form action="inc/login_.php" id="signin_me" method="post" class="login_form">
                                     <span class="hidden_">Se connecter :</span>
                                     <input id="login_form_" name="login_form_" class="validate[required,minSize[5]] form-control" placeholder="Identifiant" type="text" size="30">
                                     <input type="password" id="password_form" name="password_form" placeholder="Mot de passe" class="validate[required,minSize[6]] form-control" size="30">
@@ -1148,7 +1148,7 @@
                                 </form>        
                             </div>
                             <div id="remind_section">
-                                <form class="remind_form" action="inc/login_.php" method="post" accept-charset="UTF-8">
+                                <form class="remind_form" id="password_lost" action="inc/login_.php" method="post" accept-charset="UTF-8">
                                     <span class="hidden_">Mot de passe perdu :</span>
                                     <input id="user_username" placeholder="Email" class="form-control validate[required,email]" type="text" name="remind[email]" size="30">
                                     <input class="btn btn-primary" type="submit" name="commit" value="Recuperer">
