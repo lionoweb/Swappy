@@ -1,1 +1,146 @@
+# ------------------------- CONFIGURATION OVH ----------------------#
 SetEnv PHP_VER 5_5*
+SetEnv REGISTER_GLOBALS 0
+SetEnv MAGIC_QUOTES 0
+SetEnv ZEND_OPTIMIZER 1
+# ------------------------- CONFIGURATION OVH FIN ------------------#
+# -------------------------------A GARDER---------------------------#
+# Suivi des liens symboliques
+Options  +FollowSymlinks
+# Activation du module de réécriture d’URL (pour désactiver la réécriture d’URL => OFF)
+RewriteEngine on
+# PATH
+RewriteBase /
+ErrorDocument 404 http://swappy.fr/404.php
+# REWRITE URL
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+RewriteCond %{HTTP_USER_AGENT} libwww-perl.* 
+RewriteRule .* – [F,L]
+RewriteCond %{THE_REQUEST}      /annonce\.php\?id\=([^&]+)   [NC]
+RewriteCond %{QUERY_STRING}     ^id=(.*)  [NC]
+RewriteRule ^annonce\.php$ annonce-%1.php? [R=301,L]
+RewriteCond %{THE_REQUEST}      /profil\.php\?id\=([^&]+)    [NC]
+RewriteCond %{QUERY_STRING}     ^id=(.*)  [NC]
+RewriteRule ^profil\.php$ profil-%1.php? [R=301,L]
+RewriteCond %{THE_REQUEST}      /sitemap\.php\?i\=([^&]+)   [NC]
+RewriteCond %{QUERY_STRING}     ^i=(.*)  [NC]
+RewriteRule ^sitemap\.php$ sitemap-%1.xml? [R=301,L]
+RewriteCond %{THE_REQUEST}      /sitemap\.php    [NC]
+RewriteCond %{QUERY_STRING}      !^i=(.*) [NC]
+RewriteRule ^sitemap\.php$ sitemap.xml? [R=301,L]
+RewriteCond %{THE_REQUEST}      /robots\.php    [NC]
+RewriteRule ^robots\.php$ robots.txt? [R=301,L]
+RewriteCond %{THE_REQUEST}      /annonce-([^&]+)\.php    [NC]
+RewriteRule    ^annonce-(.*)\.php$ annonce.php?id=$1 [QSA,L]
+RewriteCond %{THE_REQUEST}      /profil-([^&]+)\.php    [NC]
+RewriteRule    ^profil-(.*)\.php$ profil.php?id=$1 [QSA,L]
+RewriteCond %{THE_REQUEST}      /sitemap-([^&]+)\.xml    [NC]
+RewriteRule    ^sitemap-(.*)\.xml$ sitemap.php?i=$1 [QSA,L]
+RewriteCond %{THE_REQUEST}      /sitemap\.xml    [NC]
+RewriteRule    ^sitemap\.xml$ sitemap.php [QSA,L]
+RewriteCond %{THE_REQUEST}      /robots\.txt    [NC]
+RewriteRule    ^robots\.txt$ robots.php [QSA,L]
+# -------------------------------A GARDER FIN-----------------------#
+<IfModule mod_headers.c>
+ExpiresActive On
+ExpiresDefault A0
+</IfModule>
+<files .htaccess>
+order allow,deny
+deny from all
+</files>
+Options -Indexes
+<IfModule mod_headers.c>
+ <filesmatch "\\.(ico|jpe?g|png|gif|swf|gz|ttf)$">
+ Header set Cache-Control "max-age=2592000, public"
+ </filesmatch>
+ <filesmatch "\\.(css)$">
+ Header set Cache-Control "max-age=2592000, public"
+ </filesmatch>
+ <filesmatch "\\.(js)$">
+ Header set Cache-Control "max-age=2592000, private"
+ </filesmatch>
+<filesmatch "\\.(html|htm)$">
+Header set Cache-Control "max-age=7200, public"
+</filesmatch>
+# Disable caching for scripts and other dynamic files
+<filesmatch "\.(pl|php|cgi|spl|scgi|fcgi)$">
+Header unset Cache-Control
+</filesmatch>
+</IfModule>
+# END Cache-Control Headers
+#Check to see if browser can accept gzip files. If so and we have it – serve it!
+ReWriteCond %{HTTP:accept-encoding} gzip
+RewriteCond %{HTTP_USER_AGENT} !Safari
+#make sure there’s no trailing .gz on the url
+ReWriteCond %{REQUEST_FILENAME} !^.+.gz$
+#check to see if a .gz version of the file exists.
+RewriteCond %{REQUEST_FILENAME}.gz -f
+#All conditions met so add .gz to URL filename (invisibly)
+RewriteRule ^(.+) $1.gz [QSA,L]
+<IfModule mod_gzip.c>
+mod_gzip_on Yes
+mod_gzip_dechunk Yes
+mod_gzip_keep_workfiles No
+mod_gzip_can_negotiate Yes
+mod_gzip_add_header_count Yes
+mod_gzip_send_vary Yes
+mod_gzip_command_version ‘/mod_gzip_status’
+mod_gzip_min_http 1000
+mod_gzip_minimum_file_size 300
+mod_gzip_maximum_file_size 512000
+mod_gzip_maximum_inmem_size 60000
+mod_gzip_handle_methods GET POST
+mod_gzip_temp_dir /tmp
+mod_gzip_item_include file .html$
+mod_gzip_item_include file .php$
+mod_gzip_item_include file .pl$
+mod_gzip_item_include file .rb$
+mod_gzip_item_include file .py$
+mod_gzip_item_include file .cgi$
+mod_gzip_item_include file .css$
+mod_gzip_item_include file .js$
+mod_gzip_item_include mime ^application/javascript$
+mod_gzip_item_include mime ^application/x-javascript$
+mod_gzip_item_include mime ^text/.*
+mod_gzip_item_include mime ^httpd/unix-directory$
+mod_gzip_item_include handler ^cgi-script$
+mod_gzip_item_include handler ^server-status$
+mod_gzip_item_include handler ^server-info$
+mod_gzip_item_include handler ^application/x-httpd-php
+mod_gzip_item_exclude mime ^image/.*
+</IfModule>
+# BEGIN Expire headers
+<IfModule mod_expires.c>
+ ExpiresActive On
+ ExpiresDefault "access plus 7200 seconds"
+ ExpiresByType image/jpg "access plus 2592000 seconds"
+ ExpiresByType image/jpeg "access plus 2592000 seconds"
+ ExpiresByType image/png "access plus 2592000 seconds"
+ ExpiresByType image/gif "access plus 2592000 seconds"
+ AddType image/x-icon .ico
+ ExpiresByType image/ico "access plus 2592000 seconds"
+ ExpiresByType image/icon "access plus 2592000 seconds"
+ ExpiresByType image/x-icon "access plus 2592000 seconds"
+ ExpiresByType text/css "access plus 2592000 seconds"
+ ExpiresByType text/javascript "access plus 2592000 seconds"
+ ExpiresByType text/html "access plus 7200 seconds"
+ ExpiresByType application/xhtml+xml "access plus 7200 seconds"
+ ExpiresByType application/javascript A259200
+ ExpiresByType application/x-javascript "access plus 2592000 seconds"
+ ExpiresByType application/x-shockwave-flash "access plus 2592000 seconds"
+</IfModule>
+# END Expire headers
+# KILL THEM ETAGS
+<IfModule mod_headers.c>
+Header unset ETag
+Header unset Cookie
+Header unset Set-Cookie
+</IfModule>
+<IfModule mod_mime.c>
+AddCharset UTF-8 .php
+AddCharset UTF-8 .js
+AddCharset UTF-8 .css
+</IfModule>
+FileETag none
