@@ -137,7 +137,7 @@
             return $i;    
         }
         //ENVOIE REPONSE
-        function send_reply($message, $id, $bot=false) {
+        function send_reply($message, $id, $bot=false, $extratime = 0) {
             $r = false;
             $me = $this->user->ID;
             $bott = "0";
@@ -160,7 +160,7 @@
                         $select->execute();
                     } 
                 }
-                $time = time();
+                $time = time() + $extratime;
                 $message = trim($message);
                 if($bot == false) {
                     $message = strip_tags($message);
@@ -614,9 +614,9 @@
             echo $html; 
         }
         //ENVOIE DU MESSAGE POUR DEMANDER A VOTER
-        function ask_for_com($id, $cc, $user, $hash) {
-            $mess = 'Nous espèrons que ce service fût satisfaisant.<br>Vous pouvez dès à présent noter l\'utilisateur ainsi que son service en <a href="annonce.php?vote='.$hash.'" class="note-this-date">cliquant ici</a>';
-            $this->send_reply($mess, $cc, $user);
+        function ask_for_com($id, $cc, $user, $hash, $serv) {
+            $mess = 'Nous espèrons que ce service fût satisfaisant.<br>Vous pouvez dès à présent noter l\'utilisateur ainsi que son service en <a href="annonce-'.$serv.'.php?vote='.$hash.'" class="note-this-date">cliquant ici</a>';
+            $this->send_reply($mess, $cc, $user, 10);
         }
         //MODIFICATION STATUT ET ENVOIE MESSAGES SI CLIQUER SUR OUI|VALIDER|CONFIRMER
         function valid_a($id, $cc) {
@@ -699,7 +699,7 @@
                     $ss = $this->mysql->prepare("UPDATE `conversation` SET `Status` = '0' WHERE `ID` = :id");
                     $ss->execute(array(":id" => $cc));
                     if(!$this->has_voted($data->Service, $data->Owner_Service)) {
-                        $this->ask_for_com($id, $cc, $data->User, $this->make_vote_h($id, $data->Date));
+                        $this->ask_for_com($id, $cc, $data->User, $this->make_vote_h($id, $data->Date), $data->Service);
                     }
                 }
             }

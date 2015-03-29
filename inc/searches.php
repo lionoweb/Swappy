@@ -87,7 +87,7 @@ class search {
         }
         if(!empty_($where)) { $where = substr($where, 4, (strlen($where)-1)); }
         if(!empty_($order)) { $order = substr($order, 3, (strlen($order))); }
-        $out = 'WHERE '.$where.' GROUP BY `ID` ORDER BY '.$order. ' DESC, `FirstName` DESC';
+        $out = 'WHERE ('.$where.') AND `Validation` = \'1\' GROUP BY `ID` ORDER BY '.$order. ' DESC, `FirstName` DESC';
         return array($out, $replace);
     }
     //DEFINITION DU "WHERE" AND "ORDER" DANS REQUETE SQL POUR RECHERCHE VILLE

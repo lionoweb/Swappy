@@ -416,7 +416,7 @@
                 if($cc != false) {
                     $del = $this->mysql->prepare("DELETE `appointment` WHERE `ID` = '".$data->ID."'");
                     $del->execute();
-                    $mess = 'Suite a aucune réponse sur ce rendez-vous depuis 2mois... Nous l\'annulons.';
+                    $mess = 'Suite a aucune réponse sur ce rendez-vous depuis 2 mois... Nous l\'annulons.';
                     $chat->send_reply($mess, $cc, $data->User);
                     $chat->send_reply($mess, $cc, $data->Owner_Service);
                     $up = $this->mysql->prepare("UPDATE `conversation` SET `Status` = '0' WHERE `ID` = '".$cc."'");
@@ -1232,7 +1232,7 @@
                 }
                 $html .= '</span>';
                 $c = 20 * $data->Note;
-                $html .= '<br><div title="'.$data->Note.' étoile(s)" class="star-rating rating-xs rating-active"><div class="rating-container rating-gly-star" data-content=""><div class="rating-stars" data-content="" style="width: '.$c.'%;"></div><input data-step="1" data-max="5" data-min="0" class="rating form-control hide" id="input-1"></div></div>';
+                $html .= '<br><div title="'.$data->Note.' étoile(s)" class="star-rating rating-xs rating-active"><div class="rating-container rating-gly-star" data-content=""><div class="rating-stars" data-content="" style="width: '.$c.'%;"></div><input data-step="1" data-max="5" data-min="0" class="form-control hide" id="input-1"></div></div>';
                 $html .= '<p>'.ucfirst($com).'</p>';
                 $html .= '<i>le '.date("d/m/Y \à H:i", strtotime($data->Date)).'</i>';
                 $html .= '<div class="clear"></div></div>';

@@ -482,16 +482,19 @@
                 $select = $this->mysql->prepare("SELECT *, COUNT(*) AS `nb` FROM `appointment` WHERE `ID` = :id AND `State` = '5'");
                 $select->execute(array(":id" => $h['ID']));
                 $data = $select->fetch(PDO::FETCH_OBJ);
-                if($h['ID'] != $this->ID) {
-                    //HASH INVALIDE
-                    $html = "Votre lien est incorrect.";
-                } else if($user->ID == $data->Owner_Service) {
-                    //PROPRE SERVICE
-                    $html = "Vous ne pouvez pas noter votre propre service.";
+                if(!is_numeric($this->ID)) {
+                    //Pas de service detecter
+                    $html = "Désolé, mais votre lien est incorrect.";
                 } else if($data->nb < 1) {
                     //PAS DE RDV ENREGISTRE
                     $html = "Vous n'avez pas eu de rendez-vous pour ce service...<br>Vous ne pouvez donc pas le noter.";
-                } else {
+                } else if($user->ID == $data->Owner_Service) { 
+					//PROPRE SERVICE
+					$html = "Vous ne pouvez pas noter votre propre service.";
+                } else if($data->Service != $this->ID) {
+					//Pas la bonne page
+                    $html = "Désolé, mais votre lien est incorrect.";
+				} else {
                     if($data->User != $user) {
                         //PAS LE MEMBRE
                         $html = "Désolé, mais vous n'êtes pas autorisé à noter ce service.";
@@ -500,7 +503,7 @@
                         $html = "Désolé, mais votre lien est incorrecte.";
                     } else if($this->has_voted($data->Service,$data->Owner_Service, $user)) {
                         //DEJA VOTE
-                        $html = "Vous avez déjà noté pour ce service.";
+                        $html = "Vous avez déjà noté ce service.";
                     } else {
                         //OK
                         $html = 'Veuillez attribuer une note à ce service ainsi qu\'un commentaire (optionnel) :<br><br><form  id="note_form" action="inc/services_.php" method="post"><label class="label-control" for="rate">Votre note :</label><input id="input-5" name="note" class="rating validate[required]" data-size="xs" data-show-clear="false" data-step="1" value="1" data-max="5" data-min="0"><label for="com" class="label-control">Votre commentaire :</label><textarea class="form-control" id="com" name="com"></textarea><input type="hidden" name="hash" value="'.$hash.'"><input type="submit" value="Envoyer"></form>';

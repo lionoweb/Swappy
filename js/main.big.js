@@ -844,11 +844,16 @@ function load_list(search_) {
         });
         delete_click();
         event_click();
-        if (fst_l == 1) {
-
+		var hashs = window.location.hash;
+        if (fst_l == 1 && $(window).width() >= 701) {
             load_content();
             fst_l = 0;
-        }
+        } else if($(window).width() < 701 && hashs.match(/\#select\-/)) {
+			load_content();
+            fst_l = 0;
+		} else if(fst_l == 1) {
+			fst_l = 0;
+		}
     });
     $.ajaxSetup({
         'async': true
@@ -981,6 +986,7 @@ function load_content(id, title, sc, nl) {
         $(".form_m button").css("display", "none");
     }
     $("input[name='ID_Converse']").val(id);
+
 	window.location.hash = "select-"+id;
     return true;
 }
@@ -1191,9 +1197,17 @@ function update_mess_count() {
             $(".navbar-header .mess_count").html(data);
 
             if (url_page.match(/messagerie\.php/)) {
-                if (load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false, true)) {
-                    load_list("load_with_reset_button");
-                }
+				if($(window).width() >= 701) {
+					if (load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false, true)) {
+						load_list("load_with_reset_button");
+					}
+				} else if($(window).width() < 701 && $("#content_m").hasClass("montre")) {
+					if (load_content($("input[name='ID_Converse']").val(), $(".mess_t.active").html(), false, true)) {
+						load_list("load_with_reset_button");
+					}
+				} else {
+					load_list("load_with_reset_button");
+				}
             }
         });
     }

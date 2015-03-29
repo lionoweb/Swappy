@@ -21,7 +21,7 @@ $page = new page(); ?>
 	<link rel="stylesheet" href="css/jquery-ui.css">
 	<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css" />
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<?php @$_GET['vote'] ? '<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">' : ''; ?>
+	<?php echo @$_GET['vote'] ? '<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">' : ''; ?>
 	<link rel="stylesheet" href="css/main.css">
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
 	<script src="js/jquery.js"></script>
@@ -29,7 +29,7 @@ $page = new page(); ?>
 	<script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js"></script>
 	<script src="js/ValidationEngine/jquery.validationEngine.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	<?php @$_GET['vote'] ? '<script src="js/rate.js"></script>' : ''; ?>
+	<?php echo @$_GET['vote'] ? '<script src="js/rate.js"></script>' : ''; ?>
 	<script src="js/main.js"></script>
 	<!--[if lt IE 9]>
       <script src="//cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
