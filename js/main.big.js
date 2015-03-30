@@ -863,7 +863,7 @@ function load_list(search_) {
         if (fst_l == 1 && $(window).width() >= 701) {
             load_content();
             fst_l = 0;
-        } else if($(window).width() < 701 && hashs.match(/\#select\-/)) {
+        } else if(fst_l == 1 && $(window).width() < 701 && hashs.match(/\#select\-/)) {
 			load_content();
             fst_l = 0;
 		} else if(fst_l == 1) {
