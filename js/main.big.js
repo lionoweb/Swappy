@@ -249,6 +249,7 @@ $(document).ready(function(e) {
             var filen = this.files[0];
             var maxfi = 5259999;
             if (filen.size > maxfi) {
+				$("#upload_ba").find(".formError").remove();
                 $("#upload_ba").validationEngine('showPrompt', "Votre fichier ne doit pas dépasser les 5Mo", 'error', "topLeft", false, true);
             } else {
                 formData.append('file-avatar', filen);
@@ -270,6 +271,7 @@ $(document).ready(function(e) {
                             $(".dropdown-toggle > img:first-child").attr("src", js[1]);
                         } else {
 							if(typeof(js[1]) != "undefined") {
+								$("#upload_ba").find(".formError").remove();
                             	$("#upload_ba").validationEngine('showPrompt', js[1], 'error', "topLeft", false, true);
 							}
                         }
@@ -491,6 +493,7 @@ function send_mail_contact(status, form, json, options) {
         return true;
     } else {
 		if(typeof(json[1]) != "undefined") {
+			$form_b.find(".formError").remove();
 			$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
 		}
         return false;
@@ -506,6 +509,7 @@ function add_user_function(status, form, json, options) {
     } else {
         $form_b.find("#loader_ajax").remove();
 		if(typeof(json[1]) != "undefined") {
+			$form_b.find(".formError").remove();
 			$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
 		}
         return false;
@@ -521,6 +525,7 @@ function vote_function(status, form, json, options) {
     } else {
         $form_b.find("#loader_ajax").remove();
 		if(typeof(json[1]) != "undefined") {
+			$form_b.find(".formError").remove();
 			$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
 		}
         return false;
@@ -531,13 +536,15 @@ function edit_user_function(status, form, json, options) {
     $form_b = $(form);
     if (json[0] == true) {
         $form_b.find("#loader_ajax").remove();
+		$form_b.find(".formError").remove();
+		$form_b.validationEngine('showPrompt', "Modifications effectuées !", 'pass', "topLeft", false, true);
         $("#avatar_u").attr("src", json[1]);
         $(".dropdown-toggle > img:first").attr("src", json[1]);
-        $form_b.validationEngine('showPrompt', "Modifications effectuées !", 'pass', "topLeft", false, true);
         return true;
     } else {
         $form_b.find("#loader_ajax").remove();
 		if(typeof(json[1]) != "undefined") {
+			$form_b.find(".formError").remove();
            	 $form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
         }
         return false;
@@ -552,6 +559,7 @@ function remind_change_function(status, form, json, options) {
     } else {
         $form_b.find("#loader_ajax").remove();
 		if(typeof(json[1]) != "undefined") {
+			$form_b.find(".formError").remove();
         	$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
 		}
         return false;
@@ -572,6 +580,7 @@ function add_service_function(status, form, json, options) {
     } else {
         $form_b.find("#loader_ajax").remove();
 		if(typeof(json[1]) != "undefined") {
+			$form_b.find(".formError").remove();
         	$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
 		}
 		$(document).scrollTop(0);
@@ -593,6 +602,7 @@ function send_popup_message(status, form, json, options) {
     } else {
         $form_b.find("#loader_ajax").remove();
 		if(typeof(json[1]) != "undefined") {
+			$form_b.find(".formError").remove();
         	$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
 		}
 		return false;
@@ -614,6 +624,7 @@ function send_report_message(status, form, json, options) {
     } else {
         $form_b.find("#loader_ajax").remove();
 		if(typeof(json[1]) != "undefined") {
+			$form_b.find(".formError").remove();
         	$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
 		}
         return false;
@@ -639,6 +650,7 @@ function login_user_function(status, form, json, options) {
     } else {
         $form_b.find("#loader_ajax").remove();
 		if(typeof(json[1]) != "undefined") {
+			$form_b.find(".formError").remove();
         	$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
 		}
         return false;
@@ -659,6 +671,7 @@ function remind_user_function(status, form, json, options) {
     } else {
         $form_b.find("#loader_ajax").remove();
 		if(typeof(json[1]) != "undefined") {
+			$form_b.find(".formError").remove();
        		$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
 		}
         return false;
@@ -779,6 +792,7 @@ function message_send_function(status, form, json, options) {
     } else {
         $("#loader_ajax").remove();
 		if(typeof(json[1]) != "undefined") {
+			$form_b.find(".formError").remove();
 			$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
 		}
         return false;
@@ -798,6 +812,7 @@ function date_send_function(status, form, json, options) {
     } else {
         $("#loader_ajax").remove();
 		if(typeof(json[1]) != "undefined") {
+			$form_b.find(".formError").remove();
         	$form_b.validationEngine('showPrompt', json[1], 'error', "topLeft", false, true);
 		}
         return false;
@@ -1092,6 +1107,7 @@ function delete_click() {
                     var js = JSON.parse(JSON.stringify(data));
                     $('#modal_delete').modal('hide');
 					if(typeof(js[1]) != "undefined") {
+						$("#message_send").find(".formError").remove();
                     	$("#message_send").validationEngine('showPrompt', js[1], 'error', "topLeft", false, true);
 					}
                 }

@@ -5,6 +5,7 @@
    require_once("inc/chat.php");
    $user = new user($mysql);
    $user->onlyUsers();
+   $page = new page();
  ?>
 <!doctype html>
 <html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
@@ -16,9 +17,7 @@
     	<title>Swappy.fr - Mes propositions</title>
     	<link rel="icon" href="img/favicon.png">
     	<link rel="stylesheet" href="css/jquery-ui.css">
-    	<link rel="stylesheet" href="css/jquery.datetimepicker.css">
     	<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
-    	<link rel="stylesheet" href="css/template.css" type="text/css"/>
     	<link rel="stylesheet" href="css/bootstrap.min.css">
     	<link rel="stylesheet" href="css/main.css">
         <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
@@ -34,6 +33,7 @@
     <![endif]-->
   </head>
   <body role="document">
+      <?php /* user.php | line 13 */ echo $page->add_tracking(); ?>
       <div id="wrap">
       	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">

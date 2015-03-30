@@ -36,6 +36,7 @@
     <![endif]-->
    </head>
    <body role="document">
+      <?php /* user.php | line 13 */ echo $page->add_tracking(); ?>
       <div id="wrap">
          <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">

@@ -11,7 +11,7 @@ require_once("inc/config.php");
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
-      <title>Swapp y.fr - CGU & Mentions légales</title>
+      <title>Swappy.fr - CGU & Mentions légales</title>
       <?php /* user.php | line 68 */ echo $page->meta_tag("", "", "", "CGU & Mentions légales", "cgu, condition, general, utilisations, mention, legale"); ?>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
@@ -31,6 +31,7 @@ require_once("inc/config.php");
     <![endif]-->
    </head>
    <body role="document">
+   	  <?php /* user.php | line 13 */ echo $page->add_tracking(); ?>
       <div id="wrap">
          <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">

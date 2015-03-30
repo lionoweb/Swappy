@@ -28,7 +28,7 @@
 		</div>
         <div class="col-md-6 col-md-offset-3">
 			<p id="description" class="text-justify description_">
-  			<?php echo $user_->description == "" ? 'Pas de description' : ucfirst($user_->description); ?>
+  			<?php echo $user_->description == "" ? 'Pas de description' : nl2br(ucfirst($user_->description)); ?>
 			</p>
 		</div>
 		<?php /* user.php | line 1498 */ echo $user_->button($user); ?>

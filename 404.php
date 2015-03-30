@@ -13,9 +13,6 @@ $page = new page();
     <title>Swappy.fr - Page introuvable</title>
     <?php /* user.php | line 68 */ echo $page->meta_tag("404.jpg", "", "", "Page introuvable", "erreur, 404, introuvable"); ?>
     <link rel="icon" href="img/favicon.png">
-    <link rel="stylesheet" href="css/jquery-ui.css">
-    <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
-    <link rel="stylesheet" href="css/template.css" type="text/css"/>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
@@ -25,6 +22,7 @@ $page = new page();
     <![endif]-->
 </head>
 <body role="document">
+	<?php /* user.php | line 13 */ echo $page->add_tracking(); ?>
     <div id="error">
         <h1 class="logo_error"><img alt="Erreur 404" src="img/logo_error.png" width="75" height="81"></h1>
         <div class="text_error">

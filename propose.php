@@ -6,6 +6,7 @@
    $user->onlyUsers();
    $services = new services($mysql, @$_GET['edit']);
    $edit = $services->edit_page($user);
+   $page = new page();
 ?>
 <!doctype html>
 <html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
@@ -35,6 +36,7 @@
     <![endif]-->
    </head>
    <body role="document">
+      <?php /* user.php | line 13 */ echo $page->add_tracking(); ?>
       <div id="wrap" class="back-grey">
          <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">

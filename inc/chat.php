@@ -374,7 +374,7 @@
                 } else if($data->Author == 0) {
                     $me = "BOT";
                 }
-                $array[] = array("ID" => $data->ID, "Message" => $data->Message, "Author" => $me, "Time" => $data->Time, "TimeText" => "Le ".date("d/m/y \à H:i", $data->Time));
+                $array[] = array("ID" => $data->ID, "Message" => nl2br($data->Message), "Author" => $me, "Time" => $data->Time, "TimeText" => "Le ".date("d/m/y \à H:i", $data->Time));
             }
             $this->set_read($id);
             $array["count"] = $this->user->list_messages();

@@ -10,6 +10,17 @@
             }
             return $r[$n];
         }
+		function add_tracking() {
+			$html = "<script>
+						  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+						  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+						  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+						  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+						  ga('create', 'UA-61322910-1', 'auto');
+						  ga('send', 'pageview');
+					</script>";	
+			return $html;
+		}
         //FONCTION POUR RETROUVER VALEUR DANS TABLEAU
         function in_array_r($reg, $arr) {
             $return = false;
@@ -75,7 +86,7 @@
             }
         $description_g = preg_replace('/[\s]+/', ' ',  $description_g);
         $description = preg_replace("/[\s]+/", " ", $description);
-         $tag = 'absences, vacances, arroser, jardin, effectuer, rondes, nourrir, animaux, aide, menagere, nettoyage, repassage, garde, promenade, toilettage, automobile, changement, pieces,  reparations, vidange, accompagnement, ecole, activite, enfant, bricolage, monter, meuble, travaux, manuels, reparations, coaching, conseils, cuisine, decoration, jeux, sport, conseils, cours, particuliers, langues, matieres, scientifiques, musique, courses, demarches, administratives, faire, demenagement, festivites, preparation , fete, animation, musicale, bar, restauration, informatique, assistance, maintenance, reparation, redaction, documents, soins, beaute, coiffure, epilation, manucure, massage, entretien, habitat, electricite, jardinage, maconnerie, peinture, plomberie, swappy, echange, gratuit, services, sel, bricolage, baby-sitting, troc, partage, entraide, communaute, utilisateur, swappeur, non-lucratif, generosite, entre-aide, amitie, temps, rencontre, competences, particuliers, entraide, annonce, garder';
+         $tag = 'absences, vacances, arroser, jardin, effectuer, rondes, nourrir, animaux, aide, menagere, nettoyage, repassage, garde, promenade, toilettage, automobile, changement, pieces,  reparations, vidange, accompagnement, ecole, activite, enfant, bricolage, monter, meuble, travaux, manuels, reparations, coaching, conseils, cuisine, decoration, jeux, sport, conseils, cours, particuliers, langues, matieres, scientifiques, musique, courses, demarches, administratives, faire, demenagement, festivites, preparation , fete, animation, musicale, bar, restauration, informatique, assistance, maintenance, reparation, redaction, documents, soins, beaute, coiffure, epilation, manucure, massage, entretien, habitat, electricite, jardinage, maconnerie, peinture, plomberie, swappy, echange, gratuit, services, sel, bricolage, baby-sitting, troc, partage, entraide, communaute, utilisateur, swappeur, non-lucratif, generosite, entre-aide, amitie, temps, rencontre, competences, particuliers, entraide, annonce, garder, local, malin, consommer, consommation, collaborative, economie';
 		 //AJOUT DE MOT CLES
         if(!empty_($more_tags)) {
             $more = preg_split("/( |\'|\,|\.|\-|[\s]|[\s+])/", strtolower($this->stripAccents(trim($more_tags))));
@@ -757,12 +768,12 @@
                 }
                 if(trim($POST['tags']) != $this->tags) {
                     $set .= ' `Tags` = :tags,';
-                    $replace[':tags'] = trim($POST['tags']);
+                    $replace[':tags'] = strip_tags(trim($POST['tags']));
                     $allow == -1 ? $allow = 1 : $allow = $allow;
                 }
                 if(trim($POST['description']) != $this->description) {
                     $set .= ' `Desc` = :desc,';
-                    $replace[':desc'] = ucfirst(trim($POST['description']));
+                    $replace[':desc'] = ucfirst(strip_tags(trim($POST['description'])));
                     $allow == -1 ? $allow = 1 : $allow = $allow;
                 }
                 if(trim($POST['phone']) != $this->phone) {
@@ -1160,7 +1171,7 @@
                  } else { 
                      $p_bl = array("profil", "messagerie", "rendez-vous", "proposition");
                     $fixed_n = array("false", "", "");
-                    if(preg_grep("/".preg_replace("/(.*?)\.php.*/", "$1", basename($_SERVER['REQUEST_URI']))."/", $p_bl)) {				//AFFICHAGE DU SOUS MENU SI ON EST DANS LA PAGE
+                    if(preg_grep("/".preg_replace("/(.*?)\.php.*/", "$1", basename($_SERVER['REQUEST_URI']))."/", $p_bl) && !empty_(basename($_SERVER['REQUEST_URI']))) {				//AFFICHAGE DU SOUS MENU SI ON EST DANS LA PAGE
                         $fixed_n = array("true", " visible"," open");
                     }
                      $html .= '<li class="dropdown hf'.$fixed_n[2].'">';
@@ -1233,7 +1244,7 @@
                 $html .= '</span>';
                 $c = 20 * $data->Note;
                 $html .= '<br><div title="'.$data->Note.' étoile(s)" class="star-rating rating-xs rating-active"><div class="rating-container rating-gly-star" data-content=""><div class="rating-stars" data-content="" style="width: '.$c.'%;"></div><input data-step="1" data-max="5" data-min="0" class="form-control hide" id="input-1"></div></div>';
-                $html .= '<p>'.ucfirst($com).'</p>';
+                $html .= '<p>'.nl2br(ucfirst($com)).'</p>';
                 $html .= '<i>le '.date("d/m/Y \à H:i", strtotime($data->Date)).'</i>';
                 $html .= '<div class="clear"></div></div>';
                 } else {

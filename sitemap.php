@@ -44,27 +44,27 @@
 	<url>
   		<loc><?php echo $url_prefix; ?>inscription.php</loc>
   		<changefreq>monthly</changefreq>
-		<priority>0.9</priority>
+		<priority>0.8</priority>
 	</url>
 	<url>
   		<loc><?php echo $url_prefix; ?>ccm.php</loc>
   		<changefreq>monthly</changefreq>
-		<priority>0.8</priority>
+		<priority>0.5</priority>
 	</url>
 	<url>
   		<loc><?php echo $url_prefix; ?>cgu.php</loc>
   		<changefreq>monthly</changefreq>
-		<priority>0.6</priority>
+		<priority>0.2</priority>
 	</url>
 	<url>
   		<loc><?php echo $url_prefix; ?>contact.php</loc>
   		<changefreq>monthly</changefreq>
-		<priority>0.7</priority>
+		<priority>0.4</priority>
 	</url>
 	<url>
   		<loc><?php echo $url_prefix; ?>apropos.php</loc>
   		<changefreq>monthly</changefreq>
-		<priority>0.5</priority>
+		<priority>0.1</priority>
 	</url>
     <?php } while($data = $select->fetch(PDO::FETCH_OBJ)) { ?>
 	<url>

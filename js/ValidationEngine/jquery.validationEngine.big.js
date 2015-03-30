@@ -2337,7 +2337,7 @@
 
 function isElementVisible(elementToBeChecked)
 {
-	var pp = $("nav").height() + 50;
+	var pp = $("nav").height() + 60;
 	if($(".nav-h.visible").length > 0) {
 			pp = pp + 30;
 	}

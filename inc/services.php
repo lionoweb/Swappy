@@ -151,12 +151,12 @@
                 } else {
                     //OK
                     $select = $this->mysql->prepare("INSERT INTO `notations` (`ID`, `By`, `Service`, `Owner_Service`, `Note`, `Message`, `Date`) VALUES (NULL, :by, :serv, :owner, :note, :com, :date);");
-                    $select->execute(array(":by" => $user->ID, ":serv" => $data->Service, ":owner" => $data->Owner_Service, ":note" => trim($POST['note']), ":com" => trim($POST['com']), ":date" => date("Y-m-d H:i:s")));
+                    $select->execute(array(":by" => $user->ID, ":serv" => $data->Service, ":owner" => $data->Owner_Service, ":note" => trim($POST['note']), ":com" => trim(strip_tags($POST['com'])), ":date" => date("Y-m-d H:i:s")));
                     $cc = $chat->isset_conversation($data->Owner_Service, $data->Service);
                     if($cc == false) {
                         $cc = $this->make_conversation($user->ID, $data->Service);
                     }
-                    $mess = '<b>'.$user->fullname.' a noté votre service :</b><br>Note : '.trim($POST['note']).'/5<br>Commentaire : '.nl2br(trim($POST['com']));
+                    $mess = '<b>'.$user->fullname.' a noté votre service :</b><br>Note : '.trim($POST['note']).'/5<br>Commentaire : '.nl2br(trim(strip_tags($POST['com'])));
                     $chat->send_reply($mess, $cc, $data->Owner_Service);
                     $arr = array(true);
                 }
@@ -198,7 +198,7 @@
             $desc = ucfirst($this->description);
             $desc_g = "";
             $title = "Annonce : ".$this->title;
-            $key = trim($this->description) == "L'utilisateur n'a pas fourni de description..." ? "" : ucfirst($this->description).", ".$sthis->city.", ".$this->zip.", annonce, ".$this->typename;
+            $key = trim($this->description) == "L'utilisateur n'a pas fourni de description..." ? "" : $this->description.", ".$this->city.", ".$this->zip.", annonce, ".$this->typename.", ".$this->title;
             return array($im, $desc, $desc_g, $title, $key);
         }
         //EDITIONS SERVICES
@@ -280,7 +280,7 @@
                 $replace = array(":title" => ucfirst(trim($POST['title'])),
                         ":type" => $POST['type'], 
                         ":ID" => $ID, 
-                        ":description" => ucfirst(trim($POST['description'])), 
+                        ":description" => ucfirst(trim(strip_tags($POST['description']))), 
                         ":distance" => $POST['distance'], 
                         ":dispo" => $dispo,
                         ":city" => $city,
@@ -420,7 +420,7 @@
 		   //AFFICHAGE DESCRIPTION ANNONCE OU FORMULAIRE DE NOTE
         function annonces($user) {
             $swith = false;
-            $html = '<p class="col-md-8 col-md-offset-2 description">'.ucfirst($this->description).'</p>';
+            $html = '<p class="col-md-8 col-md-offset-2 description">'.nl2br(ucfirst($this->description)).'</p>';
             if(!isset($_GET['vote'])) { 
                 if(isset($_GET[ 'r']) && !empty_($_GET['r'])) { 
                     $r='<a href="services.php?'.base64_decode($_GET['r']). '" class="col-md-3"><img alt="" src="img/annonce/back.png">Retours aux résultats précédents</a>'; 

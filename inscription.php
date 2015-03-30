@@ -12,12 +12,13 @@
       <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no
 ">
       <title>Swappy.fr - Inscription</title>
-      <?php /* user.php | line 68 */ echo $page->meta_tag("", "Swappy, la plateforme d’échanges de services gratuits entre particuliers ! Rejoignez la communauté dès maintenant et échangez vos services !", "", "Inscription", "inscription"); ?>
+      <?php /* user.php | line 68 */ echo $page->meta_tag("", "Swappy, la plateforme d’échanges de services gratuits entre particuliers ! Rejoignez la communauté dès maintenant et échangez vos services !", "", "Inscription", "inscription, rejoindre, parmis, commencez"); ?>
       <link rel="icon" href="img/favicon.png">
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
       <link href="css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="css/main.css">
+      <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
       <script src="js/jquery.js"></script>
       <script src="js/jquery-ui.js"></script>
       <script src="js/ValidationEngine/languages/jquery.validationEngine-fr.js"></script>
@@ -30,6 +31,7 @@
     <![endif]-->
    </head>
    <body role="document">
+   	  <?php /* user.php | line 13 */ echo $page->add_tracking(); ?>
       <div id="wrap" class="back-grey">
          <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">

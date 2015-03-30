@@ -24,8 +24,8 @@ body {
     src: local('☺'), url('../fonts/calibri/Calibri.woff') format('woff'), url('../fonts/calibri/Calibri.svg') format('svg'), url('../fonts/calibri/Calibri.ttf') format('truetype');
 }
 /* TOUTE LES PAGES */
-.navbar-collapse.collapse.in dropdown-menu {
-	padding-bottom:35px !important;	
+.navbar-collapse.collapse.in .dropdown-menu {
+	padding-bottom:44px !important;	
 }
 .navbar {
     margin-bottom: 0px !important;

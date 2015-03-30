@@ -2,7 +2,8 @@
 	require_once("inc/config.php");
    require_once("inc/user.php");
    $user = new user($mysql);
-   $user->onlyUsers(); ?>
+   $user->onlyUsers(); 
+   $page = new page(); ?>
 <!doctype html>
 <html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
    <head>
@@ -15,7 +16,7 @@
       <link rel="stylesheet" href="css/jquery-ui.css">
       <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
       <link href="css/bootstrap.min.css" rel="stylesheet">
-       <link href="css/calendar.css" rel="stylesheet">
+      <link href="css/calendar.css" rel="stylesheet">
       <link rel="stylesheet" href="css/main.css">
       <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
       <script src="js/jquery.js"></script>
@@ -31,6 +32,7 @@
     <![endif]-->
    </head>
    <body role="document">
+   	  <?php /* user.php | line 13 */ echo $page->add_tracking(); ?>
       <div id="wrap">
          <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">

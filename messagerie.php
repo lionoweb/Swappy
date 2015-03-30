@@ -4,7 +4,8 @@
    require_once("inc/chat.php");
    $user = new user($mysql);
    $user->onlyUsers();
-   $chat = new chat($mysql, $user); ?>
+   $chat = new chat($mysql, $user);
+   $page = new page(); ?>
 <!doctype html>
 <html itemscope itemtype="http://schema.org/Corporation" class="no-js" lang="fr">
    <head>
@@ -33,6 +34,7 @@
     <![endif]-->
    </head>
    <body role="document">
+   	  <?php /* user.php | line 13 */ echo $page->add_tracking(); ?>
       <div id="wrap">
          <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">
